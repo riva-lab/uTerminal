@@ -1,0 +1,237 @@
+object fmCommands: TfmCommands
+  Left = 373
+  Height = 350
+  Top = 539
+  Width = 600
+  BorderIcons = [biSystemMenu, biMaximize]
+  BorderWidth = 5
+  Caption = 'Автоответ'
+  ChildSizing.VerticalSpacing = 5
+  ClientHeight = 350
+  ClientWidth = 600
+  Constraints.MinHeight = 350
+  Constraints.MinWidth = 500
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poMainFormCenter
+  LCLVersion = '1.6.4.0'
+  object sgSequences: TStringGrid
+    Left = 5
+    Height = 180
+    Top = 125
+    Width = 590
+    Align = alClient
+    AlternateColor = 16772829
+    AutoFillColumns = True
+    ColCount = 2
+    Columns = <    
+      item
+        Title.Caption = 'Входная последовательность'
+        Width = 293
+      end    
+      item
+        Title.Caption = 'Ответная последовательность'
+        Width = 293
+      end>
+    FixedCols = 0
+    GridLineWidth = 0
+    MouseWheelOption = mwGrid
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goThumbTracking, goSmoothScroll]
+    TabOrder = 0
+    OnSelectCell = sgSequencesSelectCell
+    ColWidths = (
+      293
+      293
+    )
+  end
+  object Panel2: TPanel
+    Left = 5
+    Height = 35
+    Top = 310
+    Width = 590
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.HorizontalSpacing = 5
+    ClientHeight = 35
+    ClientWidth = 590
+    TabOrder = 1
+    object BitBtn1: TBitBtn
+      Left = 345
+      Height = 35
+      Top = 0
+      Width = 120
+      Action = acOK
+      Align = alRight
+      AutoSize = True
+      BorderSpacing.InnerBorder = 5
+      Constraints.MinWidth = 120
+      TabOrder = 0
+    end
+    object BitBtn2: TBitBtn
+      Left = 470
+      Height = 35
+      Top = 0
+      Width = 120
+      Action = acCancel
+      Align = alRight
+      AutoSize = True
+      BorderSpacing.InnerBorder = 5
+      Constraints.MinWidth = 120
+      TabOrder = 1
+    end
+  end
+  object Panel4: TPanel
+    Left = 5
+    Height = 115
+    Top = 5
+    Width = 590
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 115
+    ClientWidth = 590
+    TabOrder = 2
+    object pSequence: TPanel
+      Left = 0
+      Height = 113
+      Top = 1
+      Width = 495
+      Align = alClient
+      AutoSize = True
+      BorderSpacing.Top = 1
+      BorderSpacing.Bottom = 1
+      BevelOuter = bvNone
+      BorderStyle = bsSingle
+      ChildSizing.LeftRightSpacing = 3
+      ChildSizing.TopBottomSpacing = 3
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 109
+      ClientWidth = 491
+      TabOrder = 0
+      object Label5: TLabel
+        Left = 3
+        Height = 15
+        Top = 8
+        Width = 485
+        Caption = 'Входная последовательность'
+        Layout = tlBottom
+        ParentColor = False
+      end
+      object edSequence: TEdit
+        Left = 3
+        Height = 23
+        Top = 31
+        Width = 485
+        TabOrder = 0
+      end
+      object Label6: TLabel
+        Left = 3
+        Height = 15
+        Top = 62
+        Width = 485
+        Caption = 'Ответная последовательность'
+        Layout = tlBottom
+        ParentColor = False
+      end
+      object edAnswer: TEdit
+        Left = 3
+        Height = 23
+        Top = 85
+        Width = 485
+        TabOrder = 1
+      end
+    end
+    object Panel5: TPanel
+      Left = 500
+      Height = 115
+      Top = 0
+      Width = 90
+      Align = alRight
+      AutoSize = True
+      BorderSpacing.Left = 5
+      BevelOuter = bvNone
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 115
+      ClientWidth = 90
+      TabOrder = 1
+      object BitBtn3: TBitBtn
+        Left = 0
+        Height = 35
+        Top = 0
+        Width = 90
+        Action = acAdd
+        AutoSize = True
+        BorderSpacing.InnerBorder = 5
+        TabOrder = 2
+      end
+      object BitBtn4: TBitBtn
+        Left = 0
+        Height = 35
+        Top = 40
+        Width = 90
+        Action = acUpdate
+        AutoSize = True
+        BorderSpacing.InnerBorder = 5
+        TabOrder = 1
+      end
+      object BitBtn5: TBitBtn
+        Left = 0
+        Height = 35
+        Top = 80
+        Width = 90
+        Action = acDelete
+        AutoSize = True
+        BorderSpacing.InnerBorder = 5
+        TabOrder = 0
+      end
+    end
+  end
+  object ActionList1: TActionList
+    Images = fmMain.ImageList1
+    left = 85
+    top = 190
+    object acAdd: TAction
+      Caption = 'Добавить'
+      ImageIndex = 17
+      OnExecute = acAddExecute
+    end
+    object acDelete: TAction
+      Caption = 'Удалить'
+      ImageIndex = 18
+      OnExecute = acDeleteExecute
+    end
+    object acOK: TAction
+      Caption = 'OK'
+      ImageIndex = 14
+      OnExecute = acOKExecute
+    end
+    object acCancel: TAction
+      Caption = 'Отмена'
+      ImageIndex = 15
+      OnExecute = acCancelExecute
+    end
+    object acUpdate: TAction
+      Caption = 'Обновить'
+      ImageIndex = 1
+      OnExecute = acUpdateExecute
+    end
+  end
+  object IniPropStorage1: TIniPropStorage
+    StoredValues = <>
+    OnSaveProperties = IniPropStorage1SaveProperties
+    OnRestoreProperties = IniPropStorage1RestoreProperties
+    left = 200
+    top = 190
+  end
+end

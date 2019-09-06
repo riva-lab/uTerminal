@@ -1,0 +1,1 @@
+%homedrive%\lazarus\UPX\upx.exe --best *.exe
