@@ -5,9 +5,11 @@ unit fm_main;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Dialogs, StdCtrls, Spin, ExtCtrls,
-  ActnList, Buttons, ComCtrls, Menus, IniPropStorage, Graphics, StrUtils,
-  CPort, LazUTF8, com_detect, fm_commands, fm_insertchar, fm_about, fm_graph;
+  Classes, Windows, SysUtils, Forms, Controls, Dialogs, StdCtrls, Spin,
+  ExtCtrls, ActnList, Buttons, ComCtrls, Menus, IniPropStorage, Graphics,
+  PairSplitter, StrUtils, CPort, LazUTF8, SynEdit, SynHighlighterAny,
+  synhighlighterunixshellscript, SynHighlighterCpp, com_detect, fm_commands,
+  fm_insertchar, fm_about, fm_graph;
 
 resourcestring
   APPLICATION_CAPTION = 'uTerminal';
@@ -37,160 +39,174 @@ type
   { TfmMain }
 
   TfmMain = class(TForm)
-    acConnect:              TAction;
-    acScan:                 TAction;
-    acAutoSend:             TAction;
-    acRxClear:              TAction;
-    acConnectionHeader:     TAction;
-    acExit:                 TAction;
-    acShowSettings:         TAction;
-    acShowTxBox:            TAction;
-    acShowRxBox:            TAction;
-    acFileHeader:           TAction;
-    acHelpHeader:           TAction;
-    acAbout:                TAction;
-    acAutoAnswerHeader:     TAction;
-    acAutoAnswerSetup:      TAction;
-    acAutoAnswerEnable:     TAction;
-    acInsertChar:           TAction;
-    acShowSignals:          TAction;
-    acShowHEX:              TAction;
-    acRxExport:             TAction;
-    acShowGraph:            TAction;
-    acRxHeader:             TAction;
-    acFontTx:               TAction;
-    acFontRx:               TAction;
-    acTxHeader:             TAction;
-    acTxImport:             TAction;
-    acToggleRTS:            TAction;
-    acToggleDTR:            TAction;
-    acToggleBreak:          TAction;
-    acViewHeader:           TAction;
-    acTxClear:              TAction;
-    acTx:                   TAction;
-    ActionList1:            TActionList;
+    acConnect:          TAction;
+    acScan:             TAction;
+    acAutoSend:         TAction;
+    acRxClear:          TAction;
+    acConnectionHeader: TAction;
+    acExit:             TAction;
+    acShowSettings:     TAction;
+    acShowTxBox:        TAction;
+    acShowRxBox:        TAction;
+    acFileHeader:       TAction;
+    acHelpHeader:       TAction;
+    acAbout:            TAction;
+    acAutoAnswerHeader: TAction;
+    acAutoAnswerSetup:  TAction;
+    acAutoAnswerEnable: TAction;
+    acInsertChar:       TAction;
+    acShowSignals:      TAction;
+    acShowHEX:          TAction;
+    acRxExport:         TAction;
+    acShowGraph:        TAction;
+    acRxHeader:         TAction;
+    acFontTx:           TAction;
+    acFontRx:           TAction;
+    acRxScrollToEnd:    TAction;
+    acShowLineCounts:   TAction;
+    acTxCommandMode:    TAction;
+    acTxHeader:         TAction;
+    acTxImport:         TAction;
+    acToggleRTS:        TAction;
+    acToggleDTR:        TAction;
+    acToggleBreak:      TAction;
+    acViewHeader:       TAction;
+    acTxClear:          TAction;
+    acTx:               TAction;
+    ActionList1:        TActionList;
     ApplicationProperties1: TApplicationProperties;
-    bbScan:                 TBitBtn;
-    bbConnect:              TBitBtn;
-    cbBaudrateX:            TComboBox;
-    cbDataBitsX:            TComboBox;
-    cbParityBitsX:          TComboBox;
-    cbPortsList:            TComboBox;
-    cbParityBits:           TComboBox;
-    cbPortsListX:           TComboBox;
-    cbStopBitsX:            TComboBox;
-    cbTxType:               TComboBox;
-    cbRxType:               TComboBox;
-    cbBaudrate:             TComboBox;
-    cbDataBits:             TComboBox;
-    cbStopBits:             TComboBox;
-    ComDataPacket1:         TComDataPacket;
-    ComPort1:               TComPort;
-    FontDialog1:            TFontDialog;
-    gbTx:                   TGroupBox;
-    gbRx:                   TGroupBox;
-    gbConnection:           TGroupBox;
-    gbSignals:              TGroupBox;
-    ImageList1:             TImageList;
-    IniPropStorage1:        TIniPropStorage;
-    Label1:                 TLabel;
-    Label2:                 TLabel;
-    Label3:                 TLabel;
-    Label4:                 TLabel;
-    Label5:                 TLabel;
-    Label7:                 TLabel;
-    Label8:                 TLabel;
-    Label9:                 TLabel;
-    MainMenu1:              TMainMenu;
-    MenuItem1:              TMenuItem;
-    MenuItem10:             TMenuItem;
-    MenuItem11:             TMenuItem;
-    MenuItem12:             TMenuItem;
-    MenuItem13:             TMenuItem;
-    MenuItem14:             TMenuItem;
-    MenuItem15:             TMenuItem;
-    MenuItem16:             TMenuItem;
-    MenuItem17:             TMenuItem;
-    MenuItem18:             TMenuItem;
-    MenuItem19:             TMenuItem;
-    MenuItem2:              TMenuItem;
-    MenuItem20:             TMenuItem;
-    MenuItem21:             TMenuItem;
-    MenuItem22:             TMenuItem;
-    MenuItem23:             TMenuItem;
-    MenuItem24:             TMenuItem;
-    MenuItem25:             TMenuItem;
-    MenuItem26:             TMenuItem;
-    MenuItem27:             TMenuItem;
-    MenuItem28:             TMenuItem;
-    MenuItem29:             TMenuItem;
-    MenuItem3:              TMenuItem;
-    MenuItem30:             TMenuItem;
-    MenuItem31:             TMenuItem;
-    MenuItem32:             TMenuItem;
-    MenuItem33:             TMenuItem;
-    MenuItem4:              TMenuItem;
-    MenuItem5:              TMenuItem;
-    MenuItem6:              TMenuItem;
-    MenuItem7:              TMenuItem;
-    MenuItem8:              TMenuItem;
-    MenuItem9:              TMenuItem;
-    mRx:                    TMemo;
-    mTx:                    TMemo;
-    mTxHex:                 TMemo;
-    mRxHex:                 TMemo;
-    pPortSettShort:         TPanel;
-    Panel4:                 TPanel;
-    Panel5:                 TPanel;
-    pmPort:                 TPopupMenu;
-    seBaudRateCustomX:      TSpinEdit;
-    ToolBarRx:              TToolBar;
-    ToolBarTx:              TToolBar;
-    ToolButton18:           TToolButton;
-    ToolButton19:           TToolButton;
-    ToolButton20:           TToolButton;
-    ToolButton21:           TToolButton;
-    ToolButton22:           TToolButton;
-    ToolButton23:           TToolButton;
-    ToolButton24:           TToolButton;
-    ToolButton25:           TToolButton;
-    ToolButton26:           TToolButton;
-    ToolButton27:           TToolButton;
-    ToolButton28:           TToolButton;
-    ToolButton29:           TToolButton;
-    ToolButton30:           TToolButton;
-    ToolButton31:           TToolButton;
-    TxOpenDialog:           TOpenDialog;
-    Panel3:                 TPanel;
-    Panel2:                 TPanel;
-    pRTS:                   TPanel;
-    pDTR:                   TPanel;
-    pBreak:                 TPanel;
-    pDSR:                   TPanel;
-    pRing:                  TPanel;
-    pRLSD:                  TPanel;
-    pTranceiver:            TPanel;
-    pCTS:                   TPanel;
-    RxSaveDialog:           TSaveDialog;
-    seBaudRateCustom:       TSpinEdit;
-    seAutoSendTime:         TSpinEdit;
-    sbRTS:                  TSpeedButton;
-    sbDTR:                  TSpeedButton;
-    sbBreak:                TSpeedButton;
-    SplitterTx:             TSplitter;
-    SplitterRx:             TSplitter;
-    StatusBar1:             TStatusBar;
-    TimerAutoSending:       TTimer;
-    ToolBar1:               TToolBar;
-    ToolButton1:            TToolButton;
-    ToolButton14:           TToolButton;
-    ToolButton2:            TToolButton;
-    ToolButton3:            TToolButton;
-    ToolButton4:            TToolButton;
-    ToolButton5:            TToolButton;
-    ToolButton6:            TToolButton;
-    ToolButton7:            TToolButton;
-    ToolButton9:            TToolButton;
+    bbScan:             TBitBtn;
+    bbConnect:          TBitBtn;
+    cbBaudrateX:        TComboBox;
+    cbDataBitsX:        TComboBox;
+    cbParityBitsX:      TComboBox;
+    cbPortsList:        TComboBox;
+    cbParityBits:       TComboBox;
+    cbPortsListX:       TComboBox;
+    cbStopBitsX:        TComboBox;
+    cbTxType:           TComboBox;
+    cbRxType:           TComboBox;
+    cbBaudrate:         TComboBox;
+    cbDataBits:         TComboBox;
+    cbStopBits:         TComboBox;
+    ComDataPacket1:     TComDataPacket;
+    ComPort1:           TComPort;
+    FontDialog1:        TFontDialog;
+    gbTx:               TGroupBox;
+    gbRx:               TGroupBox;
+    gbConnection:       TGroupBox;
+    gbSignals:          TGroupBox;
+    ImageList1:         TImageList;
+    IniPropStorage1:    TIniPropStorage;
+    Label1:             TLabel;
+    Label2:             TLabel;
+    Label3:             TLabel;
+    Label4:             TLabel;
+    Label5:             TLabel;
+    Label7:             TLabel;
+    Label8:             TLabel;
+    Label9:             TLabel;
+    MainMenu1:          TMainMenu;
+    MenuItem1:          TMenuItem;
+    MenuItem10:         TMenuItem;
+    MenuItem11:         TMenuItem;
+    MenuItem12:         TMenuItem;
+    MenuItem13:         TMenuItem;
+    MenuItem14:         TMenuItem;
+    MenuItem15:         TMenuItem;
+    MenuItem16:         TMenuItem;
+    MenuItem17:         TMenuItem;
+    MenuItem18:         TMenuItem;
+    MenuItem19:         TMenuItem;
+    MenuItem2:          TMenuItem;
+    MenuItem20:         TMenuItem;
+    MenuItem21:         TMenuItem;
+    MenuItem22:         TMenuItem;
+    MenuItem23:         TMenuItem;
+    MenuItem24:         TMenuItem;
+    MenuItem25:         TMenuItem;
+    MenuItem26:         TMenuItem;
+    MenuItem27:         TMenuItem;
+    MenuItem28:         TMenuItem;
+    MenuItem29:         TMenuItem;
+    MenuItem3:          TMenuItem;
+    MenuItem30:         TMenuItem;
+    MenuItem31:         TMenuItem;
+    MenuItem32:         TMenuItem;
+    MenuItem33:         TMenuItem;
+    MenuItem34:         TMenuItem;
+    MenuItem35:         TMenuItem;
+    MenuItem36:         TMenuItem;
+    MenuItem4:          TMenuItem;
+    MenuItem5:          TMenuItem;
+    MenuItem6:          TMenuItem;
+    MenuItem7:          TMenuItem;
+    MenuItem8:          TMenuItem;
+    MenuItem9:          TMenuItem;
+    PairSplitter1:      TPairSplitter;
+    PairSplitterSide1:  TPairSplitterSide;
+    PairSplitterSide2:  TPairSplitterSide;
+    pPortSettShort:     TPanel;
+    Panel4:             TPanel;
+    Panel5:             TPanel;
+    pmPort:             TPopupMenu;
+    seBaudRateCustomX:  TSpinEdit;
+    seRx:               TSynEdit;
+    seTxHex:            TSynEdit;
+    seTx:               TSynEdit;
+    seRxHex:            TSynEdit;
+    TimerUpdateRx:      TTimer;
+    ToolBarRx:          TToolBar;
+    ToolBarTx:          TToolBar;
+    ToolButton10:       TToolButton;
+    ToolButton11:       TToolButton;
+    ToolButton12:       TToolButton;
+    ToolButton18:       TToolButton;
+    ToolButton19:       TToolButton;
+    ToolButton20:       TToolButton;
+    ToolButton21:       TToolButton;
+    ToolButton22:       TToolButton;
+    ToolButton23:       TToolButton;
+    ToolButton24:       TToolButton;
+    ToolButton25:       TToolButton;
+    ToolButton26:       TToolButton;
+    ToolButton27:       TToolButton;
+    ToolButton28:       TToolButton;
+    ToolButton29:       TToolButton;
+    ToolButton30:       TToolButton;
+    ToolButton31:       TToolButton;
+    ToolButton8:        TToolButton;
+    TxOpenDialog:       TOpenDialog;
+    Panel3:             TPanel;
+    Panel2:             TPanel;
+    pRTS:               TPanel;
+    pDTR:               TPanel;
+    pBreak:             TPanel;
+    pDSR:               TPanel;
+    pRing:              TPanel;
+    pRLSD:              TPanel;
+    pTranceiver:        TPanel;
+    pCTS:               TPanel;
+    RxSaveDialog:       TSaveDialog;
+    seBaudRateCustom:   TSpinEdit;
+    seAutoSendTime:     TSpinEdit;
+    sbRTS:              TSpeedButton;
+    sbDTR:              TSpeedButton;
+    sbBreak:            TSpeedButton;
+    SplitterTx:         TSplitter;
+    SplitterRx:         TSplitter;
+    StatusBar1:         TStatusBar;
+    TimerAutoSending:   TTimer;
+    ToolBar1:           TToolBar;
+    ToolButton1:        TToolButton;
+    ToolButton14:       TToolButton;
+    ToolButton2:        TToolButton;
+    ToolButton3:        TToolButton;
+    ToolButton4:        TToolButton;
+    ToolButton5:        TToolButton;
+    ToolButton6:        TToolButton;
+    ToolButton7:        TToolButton;
+    ToolButton9:        TToolButton;
     procedure acAboutExecute(Sender: TObject);
     procedure acAutoAnswerSetupExecute(Sender: TObject);
     procedure acAutoSendExecute(Sender: TObject);
@@ -200,13 +216,13 @@ type
     procedure acRxExportExecute(Sender: TObject);
     procedure acShowGraphExecute(Sender: TObject);
     procedure acShowHEXExecute(Sender: TObject);
-    procedure acShowRxBoxExecute(Sender: TObject);
+    procedure acShowLineCountsExecute(Sender: TObject);
+    procedure acShowTxRxBoxExecute(Sender: TObject);
     procedure acShowSettingsExecute(Sender: TObject);
     procedure acExitExecute(Sender: TObject);
     procedure acRxClearExecute(Sender: TObject);
     procedure acScanExecute(Sender: TObject);
     procedure acShowSignalsExecute(Sender: TObject);
-    procedure acShowTxBoxExecute(Sender: TObject);
     procedure acToggleBreakExecute(Sender: TObject);
     procedure acToggleDTRExecute(Sender: TObject);
     procedure acToggleRTSExecute(Sender: TObject);
@@ -224,9 +240,11 @@ type
     procedure FormShow(Sender: TObject);
     procedure mRxChange(Sender: TObject);
     procedure mTxChange(Sender: TObject);
+    procedure PairSplitterSide1Resize(Sender: TObject);
     procedure TimerAutoSendingTimer(Sender: TObject);
 
     procedure SetPortSettingsControls(Sender: TObject);
+    procedure TimerUpdateRxTimer(Sender: TObject);
   PRIVATE
     procedure RefreshControls;
     function GetComSignals(): Integer;
@@ -261,17 +279,19 @@ const
 // 0 RED; 1 GREEN; inactive
 
 var
-  fmMain: TfmMain;
-  tx, rx: String;
+  fmMain:           TfmMain;
+  tx, txa, rx, rxa: String;
+  split:            Double = 0.5;
+  split_started:    Boolean = False;
 
 implementation
 
 var
   // error messages
-  xComErrorMessages:         array[1..23] of String;
+  xComErrorMessages: array[1..23] of String;
   br_last, db_last, sb_last: Integer;
-  status:                    TComLinesStatus;
-  send_thread:               TSendingThread;
+  status:      TComLinesStatus;
+  send_thread: TSendingThread;
 
 {$R *.lfm}
 
@@ -384,6 +404,34 @@ function CodeStrToText(AData: String; ASysIn, ASysOut: Integer): String;
     Result := WinCPToUTF8(Result);
   end;
 
+function StrToCodes(AString: String; ASysOut: Integer): String;
+  var
+    i, l: Integer;
+  begin
+    l      := AString.Length;
+    Result := '';
+
+    if l > 0 then
+      begin
+      for i := 1 to l do
+          try
+          case ASysOut of
+            0: Result  += AString[i];
+            2: Result  += intToBin(Ord(AString[i]), 8) + ' ';
+            10: Result += Ord(AString[i]).ToString + ' ';
+            16: Result += Ord(AString[i]).ToHexString(2) + ' ';
+            end;
+          except
+          end;
+
+      if (Result.Length > 0) and (ASysOut > 0) then
+        while Result[Result.Length] = ' ' do
+          Delete(Result, Result.Length, 1);
+      end;
+
+    Result := WinCPToUTF8(Result);
+  end;
+
 
 { TSendingThread }
 
@@ -447,6 +495,9 @@ function TfmMain.GetComSignals: Integer;
         pDTR.Color   := indicator[status.DTR.ToInteger];   // Data Terminal Ready
         pBreak.Color := indicator[status.Break.ToInteger]; // Break
         except
+        //on e: EComPort do
+        //  ShowMessage(xComErrorMessages[e.Code] {+ #13#10 + 'Code=' +
+        //    e.Code.ToString + '; WinCode=' + e.WinCode.ToString});
         end
     else
       begin
@@ -486,7 +537,8 @@ procedure TfmMain.ComPort1RxChar(Sender: TObject; Count: Integer);
         ComPort1.WriteStr(fmCommands.AnswerList.Strings[index]);
       end;
 
-    mRxChange(Sender);
+    //mRxChange(Sender);
+    TimerUpdateRx.Tag := 1;
   end;
 
 
@@ -512,14 +564,14 @@ procedure TfmMain.FormShow(Sender: TObject);
     bbScan.Caption         := '';
     bbConnect.Caption      := '';
     fmGraph.MainForm       := fmMain;
-    mTxHex.Font            := mTx.Font;
-    mRxHex.Font            := mRx.Font;
+    seTxHex.Font           := seTx.Font;
+    seRxHex.Font           := seRx.Font;
 
     acScan.Execute;
     acRxClear.Execute;
     acTxClear.Execute;
-    acShowRxBoxExecute(nil);
-    acShowTxBoxExecute(nil);
+    acShowLineCountsExecute(nil);
+    acShowTxRxBoxExecute(nil);
     acShowSettingsExecute(nil);
     acShowSignalsExecute(nil);
     acShowHEXExecute(nil);
@@ -534,7 +586,24 @@ procedure TfmMain.FormShow(Sender: TObject);
 procedure TfmMain.FormChangeBounds(Sender: TObject);
   begin
     fmGraph.UpdateFormPosition;
-    StatusBar1.Panels.Items[0].Width := Width - 250;
+    StatusBar1.Panels.Items[0].Width := Width - Canvas.GetTextWidth('R') * 38;
+  end;
+
+procedure TfmMain.PairSplitterSide1Resize(Sender: TObject);
+  begin
+    with PairSplitter1 do
+      begin
+      if (split < 0) or (split > 1) then
+        split := 0.5;
+
+      if split_started then
+        Position      := round(Height * split)
+      else
+        split_started := True;
+
+      if Visible then
+        split := Position / Height;
+      end;
   end;
 
 procedure TfmMain.TimerAutoSendingTimer(Sender: TObject);
@@ -546,49 +615,126 @@ procedure TfmMain.TimerAutoSendingTimer(Sender: TObject);
 
 // ввод/вывод данных
 
+procedure TfmMain.TimerUpdateRxTimer(Sender: TObject);
+  begin
+    if TimerUpdateRx.Tag = 1 then
+      begin
+      TimerUpdateRx.Tag := 0;
+      mRxChange(Sender);
+      end;
+  end;
+
 procedure TfmMain.mTxChange(Sender: TObject);
   begin
     case cbTxType.ItemIndex of
-      TT_ASC: tx := mTx.Text;
-      TT_HEX: tx := CodeStrToText(mTx.Text, 16, 0);
-      TT_BIN: tx := CodeStrToText(mTx.Text, 2, 0);
-      TT_DEC: tx := CodeStrToText(mTx.Text, 10, 0);
+      //TT_ASC: tx := mTx.Text;
+      //TT_HEX: tx := CodeStrToText(mTx.Text, 16, 0);
+      //TT_BIN: tx := CodeStrToText(mTx.Text, 2, 0);
+      //TT_DEC: tx := CodeStrToText(mTx.Text, 10, 0);
+      TT_ASC: tx := seTx.Text.Remove(seTx.Text.Length - seTx.Lines.LineBreak.Length, 2);
+      TT_HEX: tx := CodeStrToText(seTx.Text, 16, 0);
+      TT_BIN: tx := CodeStrToText(seTx.Text, 2, 0);
+      TT_DEC: tx := CodeStrToText(seTx.Text, 10, 0);
       end;
 
-    mTxHex.Text     := StringToHex(tx);
-    mTxHex.SelStart := Length(mTxHex.Text);
-    gbTx.Caption    := TX_CAPTION + ' - ' + SizeStr(tx);
+    if seTxHex.Visible then
+      begin
+      seTxHex.Text     := StringToHex(tx);
+      seTxHex.SelStart := Length(seTxHex.Text);
+      end;
+
+    txa          := tx;
+    gbTx.Caption := TX_CAPTION + ' - ' + SizeStr(tx);
   end;
 
 procedure TfmMain.mRxChange(Sender: TObject);
+  var
+    y, x, ss, se, t: Longint;
   begin
-    mRxHex.Text := StringToHex(rx);
-    cbRxTypeChange(Sender);
+    //cbRxTypeChange(Sender);
+    case cbRxType.ItemIndex of
+      //TT_ASC: seRx.Text := CodeStrToText(seRxHex.Text, 16, 0).Replace(#0, #1);
+      //TT_HEX: seRx.Text := CodeStrToText(seRxHex.Text, 16, 16);
+      //TT_BIN: seRx.Text := CodeStrToText(seRxHex.Text, 16, 2);
+      //TT_DEC: seRx.Text := CodeStrToText(seRxHex.Text, 16, 10);
+      TT_ASC: rxa := rx;
+      TT_HEX: rxa := StrToCodes(rx, 16);
+      TT_BIN: rxa := StrToCodes(rx, 2);
+      TT_DEC: rxa := StrToCodes(rx, 10);
+      end;
 
-    mRx.SelStart      := Length(mRx.Text);
-    mRxHex.SelStart   := Length(mRxHex.Text);
-    gbRx.Caption      := RX_CAPTION + ' - ' + SizeStr(rx);
-    fmGraph.GraphData := rx;
+    seRx.BeginUpdate;
+    seRxHex.BeginUpdate;
+    if not acRxScrollToEnd.Checked then
+      begin
+      t             := seRx.TopLine;
+      y             := seRx.CaretY;
+      x             := seRx.CaretX;
+      ss            := seRx.SelStart;
+      se            := seRx.SelEnd;
+      seRx.Text     := rxa;
+      seRx.TopLine  := t;
+      seRx.SelStart := ss;
+      seRx.SelEnd   := se;
+      seRx.CaretY   := y;
+      seRx.CaretX   := x;
+
+      if seRxHex.Visible then
+        begin
+        t                := seRxHex.TopLine;
+        y                := seRxHex.CaretY;
+        x                := seRxHex.CaretX;
+        ss               := seRxHex.SelStart;
+        se               := seRxHex.SelEnd;
+        seRxHex.Text     := StringToHex(rx);
+        seRxHex.TopLine  := t;
+        seRxHex.SelStart := ss;
+        seRxHex.SelEnd   := se;
+        seRxHex.CaretY   := y;
+        seRxHex.CaretX   := x;
+        end;
+      end
+    else
+      begin
+      seRx.Text     := rxa;
+      //seRx.SetFocus;
+      seRx.SelStart := rxa.Length;
+      seRx.Perform(EM_SCROLLCARET, 0, 0);
+
+      if seRxHex.Visible then
+        begin
+        seRxHex.Text     := StringToHex(rx);
+        seRxHex.SelStart := seRxHex.Text.Length;
+        seRxHex.Perform(EM_SCROLLCARET, 0, 0);
+        end;
+      end;
+
+    seRx.EndUpdate;
+    seRxHex.EndUpdate;
+
+    //seRx.SelStart     := Length(seRx.Text);
+    //mRxHex.SelStart   := Length(mRxHex.Text);
+    gbRx.Caption := RX_CAPTION + ' - ' + SizeStr(rx);
+
+    if fmGraph.Visible then
+      fmGraph.GraphData := rx;
   end;
 
 procedure TfmMain.cbTxTypeChange(Sender: TObject);
   begin
     case cbTxType.ItemIndex of
-      TT_ASC: mTx.Text := CodeStrToText(mTxHex.Text, 16, 0).Replace(#0, #1);
-      TT_HEX: mTx.Text := CodeStrToText(mTxHex.Text, 16, 16);
-      TT_BIN: mTx.Text := CodeStrToText(mTxHex.Text, 16, 2);
-      TT_DEC: mTx.Text := CodeStrToText(mTxHex.Text, 16, 10);
+      TT_ASC: seTx.Text := txa;
+      TT_HEX: seTx.Text := StrToCodes(txa, 16);
+      TT_BIN: seTx.Text := StrToCodes(txa, 2);
+      TT_DEC: seTx.Text := StrToCodes(txa, 10);
       end;
+
+    mTxChange(Sender);
   end;
 
 procedure TfmMain.cbRxTypeChange(Sender: TObject);
   begin
-    case cbRxType.ItemIndex of
-      TT_ASC: mRx.Text := CodeStrToText(mRxHex.Text, 16, 0).Replace(#0, #1);
-      TT_HEX: mRx.Text := CodeStrToText(mRxHex.Text, 16, 16);
-      TT_BIN: mRx.Text := CodeStrToText(mRxHex.Text, 16, 2);
-      TT_DEC: mRx.Text := CodeStrToText(mRxHex.Text, 16, 10);
-      end;
+    mRxChange(Sender);
   end;
 
 
@@ -652,7 +798,8 @@ procedure TfmMain.SetPortSettingsControls(Sender: TObject);
       begin
       SetParityBits(cbParityBitsX.ItemIndex);
       cbParityBits.ItemIndex := cbParityBitsX.ItemIndex;
-      end else
+      end
+    else
       begin
       SetParityBits(cbParityBits.ItemIndex);
       cbParityBitsX.ItemIndex := cbParityBits.ItemIndex;
@@ -697,7 +844,8 @@ procedure TfmMain.SetPortSettingsControls(Sender: TObject);
       begin
       tmp_cb := cbBaudrateX;
       tmp_se := seBaudRateCustomX;
-      end else
+      end
+    else
       begin
       tmp_cb := cbBaudRate;
       tmp_se := seBaudRateCustom;
@@ -715,7 +863,8 @@ procedure TfmMain.SetPortSettingsControls(Sender: TObject);
       begin
       cbBaudrate.ItemIndex   := cbBaudrateX.ItemIndex;
       seBaudRateCustom.Value := seBaudRateCustomX.Value;
-      end else
+      end
+    else
       begin
       cbBaudrateX.ItemIndex   := cbBaudrate.ItemIndex;
       seBaudRateCustomX.Value := seBaudRateCustom.Value;
@@ -745,7 +894,15 @@ procedure TfmMain.acScanExecute(Sender: TObject);
       com_txt := cbPortsListX.Text else
       com_txt := cbPortsList.Text;
 
-    ComPort1.Close;
+      try
+      ComPort1.Close;
+      except
+      ShowMessage('Ошибка! Перезапустите терминал!');
+      //on e: EComPort do
+      //  ShowMessage(xComErrorMessages[e.Code] {+ #13#10 + 'Code=' +
+      //    e.Code.ToString + '; WinCode=' + e.WinCode.ToString});
+      end;
+
     DetectComPorts(cbPortsList.Items);
     cbPortsListX.Items.Assign(cbPortsList.Items);
     RefreshControls;
@@ -768,8 +925,21 @@ procedure TfmMain.acConnectExecute(Sender: TObject);
   begin
     connected := ComPort1.Connected;
 
-    if not connected then
+    if connected then
       begin
+        try
+        DisableComSignals;
+        ComPort1.Close;
+        except
+        acScan.Execute;
+        end;
+      StatusBar1.Panels.Items[1].Text := DISCONNECTED_FROM + ' ' + ComPort1.Port;
+      acConnect.Hint := CONNECT_HINT;
+      end
+    else
+      begin
+      acConnect.Hint := DISCONNECT_HINT;
+
         try
         SetPortSettingsControls(nil);
         if pPortSettShort.Visible then
@@ -783,20 +953,19 @@ procedure TfmMain.acConnectExecute(Sender: TObject);
             e.Code.ToString + '; WinCode=' + e.WinCode.ToString});
         end;
 
-      if not ComPort1.Connected then
+        try
+        connected := ComPort1.Connected;
+        except
+        //on e: EComPort do
+        //  ShowMessage(xComErrorMessages[e.Code] {+ #13#10 + 'Code=' +
+        //    e.Code.ToString + '; WinCode=' + e.WinCode.ToString});
+        end;
+
+      if not connected then
         StatusBar1.Panels.Items[1].Text := ERROR;
+
+      DisableComSignals;
       end;
-
-    DisableComSignals;
-
-    if connected then
-      begin
-      ComPort1.Close;
-      StatusBar1.Panels.Items[1].Text := DISCONNECTED_FROM + ' ' + ComPort1.Port;
-      acConnect.Hint                  := CONNECT_HINT;
-      end
-    else
-      acConnect.Hint := DISCONNECT_HINT;
 
     RefreshControls;
   end;
@@ -806,6 +975,9 @@ procedure TfmMain.acTxExecute(Sender: TObject);
     send_thread      := TSendingThread.Create(True);
     send_thread.Data := tx;
     send_thread.Start;
+
+    if acTxCommandMode.Checked then
+      acTxClear.Execute;
   end;
 
 procedure TfmMain.acAutoSendExecute(Sender: TObject);
@@ -834,8 +1006,8 @@ procedure TfmMain.acInsertCharExecute(Sender: TObject);
           TT_DEC: inserted_char := SelectedChar.ToString;
           end;
 
-        select_start := mTx.SelStart;
-        tmp          := mTx.Text;
+        select_start := seTx.SelStart - 1;
+        tmp          := seTx.Text;
         txt_length   := tmp.Length;
 
         if cbTxType.ItemIndex <> TT_ASC then
@@ -848,10 +1020,12 @@ procedure TfmMain.acInsertCharExecute(Sender: TObject);
             inserted_char := inserted_char + ' ';
           end;
 
-        mTx.Text     := tmp.Insert(select_start, inserted_char);
-        mTx.SelStart := select_start + inserted_char.Length;
-        mTx.SetFocus;
+        seTx.Text     := tmp.Insert(select_start, inserted_char);
+        seTx.SelStart := select_start + inserted_char.Length + 1;
+        seTx.SetFocus;
         end;
+
+    mTxChange(Sender);
   end;
 
 procedure TfmMain.acRxExportExecute(Sender: TObject);
@@ -862,7 +1036,7 @@ procedure TfmMain.acRxExportExecute(Sender: TObject);
 
     if RxSaveDialog.Execute then
       begin
-      mRx.Lines.SaveToFile(RxSaveDialog.FileName);
+      seRx.Lines.SaveToFile(RxSaveDialog.FileName);
       RxSaveDialog.FileName := ExtractFileName(RxSaveDialog.FileName);
       end
     else
@@ -873,7 +1047,7 @@ procedure TfmMain.acTxImportExecute(Sender: TObject);
   begin
     TxOpenDialog.FileName := ExtractFileName(TxOpenDialog.FileName);
     if TxOpenDialog.Execute then
-      mTx.Lines.LoadFromFile(TxOpenDialog.FileName);
+      seTx.Lines.LoadFromFile(TxOpenDialog.FileName);
   end;
 
 procedure TfmMain.acShowGraphExecute(Sender: TObject);
@@ -885,20 +1059,20 @@ procedure TfmMain.acFontChangeExecute(Sender: TObject);
   begin
     with FontDialog1.Font do
       case TAction(Sender).Tag of
-        1: Assign(mTx.Font);
-        2: Assign(mRx.Font);
+        1: Assign(seTx.Font);
+        2: Assign(seRx.Font);
         end;
 
     with FontDialog1 do
       if Execute then
         begin
         case TAction(Sender).Tag of
-          1: mTx.Font.Assign(Font);
-          2: mRx.Font.Assign(Font);
+          1: seTx.Font.Assign(Font);
+          2: seRx.Font.Assign(Font);
           end;
 
-        mTxHex.Font := mTx.Font;
-        mRxHex.Font := mRx.Font;
+        seTxHex.Font := seTx.Font;
+        seRxHex.Font := seRx.Font;
         end;
   end;
 
@@ -907,23 +1081,33 @@ procedure TfmMain.acFontChangeExecute(Sender: TObject);
 procedure TfmMain.acTxClearExecute(Sender: TObject);
   begin
     tx := '';
-    mTx.Clear;
+    seTx.Clear;
+    mTxChange(Sender);
   end;
 
 procedure TfmMain.acRxClearExecute(Sender: TObject);
   begin
     rx := '';
-    mRx.Clear;
+    seRx.Clear;
+    mRxChange(Sender);
   end;
 
-procedure TfmMain.acShowRxBoxExecute(Sender: TObject);
+procedure TfmMain.acShowTxRxBoxExecute(Sender: TObject);
   begin
     gbRx.Visible := acShowRxBox.Checked;
-  end;
-
-procedure TfmMain.acShowTxBoxExecute(Sender: TObject);
-  begin
     gbTx.Visible := acShowTxBox.Checked;
+
+    PairSplitter1.Visible := acShowRxBox.Checked and acShowTxBox.Checked;
+    if PairSplitter1.Visible then
+      begin
+      gbTx.Parent := PairSplitterSide1;
+      gbRx.Parent := PairSplitterSide2;
+      end
+    else
+      begin
+      gbTx.Parent := pTranceiver;
+      gbRx.Parent := pTranceiver;
+      end;
   end;
 
 procedure TfmMain.acShowSettingsExecute(Sender: TObject);
@@ -962,20 +1146,31 @@ procedure TfmMain.acShowSignalsExecute(Sender: TObject);
 
 procedure TfmMain.acShowHEXExecute(Sender: TObject);
   begin
-    mTxHex.Visible     := acShowHEX.Checked;
+    seTxHex.Visible    := acShowHEX.Checked;
     SplitterTx.Visible := acShowHEX.Checked;
-    mRxHex.Visible     := acShowHEX.Checked;
+    seRxHex.Visible    := acShowHEX.Checked;
     SplitterRx.Visible := acShowHEX.Checked;
 
-    mTxHex.Visible     := False;
+    seTxHex.Visible    := False;
     SplitterTx.Visible := False;
-    mRxHex.Visible     := False;
+    seRxHex.Visible    := False;
     SplitterRx.Visible := False;
 
-    mTxHex.Visible     := acShowHEX.Checked;
+    seTxHex.Visible    := acShowHEX.Checked;
     SplitterTx.Visible := acShowHEX.Checked;
-    mRxHex.Visible     := acShowHEX.Checked;
+    seRxHex.Visible    := acShowHEX.Checked;
     SplitterRx.Visible := acShowHEX.Checked;
+
+    mRxChange(Sender);
+    mTxChange(Sender);
+  end;
+
+procedure TfmMain.acShowLineCountsExecute(Sender: TObject);
+  begin
+    seRx.Gutter.Visible    := acShowLineCounts.Checked;
+    seRxHex.Gutter.Visible := acShowLineCounts.Checked;
+    seTx.Gutter.Visible    := acShowLineCounts.Checked;
+    seTxHex.Gutter.Visible := acShowLineCounts.Checked;
   end;
 
 
@@ -998,6 +1193,9 @@ procedure TfmMain.acToggleRTSExecute(Sender: TObject);
       status.RTS := not status.RTS;
       GetComSignals;
       except
+      //on e: EComPort do
+      //  ShowMessage(xComErrorMessages[e.Code] {+ #13#10 + 'Code=' +
+      //      e.Code.ToString + '; WinCode=' + e.WinCode.ToString});
       end;
   end;
 
@@ -1008,6 +1206,9 @@ procedure TfmMain.acToggleDTRExecute(Sender: TObject);
       status.DTR := not status.DTR;
       GetComSignals;
       except
+      //on e: EComPort do
+      //  ShowMessage(xComErrorMessages[e.Code] {+ #13#10 + 'Code=' +
+      //    e.Code.ToString + '; WinCode=' + e.WinCode.ToString});
       end;
   end;
 
@@ -1018,6 +1219,9 @@ procedure TfmMain.acToggleBreakExecute(Sender: TObject);
       status.Break := not status.Break;
       GetComSignals;
       except
+      //on e: EComPort do
+      //  ShowMessage(xComErrorMessages[e.Code] {+ #13#10 + 'Code=' +
+      //    e.Code.ToString + '; WinCode=' + e.WinCode.ToString});
       end;
   end;
 
@@ -1027,43 +1231,46 @@ procedure TfmMain.RefreshControls;
     tmp, port: String;
     connected: Boolean;
   begin
-    connected    := ComPort1.Connected;
-    acTx.Enabled := connected and not send_thread.Executing;
+      try
+      connected    := ComPort1.Connected;
+      acTx.Enabled := connected and not send_thread.Executing;
 
-    if connected then
-      acConnect.Caption := DISCONNECT  else
-      acConnect.Caption := CONNECT;
+      if connected then
+        acConnect.Caption := DISCONNECT  else
+        acConnect.Caption := CONNECT;
 
-    tmp  := APPLICATION_CAPTION;
-    port := '';
-    if connected then
-      begin
-      tmp  += ' [' + ComPort1.Port + ':  ';
-      port += DataBitsToStr(ComPort1.DataBits) + '-';
-      port += ParityToStr(ComPort1.Parity.Bits)[1] + '-';
-      port += StopBitsToStr(ComPort1.StopBits) + '  ';
+      tmp  := APPLICATION_CAPTION;
+      port := '';
+      if connected then
+        begin
+        tmp  += ' [' + ComPort1.Port + ':  ';
+        port += DataBitsToStr(ComPort1.DataBits) + '-';
+        port += ParityToStr(ComPort1.Parity.Bits)[1] + '-';
+        port += StopBitsToStr(ComPort1.StopBits) + '  ';
 
-      if ComPort1.BaudRate = brCustom then
-        port += ComPort1.CustomBaudRate.ToString  else
-        port += BaudRateToStr(ComPort1.BaudRate);
-      port += ' ' + SPEED;
-      tmp += port + ']';
+        if ComPort1.BaudRate = brCustom then
+          port += ComPort1.CustomBaudRate.ToString  else
+          port += BaudRateToStr(ComPort1.BaudRate);
+        port += ' ' + SPEED;
+        tmp += port + ']';
 
-      StatusBar1.Panels.Items[1].Text :=
-        CONNECTED_TO + ' ' + ComPort1.Port + #13#10 + port;
+        StatusBar1.Panels.Items[1].Text :=
+          CONNECTED_TO + ' ' + ComPort1.Port + #13#10 + port;
 
-      acConnect.ImageIndex := 26;
-      ImageList1.GetBitmap(26, bbConnect.Glyph);
-      end
-    else
-      begin
-      acConnect.ImageIndex := 2;
-      ImageList1.GetBitmap(2, bbConnect.Glyph);
+        acConnect.ImageIndex := 26;
+        ImageList1.GetBitmap(26, bbConnect.Glyph);
+        end
+      else
+        begin
+        acConnect.ImageIndex := 2;
+        ImageList1.GetBitmap(2, bbConnect.Glyph);
+        end;
+
+      Caption           := tmp;
+      Application.Title := tmp;
+      GetComSignals;
+      except
       end;
-
-    Caption           := tmp;
-    Application.Title := tmp;
-    GetComSignals;
   end;
 
 

@@ -1,1 +1,1 @@
-%homedrive%\lazarus\UPX\upx.exe --best *.exe
+%homedrive%\lazarus\UPX\upx.exe --best .\bin\*.exe

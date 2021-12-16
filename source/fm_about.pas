@@ -15,6 +15,15 @@ resourcestring
   ABOUT_BUILD   = 'сборка';
   ABOUT_SITE    = 'сайт';
 
+const
+
+  // адрес сайта, пример https://example.site/home, пустая строка адреса отключает видимость ссылки
+  APP_SITE_ADDRESS = 'https://gitlab.com/riva-lab/uTerminal';
+  APP_SITE         = 'gitlab.com'; // отображаемое имя сайта
+
+  FILE_LICENSE = 'license.md';
+  FILE_README  = 'readme.md';
+
 type
 
   { TfmAbout }
@@ -71,7 +80,8 @@ procedure TfmAbout.FormCreate(Sender: TObject);
     info += #13#10 + '© ' + app_info.LegalCopyright;
 
     lbInfo.Caption := info;
-    lbSite.Caption := ABOUT_SITE + ': ' + lbSite.Hint;
+    lbSite.Caption := {ABOUT_SITE + ': ' +} APP_SITE;
+    lbSite.Hint    := APP_SITE_ADDRESS;
   end;
 
 procedure TfmAbout.FormDeactivate(Sender: TObject);
@@ -95,7 +105,7 @@ procedure TfmAbout.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 
 procedure TfmAbout.lbSiteClick(Sender: TObject);
   begin
-    OpenURL('http://' + lbSite.Hint);
+    OpenURL(APP_SITE_ADDRESS);
   end;
 
 procedure TfmAbout.lbCopyRightsClick(Sender: TObject);

@@ -72,7 +72,7 @@ procedure GetComPorts(aList: TStrings; aNameStart: String);
 
       if (vErr <> ERROR_SUCCESS) and (vErr <> ERROR_INSUFFICIENT_BUFFER) then
         begin
-        raise Exception.Create(SysErrorMessage(vErr));
+        //raise Exception.Create(SysErrorMessage(vErr));
         end;
       end;
     setlength(vBuf, vRes);

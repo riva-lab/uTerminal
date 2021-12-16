@@ -9,7 +9,7 @@ set MN=%TIME:~3,2%
 
 set DATE_STAMP=%YYYY%-%MM%-%DD%_%HH%-%MN%
 set PROJNAME=Icons_Pack
-set DEST=D:\Рабочая папка\FPC\uTerminal\resources\original
+set DEST=.
 set ARCHIVE=Архив
 
 set A16=active 16

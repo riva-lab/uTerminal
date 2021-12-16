@@ -18,10 +18,10 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
-      <RevisionNr Value="2"/>
-      <BuildNr Value="30"/>
+      <RevisionNr Value="3"/>
+      <BuildNr Value="31"/>
       <Language Value="0419"/>
-      <StringTable FileDescription="uTerminal - микроТерминал для COM-порта" InternalName="uTerminal" LegalCopyright="RIVA, 2017-2018" ProductName="uTerminal" ProductVersion=""/>
+      <StringTable FileDescription="uTerminal - микроТерминал для COM-порта" InternalName="uTerminal" LegalCopyright="RIVA, 2017-2018, 2021" ProductName="uTerminal" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="x32-Debug" Default="True"/>
@@ -34,16 +34,19 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="TAChartLazarusPkg"/>
+        <PackageName Value="SynEdit"/>
       </Item1>
       <Item2>
-        <PackageName Value="CPortLib10"/>
+        <PackageName Value="TAChartLazarusPkg"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="CPortLib10"/>
       </Item3>
+      <Item4>
+        <PackageName Value="LCL"/>
+      </Item4>
     </RequiredPackages>
     <Units Count="8">
       <Unit0>
@@ -99,7 +102,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\uTerminal-$BuildMode()"/>
+      <Filename Value="..\bin\uTerminal-$BuildMode()"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
