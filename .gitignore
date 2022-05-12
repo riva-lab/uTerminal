@@ -1,4 +1,7 @@
 source/backup/
 source/lib/
 bin/uTerminal-*-Release.ini
+bin/settings.ini
 bin/*.exe
+bin/v*
+snapshots/
