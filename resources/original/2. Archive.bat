@@ -20,4 +20,4 @@ set H16=hot 16
 set H32=hot 32
 set SRC=Source
 
-"%homedrive%\Program Files\7-Zip\7z.exe" a -tzip -mx0 "%DEST%\%ARCHIVE%\%PROJNAME%_%DATE_STAMP%.zip" "%DEST%\%A16%" "%DEST%\%A32%" "%DEST%\%D16%" "%DEST%\%D32%" "%DEST%\%H16%" "%DEST%\%H32%" "%DEST%\%SRC%" "%DEST%\*.png" "%DEST%\*.spl7"
+"%homedrive%\Program Files\7-Zip\7z.exe" a -tzip -mx9 "%DEST%\%ARCHIVE%\%PROJNAME%_%DATE_STAMP%.zip" "%DEST%\%A16%" "%DEST%\%A32%" "%DEST%\%D16%" "%DEST%\%D32%" "%DEST%\%H16%" "%DEST%\%H32%" "%DEST%\%SRC%" "%DEST%\*.png" "%DEST%\*.spl7"
