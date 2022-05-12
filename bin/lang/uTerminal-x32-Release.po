@@ -1,0 +1,1511 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: fm_about.about_bit
+msgid "-битная"
+msgstr ""
+
+#: fm_about.about_build
+msgid "сборка"
+msgstr ""
+
+#: fm_about.about_descr
+msgid "микроТерминал для последовательного порта\\n"
+msgstr ""
+
+#: fm_about.about_info
+msgid "информация"
+msgstr ""
+
+#: fm_about.about_license
+msgid "лицензия"
+msgstr ""
+
+#: fm_about.about_rights
+msgid "Все права защищены\\nСвободное ПО"
+msgstr ""
+
+#: fm_about.about_site
+msgid "сайт"
+msgstr ""
+
+#: fm_about.about_version
+msgid "версия"
+msgstr ""
+
+#: fm_insertchar.txt_insert_char
+msgid "символ"
+msgstr ""
+
+#: fm_main.connect
+msgid "Подключить"
+msgstr ""
+
+#: fm_main.connected_to
+msgid "Подключен к"
+msgstr ""
+
+#: fm_main.connect_hint
+msgid "Подключиться к выбранному порту"
+msgstr ""
+
+#: fm_main.disconnect
+msgid "Отключить"
+msgstr ""
+
+#: fm_main.disconnected_from
+msgid "Отключен от"
+msgstr ""
+
+#: fm_main.disconnect_hint
+msgid "Отключиться от текущего порта"
+msgstr ""
+
+#: fm_main.error
+msgctxt "fm_main.error"
+msgid "Ошибка"
+msgstr ""
+
+#: fm_main.ports_finded
+msgid "Найдено портов"
+msgstr ""
+
+#: fm_main.rx_caption
+msgctxt "fm_main.rx_caption"
+msgid "Прием [Rx]"
+msgstr ""
+
+#: fm_main.speed
+msgid "бод/с"
+msgstr ""
+
+#: fm_main.text_type_text
+msgid "Текст"
+msgstr ""
+
+#: fm_main.txt_encoding
+msgid "кодировка"
+msgstr ""
+
+#: fm_main.tx_caption
+msgctxt "fm_main.tx_caption"
+msgid "Передача [Tx]"
+msgstr ""
+
+#: tfmabout.lbinfo.caption
+msgid "lbInfo"
+msgstr ""
+
+#: tfmasciichar.accancel.caption
+msgctxt "TFMASCIICHAR.ACCANCEL.CAPTION"
+msgid "Отмена"
+msgstr ""
+
+#: tfmasciichar.acok.caption
+msgid "Вставить символ"
+msgstr ""
+
+#: tfmasciichar.rgcodetype.caption
+msgid "Отображаемый в таблице код символа"
+msgstr ""
+
+#: tfmchart.acmagnetdown.caption
+msgctxt "TFMCHART.ACMAGNETDOWN.CAPTION"
+msgid "Примагнитить снизу"
+msgstr ""
+
+#: tfmchart.acmagnetdown.hint
+msgctxt "TFMCHART.ACMAGNETDOWN.HINT"
+msgid "Примагнитить окно графика снизу"
+msgstr ""
+
+#: tfmchart.acmagnetleft.caption
+msgctxt "TFMCHART.ACMAGNETLEFT.CAPTION"
+msgid "Примагнитить слева"
+msgstr ""
+
+#: tfmchart.acmagnetleft.hint
+msgctxt "TFMCHART.ACMAGNETLEFT.HINT"
+msgid "Примагнитить окно графика слева"
+msgstr ""
+
+#: tfmchart.acmagnetright.caption
+msgctxt "TFMCHART.ACMAGNETRIGHT.CAPTION"
+msgid "Примагнитить справа"
+msgstr ""
+
+#: tfmchart.acmagnetright.hint
+msgctxt "TFMCHART.ACMAGNETRIGHT.HINT"
+msgid "Примагнитить окно графика справа"
+msgstr ""
+
+#: tfmchart.acmagnetup.caption
+msgctxt "TFMCHART.ACMAGNETUP.CAPTION"
+msgid "Примагнитить сверху"
+msgstr ""
+
+#: tfmchart.acmagnetup.hint
+msgctxt "TFMCHART.ACMAGNETUP.HINT"
+msgid "Примагнитить окно графика сверху"
+msgstr ""
+
+#: tfmchart.caption
+msgctxt "TFMCHART.CAPTION"
+msgid "График"
+msgstr ""
+
+#: tfmchart.gbmagnet.caption
+msgctxt "TFMCHART.GBMAGNET.CAPTION"
+msgid "Примагнитить"
+msgstr ""
+
+#: tfmchart.gbother.caption
+msgid "Еще ..."
+msgstr ""
+
+#: tfmchart.rggraphdatatype.caption
+msgctxt "TFMCHART.RGGRAPHDATATYPE.CAPTION"
+msgid "Тип данных потока (big-endian)"
+msgstr ""
+
+#: tfmchart.sethickness.hint
+msgid "Толщина линии"
+msgstr ""
+
+#: tfmcommands.acadd.caption
+msgctxt "tfmcommands.acadd.caption"
+msgid "Добавить"
+msgstr ""
+
+#: tfmcommands.accancel.caption
+msgctxt "tfmcommands.accancel.caption"
+msgid "Отмена"
+msgstr ""
+
+#: tfmcommands.acdelete.caption
+msgctxt "tfmcommands.acdelete.caption"
+msgid "Удалить"
+msgstr ""
+
+#: tfmcommands.acok.caption
+msgid "OK"
+msgstr ""
+
+#: tfmcommands.acupdate.caption
+msgctxt "tfmcommands.acupdate.caption"
+msgid "Обновить"
+msgstr ""
+
+#: tfmcommands.caption
+msgctxt "tfmcommands.caption"
+msgid "Автоответ"
+msgstr ""
+
+#: tfmcommands.lbinput.caption
+msgctxt "TFMCOMMANDS.LBINPUT.CAPTION"
+msgid "Входная последовательность"
+msgstr ""
+
+#: tfmcommands.lbresponce.caption
+msgctxt "TFMCOMMANDS.LBRESPONCE.CAPTION"
+msgid "Ответная последовательность"
+msgstr ""
+
+#: tfmconfirm.bbcancel.caption
+msgctxt "TFMCONFIRM.BBCANCEL.CAPTION"
+msgid "Отмена"
+msgstr ""
+
+#: tfmconfirm.bbno.caption
+msgid "Нет"
+msgstr ""
+
+#: tfmconfirm.bbyes.caption
+msgid "Да"
+msgstr ""
+
+#: tfmconfirm.lbmessage.caption
+msgctxt "TFMCONFIRM.LBMESSAGE.CAPTION"
+msgid "---"
+msgstr ""
+
+#: tfmgraph.acmagnetdown.caption
+msgctxt "tfmgraph.acmagnetdown.caption"
+msgid "Примагнитить снизу"
+msgstr ""
+
+#: tfmgraph.acmagnetdown.hint
+msgctxt "tfmgraph.acmagnetdown.hint"
+msgid "Примагнитить окно графика снизу"
+msgstr ""
+
+#: tfmgraph.acmagnetleft.caption
+msgctxt "tfmgraph.acmagnetleft.caption"
+msgid "Примагнитить слева"
+msgstr ""
+
+#: tfmgraph.acmagnetleft.hint
+msgctxt "tfmgraph.acmagnetleft.hint"
+msgid "Примагнитить окно графика слева"
+msgstr ""
+
+#: tfmgraph.acmagnetright.caption
+msgctxt "tfmgraph.acmagnetright.caption"
+msgid "Примагнитить справа"
+msgstr ""
+
+#: tfmgraph.acmagnetright.hint
+msgctxt "tfmgraph.acmagnetright.hint"
+msgid "Примагнитить окно графика справа"
+msgstr ""
+
+#: tfmgraph.acmagnetup.caption
+msgctxt "tfmgraph.acmagnetup.caption"
+msgid "Примагнитить сверху"
+msgstr ""
+
+#: tfmgraph.acmagnetup.hint
+msgctxt "tfmgraph.acmagnetup.hint"
+msgid "Примагнитить окно графика сверху"
+msgstr ""
+
+#: tfmgraph.caption
+msgctxt "tfmgraph.caption"
+msgid "График"
+msgstr ""
+
+#: tfmgraph.gbmagnet.caption
+msgctxt "tfmgraph.gbmagnet.caption"
+msgid "Примагнитить"
+msgstr ""
+
+#: tfmgraph.rggraphdatatype.caption
+msgctxt "tfmgraph.rggraphdatatype.caption"
+msgid "Тип данных потока (big-endian)"
+msgstr ""
+
+#: tfmmain.acautoanswerenable.caption
+msgid "Включить автоответ"
+msgstr ""
+
+#: tfmmain.acautoanswerheader.caption
+msgctxt "TFMMAIN.ACAUTOANSWERHEADER.CAPTION"
+msgid "Автоответ"
+msgstr ""
+
+#: tfmmain.acautoanswersetup.caption
+msgid "Таблица ответов ..."
+msgstr ""
+
+#: tfmmain.acautoanswersetup.hint
+msgid "Окно задания ответных последовательностей"
+msgstr ""
+
+#: tfmmain.acautosend.caption
+msgid "Автомат"
+msgstr ""
+
+#: tfmmain.acconnect.caption
+msgctxt "tfmmain.acconnect.caption"
+msgid "---"
+msgstr ""
+
+#: tfmmain.acconnectionheader.caption
+msgid "Соединение"
+msgstr ""
+
+#: tfmmain.acexit.caption
+msgid "Выход"
+msgstr ""
+
+#: tfmmain.acexit.hint
+msgid "Завершить работу приложения"
+msgstr ""
+
+#: tfmmain.acfileheader.caption
+msgid "Файл"
+msgstr ""
+
+#: tfmmain.achelp.caption
+msgctxt "TFMMAIN.ACHELP.CAPTION"
+msgid "Справка"
+msgstr ""
+
+#: tfmmain.achelp.hint
+msgid "Открыть руководство пользователя"
+msgstr ""
+
+#: tfmmain.achelpheader.caption
+msgctxt "tfmmain.achelpheader.caption"
+msgid "Справка"
+msgstr ""
+
+#: tfmmain.achelpmd.caption
+msgid "Справка в markdown"
+msgstr ""
+
+#: tfmmain.achelpmd.hint
+msgid "Открыть руководство пользователя в формате markdown"
+msgstr ""
+
+#: tfmmain.achelpnet.caption
+msgid "Справка в сети"
+msgstr ""
+
+#: tfmmain.achelpnet.hint
+msgid "Открыть руководство пользователя в репозитории (онлайн)"
+msgstr ""
+
+#: tfmmain.acinfo.caption
+msgid "О приложении"
+msgstr ""
+
+#: tfmmain.acinfo.hint
+msgid "Информация о приложении"
+msgstr ""
+
+#: tfmmain.acinsertchar.caption
+msgid "Вставить символ ..."
+msgstr ""
+
+#: tfmmain.acinsertchar.hint
+msgid "Вставка произольного символа ASCII"
+msgstr ""
+
+#: tfmmain.acreset.caption
+msgctxt "tfmmain.acreset.caption"
+msgid "Сброс"
+msgstr ""
+
+#: tfmmain.acrxclear.caption
+msgid "Очистить буфер приема"
+msgstr ""
+
+#: tfmmain.acrxclear.hint
+msgid "Очистить данные в буфере приема"
+msgstr ""
+
+#: tfmmain.acrxcopy.caption
+msgid "Скопировать данные"
+msgstr ""
+
+#: tfmmain.acrxcopy.hint
+msgid "Скопировать данные в буфер обмена"
+msgstr ""
+
+#: tfmmain.acrxenable.caption
+msgid "Включить прием"
+msgstr ""
+
+#: tfmmain.acrxenable.hint
+msgid "Разрашение работы приемника"
+msgstr ""
+
+#: tfmmain.acrxexport.caption
+msgid "Сохранить данные в файл ..."
+msgstr ""
+
+#: tfmmain.acrxexport.hint
+msgid "Сохранить данные из буфера приема в файл"
+msgstr ""
+
+#: tfmmain.acrxheader.caption
+msgctxt "tfmmain.acrxheader.caption"
+msgid "Прием"
+msgstr ""
+
+#: tfmmain.acrxscrolltoend.caption
+msgid "Прокручивать к концу"
+msgstr ""
+
+#: tfmmain.acrxscrolltoend.hint
+msgid "При приеме новых данных прокручивать к концу"
+msgstr ""
+
+#: tfmmain.acscan.caption
+msgid "Сканировать"
+msgstr ""
+
+#: tfmmain.acscan.hint
+msgid "Обновить список доступных портов"
+msgstr ""
+
+#: tfmmain.acsearch.caption
+msgid "Поиск"
+msgstr ""
+
+#: tfmmain.acsearch.hint
+msgid "Панель поиска"
+msgstr ""
+
+#: tfmmain.acsearchnext.caption
+msgid "Найти далее"
+msgstr ""
+
+#: tfmmain.acsearchnext.hint
+msgid "Найти следующее совпадение"
+msgstr ""
+
+#: tfmmain.acsearchprev.caption
+msgid "Найти предыдущее"
+msgstr ""
+
+#: tfmmain.acsearchprev.hint
+msgid "Найти предыдущее совпадение"
+msgstr ""
+
+#: tfmmain.acsettings.caption
+msgctxt "tfmmain.acsettings.caption"
+msgid "Настройки"
+msgstr ""
+
+#: tfmmain.acsettings.hint
+msgid "Настройки приложения"
+msgstr ""
+
+#: tfmmain.acshowgraph.caption
+msgid "График по входных данных"
+msgstr ""
+
+#: tfmmain.acshowgraph.hint
+msgid "Показать окно графика по данных из буфера приема"
+msgstr ""
+
+#: tfmmain.acshowhex.caption
+msgctxt "tfmmain.acshowhex.caption"
+msgid "Показывать данные в HEX-виде"
+msgstr ""
+
+#: tfmmain.acshowhex.hint
+msgctxt "TFMMAIN.ACSHOWHEX.HINT"
+msgid "Показывать данные в HEX-виде"
+msgstr ""
+
+#: tfmmain.acshowlinecounts.caption
+msgctxt "tfmmain.acshowlinecounts.caption"
+msgid "Показывать номера строк"
+msgstr ""
+
+#: tfmmain.acshowlinecounts.hint
+msgctxt "TFMMAIN.ACSHOWLINECOUNTS.HINT"
+msgid "Показывать номера строк"
+msgstr ""
+
+#: tfmmain.acshowontop.caption
+msgid "Поверх всех окон"
+msgstr ""
+
+#: tfmmain.acshowontop.hint
+msgid "Показвать окно терминала поверх остальных окон"
+msgstr ""
+
+#: tfmmain.acshowrxbox.caption
+msgid "Показывать данные буфера приема"
+msgstr ""
+
+#: tfmmain.acshowrxbox.hint
+msgid "Показывать область интерфейса с данными буфера приема"
+msgstr ""
+
+#: tfmmain.acshowsignals.caption
+msgid "Панель сигналов"
+msgstr ""
+
+#: tfmmain.acshowsignals.hint
+msgid "Показывать область интерфейса с индикаторами сигналов"
+msgstr ""
+
+#: tfmmain.acshowtxbox.caption
+msgid "Показывать данные буфера передачи"
+msgstr ""
+
+#: tfmmain.acshowtxbox.hint
+msgid "Показывать область интерфейса с данными буфера передачи"
+msgstr ""
+
+#: tfmmain.actogglebreak.caption
+msgid "Break"
+msgstr ""
+
+#: tfmmain.actoggledtr.caption
+msgid "DTR"
+msgstr ""
+
+#: tfmmain.actogglerts.caption
+msgid "RTS"
+msgstr ""
+
+#: tfmmain.actx.caption
+msgctxt "tfmmain.actx.caption"
+msgid "Отправить"
+msgstr ""
+
+#: tfmmain.actx.hint
+msgid "Отправить данные из буфера"
+msgstr ""
+
+#: tfmmain.actxclear.caption
+msgid "Очистить буфер передачи"
+msgstr ""
+
+#: tfmmain.actxclear.hint
+msgid "Очистить данные в буфере передачи"
+msgstr ""
+
+#: tfmmain.actxcommandmode.caption
+msgid "Командный режим"
+msgstr ""
+
+#: tfmmain.actxcommandmode.hint
+msgid "Очистить буфер передачи после передачи"
+msgstr ""
+
+#: tfmmain.actxheader.caption
+msgctxt "tfmmain.actxheader.caption"
+msgid "Передача"
+msgstr ""
+
+#: tfmmain.actximport.caption
+msgctxt "tfmmain.actximport.caption"
+msgid "Загрузить данные из файла ..."
+msgstr ""
+
+#: tfmmain.actximport.hint
+msgid "Загрузить данные из файла в буфер передачи"
+msgstr ""
+
+#: tfmmain.actxseqadd.caption
+msgctxt "TFMMAIN.ACTXSEQADD.CAPTION"
+msgid "Добавить"
+msgstr ""
+
+#: tfmmain.actxseqadd.hint
+msgid "Добавить текущий буфер передачи в список"
+msgstr ""
+
+#: tfmmain.actxseqedit.caption
+msgctxt "TFMMAIN.ACTXSEQEDIT.CAPTION"
+msgid "Обновить"
+msgstr ""
+
+#: tfmmain.actxseqedit.hint
+msgid "Обновить выбранное сообщение"
+msgstr ""
+
+#: tfmmain.actxseqget.caption
+msgid "Получить"
+msgstr ""
+
+#: tfmmain.actxseqget.hint
+msgid "Заменить текущий буфер данными выбранного сообщения"
+msgstr ""
+
+#: tfmmain.actxseqmovedown.caption
+msgid "Переместить вниз"
+msgstr ""
+
+#: tfmmain.actxseqmovedown.hint
+msgid "Переместить элемент списка вниз на 1 позицию"
+msgstr ""
+
+#: tfmmain.actxseqmoveup.caption
+msgid "Переместить вверх"
+msgstr ""
+
+#: tfmmain.actxseqmoveup.hint
+msgid "Переместить элемент списка вверх на 1 позицию"
+msgstr ""
+
+#: tfmmain.actxseqremove.caption
+msgctxt "TFMMAIN.ACTXSEQREMOVE.CAPTION"
+msgid "Удалить"
+msgstr ""
+
+#: tfmmain.actxseqremove.hint
+msgid "Удалить выбранное сообщение из списка"
+msgstr ""
+
+#: tfmmain.actxseqsend.caption
+msgctxt "TFMMAIN.ACTXSEQSEND.CAPTION"
+msgid "Отправить"
+msgstr ""
+
+#: tfmmain.actxseqsend.hint
+msgid "Отправить выбранное сообщение"
+msgstr ""
+
+#: tfmmain.actxsequences.caption
+msgid "Показать"
+msgstr ""
+
+#: tfmmain.actxsequences.hint
+msgid "Список сохраненных сообщений для передачи"
+msgstr ""
+
+#: tfmmain.actxsequencesheader.caption
+msgid "Список сохраненных"
+msgstr ""
+
+#: tfmmain.acviewheader.caption
+msgid "Вид"
+msgstr ""
+
+#: tfmmain.acwebsite.caption
+msgid "Сайт"
+msgstr ""
+
+#: tfmmain.acwebsite.hint
+msgid "Открыть репозиторий приложения"
+msgstr ""
+
+#: tfmmain.cbbaudrate.hint
+msgid "Скорость обмена, бод/с"
+msgstr ""
+
+#: tfmmain.cbdatabits.hint
+msgid "Биты данных"
+msgstr ""
+
+#: tfmmain.cbparitybits.hint
+msgid "Бит четности"
+msgstr ""
+
+#: tfmmain.cbportslist.hint
+msgid "Список доступных портов"
+msgstr ""
+
+#: tfmmain.cbrxencoding.hint
+msgid "Кодировка данных в буфере приема"
+msgstr ""
+
+#: tfmmain.cbrxtype.hint
+msgid "Вид данных в буфере приема"
+msgstr ""
+
+#: tfmmain.cbsearchcasesens.caption
+msgid "с учетом регистра"
+msgstr ""
+
+#: tfmmain.cbsearchreplaceall.caption
+msgid "все"
+msgstr ""
+
+#: tfmmain.cbstopbits.hint
+msgid "Стоп-биты"
+msgstr ""
+
+#: tfmmain.cbtxencoding.hint
+msgid "Кодировка данных в буфере передачи"
+msgstr ""
+
+#: tfmmain.cbtxtype.hint
+msgid "Вид данных в буфере передачи"
+msgstr ""
+
+#: tfmmain.edreplace.texthint
+msgid "на что заменить"
+msgstr ""
+
+#: tfmmain.edsearch.texthint
+msgid "что искать"
+msgstr ""
+
+#: tfmmain.gbrx.caption
+msgctxt "tfmmain.gbrx.caption"
+msgid "gbRx"
+msgstr ""
+
+#: tfmmain.gbsignals.caption
+msgid "Сигналы RS-232"
+msgstr ""
+
+#: tfmmain.gbtx.caption
+msgctxt "tfmmain.gbtx.caption"
+msgid "gbTx"
+msgstr ""
+
+#: tfmmain.lbhelphint.caption
+msgid "lbHelpHint"
+msgstr ""
+
+#: tfmmain.lbrxposandsel.caption
+msgctxt "TFMMAIN.LBRXPOSANDSEL.CAPTION"
+msgid "---"
+msgstr ""
+
+#: tfmmain.lbrxposandsel.hint
+msgctxt "TFMMAIN.LBRXPOSANDSEL.HINT"
+msgid "Позиция, размер выделения"
+msgstr ""
+
+#: tfmmain.lbrxsize.caption
+msgid "lbRxSize"
+msgstr ""
+
+#: tfmmain.lbrxsize.hint
+msgid "Количество данных в буфере приема"
+msgstr ""
+
+#: tfmmain.lbsearch.caption
+msgid "Найти в     "
+msgstr ""
+
+#: tfmmain.lbsearch1.caption
+msgid "Заменить"
+msgstr ""
+
+#: tfmmain.lbsignalcts.caption
+msgid "CTS"
+msgstr ""
+
+#: tfmmain.lbsignaldsr.caption
+msgid "DSR"
+msgstr ""
+
+#: tfmmain.lbsignalring.caption
+msgid "Ring"
+msgstr ""
+
+#: tfmmain.lbsignalrlsd.caption
+msgid "RLSD"
+msgstr ""
+
+#: tfmmain.lbtxposandsel.caption
+msgctxt "TFMMAIN.LBTXPOSANDSEL.CAPTION"
+msgid "---"
+msgstr ""
+
+#: tfmmain.lbtxposandsel.hint
+msgctxt "TFMMAIN.LBTXPOSANDSEL.HINT"
+msgid "Позиция, размер выделения"
+msgstr ""
+
+#: tfmmain.lbtxsize.caption
+msgid "lbTxSize"
+msgstr ""
+
+#: tfmmain.lbtxsize.hint
+msgctxt "tfmmain.lbtxsize.hint"
+msgid "Количество данных в буфере передачи"
+msgstr ""
+
+#: tfmmain.menuitem16.caption
+msgctxt "tfmmain.menuitem16.caption"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem22.caption
+msgctxt "TFMMAIN.MENUITEM22.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem26.caption
+msgctxt "TFMMAIN.MENUITEM26.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem30.caption
+msgctxt "TFMMAIN.MENUITEM30.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem31.caption
+msgctxt "TFMMAIN.MENUITEM31.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem37.caption
+msgctxt "TFMMAIN.MENUITEM37.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem46.caption
+msgctxt "TFMMAIN.MENUITEM46.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem5.caption
+msgctxt "TFMMAIN.MENUITEM5.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem55.caption
+msgctxt "TFMMAIN.MENUITEM55.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.menuitem56.caption
+msgctxt "TFMMAIN.MENUITEM56.CAPTION"
+msgid "-"
+msgstr ""
+
+#: tfmmain.miselection.caption
+msgid "miSelection"
+msgstr ""
+
+#: tfmmain.pledrx.hint
+msgid "Индикатор активного приема"
+msgstr ""
+
+#: tfmmain.pledtx.hint
+msgid "Индикатор активной передачи"
+msgstr ""
+
+#: tfmmain.rbrx.caption
+msgid "Rx"
+msgstr ""
+
+#: tfmmain.rbtx.caption
+msgid "Tx"
+msgstr ""
+
+#: tfmmain.rxsavedialog.title
+msgid "Сохранить файл как ..."
+msgstr ""
+
+#: tfmmain.seautosendtime.hint
+msgid "Период автоматической отправки, мс"
+msgstr ""
+
+#: tfmmain.tbmain.caption
+msgid "tbMain"
+msgstr ""
+
+#: tfmmain.tbport.caption
+msgid "tbPort"
+msgstr ""
+
+#: tfmmain.tbrx.caption
+msgid "tbRx"
+msgstr ""
+
+#: tfmmain.tbtx.caption
+msgid "tbTx"
+msgstr ""
+
+#: tfmmain.tbtxsequences.caption
+msgid "tbTxSequences"
+msgstr ""
+
+#: tfmmain.toolbutton23.caption
+msgid "ToolButton23"
+msgstr ""
+
+#: tfmmain.toolbutton25.caption
+msgid "ToolButton25"
+msgstr ""
+
+#: tfmmain.toolbutton29.caption
+msgid "ToolButton29"
+msgstr ""
+
+#: tfmmain.toolbutton5.caption
+msgid "ToolButton5"
+msgstr ""
+
+#: tfmmain.toolbutton8.caption
+msgid "ToolButton8"
+msgstr ""
+
+#: tfmmain.toolbutton9.caption
+msgid "ToolButton9"
+msgstr ""
+
+#: tfmmain.txopendialog.title
+msgctxt "TFMMAIN.TXOPENDIALOG.TITLE"
+msgid "Загрузить данные из файла ..."
+msgstr ""
+
+#: tfmsettings.accancel.caption
+msgctxt "TFMSETTINGS.ACCANCEL.CAPTION"
+msgid "Отмена"
+msgstr ""
+
+#: tfmsettings.acok.caption
+msgid "Применить"
+msgstr ""
+
+#: tfmsettings.btnfontrx.caption
+msgctxt "TFMSETTINGS.BTNFONTRX.CAPTION"
+msgid "..."
+msgstr ""
+
+#: tfmsettings.btnfonttx.caption
+msgctxt "tfmsettings.btnfonttx.caption"
+msgid "..."
+msgstr ""
+
+#: tfmsettings.caption
+msgctxt "TFMSETTINGS.CAPTION"
+msgid "Настройки"
+msgstr ""
+
+#: tfmsettings.cbautoconnect.caption
+msgid "Автоматически подключаться к порту при запуске приложения"
+msgstr ""
+
+#: tfmsettings.cbautoconnect.hint
+msgid "Попытаться подключиться к порту, который был использован в предыдущей сессии"
+msgstr ""
+
+#: tfmsettings.cbcheckport.caption
+msgid "Проверять доступность порта при сканировании"
+msgstr ""
+
+#: tfmsettings.cbcheckport.hint
+msgid "Проверка производится попыткой подключения к порту"
+msgstr ""
+
+#: tfmsettings.cbfiledataadd.caption
+msgid "Добавлять данные из файла в конец буфера передачи"
+msgstr ""
+
+#: tfmsettings.cbfiledataadd.hint
+msgid "Если не выбрано, буфер будет перезаписан данными из файла"
+msgstr ""
+
+#: tfmsettings.cbfileloadwarning.caption
+msgid "Предупреждение при загрузке данных из файла"
+msgstr ""
+
+#: tfmsettings.cbfontquality.caption
+msgid "Сглаживание текста Cleartype"
+msgstr ""
+
+#: tfmsettings.cbfontrxname.text
+msgctxt "TFMSETTINGS.CBFONTRXNAME.TEXT"
+msgid "Consolas"
+msgstr ""
+
+#: tfmsettings.cbfonttxname.text
+msgctxt "tfmsettings.cbfonttxname.text"
+msgid "Consolas"
+msgstr ""
+
+#: tfmsettings.cbhardflow.caption
+msgid "Включить аппаратное управление потоком (RTS/CTS)"
+msgstr ""
+
+#: tfmsettings.cbminimizetotray.caption
+msgid "Сворачивать в трей"
+msgstr ""
+
+#: tfmsettings.cbrxrestore.caption
+msgctxt "TFMSETTINGS.CBRXRESTORE.CAPTION"
+msgid "Восстанавливать содержимое буфера при запуске приложения"
+msgstr ""
+
+#: tfmsettings.cbrxtimestamp.caption
+msgid "Добавлять временную метку в начале пакета"
+msgstr ""
+
+#: tfmsettings.cbshowencoding.caption
+msgid "Отображать название кодировки текста в заголовке поля"
+msgstr ""
+
+#: tfmsettings.cbshowindicators.caption
+msgid "Показывать индикаторы активности"
+msgstr ""
+
+#: tfmsettings.cbshowmenu.caption
+msgid "Показывать стандартное меню"
+msgstr ""
+
+#: tfmsettings.cbshowposandsel.caption
+msgid "Показывать позицию курсора и размер выделения (в байтах)"
+msgstr ""
+
+#: tfmsettings.cbshowrightedge.caption
+msgid "Правая видимая граница"
+msgstr ""
+
+#: tfmsettings.cbshowrs232captions.caption
+msgid "Показывать подписи на индикаторах сигналов RS-232"
+msgstr ""
+
+#: tfmsettings.cbshowsizes.caption
+msgid "Показывать количество данных в буферах"
+msgstr ""
+
+#: tfmsettings.cbshowsplash.caption
+msgid "Показывать заставку при запуске"
+msgstr ""
+
+#: tfmsettings.cbshowstatusbar.caption
+msgid "Показывать панель статуса"
+msgstr ""
+
+#: tfmsettings.cbtxrestore.caption
+msgctxt "tfmsettings.cbtxrestore.caption"
+msgid "Восстанавливать содержимое буфера при запуске приложения"
+msgstr ""
+
+#: tfmsettings.dlgfontrx.title
+msgid "Шрифт. Прием (Rx)"
+msgstr ""
+
+#: tfmsettings.dlgfonttx.title
+msgid "Шрифт. Передача (Tx)"
+msgstr ""
+
+#: tfmsettings.edfontrxexample.text
+msgid "edFontRxExample"
+msgstr ""
+
+#: tfmsettings.edfonttxexample.text
+msgid "edFontTxExample"
+msgstr ""
+
+#: tfmsettings.edrxtsafter.text
+msgid "] >>>"
+msgstr ""
+
+#: tfmsettings.edrxtsbefore.text
+msgid "["
+msgstr ""
+
+#: tfmsettings.lbfontrx.caption
+msgid "Прием (Rx)"
+msgstr ""
+
+#: tfmsettings.lbfonttx.caption
+msgid "Передача (Tx)"
+msgstr ""
+
+#: tfmsettings.lbhexblockbytes.caption
+msgid "Количество байт в блоке"
+msgstr ""
+
+#: tfmsettings.lbhexlinebytes.caption
+msgid "Количество байт в строке"
+msgstr ""
+
+#: tfmsettings.lblanguage.caption
+msgid "Язык интерфейса"
+msgstr ""
+
+#: tfmsettings.lblinebreakstyle.caption
+msgid "Переход на новую строку (при нажатии Enter)"
+msgstr ""
+
+#: tfmsettings.lbpanelslayout.caption
+msgid "Размещение полей"
+msgstr ""
+
+#: tfmsettings.lbrxpackettime.caption
+msgid "Таймаут пакета (приблизительно), мс"
+msgstr ""
+
+#: tfmsettings.lbrxsizelimit.caption
+msgid "Максимальный объем буфера приема, КБ"
+msgstr ""
+
+#: tfmsettings.lbrxsizelimit.hint
+msgid "0 - нет ограничений"
+msgstr ""
+
+#: tfmsettings.lbrxtsafter.caption
+msgid "Текст после временной метки"
+msgstr ""
+
+#: tfmsettings.lbrxtsbefore.caption
+msgid "Текст до временной метки"
+msgstr ""
+
+#: tfmsettings.lbtabsize.caption
+msgid "Ширина табуляции"
+msgstr ""
+
+#: tfmsettings.lbtxbreaktime.caption
+msgid "Длительность сигнала Break (приблизительно), мс"
+msgstr ""
+
+#: tfmsettings.lbtxdeadlocktimeout.caption
+msgid "Таймаут отправки (приблизительно), мс"
+msgstr ""
+
+#: tfmsettings.sefontrxsize.hint
+msgctxt "TFMSETTINGS.SEFONTRXSIZE.HINT"
+msgid "Размер шрифта"
+msgstr ""
+
+#: tfmsettings.sefonttxsize.hint
+msgctxt "tfmsettings.sefonttxsize.hint"
+msgid "Размер шрифта"
+msgstr ""
+
+#: tfmsettings.tsconnection.caption
+msgid "Связь"
+msgstr ""
+
+#: tfmsettings.tseditor.caption
+msgid "Редактор"
+msgstr ""
+
+#: tfmsettings.tsfont.caption
+msgid "Шрифт"
+msgstr ""
+
+#: tfmsettings.tsgeneral.caption
+msgid "Общие"
+msgstr ""
+
+#: tfmsettings.tshex.caption
+msgid "HEX вид"
+msgstr ""
+
+#: tfmsettings.tsrx.caption
+msgctxt "TFMSETTINGS.TSRX.CAPTION"
+msgid "Прием"
+msgstr ""
+
+#: tfmsettings.tstx.caption
+msgctxt "TFMSETTINGS.TSTX.CAPTION"
+msgid "Передача"
+msgstr ""
+
+#: tfraboutlinks.lbcopyrights.caption
+msgid "lbCopyRights"
+msgstr ""
+
+#: tfraboutlinks.lblicense.caption
+msgid "lbLicense"
+msgstr ""
+
+#: tfraboutlinks.lbsite.caption
+msgid "lbSite"
+msgstr ""
+
+#: u_encodings.enc_1250
+msgid "1250 (ANSI - центрально-европейская)"
+msgstr ""
+
+#: u_encodings.enc_1251
+msgid "1251 (ANSI - кириллица)"
+msgstr ""
+
+#: u_encodings.enc_1252
+msgid "1252 (ANSI - западно-европейская, лат. 1)"
+msgstr ""
+
+#: u_encodings.enc_1253
+msgid "1253 (ANSI - греческая)"
+msgstr ""
+
+#: u_encodings.enc_1254
+msgid "1254 (ANSI - турецкая)"
+msgstr ""
+
+#: u_encodings.enc_1255
+msgid "1255 (ANSI - иврит)"
+msgstr ""
+
+#: u_encodings.enc_1256
+msgid "1256 (ANSI - арабская)"
+msgstr ""
+
+#: u_encodings.enc_1257
+msgid "1257 (ANSI - балтийская)"
+msgstr ""
+
+#: u_encodings.enc_1258
+msgid "1258 (ANSI - вьетнамская)"
+msgstr ""
+
+#: u_encodings.enc_437
+msgid "437 (DOS - латиница)"
+msgstr ""
+
+#: u_encodings.enc_850
+msgid "850 (DOS - западно-европейская, лат.)"
+msgstr ""
+
+#: u_encodings.enc_852
+msgid "852 (DOS - центрально-европейская, лат.)"
+msgstr ""
+
+#: u_encodings.enc_866
+msgid "866 (DOS - кириллица)"
+msgstr ""
+
+#: u_encodings.enc_874
+msgid "874 (DOS - тайская)"
+msgstr ""
+
+#: u_encodings.enc_88591
+msgid "8859-1 (ISO/IEC - западно-европейская, лат. 1)"
+msgstr ""
+
+#: u_encodings.enc_885915
+msgid "8859-15 (ISO/IEC - западно-европейская новая, лат. 9)"
+msgstr ""
+
+#: u_encodings.enc_88592
+msgid "8859-2 (ISO/IEC - центрально-европейская, лат. 2)"
+msgstr ""
+
+#: u_encodings.enc_ansi
+msgid "ANSI (ASCII 7-битная)"
+msgstr ""
+
+#: u_encodings.enc_koi8
+msgid "КОИ-8 (ANSI - русская)"
+msgstr ""
+
+#: u_encodings.enc_macr
+msgid "Macintosh (MAC - латиница)"
+msgstr ""
+
+#: u_encodings.enc_utf8
+msgid "65001 (UTF8 без BOM)"
+msgstr ""
+
+#: u_encodings.enc_utf8bom
+msgid "65001 (UTF8)"
+msgstr ""
+
+#: u_serial.txt_ce_busy
+msgid "Порт недоступен"
+msgstr ""
+
+#: u_serial.txt_ce_none
+msgid "Успех"
+msgstr ""
+
+#: u_serial.txt_ce_rxerror
+msgid "Ошибка приема"
+msgstr ""
+
+#: u_serial.txt_ce_txcancel
+msgid "Передача отменена"
+msgstr ""
+
+#: u_serial.txt_ce_txerror
+msgid "Ошибка передачи"
+msgstr ""
+
+#: u_serial.txt_cs_offline
+msgid "Отключен"
+msgstr ""
+
+#: u_serial.txt_cs_online
+msgid "Готов"
+msgstr ""
+
+#: u_serial.txt_cs_rxing
+msgid "Прием..."
+msgstr ""
+
+#: u_serial.txt_cs_txing
+msgid "Передача..."
+msgstr ""
+
+#: u_serial.txt_port_busy
+msgid "занят"
+msgstr ""
+
+#: u_strings.hint_autoanswer
+msgid "Если выбрано, то при получении данных будет автоматически\\nотправлен ответ (если имеется, можно редактировать в настройках)"
+msgstr ""
+
+#: u_strings.hint_autosend
+msgid "Если выбрано, передача будет инициироваться автоматически\\nчерез заданные промежутки времени"
+msgstr ""
+
+#: u_strings.hint_break
+msgid "Break\\n(лог. 0 длительностью, указанной в настройках)"
+msgstr ""
+
+#: u_strings.hint_cts
+msgid "Clear to Send\\nГотовность передачи"
+msgstr ""
+
+#: u_strings.hint_dsr
+msgid "Data Set Ready\\nГотовность источника данных"
+msgstr ""
+
+#: u_strings.hint_dtr
+msgid "Data Terminal Ready\\nГотовность приемника данных"
+msgstr ""
+
+#: u_strings.hint_ring
+msgid "Ring Indicator\\nСигнал вызова"
+msgstr ""
+
+#: u_strings.hint_rlsd
+msgid "Receive Line Signal Detect\\nили  Data Carrier Detect\\nНаличие несущей"
+msgstr ""
+
+#: u_strings.hint_rts
+msgid "Request to Send\\nЗапрос на передачу"
+msgstr ""
+
+#: u_strings.txt_br_other
+msgid "Другая"
+msgstr ""
+
+#: u_strings.txt_byte_pos
+msgid "позиция"
+msgstr ""
+
+#: u_strings.txt_byte_sel
+msgid "выделено"
+msgstr ""
+
+#: u_strings.txt_confirm
+msgid "Подтверждение"
+msgstr ""
+
+#: u_strings.txt_data
+msgid "Данные"
+msgstr ""
+
+#: u_strings.txt_error
+msgctxt "u_strings.txt_error"
+msgid "Ошибка"
+msgstr ""
+
+#: u_strings.txt_help_hint
+msgid "Здесь отображаются поля ввода и/или вывода данных.\\n\\n--- Как работать с терминалом ---\\n1. Просканируйте систему на наличие доступных портов.\\n2. Выберите порт, задайте настройки, подключитесь.\\n3. Прием данных начнется сразу же после подключения к порту.\\n4. Можно задать ответные последовательности для приемника.\\n5. Передача данных возможна по команде.\\n6. Можно задать таймер автоматической передачи данных."
+msgstr ""
+
+#: u_strings.txt_list_chart_dec
+msgid "Данные в ASCII DEC"
+msgstr ""
+
+#: u_strings.txt_list_chart_hex
+msgid "Данные в ASCII HEX"
+msgstr ""
+
+#: u_strings.txt_list_chart_raw_16
+msgid "16-битные данные"
+msgstr ""
+
+#: u_strings.txt_list_chart_raw_24
+msgid "24-битные данные"
+msgstr ""
+
+#: u_strings.txt_list_chart_raw_32
+msgid "32-битные данные"
+msgstr ""
+
+#: u_strings.txt_list_chart_raw_8
+msgid "8-битные данные"
+msgstr ""
+
+#: u_strings.txt_list_databits_5
+msgid "5    бит данных в байте"
+msgstr ""
+
+#: u_strings.txt_list_databits_6
+msgid "6    бит данных в байте"
+msgstr ""
+
+#: u_strings.txt_list_databits_7
+msgid "7    бит данных в байте"
+msgstr ""
+
+#: u_strings.txt_list_databits_8
+msgid "8    бит данных в байте"
+msgstr ""
+
+#: u_strings.txt_list_enter_mac
+msgid "CR     (0xD,         стиль MacOS)"
+msgstr ""
+
+#: u_strings.txt_list_enter_unix
+msgid "LF      (0xA,         стиль Unix)"
+msgstr ""
+
+#: u_strings.txt_list_enter_win
+msgid "CRLF (0xD 0xA, стиль Windows)"
+msgstr ""
+
+#: u_strings.txt_list_layout_1
+msgid "Tx - вверху, Rx - внизу"
+msgstr ""
+
+#: u_strings.txt_list_layout_2
+msgid "Tx - внизу, Rx - вверху"
+msgstr ""
+
+#: u_strings.txt_list_layout_3
+msgid "Tx - слева, Rx - справа"
+msgstr ""
+
+#: u_strings.txt_list_layout_4
+msgid "Tx - справа, Rx - слева"
+msgstr ""
+
+#: u_strings.txt_list_parbits_e
+msgid "Even      * Дополнение до четности"
+msgstr ""
+
+#: u_strings.txt_list_parbits_m
+msgid "Mark     * Всегда 1"
+msgstr ""
+
+#: u_strings.txt_list_parbits_n
+msgid "None     * Отсутствует"
+msgstr ""
+
+#: u_strings.txt_list_parbits_o
+msgid "Odd       * Дополнение до нечетности"
+msgstr ""
+
+#: u_strings.txt_list_parbits_s
+msgid "Space    * Всегда 0"
+msgstr ""
+
+#: u_strings.txt_list_stopbits_1
+msgid "1      стоповый бит"
+msgstr ""
+
+#: u_strings.txt_list_stopbits_15
+msgid "1,5   стоповых бита"
+msgstr ""
+
+#: u_strings.txt_list_stopbits_2
+msgid "2      стоповых бита"
+msgstr ""
+
+#: u_strings.txt_reset
+msgctxt "u_strings.txt_reset"
+msgid "Сброс"
+msgstr ""
+
+#: u_strings.txt_warning
+msgid "Предупреждение"
+msgstr ""
+
+#: u_strings.warn_load
+msgid "Данные из файла будут загружены в буфер передачи.\\nТекущие данные будут утеряны. Продолжить?"
+msgstr ""
+
+#: u_strings.warn_reset
+msgid "При следующем запуске приложения будут загружены\\nнастройки по умолчанию. Продолжить?"
+msgstr ""
+
+#: u_strings.warn_settings
+msgid "Не удалось применить все настройки!\\nВозникла критическая ошибка. Перезапустите приложение.\\nЗавершить работу приложения?"
+msgstr ""
+
+#: u_utilities.byte_multiple_1
+msgctxt "u_utilities.byte_multiple_1"
+msgid "байт"
+msgstr ""
+
+#: u_utilities.byte_multiple_2
+msgid "байта"
+msgstr ""
+
+#: u_utilities.byte_multiple_5
+msgctxt "u_utilities.byte_multiple_5"
+msgid "байт"
+msgstr ""
+
+#: u_utilities.byte_single
+msgctxt "u_utilities.byte_single"
+msgid "байт"
+msgstr ""
+
