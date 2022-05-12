@@ -1,7 +1,7 @@
-object fmGraph: TfmGraph
-  Left = 343
+object fmChart: TfmChart
+  Left = 378
   Height = 300
-  Top = 546
+  Top = 517
   Width = 500
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'График'
@@ -16,9 +16,9 @@ object fmGraph: TfmGraph
   Position = poMainFormCenter
   ShowHint = True
   LCLVersion = '1.6.4.0'
-  object Chart1: TChart
+  object chChart: TChart
     Left = 0
-    Height = 240
+    Height = 236
     Top = 0
     Width = 500
     AxisList = <    
@@ -35,9 +35,10 @@ object fmGraph: TfmGraph
         Title.LabelFont.Orientation = 900
       end    
       item
-        Grid.Color = clSilver
+        Grid.Color = cl3DLight
         Grid.Mode = pmMask
         Grid.Style = psSolid
+        Grid.Width = 0
         Intervals.MaxLength = 100
         Intervals.NiceSteps = '0.1|0.2|0.5|1.0'
         Alignment = calBottom
@@ -50,6 +51,8 @@ object fmGraph: TfmGraph
     BackColor = clWhite
     Foot.Brush.Color = clBtnFace
     Foot.Font.Color = clBlue
+    Frame.Color = clBtnShadow
+    Frame.JoinStyle = pjsMiter
     Title.Brush.Color = clBtnFace
     Title.Font.Color = clBlue
     Title.Text.Strings = (
@@ -58,65 +61,65 @@ object fmGraph: TfmGraph
     Align = alClient
     Color = clForm
     DoubleBuffered = True
-    object Chart1LineSeries1: TLineSeries
+    object chChartLineSeries1: TLineSeries
       AxisIndexX = 1
       AxisIndexY = 0
     end
   end
   object pSettings: TPanel
-    Left = 0
+    Left = 1
     Height = 60
     Top = 240
-    Width = 500
+    Width = 499
     Align = alBottom
     AutoSize = True
+    BorderSpacing.Left = 1
     BevelOuter = bvNone
+    ChildSizing.LeftRightSpacing = 4
+    ChildSizing.TopBottomSpacing = 4
+    ChildSizing.HorizontalSpacing = 4
+    ChildSizing.VerticalSpacing = 4
     ClientHeight = 60
-    ClientWidth = 500
-    Color = cl3DLight
+    ClientWidth = 499
     ParentColor = False
     TabOrder = 1
-    object rgGraphDataType: TRadioGroup
+    object rgGraphDataType: TGroupBox
       Left = 4
       Height = 52
       Top = 4
-      Width = 350
+      Width = 279
       Align = alClient
-      AutoFill = True
       AutoSize = True
-      BorderSpacing.Around = 4
-      Caption = 'Тип данных (big-endian)'
+      Caption = 'Тип данных потока (big-endian)'
       ChildSizing.LeftRightSpacing = 6
       ChildSizing.TopBottomSpacing = 3
       ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
       ChildSizing.ShrinkHorizontal = crsScaleChilds
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 20
       ClientHeight = 32
-      ClientWidth = 346
-      Columns = 20
-      ItemIndex = 0
-      Items.Strings = (
-        '8 bit'
-        '16 bit'
-        '24 bit'
-        '32 bit'
-        'Hex (16)'
-        'Dec (10)'
-      )
-      OnKeyPress = FormKeyPress
+      ClientWidth = 275
       TabOrder = 0
+      OnKeyPress = FormKeyPress
+      object cbGraphDataType: TComboBox
+        Left = 6
+        Height = 23
+        Top = 5
+        Width = 263
+        ItemHeight = 15
+        Style = csDropDownList
+        TabOrder = 0
+      end
     end
     object gbMagnet: TGroupBox
-      Left = 358
+      Left = 357
       Height = 52
       Top = 4
       Width = 138
       Align = alRight
       AutoSize = True
-      BorderSpacing.Around = 4
       Caption = 'Примагнитить'
       ChildSizing.LeftRightSpacing = 3
       ChildSizing.TopBottomSpacing = 3
@@ -125,7 +128,7 @@ object fmGraph: TfmGraph
       ClientWidth = 134
       TabOrder = 1
       OnKeyPress = FormKeyPress
-      object SpeedButton3: TSpeedButton
+      object sbtnMagnetLeft: TSpeedButton
         Left = 3
         Height = 26
         Top = 3
@@ -139,7 +142,7 @@ object fmGraph: TfmGraph
         GroupIndex = 1
         ShowCaption = False
       end
-      object SpeedButton1: TSpeedButton
+      object sbtnMagnetUp: TSpeedButton
         Left = 35
         Height = 26
         Top = 3
@@ -153,7 +156,7 @@ object fmGraph: TfmGraph
         GroupIndex = 1
         ShowCaption = False
       end
-      object SpeedButton2: TSpeedButton
+      object sbtnMagnetDown: TSpeedButton
         Left = 67
         Height = 26
         Top = 3
@@ -167,7 +170,7 @@ object fmGraph: TfmGraph
         GroupIndex = 1
         ShowCaption = False
       end
-      object SpeedButton4: TSpeedButton
+      object sbtnMagnetRight: TSpeedButton
         Left = 99
         Height = 26
         Top = 3
@@ -182,16 +185,59 @@ object fmGraph: TfmGraph
         ShowCaption = False
       end
     end
+    object gbOther: TGroupBox
+      Left = 287
+      Height = 52
+      Top = 4
+      Width = 66
+      Align = alRight
+      AutoSize = True
+      Caption = 'Еще ...'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.TopBottomSpacing = 3
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ClientHeight = 32
+      ClientWidth = 62
+      TabOrder = 2
+      OnKeyPress = FormKeyPress
+      object seThickness: TSpinEdit
+        Left = 6
+        Height = 23
+        Hint = 'Толщина линии'
+        Top = 5
+        Width = 50
+        MaxValue = 10
+        MinValue = 1
+        OnChange = FormShow
+        TabOrder = 0
+        Value = 1
+      end
+    end
   end
-  object Timer1: TTimer
+  object shDivider: TShape
+    Left = 0
+    Height = 4
+    Top = 236
+    Width = 500
+    Align = alBottom
+    Brush.Color = clScrollBar
+    Constraints.MaxHeight = 4
+    Constraints.MinHeight = 4
+    Pen.Style = psClear
+  end
+  object tmrChart: TTimer
     Enabled = False
     Interval = 500
-    OnTimer = Timer1Timer
+    OnTimer = tmrChartTimer
     left = 100
     top = 50
   end
-  object ActionList1: TActionList
-    Images = ImageList1
+  object alChart: TActionList
+    Images = imChart
     left = 200
     top = 50
     object acMagnetLeft: TAction
@@ -239,7 +285,7 @@ object fmGraph: TfmGraph
       OnExecute = acMagnetExecute
     end
   end
-  object ImageList1: TImageList
+  object imChart: TImageList
     left = 297
     top = 50
     Bitmap = {

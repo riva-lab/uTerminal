@@ -1,0 +1,13 @@
+TFMCHART.CAPTION=График
+TFMCHART.RGGRAPHDATATYPE.CAPTION=Тип данных потока (big-endian)
+TFMCHART.GBMAGNET.CAPTION=Примагнитить
+TFMCHART.GBOTHER.CAPTION=Еще ...
+TFMCHART.SETHICKNESS.HINT=Толщина линии
+TFMCHART.ACMAGNETLEFT.CAPTION=Примагнитить слева
+TFMCHART.ACMAGNETLEFT.HINT=Примагнитить окно графика слева
+TFMCHART.ACMAGNETRIGHT.CAPTION=Примагнитить справа
+TFMCHART.ACMAGNETRIGHT.HINT=Примагнитить окно графика справа
+TFMCHART.ACMAGNETUP.CAPTION=Примагнитить сверху
+TFMCHART.ACMAGNETUP.HINT=Примагнитить окно графика сверху
+TFMCHART.ACMAGNETDOWN.CAPTION=Примагнитить снизу
+TFMCHART.ACMAGNETDOWN.HINT=Примагнитить окно графика снизу

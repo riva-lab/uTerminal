@@ -1,7 +1,7 @@
 object fmCommands: TfmCommands
-  Left = 373
+  Left = 387
   Height = 350
-  Top = 539
+  Top = 294
   Width = 600
   BorderIcons = [biSystemMenu, biMaximize]
   BorderWidth = 5
@@ -114,7 +114,7 @@ object fmCommands: TfmCommands
       ClientHeight = 109
       ClientWidth = 491
       TabOrder = 0
-      object Label5: TLabel
+      object lbInput: TLabel
         Left = 3
         Height = 15
         Top = 8
@@ -130,7 +130,7 @@ object fmCommands: TfmCommands
         Width = 485
         TabOrder = 0
       end
-      object Label6: TLabel
+      object lbResponce: TLabel
         Left = 3
         Height = 15
         Top = 62
@@ -198,7 +198,6 @@ object fmCommands: TfmCommands
     end
   end
   object ActionList1: TActionList
-    Images = fmMain.ImageList1
     left = 85
     top = 190
     object acAdd: TAction
@@ -227,10 +226,10 @@ object fmCommands: TfmCommands
       OnExecute = acUpdateExecute
     end
   end
-  object IniPropStorage1: TIniPropStorage
+  object IniStorageCmd: TIniPropStorage
     StoredValues = <>
-    OnSaveProperties = IniPropStorage1SaveProperties
-    OnRestoreProperties = IniPropStorage1RestoreProperties
+    OnSaveProperties = IniStorageCmdSaveProperties
+    OnRestoreProperties = IniStorageCmdRestoreProperties
     left = 200
     top = 190
   end

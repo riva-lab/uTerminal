@@ -1,20 +1,22 @@
 object fmAbout: TfmAbout
-  Left = 363
+  Left = 381
   Height = 345
-  Top = 262
-  Width = 497
+  Top = 184
+  Width = 499
   AutoSize = True
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 345
-  ClientWidth = 497
+  ClientWidth = 499
   OnCreate = FormCreate
   OnDeactivate = FormDeactivate
   OnShow = FormShow
   OnUTF8KeyPress = FormUTF8KeyPress
+  PopupMode = pmAuto
   Position = poMainFormCenter
+  ShowHint = True
   LCLVersion = '1.6.4.0'
-  object Image1: TImage
+  object imLogo: TImage
     Left = 25
     Height = 300
     Top = 15
@@ -2502,9 +2504,9 @@ object fmAbout: TfmAbout
     }
   end
   object lbInfo: TLabel
-    AnchorSideLeft.Control = Image1
-    AnchorSideTop.Control = Image1
-    AnchorSideRight.Control = Image1
+    AnchorSideLeft.Control = imLogo
+    AnchorSideTop.Control = imLogo
+    AnchorSideRight.Control = imLogo
     AnchorSideRight.Side = asrBottom
     Left = 434
     Height = 15
@@ -2514,76 +2516,32 @@ object fmAbout: TfmAbout
     Anchors = [akTop, akRight]
     BorderSpacing.Around = 10
     Caption = 'lbInfo'
+    Constraints.MaxWidth = 400
     Font.Color = clWhite
     ParentColor = False
     ParentFont = False
+    WordWrap = True
   end
-  object lbSite: TLabel
-    AnchorSideLeft.Control = Image1
-    AnchorSideTop.Control = lbInfo
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Image1
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Image1
+  inline frALinks: TfrAboutLinks
+    AnchorSideLeft.Control = imLogo
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideBottom.Control = imLogo
     AnchorSideBottom.Side = asrBottom
-    Cursor = crHandPoint
-    Left = 436
-    Height = 15
-    Hint = 'tex.zzz.com.ua'
-    Top = 50
-    Width = 29
-    Alignment = taRightJustify
-    Anchors = [akTop, akRight]
-    BorderSpacing.Around = 10
-    Caption = 'lbSite'
-    Font.Color = clLime
-    Font.Style = [fsUnderline]
-    ParentColor = False
-    ParentFont = False
-    OnClick = lbSiteClick
-  end
-  object mLicense: TMemo
-    AnchorSideLeft.Control = Image1
-    AnchorSideTop.Control = Image1
-    AnchorSideRight.Control = Image1
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = lbCopyRights
-    Left = 45
-    Height = 58
-    Top = 35
-    Width = 90
-    Alignment = taCenter
-    Anchors = []
-    BorderSpacing.Around = 5
-    BorderStyle = bsNone
-    Color = 11586462
-    Lines.Strings = (
-      'mLicense'
-    )
-    ScrollBars = ssAutoBoth
-    TabOrder = 0
-    Visible = False
-  end
-  object lbCopyRights: TLabel
-    AnchorSideLeft.Control = Image1
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Image1
-    AnchorSideRight.Side = asrCenter
-    AnchorSideBottom.Control = Image1
-    AnchorSideBottom.Side = asrBottom
-    Cursor = crHandPoint
-    Left = 206
-    Height = 15
+    Left = 170
+    Height = 17
     Top = 298
-    Width = 87
-    Alignment = taRightJustify
-    Anchors = [akRight, akBottom]
-    BorderSpacing.Around = 2
-    Caption = 'other copyrights'
-    Font.Color = clLime
-    Font.Style = [fsUnderline]
-    ParentColor = False
-    ParentFont = False
-    OnClick = lbCopyRightsClick
+    Width = 161
+    Anchors = [akLeft, akBottom]
+    ClientHeight = 17
+    ClientWidth = 161
+    inherited lbLicense: TLabel
+      OnClick = linkClick
+    end
+    inherited lbCopyRights: TLabel
+      OnClick = linkClick
+    end
+    inherited lbSite: TLabel
+      OnClick = linkClick
+    end
   end
 end

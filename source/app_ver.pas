@@ -20,6 +20,7 @@ type
     OriginalFilename: String;
     ProductName:      String;
     ProductVersion:   String;
+    Comments:         String;
     //FileVersionMajor: Integer;
     //FileVersionMinor: Integer;
     //FileVersionRev:   Integer;
@@ -53,6 +54,7 @@ procedure ReadAppInfo;
       app_info.OriginalFilename := FileVerInfo.VersionStrings.Values['OriginalFilename'];
       app_info.ProductName      := FileVerInfo.VersionStrings.Values['ProductName'];
       app_info.ProductVersion   := FileVerInfo.VersionStrings.Values['ProductVersion'];
+      app_info.Comments         := FileVerInfo.VersionStrings.Values['Comments'];
 
       finally
       FileVerInfo.Free;

@@ -1,11 +1,11 @@
 object fmASCIIChar: TfmASCIIChar
-  Left = 345
+  Left = 390
   Height = 378
-  Top = 329
-  Width = 617
+  Top = 307
+  Width = 532
   BorderIcons = [biSystemMenu, biMaximize]
   ClientHeight = 378
-  ClientWidth = 617
+  ClientWidth = 532
   OnCreate = FormCreate
   OnShow = FormShow
   OnUTF8KeyPress = sgCharUTF8KeyPress
@@ -15,7 +15,7 @@ object fmASCIIChar: TfmASCIIChar
     Left = 0
     Height = 302
     Top = 0
-    Width = 617
+    Width = 532
     Align = alClient
     AlternateColor = cl3DLight
     AutoFillColumns = True
@@ -48,15 +48,15 @@ object fmASCIIChar: TfmASCIIChar
     Left = 0
     Height = 49
     Top = 306
-    Width = 617
+    Width = 532
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
     ClientHeight = 49
-    ClientWidth = 617
+    ClientWidth = 532
     TabOrder = 1
     object BitBtn1: TBitBtn
-      Left = 400
+      Left = 315
       Height = 39
       Top = 5
       Width = 129
@@ -69,7 +69,7 @@ object fmASCIIChar: TfmASCIIChar
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 534
+      Left = 449
       Height = 39
       Top = 5
       Width = 78
@@ -85,12 +85,12 @@ object fmASCIIChar: TfmASCIIChar
       Left = 5
       Height = 39
       Top = 5
-      Width = 390
+      Width = 305
       Align = alClient
       AutoFill = True
       AutoSize = True
       BorderSpacing.Around = 5
-      Caption = 'Код символа'
+      Caption = 'Отображаемый в таблице код символа'
       ChildSizing.LeftRightSpacing = 6
       ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
       ChildSizing.EnlargeVertical = crsHomogenousChildResize
@@ -99,7 +99,7 @@ object fmASCIIChar: TfmASCIIChar
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 4
       ClientHeight = 19
-      ClientWidth = 386
+      ClientWidth = 301
       Columns = 4
       ItemIndex = 0
       Items.Strings = (
@@ -116,7 +116,7 @@ object fmASCIIChar: TfmASCIIChar
     Left = 0
     Height = 23
     Top = 355
-    Width = 617
+    Width = 532
     Panels = <    
       item
         Width = 50
@@ -136,7 +136,7 @@ object fmASCIIChar: TfmASCIIChar
     Left = 0
     Height = 4
     Top = 302
-    Width = 617
+    Width = 532
     Align = alBottom
     BevelOuter = bvNone
     Color = 4227072
@@ -146,7 +146,6 @@ object fmASCIIChar: TfmASCIIChar
     TabOrder = 3
   end
   object ActionList1: TActionList
-    Images = fmMain.ImageList1
     left = 90
     top = 195
     object acOK: TAction

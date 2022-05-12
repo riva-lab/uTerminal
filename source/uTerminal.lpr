@@ -3,12 +3,13 @@ program uTerminal;
 {$mode objfpc}{$H+}
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
+ {$IFDEF UNIX} {$IFDEF UseCThreads}
   cthreads,
-  {$ENDIF}{$ENDIF}
+ {$ENDIF} {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, CPortLib10, tachartlazaruspkg, fm_main, com_detect, fm_commands,
-  fm_insertchar, fm_about, app_ver, fm_graph
+  Forms, tachartlazaruspkg, lazcontrols, fm_main, fm_commands, fm_settings,
+  fm_insertchar, fm_about, app_ver, fm_chart, u_strings, fm_confirm,
+  u_utilities, fr_about, u_txsequences
   { you can add units after this };
 
 {$R *.res}
@@ -20,7 +21,9 @@ begin
   Application.CreateForm(TfmCommands, fmCommands);
   Application.CreateForm(TfmASCIIChar, fmASCIIChar);
   Application.CreateForm(TfmAbout, fmAbout);
-  Application.CreateForm(TfmGraph, fmGraph);
+  Application.CreateForm(TfmChart, fmChart);
+  Application.CreateForm(TfmSettings, fmSettings);
+  Application.CreateForm(TfmConfirm, fmConfirm);
   Application.Run;
 end.
 

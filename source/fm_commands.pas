@@ -5,35 +5,35 @@ unit fm_commands;
 interface
 
 uses
-  Classes, Forms, Controls, ExtCtrls,
-  StdCtrls, Spin, Grids, Buttons, ActnList, IniPropStorage;
+  Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, Grids, Buttons,
+  ActnList, IniPropStorage, fm_settings, LazUTF8;
 
 type
 
   { TfmCommands }
 
   TfmCommands = class(TForm)
-    acAdd:           TAction;
-    acDelete:        TAction;
-    acOK:            TAction;
-    acCancel:        TAction;
-    acUpdate:        TAction;
-    ActionList1:     TActionList;
-    BitBtn1:         TBitBtn;
-    BitBtn2:         TBitBtn;
-    BitBtn3:         TBitBtn;
-    BitBtn4:         TBitBtn;
-    BitBtn5:         TBitBtn;
-    edSequence:      TEdit;
-    edAnswer:        TEdit;
-    IniPropStorage1: TIniPropStorage;
-    Label5:          TLabel;
-    Label6:          TLabel;
-    Panel2:          TPanel;
-    pSequence:       TPanel;
-    Panel4:          TPanel;
-    Panel5:          TPanel;
-    sgSequences:     TStringGrid;
+    acAdd:         TAction;
+    acDelete:      TAction;
+    acOK:          TAction;
+    acCancel:      TAction;
+    acUpdate:      TAction;
+    ActionList1:   TActionList;
+    BitBtn1:       TBitBtn;
+    BitBtn2:       TBitBtn;
+    BitBtn3:       TBitBtn;
+    BitBtn4:       TBitBtn;
+    BitBtn5:       TBitBtn;
+    edSequence:    TEdit;
+    edAnswer:      TEdit;
+    IniStorageCmd: TIniPropStorage;
+    lbInput:       TLabel;
+    lbResponce:    TLabel;
+    Panel2:        TPanel;
+    pSequence:     TPanel;
+    Panel4:        TPanel;
+    Panel5:        TPanel;
+    sgSequences:   TStringGrid;
     procedure acAddExecute(Sender: TObject);
     procedure acCancelExecute(Sender: TObject);
     procedure acDeleteExecute(Sender: TObject);
@@ -41,8 +41,8 @@ type
     procedure acUpdateExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure IniPropStorage1RestoreProperties(Sender: TObject);
-    procedure IniPropStorage1SaveProperties(Sender: TObject);
+    procedure IniStorageCmdRestoreProperties(Sender: TObject);
+    procedure IniStorageCmdSaveProperties(Sender: TObject);
     procedure sgSequencesSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
 
@@ -70,6 +70,8 @@ implementation
 
 procedure TfmCommands.FormCreate(Sender: TObject);
   begin
+    IniStorageCmd.IniFileName := ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE;
+
     FSequenceListA := TStringList.Create;
     FAnswerListA   := TStringList.Create;
     FSequenceList  := TStringList.Create;
@@ -81,22 +83,25 @@ procedure TfmCommands.FormShow(Sender: TObject);
     FSequenceListA.Text := FSequenceList.Text;
     FAnswerListA.Text   := FAnswerList.Text;
 
+    sgSequences.Columns.Items[0].Title.Caption := lbInput.Caption;
+    sgSequences.Columns.Items[1].Title.Caption := lbResponce.Caption;
+
     UpdateTable;
   end;
 
-procedure TfmCommands.IniPropStorage1RestoreProperties(Sender: TObject);
+procedure TfmCommands.IniStorageCmdRestoreProperties(Sender: TObject);
   begin
-    IniPropStorage1.ReadStrings('seq', FSequenceListA, FSequenceListA);
-    IniPropStorage1.ReadStrings('ans', FAnswerListA, FAnswerListA);
-    IniPropStorage1.ReadStrings('seq', FSequenceList, FSequenceList);
-    IniPropStorage1.ReadStrings('ans', FAnswerList, FAnswerList);
+    IniStorageCmd.ReadStrings('seq', FSequenceListA, FSequenceListA);
+    IniStorageCmd.ReadStrings('ans', FAnswerListA, FAnswerListA);
+    IniStorageCmd.ReadStrings('seq', FSequenceList, FSequenceList);
+    IniStorageCmd.ReadStrings('ans', FAnswerList, FAnswerList);
   end;
 
-procedure TfmCommands.IniPropStorage1SaveProperties(Sender: TObject);
+procedure TfmCommands.IniStorageCmdSaveProperties(Sender: TObject);
   begin
-    IniPropStorage1.EraseSections;
-    IniPropStorage1.WriteStrings('seq', FSequenceList);
-    IniPropStorage1.WriteStrings('ans', FAnswerList);
+    IniStorageCmd.EraseSections;
+    IniStorageCmd.WriteStrings('seq', FSequenceList);
+    IniStorageCmd.WriteStrings('ans', FAnswerList);
   end;
 
 procedure TfmCommands.sgSequencesSelectCell(Sender: TObject; aCol, aRow: Integer;

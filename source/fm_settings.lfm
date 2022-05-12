@@ -1,0 +1,878 @@
+object fmSettings: TfmSettings
+  Left = 367
+  Height = 279
+  Top = 140
+  Width = 489
+  AutoSize = True
+  BorderIcons = [biSystemMenu]
+  Caption = 'Настройки'
+  ClientHeight = 279
+  ClientWidth = 489
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poMainFormCenter
+  SessionProperties = 'cbAutoconnect.Checked;cbCheckPort.Checked;cbFileDataAdd.Checked;cbFileLoadWarning.Checked;cbFontQuality.Checked;cbHardflow.Checked;cbLanguage.ItemIndex;cbLineBreakStyle.ItemIndex;cbMinimizeToTray.Checked;cbPanelsLayout.ItemIndex;cbRxRestore.Checked;cbRxTimestamp.Checked;cbShowEncoding.Checked;cbShowIndicators.Checked;cbShowMenu.Checked;cbShowPosAndSel.Checked;cbShowRightEdge.Checked;cbShowSizes.Checked;cbShowSplash.Checked;cbShowStatusBar.Checked;cbTxRestore.Checked;dlgFontRx.Font;dlgFontTx.Font;edFontRxExample.Text;edFontTxExample.Text;edRxTSAfter.Text;edRxTSBefore.Text;seHEXBlockBytes.Value;seHEXLineBytes.Value;seRightEdge.Value;seRxSizeLimit.Value;seRxTimeout.Value;seTabSize.Value;seTxBreakTime.Value;seTxDeadlockTimeout.Value;cbShowRS232Captions.Checked'
+  ShowHint = True
+  LCLVersion = '1.6.4.0'
+  object PageCtrl: TPageControl
+    Left = 0
+    Height = 225
+    Top = 0
+    Width = 489
+    ActivePage = tsGeneral
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object tsGeneral: TTabSheet
+      Caption = 'Общие'
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 10
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 197
+      ClientWidth = 481
+      object pLanguage: TPanel
+        Left = 10
+        Height = 51
+        Top = 10
+        Width = 461
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.HorizontalSpacing = 10
+        ChildSizing.VerticalSpacing = 5
+        ChildSizing.EnlargeHorizontal = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 2
+        ClientHeight = 51
+        ClientWidth = 461
+        TabOrder = 0
+        object cbLanguage: TComboBox
+          Left = 0
+          Height = 23
+          Top = 0
+          Width = 312
+          Constraints.MinWidth = 240
+          ItemHeight = 15
+          OnChange = cbLanguageChange
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object lbLanguage: TLabel
+          Left = 322
+          Height = 23
+          Top = 0
+          Width = 139
+          Caption = 'Язык интерфейса'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object cbPanelsLayout: TComboBox
+          Left = 0
+          Height = 23
+          Top = 28
+          Width = 312
+          Constraints.MinWidth = 240
+          ItemHeight = 15
+          ItemIndex = 0
+          Items.Strings = (
+            ''
+            ''
+            ''
+            ''
+          )
+          Style = csDropDownList
+          TabOrder = 1
+        end
+        object lbPanelsLayout: TLabel
+          Left = 322
+          Height = 23
+          Top = 28
+          Width = 139
+          Caption = 'Размещение полей'
+          Layout = tlCenter
+          ParentColor = False
+        end
+      end
+      object cbMinimizeToTray: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 66
+        Width = 461
+        Caption = 'Сворачивать в трей'
+        TabOrder = 1
+      end
+      object cbShowSplash: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 90
+        Width = 461
+        Caption = 'Показывать заставку при запуске'
+        Checked = True
+        State = cbChecked
+        TabOrder = 2
+      end
+      object cbShowMenu: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 114
+        Width = 461
+        Caption = 'Показывать стандартное меню'
+        Checked = True
+        State = cbChecked
+        TabOrder = 3
+      end
+      object cbShowStatusBar: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 138
+        Width = 461
+        Caption = 'Показывать панель статуса'
+        Checked = True
+        State = cbChecked
+        TabOrder = 4
+      end
+    end
+    object tsEditor: TTabSheet
+      Caption = 'Редактор'
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 10
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 197
+      ClientWidth = 481
+      object cbShowPosAndSel: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 10
+        Width = 461
+        Caption = 'Показывать позицию курсора и размер выделения (в байтах)'
+        Checked = True
+        State = cbChecked
+        TabOrder = 1
+      end
+      object cbShowEncoding: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 34
+        Width = 461
+        Caption = 'Отображать название кодировки текста в заголовке поля'
+        Checked = True
+        State = cbChecked
+        TabOrder = 2
+      end
+      object pValues: TPanel
+        Left = 10
+        Height = 89
+        Top = 58
+        Width = 461
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 5
+        ChildSizing.HorizontalSpacing = 10
+        ChildSizing.VerticalSpacing = 5
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 2
+        ClientHeight = 89
+        ClientWidth = 461
+        TabOrder = 0
+        object cbLineBreakStyle: TComboBox
+          Left = 0
+          Height = 23
+          Top = 5
+          Width = 100
+          ItemHeight = 15
+          ItemIndex = 1
+          Items.Strings = (
+            ''
+            ''
+            ''
+          )
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object lbLineBreakStyle: TLabel
+          Left = 110
+          Height = 23
+          Top = 5
+          Width = 253
+          Caption = 'Переход на новую строку (при нажатии Enter)'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object seTabSize: TSpinEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 23
+          Top = 33
+          Width = 100
+          Constraints.MinWidth = 80
+          MaxValue = 64
+          TabOrder = 1
+          Value = 4
+        end
+        object lbTabSize: TLabel
+          Left = 110
+          Height = 23
+          Top = 33
+          Width = 253
+          Caption = 'Ширина табуляции'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object seRightEdge: TSpinEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 23
+          Top = 61
+          Width = 100
+          Constraints.MinWidth = 80
+          Increment = 5
+          MaxValue = 1024
+          TabOrder = 2
+          Value = 80
+        end
+        object cbShowRightEdge: TCheckBox
+          Left = 110
+          Height = 23
+          Top = 61
+          Width = 253
+          Caption = 'Правая видимая граница'
+          TabOrder = 3
+        end
+      end
+    end
+    object tsFont: TTabSheet
+      Caption = 'Шрифт'
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 10
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 358
+      ClientWidth = 510
+      object pNaviColumns: TPanel
+        Left = 10
+        Height = 65
+        Top = 10
+        Width = 490
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 5
+        ChildSizing.HorizontalSpacing = 10
+        ChildSizing.VerticalSpacing = 5
+        ChildSizing.EnlargeHorizontal = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 4
+        ClientHeight = 65
+        ClientWidth = 490
+        TabOrder = 1
+        object lbFontTx: TLabel
+          Left = 0
+          Height = 15
+          Top = 10
+          Width = 133
+          BorderSpacing.CellAlignVertical = ccaCenter
+          Caption = 'Передача (Tx)'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object cbFontTxName: TComboBox
+          Left = 143
+          Height = 23
+          Top = 6
+          Width = 177
+          AutoComplete = True
+          AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+          BorderSpacing.CellAlignVertical = ccaCenter
+          ItemHeight = 15
+          OnChange = cbFontChange
+          OnEditingDone = cbFontChange
+          ParentFont = False
+          TabOrder = 0
+          Text = 'Consolas'
+        end
+        object seFontTxSize: TSpinEdit
+          Left = 330
+          Height = 23
+          Hint = 'Размер шрифта'
+          Top = 6
+          Width = 88
+          BorderSpacing.CellAlignVertical = ccaCenter
+          MaxValue = 48
+          MinValue = 3
+          OnChange = cbFontChange
+          TabOrder = 1
+          Value = 14
+        end
+        object btnFontTx: TButton
+          Left = 428
+          Height = 25
+          Top = 5
+          Width = 62
+          BorderSpacing.CellAlignVertical = ccaCenter
+          Caption = '...'
+          OnClick = btnFontClick
+          TabOrder = 2
+        end
+        object lbFontRx: TLabel
+          Left = 0
+          Height = 15
+          Top = 40
+          Width = 133
+          BorderSpacing.CellAlignVertical = ccaCenter
+          Caption = 'Прием (Rx)'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object cbFontRxName: TComboBox
+          Left = 143
+          Height = 23
+          Top = 36
+          Width = 177
+          AutoComplete = True
+          AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+          BorderSpacing.CellAlignVertical = ccaCenter
+          ItemHeight = 15
+          OnChange = cbFontChange
+          OnEditingDone = cbFontChange
+          ParentFont = False
+          TabOrder = 3
+          Text = 'Consolas'
+        end
+        object seFontRxSize: TSpinEdit
+          Left = 330
+          Height = 23
+          Hint = 'Размер шрифта'
+          Top = 36
+          Width = 88
+          BorderSpacing.CellAlignVertical = ccaCenter
+          MaxValue = 48
+          MinValue = 3
+          OnChange = cbFontChange
+          TabOrder = 4
+          Value = 14
+        end
+        object btnFontRx: TButton
+          Left = 428
+          Height = 25
+          Top = 35
+          Width = 62
+          BorderSpacing.CellAlignVertical = ccaCenter
+          Caption = '...'
+          OnClick = btnFontClick
+          TabOrder = 5
+        end
+      end
+      object cbFontQuality: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 80
+        Width = 490
+        Caption = 'Сглаживание текста Cleartype'
+        Checked = True
+        OnChange = cbFontChange
+        State = cbChecked
+        TabOrder = 0
+      end
+      object edFontTxExample: TEdit
+        Left = 10
+        Height = 15
+        Top = 104
+        Width = 490
+        BorderStyle = bsNone
+        Color = clForm
+        TabOrder = 2
+        Text = 'edFontTxExample'
+      end
+      object edFontRxExample: TEdit
+        Left = 10
+        Height = 15
+        Top = 124
+        Width = 490
+        BorderStyle = bsNone
+        Color = clForm
+        TabOrder = 3
+        Text = 'edFontRxExample'
+      end
+    end
+    object tsHEX: TTabSheet
+      Caption = 'HEX вид'
+      ClientHeight = 358
+      ClientWidth = 510
+      object pValues3: TPanel
+        Left = 10
+        Height = 61
+        Top = 10
+        Width = 232
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 5
+        ChildSizing.HorizontalSpacing = 10
+        ChildSizing.VerticalSpacing = 5
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 2
+        ClientHeight = 61
+        ClientWidth = 232
+        TabOrder = 0
+        object seHEXLineBytes: TSpinEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 23
+          Top = 5
+          Width = 80
+          Constraints.MinWidth = 80
+          MaxValue = 32
+          TabOrder = 0
+          Value = 8
+        end
+        object lbHEXLineBytes: TLabel
+          Left = 90
+          Height = 23
+          Top = 5
+          Width = 142
+          Caption = 'Количество байт в строке'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object seHEXBlockBytes: TSpinEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 23
+          Top = 33
+          Width = 80
+          Constraints.MinWidth = 80
+          MaxValue = 32
+          TabOrder = 1
+          Value = 4
+        end
+        object lbHEXBlockBytes: TLabel
+          Left = 90
+          Height = 23
+          Top = 33
+          Width = 142
+          Caption = 'Количество байт в блоке'
+          Layout = tlCenter
+          ParentColor = False
+        end
+      end
+    end
+    object tsConnection: TTabSheet
+      Caption = 'Связь'
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 10
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 197
+      ClientWidth = 481
+      object cbShowSizes: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 10
+        Width = 461
+        Caption = 'Показывать количество данных в буферах'
+        Checked = True
+        State = cbChecked
+        TabOrder = 0
+      end
+      object cbShowIndicators: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 34
+        Width = 461
+        Caption = 'Показывать индикаторы активности'
+        Checked = True
+        State = cbChecked
+        TabOrder = 1
+      end
+      object cbShowRS232Captions: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 58
+        Width = 461
+        Caption = 'Показывать подписи на индикаторах сигналов RS-232'
+        TabOrder = 5
+      end
+      object cbCheckPort: TCheckBox
+        Left = 10
+        Height = 19
+        Hint = 'Проверка производится попыткой подключения к порту'
+        Top = 82
+        Width = 461
+        Caption = 'Проверять доступность порта при сканировании'
+        Checked = True
+        State = cbChecked
+        TabOrder = 2
+      end
+      object cbAutoconnect: TCheckBox
+        Left = 10
+        Height = 19
+        Hint = 'Попытаться подключиться к порту, который был использован в предыдущей сессии'
+        Top = 106
+        Width = 461
+        Caption = 'Автоматически подключаться к порту при запуске приложения'
+        TabOrder = 4
+      end
+      object cbHardflow: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 130
+        Width = 461
+        Caption = 'Включить аппаратное управление потоком (RTS/CTS)'
+        TabOrder = 3
+      end
+    end
+    object tsTx: TTabSheet
+      Caption = 'Передача'
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 10
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 358
+      ClientWidth = 510
+      object cbTxRestore: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 10
+        Width = 490
+        Caption = 'Восстанавливать содержимое буфера при запуске приложения'
+        TabOrder = 3
+      end
+      object cbFileDataAdd: TCheckBox
+        Left = 10
+        Height = 19
+        Hint = 'Если не выбрано, буфер будет перезаписан данными из файла'
+        Top = 34
+        Width = 490
+        Caption = 'Добавлять данные из файла в конец буфера передачи'
+        TabOrder = 1
+      end
+      object cbFileLoadWarning: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 58
+        Width = 490
+        Caption = 'Предупреждение при загрузке данных из файла'
+        Checked = True
+        State = cbChecked
+        TabOrder = 2
+      end
+      object pValues2: TPanel
+        Left = 10
+        Height = 61
+        Top = 82
+        Width = 490
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 5
+        ChildSizing.HorizontalSpacing = 10
+        ChildSizing.VerticalSpacing = 5
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 2
+        ClientHeight = 61
+        ClientWidth = 490
+        TabOrder = 0
+        object seTxBreakTime: TSpinEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 23
+          Top = 5
+          Width = 80
+          Constraints.MinWidth = 80
+          Increment = 10
+          MaxValue = 60000
+          TabOrder = 0
+          Value = 100
+        end
+        object lbTxBreakTime: TLabel
+          Left = 90
+          Height = 23
+          Top = 5
+          Width = 280
+          Caption = 'Длительность сигнала Break (приблизительно), мс'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object seTxDeadlockTimeout: TSpinEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 23
+          Top = 33
+          Width = 80
+          Constraints.MinWidth = 80
+          Increment = 100
+          MaxValue = 60000
+          TabOrder = 1
+          Value = 1000
+        end
+        object lbTxDeadlockTimeout: TLabel
+          Left = 90
+          Height = 23
+          Top = 33
+          Width = 280
+          Caption = 'Таймаут отправки (приблизительно), мс'
+          Layout = tlCenter
+          ParentColor = False
+        end
+      end
+    end
+    object tsRx: TTabSheet
+      Caption = 'Прием'
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 10
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 197
+      ClientWidth = 481
+      object cbRxRestore: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 10
+        Width = 461
+        Caption = 'Восстанавливать содержимое буфера при запуске приложения'
+        TabOrder = 2
+      end
+      object cbRxTimestamp: TCheckBox
+        Left = 10
+        Height = 19
+        Top = 34
+        Width = 461
+        Caption = 'Добавлять временную метку в начале пакета'
+        TabOrder = 0
+      end
+      object pValues1: TPanel
+        Left = 10
+        Height = 117
+        Top = 58
+        Width = 461
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 5
+        ChildSizing.HorizontalSpacing = 10
+        ChildSizing.VerticalSpacing = 5
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 2
+        ClientHeight = 117
+        ClientWidth = 461
+        TabOrder = 1
+        object edRxTSBefore: TEdit
+          Left = 0
+          Height = 23
+          Top = 5
+          Width = 120
+          Constraints.MinWidth = 120
+          MaxLength = 64
+          TabOrder = 0
+          Text = '['
+        end
+        object lbRxTSBefore: TLabel
+          Left = 130
+          Height = 23
+          Top = 5
+          Width = 235
+          Caption = 'Текст до временной метки'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object edRxTSAfter: TEdit
+          Left = 0
+          Height = 23
+          Top = 33
+          Width = 120
+          Constraints.MinWidth = 120
+          MaxLength = 64
+          TabOrder = 1
+          Text = '] >>>'
+        end
+        object lbRxTSAfter: TLabel
+          Left = 130
+          Height = 23
+          Top = 33
+          Width = 235
+          Caption = 'Текст после временной метки'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object seRxTimeout: TSpinEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 23
+          Top = 61
+          Width = 120
+          Constraints.MinWidth = 80
+          Increment = 100
+          MaxValue = 60000
+          MinValue = 1
+          TabOrder = 2
+          Value = 500
+        end
+        object lbRxPacketTime: TLabel
+          Left = 130
+          Height = 23
+          Top = 61
+          Width = 235
+          Caption = 'Таймаут пакета (приблизительно), мс'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object seRxSizeLimit: TSpinEdit
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 0
+          Height = 23
+          Top = 89
+          Width = 120
+          Constraints.MinWidth = 80
+          MaxValue = 10000
+          TabOrder = 3
+          Value = 50
+        end
+        object lbRxSizeLimit: TLabel
+          Left = 130
+          Height = 23
+          Hint = '0 - нет ограничений'
+          Top = 89
+          Width = 235
+          Caption = 'Максимальный объем буфера приема, КБ'
+          Layout = tlCenter
+          ParentColor = False
+        end
+      end
+    end
+  end
+  object pControls: TPanel
+    Left = 0
+    Height = 54
+    Top = 225
+    Width = 489
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.HorizontalSpacing = 10
+    ChildSizing.VerticalSpacing = 10
+    ChildSizing.Layout = cclTopToBottomThenLeftToRight
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 54
+    ClientWidth = 489
+    TabOrder = 1
+    object pButtons: TPanel
+      Left = 39
+      Height = 54
+      Top = 0
+      Width = 450
+      Align = alRight
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 10
+      ChildSizing.TopBottomSpacing = 10
+      ChildSizing.HorizontalSpacing = 5
+      ChildSizing.VerticalSpacing = 10
+      ChildSizing.Layout = cclTopToBottomThenLeftToRight
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 54
+      ClientWidth = 450
+      TabOrder = 0
+      object bbDefaults: TBitBtn
+        Left = 10
+        Height = 34
+        Top = 10
+        Width = 140
+        Action = fmMain.acReset
+        BorderSpacing.InnerBorder = 4
+        Constraints.MinWidth = 140
+        TabOrder = 0
+      end
+      object bbCancel: TBitBtn
+        Left = 155
+        Height = 34
+        Top = 10
+        Width = 140
+        Action = acCancel
+        BorderSpacing.InnerBorder = 4
+        Constraints.MinWidth = 140
+        TabOrder = 1
+      end
+      object bbApply: TBitBtn
+        Left = 300
+        Height = 34
+        Top = 10
+        Width = 140
+        Action = acOK
+        BorderSpacing.InnerBorder = 4
+        Constraints.MinWidth = 140
+        TabOrder = 2
+      end
+    end
+  end
+  object SettingsActionList: TActionList
+    Images = fmMain.imImages16
+    left = 440
+    top = 130
+    object acOK: TAction
+      Caption = 'Применить'
+      ImageIndex = 14
+      OnExecute = acOKExecute
+    end
+    object acCancel: TAction
+      Caption = 'Отмена'
+      ImageIndex = 15
+      OnExecute = acCancelExecute
+      ShortCut = 27
+    end
+  end
+  object IniStorageSettings: TIniPropStorage
+    StoredValues = <>
+    OnSavingProperties = IniStorageSettingsSavingProperties
+    OnRestoreProperties = IniStorageSettingsRestore
+    left = 440
+    top = 75
+  end
+  object dlgFontTx: TFontDialog
+    Title = 'Шрифт. Передача (Tx)'
+    Font.Height = -19
+    Font.Name = 'Consolas'
+    Font.Pitch = fpFixed
+    Font.Quality = fqCleartypeNatural
+    MinFontSize = 0
+    MaxFontSize = 0
+    PreviewText = 'AbcТрм'
+    left = 440
+    top = 255
+  end
+  object dlgFontRx: TFontDialog
+    Title = 'Шрифт. Прием (Rx)'
+    Font.Height = -19
+    Font.Name = 'Consolas'
+    Font.Pitch = fpFixed
+    Font.Quality = fqCleartypeNatural
+    MinFontSize = 0
+    MaxFontSize = 0
+    PreviewText = 'AbcТрм'
+    left = 440
+    top = 195
+  end
+end

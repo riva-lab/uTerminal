@@ -12,22 +12,24 @@
       <Icon Value="0"/>
     </General>
     <i18n>
-      <EnableI18N LFM="False"/>
+      <EnableI18N Value="True"/>
+      <OutDir Value="..\bin\lang"/>
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
       <RevisionNr Value="3"/>
-      <BuildNr Value="31"/>
+      <BuildNr Value="46"/>
       <Language Value="0419"/>
-      <StringTable FileDescription="uTerminal - микроТерминал для COM-порта" InternalName="uTerminal" LegalCopyright="RIVA, 2017-2018, 2021" ProductName="uTerminal" ProductVersion=""/>
+      <StringTable Comments="микроТерминал для последовательного порта\n" CompanyName="https://gitlab.com/riva-lab/uTerminal" FileDescription="uTerminal" InternalName="uTerminal" LegalCopyright="Riva, 2017-2018, 2021, 2022" ProductName="uTerminal" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="x32-Debug" Default="True"/>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
+      <DestinationDirectory Value="$(ProjPath)\published\"/>
     </PublishOptions>
     <RunParams>
       <local>
@@ -36,19 +38,19 @@
     </RunParams>
     <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="LazControls"/>
       </Item1>
       <Item2>
-        <PackageName Value="TAChartLazarusPkg"/>
+        <PackageName Value="SynEdit"/>
       </Item2>
       <Item3>
-        <PackageName Value="CPortLib10"/>
+        <PackageName Value="TAChartLazarusPkg"/>
       </Item3>
       <Item4>
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="15">
       <Unit0>
         <Filename Value="uTerminal.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -61,41 +63,78 @@
         <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
-        <Filename Value="com_detect.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit2>
-      <Unit3>
         <Filename Value="fm_commands.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCommands"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit3>
-      <Unit4>
+      </Unit2>
+      <Unit3>
         <Filename Value="fm_insertchar.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmASCIIChar"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit4>
-      <Unit5>
+      </Unit3>
+      <Unit4>
         <Filename Value="fm_about.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit5>
-      <Unit6>
+      </Unit4>
+      <Unit5>
         <Filename Value="app_ver.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="fm_graph.pas"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="fm_chart.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fmGraph"/>
+        <ComponentName Value="fmChart"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="u_serial.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="u_strings.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="fm_settings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmSettings"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="u_encodings.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="fm_confirm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmConfirm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="u_utilities.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="fr_about.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frAboutLinks"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="u_txsequences.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -105,7 +144,8 @@
       <Filename Value="..\bin\uTerminal-$BuildMode()"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
+      <IncludeFiles Value="$(ProjOutDir);..\synapse40\source\lib"/>
+      <OtherUnitFiles Value="..\synapse40\source\lib"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

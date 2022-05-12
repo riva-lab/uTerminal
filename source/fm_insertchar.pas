@@ -5,11 +5,11 @@ unit fm_insertchar;
 interface
 
 uses
-  Classes, SysUtils, StrUtils, LazUTF8, Forms, Controls, Graphics,
-  Grids, ExtCtrls, Buttons, ActnList, LCLType, ComCtrls, Types;
+  Classes, SysUtils, StrUtils, Forms, Controls, Graphics,
+  Grids, ExtCtrls, Buttons, ActnList, LCLType, ComCtrls, u_encodings, Types;
 
 resourcestring
-  FORM_ASCII_CAPTION = 'Вставить символ ASCII';
+  TXT_INSERT_CHAR = 'символ';
 
 type
 
@@ -42,11 +42,17 @@ type
     procedure sgCharSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
     procedure sgCharUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+
   PRIVATE
+    FEncoding:     String;
     FSelectedChar: Integer;
 
+    function GetCharName(code: Integer): String;
+    function GetCharNameFull(code: Integer): String;
     procedure CreateTable;
+
   PUBLIC
+    property Encoding: String read FEncoding write FEncoding;
     property SelectedChar: Integer read FSelectedChar;
   end;
 
@@ -64,8 +70,10 @@ implementation
 
 {$R *.lfm}
 
+{ TfmASCIIChar }
+
 // получение имени символа по его коду
-function GetCharName(code: Integer): String;
+function TfmASCIIChar.GetCharName(code: Integer): String;
   const
     // https://ru.wikipedia.org/wiki/Управляющие_символы
     char_name: array [0..31] of String = (
@@ -79,12 +87,12 @@ function GetCharName(code: Integer): String;
       0..31: Result := char_name[code];
       127: Result   := char_del;
       else
-        Result := WinCPToUTF8(Char(code));
+        Result := EncodingToUTF8(Char(code), FEncoding);
       end;
   end;
 
 // получение полного имени символа по его коду
-function GetCharNameFull(code: Integer): String;
+function TfmASCIIChar.GetCharNameFull(code: Integer): String;
   const
     // https://ru.wikipedia.org/wiki/Управляющие_символы
     char_name_full: array [0..31] of String = (
@@ -126,12 +134,9 @@ function GetCharNameFull(code: Integer): String;
       0..31: Result := char_name_full[code];
       127: Result   := char_del_full;
       else
-        Result := WinCPToUTF8(Char(code));
+        Result := EncodingToUTF8(Char(code), FEncoding);
       end;
   end;
-
-
-{ TfmASCIIChar }
 
 procedure TfmASCIIChar.CreateTable;
   var
@@ -176,12 +181,9 @@ procedure TfmASCIIChar.FormCreate(Sender: TObject);
       with sgChar do
         begin
         for x := 0 to 7 do
-          begin
           Columns.Add.Alignment := taCenter;
-          end;
 
         RowCount := 32;
-        CreateTable;
         end;
 
       with Constraints do
@@ -204,6 +206,8 @@ procedure TfmASCIIChar.FormShow(Sender: TObject);
       Constraints.MinWidth  := Width;
       Constraints.MinHeight := Height;
       end;
+
+    CreateTable;
   end;
 
 
@@ -280,8 +284,8 @@ procedure TfmASCIIChar.sgCharPrepareCanvas(Sender: TObject;
   begin
     with sgChar do
       begin
-      ts            := Canvas.TextStyle;
-      ts.SingleLine := False;
+      ts               := Canvas.TextStyle;
+      ts.SingleLine    := False;
       //ts.Wordbreak  := True;
       Canvas.TextStyle := ts;
       end;
@@ -299,7 +303,7 @@ procedure TfmASCIIChar.sgCharSelectCell(Sender: TObject; aCol, aRow: Integer;
     c: Integer;
   begin
     c       := aCol + aRow * 8;
-    Caption := FORM_ASCII_CAPTION + ' - <' + GetCharName(c) + '>';
+    Caption := GetEncodingCaption(Encoding) + ', ' + TXT_INSERT_CHAR + ' <' + GetCharName(c) + '>';
 
     StatusBar.Panels.Items[0].Text := '0x' + c.ToHexString(2);
     StatusBar.Panels.Items[1].Text := c.ToString;
