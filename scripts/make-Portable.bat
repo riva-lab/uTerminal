@@ -57,4 +57,3 @@ copy /y bin\lang\*x64-%BUILD%.??.po bin\lang\*x32-%BUILD%.??.po
 "%UPX_EXECUTABLE%"       --best "%BINARY%"
 "%SEVENZIP_EXECUTABLE%"  a -tzip -mx5 %FILENAME% %FILES% %FILES_ADDITION%
 
-del /f /q bin\lang\*x32-%BUILD%.??.po

@@ -5,3 +5,4 @@ bin/settings.ini
 bin/*.exe
 bin/v*
 snapshots/
+install/
