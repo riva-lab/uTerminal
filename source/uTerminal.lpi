@@ -18,9 +18,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <MinorVersionNr Value="1"/>
-      <RevisionNr Value="3"/>
-      <BuildNr Value="46"/>
+      <MajorVersionNr Value="1"/>
+      <BuildNr Value="47"/>
       <Language Value="0419"/>
       <StringTable Comments="микроТерминал для последовательного порта\n" CompanyName="https://gitlab.com/riva-lab/uTerminal" FileDescription="uTerminal" InternalName="uTerminal" LegalCopyright="Riva, 2017-2018, 2021, 2022" ProductName="uTerminal" ProductVersion=""/>
     </VersionInfo>

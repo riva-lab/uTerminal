@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="10"/>
-    <BuildModes Count="3" Active="x32-Release">
+    <BuildModes Count="3" Active="x64-Release">
       <Item1 Name="x32-Release">
         <CompilerOptions>
           <Version Value="11"/>
@@ -120,7 +120,6 @@
         <Filename Value="uTerminal.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="5"/>
         <CursorPos Y="28"/>
         <UsageCount Value="200"/>
       </Unit0>
@@ -747,7 +746,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="33"/>
         <CursorPos X="3" Y="42"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit76>
       <Unit77>
         <Filename Value="C:\lazarus\components\synedit\synedit.pp"/>
@@ -806,7 +805,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="122"/>
         <CursorPos X="10" Y="134"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit84>
       <Unit85>
         <Filename Value="C:\lazarus\fpc\3.0.2\source\rtl\objpas\sysutils\sysinth.inc"/>
@@ -820,7 +819,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="174"/>
         <CursorPos X="10" Y="243"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit86>
       <Unit87>
         <Filename Value="fm_main.lfm"/>
@@ -843,7 +842,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="86"/>
         <CursorPos X="16" Y="99"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit89>
       <Unit90>
         <Filename Value="fm_about.lfm"/>

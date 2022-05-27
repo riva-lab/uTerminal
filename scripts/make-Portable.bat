@@ -31,7 +31,7 @@ set LIBS=
 
 set FILENAME="%DEST%\%PROJNAME%-%PROJARC%-Portable.zip"
 set FILES="%BINARY%" "%LANG%" "%LANGINI%" "%HELP%"
-set FILES_ADDITION=readme.md license.md versions.md help/*
+set FILES_ADDITION=readme.* license.md versions.md help/*
 
 del /f /q %FILENAME%
 
