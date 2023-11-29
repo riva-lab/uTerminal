@@ -1,2 +1,1 @@
-cd ..
-rd /s /q "source\lib"
+rd /s /q "..\source\lib"
