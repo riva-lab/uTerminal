@@ -9,41 +9,36 @@ uses
   Grids, ExtCtrls, Buttons, ActnList, LCLType, ComCtrls, u_encodings, Types;
 
 resourcestring
-  TXT_INSERT_CHAR = 'символ';
+  TXT_INSERT_CHAR = '%s, символ <%s>';
 
 type
 
   { TfmASCIIChar }
 
   TfmASCIIChar = class(TForm)
-    acOK:        TAction;
     acCancel:    TAction;
+    acOK:        TAction;
     ActionList1: TActionList;
-    BitBtn1:     TBitBtn;
-    BitBtn2:     TBitBtn;
+    bbInsert:    TBitBtn;
+    bbCancel:    TBitBtn;
+    pControl:    TPanel;
     pDivide:     TPanel;
-    Panel2:      TPanel;
     rgCodeType:  TRadioGroup;
     sgChar:      TStringGrid;
-    StatusBar:   TStatusBar;
+    sbStatus:    TStatusBar;
+
     procedure acCancelExecute(Sender: TObject);
     procedure acOKExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure rgCodeTypeClick(Sender: TObject);
     procedure sgCharDblClick(Sender: TObject);
-    procedure sgCharDrawCell(Sender: TObject; aCol, aRow: Integer;
-      aRect: TRect; aState: TGridDrawState);
-    procedure sgCharMouseWheel(Sender: TObject; Shift: TShiftState;
-      WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
-    procedure sgCharPrepareCanvas(Sender: TObject; aCol, aRow: Integer;
-      aState: TGridDrawState);
-    procedure sgCharResize(Sender: TObject);
-    procedure sgCharSelectCell(Sender: TObject; aCol, aRow: Integer;
-      var CanSelect: Boolean);
-    procedure sgCharUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+    procedure sgCharDrawCell(Sender: TObject; aCol, aRow: Integer; aRect: TRect; aState: TGridDrawState);
+    procedure sgCharMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+    procedure sgCharPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
+    procedure sgCharSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
 
-  PRIVATE
+  private
     FEncoding:     String;
     FSelectedChar: Integer;
 
@@ -51,7 +46,7 @@ type
     function GetCharNameFull(code: Integer): String;
     procedure CreateTable;
 
-  PUBLIC
+  public
     property Encoding: String read FEncoding write FEncoding;
     property SelectedChar: Integer read FSelectedChar;
   end;
@@ -70,9 +65,9 @@ implementation
 
 {$R *.lfm}
 
-{ TfmASCIIChar }
+ { TfmASCIIChar }
 
-// получение имени символа по его коду
+ // получение имени символа по его коду
 function TfmASCIIChar.GetCharName(code: Integer): String;
   const
     // https://ru.wikipedia.org/wiki/Управляющие_символы
@@ -87,11 +82,11 @@ function TfmASCIIChar.GetCharName(code: Integer): String;
       0..31: Result := char_name[code];
       127: Result   := char_del;
       else
-        Result := EncodingToUTF8(Char(code), FEncoding);
+        Result      := EncodingToUTF8(Char(code), FEncoding);
       end;
   end;
 
-// получение полного имени символа по его коду
+    // получение полного имени символа по его коду
 function TfmASCIIChar.GetCharNameFull(code: Integer): String;
   const
     // https://ru.wikipedia.org/wiki/Управляющие_символы
@@ -134,16 +129,15 @@ function TfmASCIIChar.GetCharNameFull(code: Integer): String;
       0..31: Result := char_name_full[code];
       127: Result   := char_del_full;
       else
-        Result := EncodingToUTF8(Char(code), FEncoding);
+        Result      := EncodingToUTF8(Char(code), FEncoding);
       end;
   end;
 
 procedure TfmASCIIChar.CreateTable;
   var
     x, y, c: Integer;
-    code, s: String;
+    s:       String;
   begin
-
     with sgChar do
       begin
       for x := 0 to 7 do
@@ -153,17 +147,8 @@ procedure TfmASCIIChar.CreateTable;
           c := y * 8 + x;
           s += GetCharName(c);
 
-          //if rgCodeType.ItemIndex <> CT_NON then
-          //  s += #13#10;
-          //
-          //case rgCodeType.ItemIndex of
-          //  CT_HEX: code := c.ToHexString(2);
-          //  CT_BIN: code := IntToBin(c, 8);
-          //  CT_DEC: code := c.ToString;
-          //  CT_NON: code := '';
-          //  end;
-
-          Cells[x, y] := s;
+          Cells[x, y]   := s;
+          RowHeights[y] := Round(Canvas.GetTextHeight('0') * 2.7);
           end;
       end;
   end;
@@ -171,19 +156,17 @@ procedure TfmASCIIChar.CreateTable;
 
 procedure TfmASCIIChar.FormCreate(Sender: TObject);
   var
-    x, y, c: Integer;
+    i: Integer;
   begin
     with sgChar do
       begin
-      DefaultRowHeight := 48;
-      DefaultColWidth  := 64;
-
       with sgChar do
         begin
-        for x := 0 to 7 do
+        for i := 0 to 7 do
           Columns.Add.Alignment := taCenter;
 
-        RowCount := 32;
+        RowCount        := 32;
+        DefaultColWidth := 64;
         end;
 
       with Constraints do
@@ -205,6 +188,7 @@ procedure TfmASCIIChar.FormShow(Sender: TObject);
 
       Constraints.MinWidth  := Width;
       Constraints.MinHeight := Height;
+      sgChar.ColRow         := Point(0, 0);
       end;
 
     CreateTable;
@@ -241,25 +225,25 @@ procedure TfmASCIIChar.sgCharDrawCell(Sender: TObject; aCol, aRow: Integer;
 
       if (sgChar.Selection.Top <> aRow) or (sgChar.Selection.Left <> aCol) then
         if (aCol mod 2 = 0) xor (aRow mod 2 = 0) then
-          Brush.Color := sgChar.Color - $222222 else
-          Brush.Color := sgChar.Color;
+          Brush.Color := clBtnFace else
+          Brush.Color := cl3DLight;
 
       Pen.Style := psClear;
       with aRect do
         Rectangle(Left, Top, Right + 1, Bottom + 1);
 
-      Font.Size := 12;
-      with aRect do
-        TextRect(Rect(Left, Top + trunc((Bottom - Top) * 0.5), Right, Bottom),
-          Left, Top, code);
-
       if rgCodeType.ItemIndex = CT_NON then
-        show_rect := aRect else
+        show_rect   := aRect else
         with aRect do
-          show_rect := Rect(Left, Top, Right, Top + trunc((Bottom - Top) * 0.7));
+          show_rect := Rect(Left, Top, Right, Top + Round((Bottom - Top) * 0.6));
 
-      Font.Size := 18;
+      Font.Height := Round(sgChar.Font.Height * 1.6);
       TextRect(show_rect, Left, Top, sgChar.Cells[aCol, aRow]);
+
+      Font.Height := sgChar.Font.Height;
+      with aRect do
+        TextRect(Rect(Left, Top + Round((Bottom - Top) * 0.6), Right, Bottom),
+          Left, Top, code);
       end;
   end;
 
@@ -291,36 +275,20 @@ procedure TfmASCIIChar.sgCharPrepareCanvas(Sender: TObject;
       end;
   end;
 
-procedure TfmASCIIChar.sgCharResize(Sender: TObject);
-  begin
-    //with sgChar do
-    //  DefaultRowHeight := ColWidths[0];
-  end;
-
 procedure TfmASCIIChar.sgCharSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);
   var
     c: Integer;
   begin
     c       := aCol + aRow * 8;
-    Caption := GetEncodingCaption(Encoding) + ', ' + TXT_INSERT_CHAR + ' <' + GetCharName(c) + '>';
+    Caption := Format(TXT_INSERT_CHAR, [GetEncodingCaption(Encoding), GetCharName(c)]);
 
-    StatusBar.Panels.Items[0].Text := '0x' + c.ToHexString(2);
-    StatusBar.Panels.Items[1].Text := c.ToString;
-    StatusBar.Panels.Items[2].Text := '0b' + intToBin(c, 8);
-    StatusBar.Panels.Items[3].Text := GetCharNameFull(c);
+    sbStatus.Panels.Items[0].Text := '0x' + c.ToHexString(2);
+    sbStatus.Panels.Items[1].Text := c.ToString;
+    sbStatus.Panels.Items[2].Text := '0b' + intToBin(c, 8);
+    sbStatus.Panels.Items[3].Text := GetCharNameFull(c);
   end;
 
-
-procedure TfmASCIIChar.sgCharUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
-  begin
-    case UTF8Key of
-      chr(13):
-        acOK.Execute;
-      chr(27):
-        acCancel.Execute;
-      end;
-  end;
 
 procedure TfmASCIIChar.acOKExecute(Sender: TObject);
   begin
@@ -337,6 +305,3 @@ procedure TfmASCIIChar.acCancelExecute(Sender: TObject);
   end;
 
 end.
-
-
-

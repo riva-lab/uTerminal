@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="_uTerminal"/>
+      <Scaled Value="True"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <XPManifest>
+        <DpiAware Value="True"/>
+      </XPManifest>
+      <Icon Value="0"/>
+      <Resources Count="4">
+        <Resource_0 FileName="..\license.md" Type="RCDATA" ResourceName="LICENSE"/>
+        <Resource_1 FileName="..\readme.md" Type="RCDATA" ResourceName="README"/>
+        <Resource_2 FileName="..\resources\logoR-opt.svg" Type="RCDATA" ResourceName="LOGO"/>
+        <Resource_3 FileName="..\resources\icons\uterminal-dark.svglist" Type="RCDATA" ResourceName="ICONSPACK-DARK"/>
+      </Resources>
+    </General>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="..\bin\lang"/>
+      <ExcludedIdentifiers Count="73">
+        <Item1 Value="tfmmain.acconnect.caption"/>
+        <Item2 Value="tfmmain.actogglebreak.caption"/>
+        <Item3 Value="tfmmain.actoggledtr.caption"/>
+        <Item4 Value="tfmmain.actogglerts.caption"/>
+        <Item5 Value="tfmmain.acexitex.caption"/>
+        <Item6 Value="tfmmain.gbrx.caption"/>
+        <Item7 Value="tfmmain.gbtx.caption"/>
+        <Item8 Value="tfmmain.lbhelphint.caption"/>
+        <Item9 Value="tfmmain.lbrxposandsel.caption"/>
+        <Item10 Value="tfmmain.lbrxsize.caption"/>
+        <Item11 Value="tfmmain.lbsignalcts.caption"/>
+        <Item12 Value="tfmmain.lbsignaldsr.caption"/>
+        <Item13 Value="tfmmain.lbsignalring.caption"/>
+        <Item14 Value="tfmmain.lbsignalrlsd.caption"/>
+        <Item15 Value="tfmmain.lbtxposandsel.caption"/>
+        <Item16 Value="tfmmain.lbtxsize.caption"/>
+        <Item17 Value="tfmmain.miselection.caption"/>
+        <Item18 Value="tfmmain.rbsearchrx.caption"/>
+        <Item19 Value="tfmmain.rbsearchtx.caption"/>
+        <Item20 Value="tfmmain.sgtxsequences.columns[0].title.caption"/>
+        <Item21 Value="tfmmain.sgtxsequences.columns[1].title.caption"/>
+        <Item22 Value="tfmmain.tbmain.caption"/>
+        <Item23 Value="tfmmain.tbport.caption"/>
+        <Item24 Value="tfmmain.tbrx.caption"/>
+        <Item25 Value="tfmmain.tbtx.caption"/>
+        <Item26 Value="tfmmain.tbtxsequences.caption"/>
+        <Item27 Value="tfmmain.toolbutton23.caption"/>
+        <Item28 Value="tfmmain.toolbutton25.caption"/>
+        <Item29 Value="tfmmain.toolbutton29.caption"/>
+        <Item30 Value="tfmmain.toolbutton5.caption"/>
+        <Item31 Value="tfmmain.toolbutton8.caption"/>
+        <Item32 Value="tfmmain.toolbutton9.caption"/>
+        <Item33 Value="tfmmain.acplotterqexpcsv.caption"/>
+        <Item34 Value="tfmmain.acplotterqexpimg.caption"/>
+        <Item35 Value="tfmmain.lbplottercounter.caption"/>
+        <Item36 Value="tfmmain.lbplotterhint.caption"/>
+        <Item37 Value="tfmmain.lbplottersize.caption"/>
+        <Item38 Value="tfmmain.lbrx.caption"/>
+        <Item39 Value="tfmmain.lbtx.caption"/>
+        <Item40 Value="tfmmain.tbplotter.caption"/>
+        <Item41 Value="tfmmain.tbplotterex.caption"/>
+        <Item42 Value="tfmmain.tbplottermore.caption"/>
+        <Item43 Value="tfmmain.toolbutton49.caption"/>
+        <Item44 Value="tfmsettings.cbRegExpList.text"/>
+        <Item45 Value="tfmsettings.btnfontrx.caption"/>
+        <Item46 Value="tfmsettings.btnfonttx.caption"/>
+        <Item47 Value="tfmsettings.cbfontrxname.text"/>
+        <Item48 Value="tfmsettings.cbfonttxname.text"/>
+        <Item49 Value="tfmsettings.edfontrxexample.text"/>
+        <Item50 Value="tfmsettings.edfonttxexample.text"/>
+        <Item51 Value="tfmsettings.edrxtsafter.text"/>
+        <Item52 Value="tfmsettings.edrxtsbefore.text"/>
+        <Item53 Value="tfmsettings.cbapptheme.text"/>
+        <Item54 Value="tfmsettings.cbAppUpdateWay.text"/>
+        <Item55 Value="tfmsettings.cbAppUpdateFreq.text"/>
+        <Item56 Value="tfmsettings.cbcsvdecdelimiter.text"/>
+        <Item57 Value="tfmsettings.cbcsvdelimiter.text"/>
+        <Item58 Value="tfmsettings.cbcsvquotes.text"/>
+        <Item59 Value="tfmsettings.cbfontrxnamed.text"/>
+        <Item60 Value="tfmsettings.cbfonttxnamed.text"/>
+        <Item61 Value="tfmsettings.cbpanelslayout.text"/>
+        <Item62 Value="tfmsettings.cbplotctrlx.text"/>
+        <Item63 Value="tfmsettings.cbplotctrly.text"/>
+        <Item64 Value="tfmsettings.lbregexperror.caption"/>
+        <Item65 Value="tfmsettings.lbregexppos.caption"/>
+        <Item66 Value="tfmsettings.tsregexp.caption"/>
+        <Item67 Value="tfraboutlinks.lbcopyrights.caption"/>
+        <Item68 Value="tfraboutlinks.lblicense.caption"/>
+        <Item69 Value="tfraboutlinks.lbsite.caption"/>
+        <Item70 Value="tfmabout.lbinfo.caption"/>
+        <Item71 Value="tfmabout.bcsvglogo.caption"/>
+        <Item72 Value="tfmconfirm.lbmessage.caption"/>
+        <Item73 Value="tfmupdate.lbsize.caption"/>
+      </ExcludedIdentifiers>
+    </i18n>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <AutoIncrementBuild Value="True"/>
+      <MajorVersionNr Value="1"/>
+      <MinorVersionNr Value="8"/>
+      <RevisionNr Value="11"/>
+      <BuildNr Value="88"/>
+      <Language Value="0419"/>
+      <StringTable CompanyName="https://riva-lab.gitlab.io" FileDescription="терминал и плоттер для последовательного порта" InternalName="uTerminal" LegalCopyright="Riva, 2017-2018, 2021-2023" ProductName="uTerminal"/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="win32-Debug" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <DestinationDirectory Value="$(ProjPath)\published\"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
+    </RunParams>
+    <RequiredPackages Count="8">
+      <Item1>
+        <PackageName Value="OnlineUpdaterPkg"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="ImageSVGListDsgn"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="MetaDarkStyle"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="bgracontrols"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="tachartbgra"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="SynEdit"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="TAChartLazarusPkg"/>
+      </Item7>
+      <Item8>
+        <PackageName Value="LCL"/>
+      </Item8>
+    </RequiredPackages>
+    <Units Count="23">
+      <Unit0>
+        <Filename Value="_uTerminal.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="fm_main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="fm_commands.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmCommands"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="fm_insertchar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmASCIIChar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="fm_about.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmAbout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="u_serial.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="u_common.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="fm_settings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmSettings"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="u_encodings.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="fm_confirm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmConfirm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="u_utilities.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="fr_about.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frAboutLinks"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="u_txsequences.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="plotter\u_plotter.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="plotter\u_plotter_types.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="plotter\u_plotter_points.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="plotter\u_plotter_charts.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="u_settings.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="plotter\u_plotter_regexplist.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="fm_update.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmUpdate"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="fm_main_controls.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="fm_settings_controls.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="u_settings_record.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit22>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\bin\uTerminal-$BuildMode()"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\libraries\synapse40.1-ultibo\source\lib;plotter"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <IncludeAssertionCode Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <RangeChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
+      <VerifyObjMethodCallValidity Value="True"/>
+      <TargetCPU Value="i386"/>
+      <TargetOS Value="win32"/>
+      <Optimizations>
+        <OptimizationLevel Value="0"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf2"/>
+        <TrashVariables Value="True"/>
+        <UseExternalDbgSyms Value="True"/>
+      </Debugging>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CustomOptions Value="-dDEBUG
+-dALLOW_DARK_THEME"/>
+      <OtherDefines Count="2">
+        <Define0 Value="DEBUG"/>
+        <Define1 Value="ALLOW_DARK_THEME"/>
+      </OtherDefines>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="4">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+      <Item4>
+        <Name Value="EConvertError"/>
+      </Item4>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

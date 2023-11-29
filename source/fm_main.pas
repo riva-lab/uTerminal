@@ -6,16 +6,36 @@ interface
 
 uses
   ActnList, Buttons, Classes, Clipbrd, ComCtrls, Controls, Dialogs, ExtCtrls,
-  Forms, Graphics, IniPropStorage, LazFileUtils, LazUTF8,
-  LCLType, Menus, PairSplitter, Spin, StdCtrls, LCLIntf, Grids, StrUtils,
-  SynEdit, SynEditTypes,
-  SysUtils, Types, fm_about,
-  fm_commands, fm_confirm, fm_chart, fm_insertchar, fm_settings, u_encodings,
-  u_serial, u_strings, u_utilities, u_txsequences, base64;
+  Forms, Graphics, IniPropStorage, LazFileUtils, LazUTF8, LCLType, Menus,
+  PairSplitter, Spin, StdCtrls, LCLIntf, Grids, ImageSVGList, StrUtils,
+  SysUtils, Types, SynEdit, SynEditTypes, Math, DateUtils,
+
+  // chart units
+  TAGraph, TASeries, TAChartLiveView, TATools, TATypes, TANavigation,
+  TALegend, TADrawUtils, TAGUIConnectorBGRA, TADrawerBGRA,
+
+  // BGRA
+  BGRABitmap, BGRABitmapTypes,
+
+  // for dark theme support 
+  {$IFDEF ALLOW_DARK_THEME}
+  uMetaDarkStyle, uDarkStyleParams, 
+  {$ENDIF}
+
+  // other forms
+  fm_about, fm_commands, fm_confirm, fm_insertchar, fm_settings, fm_update,
+
+  // project units
+  u_encodings, u_serial, u_common, u_utilities, u_txsequences,
+  u_plotter, u_plotter_types, u_plotter_charts,
+
+  // additional
+  base64, csvdocument;
 
 resourcestring
   TX_CAPTION        = 'Передача [Tx]';
   RX_CAPTION        = 'Прием [Rx]';
+  PLOTTER_CAPTION   = 'Плоттер';
   ERROR             = 'Ошибка';
   CONNECTED_TO      = 'Подключен к';
   CONNECT           = 'Подключить';
@@ -24,362 +44,237 @@ resourcestring
   DISCONNECTED_FROM = 'Отключен от';
   DISCONNECT        = 'Отключить';
   SPEED             = 'бод/с';
-  PORTS_FINDED      = 'Найдено портов';
+  PORTS_FINDED      = 'Найдено портов: %d';
   TEXT_TYPE_TEXT    = 'Текст';
-  TXT_ENCODING      = 'кодировка';
+  TXT_ENCODING      = 'кодировка %s';
+  TXT_DLG_TEXT      = 'Текстовый файл';
+  TXT_DLG_CSV       = 'Файл CSV';
+  TXT_DLG_PNG       = 'PNG - изображение Portable Network Graphics';
+  TXT_DLG_ALL       = 'Файл';
+
+  TXT_REDEF_VIEWPORT = 'Окно';
+  TXT_REDEF_GRID    = 'Сетка';
+  TXT_REDEF_XGRID   = 'Сетка X';
+  TXT_REDEF_YGRID   = 'Сетка Y';
+  TXT_REDEF_BGCOLOR = 'Фон';
+  TXT_REDEF_WIDTH   = 'Толщина';
+  TXT_REDEF_POINTS  = 'Точки';
+  TXT_PLOT_LINE_ST  = 'Стиль линии - %s';
+  TXT_PLOT_LINE_WD  = 'Толщина линии - %d пикс.';
+  TXT_PLOT_LINE_PS  = 'Радиус точек - %d пикс.';
+
 
 const
   HELP_DIR        = 'help';
   HELP_DIR_ONLINE = '-/blob/master/help';
   HELP_FILE       = 'uTerminal-help';
 
-  TT_ASC = 0; // отображение данных в ASCII
-  TT_HEX = 1; // отображение данных в HEX
-  TT_BIN = 2; // отображение данных в BIN
-  TT_DEC = 3; // отображение данных в DEC
+  TT_ASC          = 0; // отображение данных в ASCII
+  TT_HEX          = 1; // отображение данных в HEX
+  TT_BIN          = 2; // отображение данных в BIN
+  TT_DEC          = 3; // отображение данных в DEC
 
   indicatorColor: array[Boolean] of TColor = ($4040FF, $00D000); // 0 RED; 1 GREEN
-  indicatorText: array[Boolean] of String = ('0', '1');          // 0; 1
-  inactiveColor = $CCCCCC;
+  indicatorText: array[Boolean] of String  = ('0', '1');         // 0; 1
 
 type
+
+  TLineParam = (lpNone, lpWidth, lpStyle, lpPoint);
 
   { TfmMain }
 
   TfmMain = class(TForm)
-    acConnect:           TAction;
-    acScan:              TAction;
-    acAutoSend:          TAction;
-    acRxClear:           TAction;
-    acConnectionHeader:  TAction;
-    acExit:              TAction;
-    acShowTxBox:         TAction;
-    acShowRxBox:         TAction;
-    acFileHeader:        TAction;
-    acHelpHeader:        TAction;
-    acInfo:              TAction;
-    acAutoAnswerHeader:  TAction;
-    acAutoAnswerSetup:   TAction;
-    acAutoAnswerEnable:  TAction;
-    acInsertChar:        TAction;
-    acShowSignals:       TAction;
-    acShowHEX:           TAction;
-    acRxExport:          TAction;
-    acShowGraph:         TAction;
-    acRxHeader:          TAction;
-    acRxScrollToEnd:     TAction;
-    acShowLineCounts:    TAction;
-    acShowOnTop:         TAction;
-    acSettings:          TAction;
-    acReset:             TAction;
-    acRxEnable:          TAction;
-    acRxCopy:            TAction;
-    acSearchNext:        TAction;
-    acSearch:            TAction;
-    acHelp:              TAction;
-    acHelpMD:            TAction;
-    acHelpNet:           TAction;
-    acSearchPrev:        TAction;
-    acTxSeqMoveDown:     TAction;
-    acTxSeqMoveUp:       TAction;
-    acTxSequencesHeader: TAction;
-    acTxSeqGet:          TAction;
-    acTxSeqEdit:         TAction;
-    acTxSeqRemove:       TAction;
-    acTxSeqSend:         TAction;
-    acTxSeqAdd:          TAction;
-    acTxSequences:       TAction;
-    acWebsite:           TAction;
-    acTxCommandMode:     TAction;
-    acTxHeader:          TAction;
-    acTxImport:          TAction;
-    acToggleRTS:         TAction;
-    acToggleDTR:         TAction;
-    acToggleBreak:       TAction;
-    acViewHeader:        TAction;
-    acTxClear:           TAction;
-    acTx:                TAction;
-    alActionList:        TActionList;
-    AppProperties:       TApplicationProperties;
-    cbBaudrate:          TComboBox;
-    cbDataBits:          TComboBox;
-    cbParityBits:        TComboBox;
-    cbPortsList:         TComboBox;
-    cbTxEncoding:        TComboBox;
-    cbStopBits:          TComboBox;
-    cbTxType:            TComboBox;
-    cbRxType:            TComboBox;
-    cbRxEncoding:        TComboBox;
-    cbSearchCaseSens:    TCheckBox;
-    cbSearchReplace:     TCheckBox;
-    cbSearchReplaceAll:  TCheckBox;
-    edSearch:            TEdit;
-    edReplace:           TEdit;
-    gbTx:                TGroupBox;
-    gbRx:                TGroupBox;
-    gbSignals:           TGroupBox;
-    imImages16:          TImageList;
-    IniStorageMain:      TIniPropStorage;
-    lbSearch2:           TLabel;
-    lbSignalCTS:         TLabel;
-    lbSignalDSR:         TLabel;
-    lbSignalRing:        TLabel;
-    lbSignalRLSD:        TLabel;
-    lbSearch:            TLabel;
-    lbSearch1:           TLabel;
-    lbHelpHint:          TLabel;
-    lbRxPosAndSel:       TLabel;
-    lbTxSize:            TLabel;
-    lbRxSize:            TLabel;
-    lbTxPosAndSel:       TLabel;
-    MenuItem12:          TMenuItem;
-    MenuItem13:          TMenuItem;
-    MenuItem16:          TMenuItem;
-    MenuItem39:          TMenuItem;
-    MenuItem41:          TMenuItem;
-    MenuItem43:          TMenuItem;
-    MenuItem44:          TMenuItem;
-    MenuItem45:          TMenuItem;
-    MenuItem46:          TMenuItem;
-    MenuItem47:          TMenuItem;
-    MenuItem48:          TMenuItem;
-    MenuItem49:          TMenuItem;
-    MenuItem50:          TMenuItem;
-    MenuItem51:          TMenuItem;
-    MenuItem52:          TMenuItem;
-    MenuItem53:          TMenuItem;
-    MenuItem54:          TMenuItem;
-    MenuItem55:          TMenuItem;
-    MenuItem56:          TMenuItem;
-    MenuItem57:          TMenuItem;
-    MenuItem58:          TMenuItem;
-    miSelection:         TMenuItem;
-    mmEmpty:             TMainMenu;
-    mmMainMenu:          TMainMenu;
-    MenuItem1:           TMenuItem;
-    MenuItem10:          TMenuItem;
-    MenuItem11:          TMenuItem;
-    MenuItem14:          TMenuItem;
-    MenuItem15:          TMenuItem;
-    MenuItem17:          TMenuItem;
-    MenuItem18:          TMenuItem;
-    MenuItem19:          TMenuItem;
-    MenuItem2:           TMenuItem;
-    MenuItem20:          TMenuItem;
-    MenuItem21:          TMenuItem;
-    MenuItem22:          TMenuItem;
-    MenuItem23:          TMenuItem;
-    MenuItem24:          TMenuItem;
-    MenuItem25:          TMenuItem;
-    MenuItem26:          TMenuItem;
-    MenuItem27:          TMenuItem;
-    MenuItem28:          TMenuItem;
-    MenuItem29:          TMenuItem;
-    MenuItem3:           TMenuItem;
-    MenuItem30:          TMenuItem;
-    MenuItem31:          TMenuItem;
-    MenuItem32:          TMenuItem;
-    MenuItem33:          TMenuItem;
-    MenuItem34:          TMenuItem;
-    MenuItem35:          TMenuItem;
-    MenuItem36:          TMenuItem;
-    MenuItem37:          TMenuItem;
-    MenuItem38:          TMenuItem;
-    MenuItem4:           TMenuItem;
-    MenuItem40:          TMenuItem;
-    MenuItem42:          TMenuItem;
-    MenuItem5:           TMenuItem;
-    MenuItem6:           TMenuItem;
-    MenuItem7:           TMenuItem;
-    MenuItem8:           TMenuItem;
-    MenuItem9:           TMenuItem;
-    nbTxRight:           TNotebook;
-    Page1:               TPage;
-    Page2:               TPage;
-    pSearch:             TPanel;
-    pPortToolbar:        TPanel;
-    pMainToolbar:        TPanel;
-    pToolbar:            TPanel;
-    pTranceiverMsg:      TPanel;
-    pTxPanelDelta1:      TPanel;
-    pTxRightPanel:       TPanel;
-    psSplitterTxRx:      TPairSplitter;
-    psSide1:             TPairSplitterSide;
-    psSide2:             TPairSplitterSide;
-    pLEDTx:              TPanel;
-    pLEDRx:              TPanel;
-    pPortSettings:       TPanel;
-    Panel5:              TPanel;
-    pmPort:              TPopupMenu;
-    pRxRightPanel:       TPanel;
-    pTxPanelDelta:       TPanel;
-    rbTx:                TRadioButton;
-    rbRx:                TRadioButton;
-    sbtnSearch1:         TSpeedButton;
-    seBaudRateCustom:    TSpinEdit;
-    seRx:                TSynEdit;
-    seTxHex:             TSynEdit;
-    seTx:                TSynEdit;
-    seRxHex:             TSynEdit;
-    sbtnSearch:          TSpeedButton;
-    sgTxSequences:       TStringGrid;
-    tbTxSequences:       TToolBar;
-    tmrMain50ms:         TTimer;
-    tbPort:              TToolBar;
-    tbRx:                TToolBar;
-    tbTx:                TToolBar;
-    ToolButton1:         TToolButton;
-    ToolButton10:        TToolButton;
-    ToolButton11:        TToolButton;
-    ToolButton12:        TToolButton;
-    ToolButton13:        TToolButton;
-    ToolButton15:        TToolButton;
-    ToolButton16:        TToolButton;
-    ToolButton17:        TToolButton;
-    ToolButton18:        TToolButton;
-    ToolButton19:        TToolButton;
-    ToolButton2:         TToolButton;
-    ToolButton20:        TToolButton;
-    ToolButton21:        TToolButton;
-    ToolButton22:        TToolButton;
-    ToolButton23:        TToolButton;
-    ToolButton24:        TToolButton;
-    ToolButton25:        TToolButton;
-    ToolButton26:        TToolButton;
-    ToolButton27:        TToolButton;
-    ToolButton28:        TToolButton;
-    ToolButton29:        TToolButton;
-    ToolButton3:         TToolButton;
-    ToolButton30:        TToolButton;
-    ToolButton31:        TToolButton;
-    ToolButton32:        TToolButton;
-    ToolButton33:        TToolButton;
-    ToolButton34:        TToolButton;
-    ToolButton35:        TToolButton;
-    ToolButton36:        TToolButton;
-    ToolButton37:        TToolButton;
-    ToolButton38:        TToolButton;
-    ToolButton39:        TToolButton;
-    ToolButton4:         TToolButton;
-    ToolButton40:        TToolButton;
-    ToolButton5:         TToolButton;
-    ToolButton8:         TToolButton;
-    tiTrayIcon:          TTrayIcon;
-    TxOpenDialog:        TOpenDialog;
-    pSignalRTS:          TPanel;
-    pSignalDTR:          TPanel;
-    pSignalBreak:        TPanel;
-    pSignalDSR:          TPanel;
-    pSignalRing:         TPanel;
-    pSignalRLSD:         TPanel;
-    pTranceiver:         TPanel;
-    pSignalCTS:          TPanel;
-    RxSaveDialog:        TSaveDialog;
-    seAutoSendTime:      TSpinEdit;
-    sbRTS:               TSpeedButton;
-    sbDTR:               TSpeedButton;
-    sbBreak:             TSpeedButton;
-    SplitterTx:          TSplitter;
-    SplitterRx:          TSplitter;
-    stStatusBar:         TStatusBar;
-    tbMain:              TToolBar;
-    ToolButton14:        TToolButton;
-    ToolButton6:         TToolButton;
-    ToolButton7:         TToolButton;
-    ToolButton9:         TToolButton;
+    {$INCLUDE fm_main_controls.inc}
 
-    procedure acInsertCharExecute(Sender: TObject);
-    procedure acResetExecute(Sender: TObject);
-    procedure acRxExportExecute(Sender: TObject);
-    procedure acTxImportExecute(Sender: TObject);
-    procedure cbRxTypeChange(Sender: TObject);
-    procedure cbTxTypeChange(Sender: TObject);
+    { ***  Обработка событий главной формы  *** }
+
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure FormChangeBounds(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure FormCreate(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
-    procedure FormShow(Sender: TObject);
-    procedure pSplitterTxRxResize(Sender: TObject);
-    procedure pTranceiverMsgResize(Sender: TObject);
-    procedure seRxChange(Sender: TObject);
-    procedure seTxChange(Sender: TObject);
-    procedure seTxRxMouseWheel(Sender: TObject; Shift: TShiftState;
-      WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+    procedure FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure FormMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 
-    procedure SetPortSettingsControls(Sender: TObject);
-    procedure sgTxSequencesMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure tmrMain50msTimer(Sender: TObject);
-    procedure tiTrayIconClick(Sender: TObject);
+    { ***  Работа с хранилищем настроек  *** }
 
-    procedure actionCommon(Sender: TObject);
-    procedure actionViewGeneral(Sender: TObject);
-    procedure actionPortGeneral(Sender: TObject);
-    procedure actionTxGeneral(Sender: TObject);
-    procedure actionRxGeneral(Sender: TObject);
-    procedure actionSearchGeneral(Sender: TObject);
-    procedure SettingsApply(Sender: TObject = nil);
-
-    procedure sgTxSequencesEditingDone(Sender: TObject);
-    procedure sgTxSequencesMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure sgTxSequencesPrepareCanvas(Sender: TObject; aCol, aRow: Integer;
-      aState: TGridDrawState);
-    procedure sgTxSequencesUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
-    procedure sgTxSequencesChangeBounds(Sender: TObject);
-    procedure sgTxSequencesUpdate;
-
-  PRIVATE
-    FWSPrevious: TWindowState;
-
-  PRIVATE
     procedure SettingsSaveToIni;
     procedure SettingsLoadFromIni;
+    procedure acResetExecute(Sender: TObject);
+
+    procedure pTranceiverMsgResize(Sender: TObject);
+    procedure pSplitterTxRxResize(Sender: TObject);
+    procedure psSplitterTxRxChangeBounds(Sender: TObject);
+    procedure tiTrayIconClick(Sender: TObject);
+    procedure tmrMain50msTimer(Sender: TObject);
+
+    { ***  Обработчики приема и передачи данных  *** }
 
     procedure OnCommRxStart;
     procedure OnCommRxEnd;
     procedure OnCommTxStart;
     procedure OnCommTxEnd;
 
+    { ***  Ввод/вывод данных  *** }
+
+    procedure seTxChange(Sender: TObject);
+    procedure seRxChange(Sender: TObject);
+    procedure cbTxTypeChange(Sender: TObject);
+    procedure cbRxTypeChange(Sender: TObject);
+    procedure seTxRxMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+
+    { ***  Управление портом  *** }
+
+    procedure SetPortSettingsControls(Sender: TObject);
+    procedure actionPortGeneral(Sender: TObject);
+
+    { ***  Управление передатчиком  *** }
+
+    procedure actionTxGeneral(Sender: TObject);
+    procedure acInsertCharExecute(Sender: TObject);
+    procedure acTxImportExecute(Sender: TObject);
+
+    { ***  Управление приемником  *** }
+
+    procedure actionRxGeneral(Sender: TObject);
+    procedure acRxExportExecute(Sender: TObject);
+
+    { ***  Управление видом  *** }
+
+    procedure actionViewGeneral(Sender: TObject);
+
+    { ***  Поиск текста  *** }
+
+    procedure actionSearchGeneral(Sender: TObject);
+
+    { ***  Команды общие  *** }
+
+    procedure actionCommon(Sender: TObject);
+
+    { ***  Плоттер  *** }
+
+    procedure actionPlotter(Sender: TObject);
+
+    procedure chToolPointHintHint(ATool: TDataPointHintTool; const APoint: TPoint; var AHint: String);
+    procedure chToolZoomXBeforeMouseWheelDown(ATool: TChartTool; APoint: TPoint);
+    procedure chToolZoomXBeforeMouseWheelUp(ATool: TChartTool; APoint: TPoint);
+    procedure chToolsetZoomYBeforeMouseWheel(ATool: TChartTool; APoint: TPoint);
+    procedure chToolZoomDragBeforeMouseDown(ATool: TChartTool; APoint: TPoint);
+    procedure chPlotterDrawLegend(ASender: TChart; ADrawer: IChartDrawer; ALegendItems: TChartLegendItems; ALegendItemSize: TPoint; const ALegendRect: TRect; AColCount, ARowCount: Integer);
+    procedure cbPlotterPenStyleDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
+    procedure chPlotterMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure chPlotterMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure chPlotterMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+
+    procedure PlotterParserInit;
+    procedure PlotterParserReInit;
+    procedure PlotterParserOnParseDone(ACharts: TPlotterChartsList);
+    procedure PlotterParserOnCommand(ACommand: String; AValue: Double; AHexLen: Integer);
+    procedure PlotterExportCSV;
+    procedure PlotterExportImage;
+    procedure PlotterLineStyleVerify(AForceDisable: Boolean = False);
+    procedure PlotterSetLinesStyle(AValue: TPlotterPenStyle);
+    procedure PlotterSetLinesWidth(AValue: Integer);
+    procedure PlotterSetLinePointSize(AValue, AIndex: Integer);
+    procedure PlotterSetPointSize(AValue: Integer);
+    function PlotterGetLegendClickedIndex(X, Y: Integer): Integer;
+
+    { ***  Таблица сохраненных сообщений для передачи  *** }
+
+    procedure sgTxSequencesChangeBounds(Sender: TObject);
+    procedure sgTxSequencesPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
+    procedure sgTxSequencesUpdate;
+    procedure sgTxSequencesMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure sgTxSequencesMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure sgTxSequencesUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+    procedure sgTxSequencesEditingDone(Sender: TObject);
+    procedure sgTxSequencesSetEditText(Sender: TObject; ACol, ARow: Integer; const Value: String);
+
+    { ***  Сервисные методы  *** }
+
     procedure UpdateControls(AForceUpdate: Boolean = False);
     procedure UpdateIndicators;
     procedure UpdatePanelsLayout;
-    function UpdateSelectionInfo(ASynEdit: TSynEdit; AEncoding: String;
-      InHEX: Boolean = False): String;
-    procedure LanguageChange;
-    procedure EncodingsTxRxSet;
+    procedure UpdateSelectionInfo(ALabel: TLabel; ASynEdit: TSynEdit; AEncoding: String; InHEX: Boolean = False);
 
-    function GetEditorCursorPosition(ASynEdit: TSynEdit; AEncoding: String;
-      InHEX: Boolean = False): Integer;
-    function GetEditorSelectionSize(ASynEdit: TSynEdit; AEncoding: String;
-      InHEX: Boolean = False): Integer;
-  PUBLIC
+    procedure EncodingsTxRxSet;
+    function GetEditorCursorPosition(ASynEdit: TSynEdit; AEncoding: String; InHEX: Boolean = False): Integer;
+    function GetEditorSelectionSize(ASynEdit: TSynEdit; AEncoding: String; InHEX: Boolean = False): Integer;
+
+    procedure AdjustComponentSizes;
+    procedure AdjustThemeDependentValues;
+
+    procedure SettingsApply(Sender: TObject = nil);
+    procedure LanguageChange;
+
+  private
+    FWSPrevious:    TWindowState;
+    FLastMaxCh:     Integer;       // initial lines padding in window view of plotter
+    FPosOffset:     TPoint;        // offset beetwen window coords and form coords
+    FMouseDownPos:  TPoint;        // mouse coords when left button clicks
+    FMouseDown:     Boolean;       // flag to show mouse down state
+    FFormMetrics:   TRect;         // coords and sizes of form
+    FInactiveColor: Integer;       // RS-232 inactive led color
+    FRedrawBoxes:   Boolean;       // flag to start redraw i/o boxes
+
+    FLineSerie:      array [0..MAX_SERIES - 1] of TLineSeries; // линии плоттера
+    FLineLZone:      array [0..MAX_SERIES - 1] of TRect;       // активные зоны меток линий
+    FPlotterRedefLb: array [0..10] of TLabel;                  // метки переопределенных значений плоттера
   end;
 
 var
   fmMain:        TfmMain;
-  serial:        TSerialPortThread; // класс-поток для работы с портом
-  txSeqList:     TSequencesList;    // класс-хранитель списка сохраненных сообщений для передачи
-  txSequence:    Boolean = False;   // флаг запуска передачи выбранного сбщ из списка сохраненных
-  tx, rx:        String;            // буферы ввода и вывода
-  splitPercent:  Double = 0.5;      // положение разделителя полей в/в (от 0 до 1)
-  redrawBoxes:   Boolean;           // флаг запуска перерисовки полей в/в
-  portWasOpened: Boolean = False;   // был ли открыт порт при завершении предыдущей сессии
+  portList:      TStringList;         // список доступных портов без метки "занят"
+  serial:        TSerialPortThread;   // класс-поток для работы с портом
+  txSeqList:     TSequencesList;      // класс-хранитель списка сохраненных сообщений для передачи
+  plotter:       TPlotterParser;      // класс-парсер для плоттера
+  tx, rx:        String;              // буферы ввода и вывода
+  txSequence:    Boolean = False;     // флаг запуска передачи выбранного сбщ из списка сохраненных
+  splitPercent:  Double = 0.5;        // положение разделителя полей в/в (от 0 до 1)
+  portWasOpened: Boolean = False;     // был ли открыт порт при завершении предыдущей сессии
+  lineSelected:  Integer = -1;        // выбранная курсором линия плоттера
+  lineParam:     TLineParam = lpNone; // параметр линии для изменения жестом
 
 implementation
 
 {$R *.lfm}
 
-{ TfmMain }
+ { TfmMain }
 
-{ ***  Обработка событий главной формы  *** }
+ { ***  Обработка событий главной формы  *** }
 
-// инициализация
+ // инициализация
 procedure TfmMain.FormCreate(Sender: TObject);
-  begin
-    //ReadAppInfo;
-    IniStorageMain.IniFileName := ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE;
 
-    Menu := mmEmpty;
+  procedure AddPortSettingsSubMenu;
+    var
+      i:     Integer;
+      miSub: array of TMenuItem;
+      miNew: TMenuItem;
+    begin
+      miNew            := TMenuItem.Create(MenuItem1);
+      miNew.Caption    := acPortSettingsMenu.Caption;
+      miNew.ImageIndex := acPortSettingsMenu.ImageIndex;
+      MenuItem1.Insert(5, miNew);
+
+      SetLength(miSub, 0);
+      for i := 0 to pmPortSettings.Items.Count - 1 do
+        if pmPortSettings.Items.Items[i].Caption = '-' then
+          miNew.AddSeparator
+        else
+          begin
+          SetLength(miSub, Length(miSub) + 1);
+          miSub[High(miSub)]        := TMenuItem.Create(miNew);
+          miSub[High(miSub)].Action := pmPortSettings.Items.Items[i].Action;
+          miNew.Add(miSub[High(miSub)]);
+          end;
+    end;
+
+  begin
+    ipsMain.IniFileName := ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE;
+
+    Menu := nil;
 
     serial.Start;
 
@@ -387,163 +282,163 @@ procedure TfmMain.FormCreate(Sender: TObject);
     serial.OnRxEnd   := @OnCommRxEnd;
     serial.OnTxStart := @OnCommTxStart;
     serial.OnTxEnd   := @OnCommTxEnd;
+
+    FMouseDown := False;
+
+    PlotterParserInit;
+    AddPortSettingsSubMenu;
   end;
 
 // появление формы главного окна на экране
 procedure TfmMain.FormShow(Sender: TObject);
-
-  procedure SetControlWidth(ACtrl: TControl; ASize: Integer);
-    begin
-      if (ACtrl <> nil) and (ASize > 0) then
-        begin
-        ACtrl.Constraints.MinWidth := ASize;
-        ACtrl.Constraints.MaxWidth := ASize;
-        end;
-
-      case ACtrl.ToString of
-
-        'TComboBox':
-          TComboBox(ACtrl).ItemWidth := GetListStringsMaxWidth(Self, TComboBox(ACtrl).Items);
-
-        'TLabel':
-          TLabel(ACtrl).Constraints.MaxWidth := 0;
-
-        end;
-    end;
-
-  procedure SetControlSizes(ACtrl: TControl; ASizeH: Integer; ASizeW: Integer = 0);
-    begin
-      if ACtrl = nil then Exit;
-
-      if ACtrl.ToString = 'TToolBar' then
-        begin
-        TToolBar(ACtrl).ButtonHeight := ASizeH;
-        TToolBar(ACtrl).ButtonWidth  := CheckBoolean(ASizeW > 0, ASizeW, ASizeH);
-        Exit;
-        end;
-
-      //if ACtrl.ToString = 'TToolBar' then
-        begin
-        ACtrl.Constraints.MinHeight := ASizeH;
-        ACtrl.Constraints.MinWidth  := CheckBoolean(ASizeW > 0, ASizeW, ASizeH);
-        end;
-    end;
-
+  var
+    _comp: TComponent;
   begin
-    //AutoSize := True;
-    //AutoSize := False;
-    //with Constraints do
-    //  begin
-    //  MinHeight := Height;
-    //  MinWidth  := Width;
-    //  end;
+    tiTrayIcon.Visible    := True;
+    tiTrayIcon.Icon       := Application.Icon;
+    lbHelpHint.Caption    := TXT_HELP_HINT;
+    lbTxPosAndSel.Caption := '';
+    lbRxPosAndSel.Caption := '';
+    OnShow                := nil;       // выкл. обработчик, нужен только при запуске
+    Position              := poDefault; // чтобы не менялась позиция окна при разворачивании из трея
+    FPosOffset            := GetFormOffset(Self);
 
-    tiTrayIcon.Icon := Application.Icon;
-    pSearch.Color   := CheckBoolean(pSearch.Color > $222222, pSearch.Color - $222222, 0);
-
-    serial.PortSettings(cbPortsList.Text, 0, 0, 'N', 0);
     EncodingsTxRxSet;
     SettingsLoadFromIni;
     SettingsApply;
 
     // заставка (если включена)
-    fmAbout.ShowSplash(fmSettings.Splash);
-
-    // адаптация размеров компонентов интерфейса
-    SetControlWidth(pLEDTx, 2 * Canvas.GetTextHeight('0'));
-    SetControlWidth(pLEDRx, 2 * Canvas.GetTextHeight('0'));
-    SetControlWidth(lbTxSize, Canvas.GetTextWidth('0 234 567 ' + BYTE_MULTIPLE_2));
-    SetControlWidth(lbRxSize, Canvas.GetTextWidth('0 234 567 ' + BYTE_MULTIPLE_2));
-    SetControlWidth(cbTxType, 0);
-    SetControlWidth(cbRxType, 0);
-    SetControlWidth(cbPortsList, Canvas.GetTextWidth('COM00') + VertScrollBar.Size + 8);
-    SetControlWidth(cbParityBits, Canvas.GetTextWidth('Space') + VertScrollBar.Size + 8);
-    SetControlWidth(cbDataBits, Canvas.GetTextWidth('5') + VertScrollBar.Size + 8);
-    SetControlWidth(cbStopBits, Canvas.GetTextWidth('1.5') + VertScrollBar.Size + 8);
-    SetControlWidth(seAutoSendTime, Canvas.GetTextWidth('000000') + VertScrollBar.Size + 8);
-    SetControlWidth(seBaudRateCustom, cbBaudrate.Width + 8);
-    SetControlWidth(cbBaudrate, GetListStringsMaxWidth(Self, cbBaudrate.Items) + 8);
-    SetControlWidth(cbTxType, GetListStringsMaxWidth(Self, cbTxType.Items) + 8);
-    SetControlWidth(cbRxType, GetListStringsMaxWidth(Self, cbRxType.Items) + 8);
-    SetControlWidth(cbTxEncoding, Canvas.GetTextWidth('macintosh1') + VertScrollBar.Size + 8);
-    SetControlWidth(cbRxEncoding, Canvas.GetTextWidth('macintosh1') + VertScrollBar.Size + 8);
-
-    SetControlSizes(tbTx, cbTxType.Height, cbTxType.Height + 8);
-    SetControlSizes(tbRx, cbTxType.Height, cbTxType.Height + 8);
-    SetControlSizes(tbMain, cbTxType.Height + 1);
-    SetControlSizes(tbPort, cbTxType.Height + 1);
-    SetControlSizes(tbTxSequences, cbTxType.Height + 1);
+    fmAbout.ShowSplash(cfg.com.splash);
 
     // предустановка состояний элементов
-    actionViewGeneral(acShowLineCounts);
-    actionViewGeneral(acShowHEX);
-    actionViewGeneral(acShowOnTop);
-    actionViewGeneral(acShowSignals);
-    actionSearchGeneral(acSearch);
-    actionSearchGeneral(rbTx);
+    actionPortGeneral(acRxEnable);
 
-    // высота индикаторов RS-232
-    pSignalBreak.Constraints.MinHeight := Canvas.GetTextHeight('0') + 2;
+    for _comp in [acShowLineCounts, acShowHEX, acShowOnTop, acShowSignals,
+        acShowTBMain, acShowTBPort, acShowTBTx, acShowTBRx, acShowBorder] do
+      actionViewGeneral(_comp);
+
+    for _comp in [acSearch, rbSearchTx] do
+      actionSearchGeneral(_comp);
+
+    for _comp in [acPlotterShow, acPlotterSettings, Sender] do
+      actionPlotter(_comp);
 
     // автоподключение к порту
-    if fmSettings.Autoconnect and portWasOpened then acConnect.Execute;
+    if cfg.connect.auto and portWasOpened then acConnect.Execute;
 
     // начальная инициализация
     acScan.Execute;
-    //acRxClear.Execute;
-    //acTxClear.Execute;
-    SetPortSettingsControls(nil);
+    SetPortSettingsControls(Sender);
+    seAutoSendTime.Hide;
 
-    OnShow   := nil;       // выкл. обработчик, нужен только при запуске
-    Position := poDefault; // чтобы не менялась позиция окна при разворачивании из трея
     FormChangeBounds(nil);
     pSplitterTxRxResize(nil);
   end;
 
 // изменение состояния главного окна (свернуто, нормально, развернуто)
 procedure TfmMain.FormChangeBounds(Sender: TObject);
+
+  procedure GluedBorder;
+    var
+      currShift:    TPoint;
+      magneticArea: Integer;
+    begin
+      with Screen.WorkAreaRect do
+        begin
+        currShift    := GetFormOffset(Self);
+        magneticArea := Scale96ToForm(24);
+
+        if magneticArea > Abs(FFormMetrics.Left + currShift.X) then
+          Self.Left := -currShift.X;
+        if magneticArea > Abs(Width - FFormMetrics.Right - currShift.X) then
+          Self.Left := Width - Self.Width - currShift.X;
+        if magneticArea > Abs(FFormMetrics.Top + 0) then
+          Self.Top  := 0;
+        if magneticArea > Abs(Height - FFormMetrics.Bottom - currShift.Y) then
+          Self.Top  := Height - Self.Height - currShift.Y;
+        end;
+    end;
+
   begin
     if OnShow <> nil then Exit;
 
     if WindowState <> wsMinimized then
       FWSPrevious := WindowState;
 
-    if fmSettings.MinToTray and (WindowState = wsMinimized) then
+    if WindowState = wsNormal then
+      begin
+      FFormMetrics := GetFormRect(Self);
+      if cfg.com.glued then GluedBorder;
+      end;
+
+    if cfg.com.tray and (WindowState = wsMinimized) then
       tiTrayIconClick(Sender);
 
-    fmChart.UpdateFormPosition;
     stStatusBar.Panels.Items[0].Width := Width - stStatusBar.Height -
       Canvas.GetTextWidth(' COM00, 0-N-0, 000000 ' + SPEED);
 
-    redrawBoxes := True;
+    // контроль стилизации линий плоттера для уменьшения лага прорисовки
+    if acPlotterShow.Checked then PlotterLineStyleVerify;
+
+    FRedrawBoxes := True;
   end;
 
 // действие при попытке закрыть приложение
 procedure TfmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   begin
-    SettingsSaveToIni;
+    if fmUpdate.IsDownloading then
+      CanClose := fmConfirm.Show(TXT_WARNING, WARN_UPDATE, mbYesNo, Self) = mrYes;
+
+    if CanClose then
+      SettingsSaveToIni;
   end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
   begin
-    TxOpenDialog.FileName := FileNames[0];
+    dlgTxOpen.FileName := FileNames[0];
     acTxImportExecute(nil);
   end;
 
-
-{ ***  Работа с хранилищем настроек  *** }
-
-// сохранение настроек в файл INI
-procedure TfmMain.SettingsSaveToIni;
+procedure TfmMain.FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   begin
-    with IniStorageMain do
+    FMouseDown := True;
+    with Mouse.CursorPos do
+      FMouseDownPos.Create(Left - X, Top - Y);
+  end;
+
+procedure TfmMain.FormMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+  begin
+    FMouseDown := False;
+  end;
+
+procedure TfmMain.FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+  begin
+    if FMouseDown and (Shift = [ssLeft]) and (WindowState = wsNormal) then
+      begin
+      Left := FMouseDownPos.X + Mouse.CursorPos.X;
+      Top  := FMouseDownPos.Y + Mouse.CursorPos.Y;
+      end;
+  end;
+
+
+ { ***  Работа с хранилищем настроек  *** }
+
+ // сохранение настроек в файл INI
+procedure TfmMain.SettingsSaveToIni;
+  var
+    offsetSign: Integer;
+  begin
+    with ipsMain do
       begin
       if not Active then Exit;
 
       // параметры состояния формы и компонентов
       IniSection := 'Last Parameters';
-      WriteInteger('WindowMainTop', fmMain.RestoredTop);
-      WriteInteger('WindowMainLeft', fmMain.RestoredLeft);
+      EraseSections;
+
+      offsetSign := (BorderStyle = bsNone).Select(-1, 1);
+      WriteInteger('WindowMainTop', fmMain.RestoredTop + FPosOffset.Y * offsetSign);
+      WriteInteger('WindowMainLeft', fmMain.RestoredLeft + FPosOffset.X * offsetSign);
       WriteInteger('WindowMainWidth', fmMain.RestoredWidth);
       WriteInteger('WindowMainHeight', fmMain.RestoredHeight);
       WriteInteger('WindowMainState', Ord(fmMain.WindowState));
@@ -554,33 +449,35 @@ procedure TfmMain.SettingsSaveToIni;
       WriteInteger('TypeTx', cbTxType.ItemIndex);
       WriteInteger('TypeRx', cbRxType.ItemIndex);
       WriteBoolean('PortOpened', serial.Connected);
+      WriteString('LastPort', serial.Port);
+      WriteInteger('LastUpdateCheck', DateTimeToUnix(fmUpdate.DateLast));
 
       IniSection := 'Buffers Data';
+      EraseSections;
 
       WriteString('TxBufferData',
-        CheckBoolean(fmSettings.TxRestore, EncodeStringBase64(seTx.Text), ''));
+        cfg.tx.restore.Select(EncodeStringBase64(seTx.Text), ''));
 
       WriteString('RxBufferData',
-        CheckBoolean(fmSettings.RxRestore, EncodeStringBase64(rx), ''));
+        cfg.rx.restore.Select(EncodeStringBase64(rx), ''));
 
       IniSection := ''; // выход из текущей секции
       end;
 
-    txSeqList.SaveToIni(IniStorageMain);
+    txSeqList.SaveToIni(ipsMain);
   end;
 
 // загрузка настроек из файла INI
 procedure TfmMain.SettingsLoadFromIni;
-  var
-    cnt: Integer;
   begin
-    with IniStorageMain do
+    with ipsMain do
       begin
+      if not Active then Exit;
 
       // параметры состояния формы и компонентов
       IniSection    := 'Last Parameters';
-      fmMain.Width  := ReadInteger('WindowMainWidth', 650);
-      fmMain.Height := ReadInteger('WindowMainHeight', 420);
+      fmMain.Width  := ReadInteger('WindowMainWidth', Scale96ToScreen(600));
+      fmMain.Height := ReadInteger('WindowMainHeight', Scale96ToScreen(420));
       fmMain.Top    := ReadInteger('WindowMainTop', (Screen.Height - Height) div 2);
       fmMain.Left   := ReadInteger('WindowMainLeft', (Screen.Width - Width) div 2);
 
@@ -592,6 +489,9 @@ procedure TfmMain.SettingsLoadFromIni;
       cbTxType.ItemIndex     := ReadInteger('TypeTx', 0);
       cbRxType.ItemIndex     := ReadInteger('TypeRx', 0);
       portWasOpened          := ReadBoolean('PortOpened', False);
+      fmUpdate.DateLast      := UnixToDateTime(ReadInteger('LastUpdateCheck', 0));
+
+      serial.PortSettings(ReadString('LastPort', '---'), 0, 0, 'N', 0);
 
       IniSection := 'Buffers Data';
 
@@ -605,7 +505,7 @@ procedure TfmMain.SettingsLoadFromIni;
       IniSection := ''; // выход из текущей секции
       end;
 
-    txSeqList.LoadFromIni(IniStorageMain);
+    txSeqList.LoadFromIni(ipsMain);
     sgTxSequencesUpdate;
 
     // на случай, если некорректные параметры положения формы
@@ -619,13 +519,13 @@ procedure TfmMain.acResetExecute(Sender: TObject);
     if fmConfirm.Show(TXT_RESET, WARN_RESET, [mbYes, mbNo], Self) <> mrYes then Exit;
 
     // при сбросе настроек отключаем хранилища
-    IniStorageMain.Active                := False;
-    fmSettings.IniStorageSettings.Active := False;
-    fmCommands.IniStorageCmd.Active      := False;
+    fm_settings.useStorages := False;
+    ipsMain.Active          := False;
+    fmCommands.IniStorageCmd.Active := False;
 
     // восстанавливаем настройки - удаляем файл настроек
-    if FileExistsUTF8(IniStorageMain.IniFileName) then
-      DeleteFileUTF8(IniStorageMain.IniFileName);
+    if FileExistsUTF8(ipsMain.IniFileName) then
+      DeleteFileUTF8(ipsMain.IniFileName);
   end;
 
 
@@ -638,20 +538,26 @@ procedure TfmMain.pTranceiverMsgResize(Sender: TObject);
   end;
 
 procedure TfmMain.pSplitterTxRxResize(Sender: TObject);
+  begin
+    with psSplitterTxRx do
+      if Visible then
+        splitPercent := Position /
+          (cfg.com.layout in [plTxTop, plTxDown]).Select(Height, Width);
+
+    psSplitterTxRx.OnChangeBounds := @psSplitterTxRxChangeBounds;
+  end;
+
+procedure TfmMain.psSplitterTxRxChangeBounds(Sender: TObject);
   var
-    x: Integer;
+    _size: Integer;
   begin
     with psSplitterTxRx do
       begin
-      x := CheckBoolean(fmSettings.PanelsLayout in [plTxTop, plTxDown], Height, Width);
-
       if (splitPercent < 0) or (splitPercent > 1) then
         splitPercent := 0.5;
 
-      Position := round(x * splitPercent);
-
-      if Visible then
-        splitPercent := Position / x;
+      _size    := (cfg.com.layout in [plTxTop, plTxDown]).Select(Height, Width);
+      Position := round(_size * splitPercent);
       end;
   end;
 
@@ -670,37 +576,32 @@ procedure TfmMain.tiTrayIconClick(Sender: TObject);
 procedure TfmMain.tmrMain50msTimer(Sender: TObject);
   const
     tmr1s: Integer = 0;
-
-  procedure UpdateLabelIfNotEmpty(ALabel: TLabel; s: String);
-    begin
-      ALabel.Caption := CheckBoolean(s = '', ALabel.Caption, s);
-    end;
-
+  var
+    etx, erx: String;
   begin
     BeginFormUpdate;
 
     UpdateControls;
     UpdateIndicators;
 
-    UpdateLabelIfNotEmpty(lbTxPosAndSel, UpdateSelectionInfo(seTx,
-      GetEncodingByIndex(cbTxEncoding.ItemIndex)));
-
-    UpdateLabelIfNotEmpty(lbRxPosAndSel, UpdateSelectionInfo(seRx,
-      GetEncodingByIndex(cbRxEncoding.ItemIndex)));
-
-    UpdateLabelIfNotEmpty(lbTxPosAndSel, UpdateSelectionInfo(seTxHex,
-      GetEncodingByIndex(cbTxEncoding.ItemIndex), True));
-
-    UpdateLabelIfNotEmpty(lbRxPosAndSel, UpdateSelectionInfo(seRxHex,
-      GetEncodingByIndex(cbRxEncoding.ItemIndex), True));
+    // update position and selection values
+    if cfg.editor.view.pos then
+      begin
+      etx := GetEncodingByIndex(cbTxEncoding.ItemIndex);
+      erx := GetEncodingByIndex(cbRxEncoding.ItemIndex);
+      UpdateSelectionInfo(lbTxPosAndSel, seTx, etx);
+      UpdateSelectionInfo(lbRxPosAndSel, seRx, erx);
+      UpdateSelectionInfo(lbTxPosAndSel, seTxHex, etx, True);
+      UpdateSelectionInfo(lbRxPosAndSel, seRxHex, erx, True);
+      end;
 
     // перерисовка полей в/в при необходимости
     if tmr1s > 0 then Dec(tmr1s) else
       begin
-      if redrawBoxes then
+      if FRedrawBoxes then
         begin
-        tmr1s       := 1000 div tmrMain50ms.Interval;
-        redrawBoxes := False;
+        tmr1s        := 1000 div tmrMain50ms.Interval;
+        FRedrawBoxes := False;
         cbTxTypeChange(Sender);
         cbRxTypeChange(Sender);
         end;
@@ -722,15 +623,13 @@ procedure TfmMain.OnCommRxEnd;
   begin
     if serial.RxEnable then
       begin
-      rx += serial.DataRx;
 
-      // ограничение объема данных в буфере приема
-      with fmSettings do
-        if (RxSizeLimit > 0) and (rx.Length > RxSizeLimit) then
-          rx := rx.Remove(0, rx.Length - RxSizeLimit);
+      // send data to plotter
+      if acShowRxBox.Checked and acPlotterShow.Checked then
+        plotter.Input := serial.DataRx;
 
       // простой автоответ на вх. последовательность
-      if acAutoAnswerEnable.Checked then
+      if acAutoAnswerEnable.Checked and not acPlotterShow.Checked then
         begin
         index := fmCommands.SequenceList.IndexOf(serial.DataRx);
         if index >= 0 then
@@ -738,7 +637,17 @@ procedure TfmMain.OnCommRxEnd;
             fmCommands.AnswerList.Strings[index], cbRxEncoding.ItemIndex));
         end;
 
-      seRxChange(nil);
+      // add received data to buffer
+      if not acPlotterShow.Checked or cfg.plt.copyRx then
+        begin
+        rx += serial.DataRx;
+
+        // ограничение объема данных в буфере приема
+        if (cfg.rx.limit > 0) and (rx.Length > cfg.rx.limit) then
+          rx := rx.Remove(0, rx.Length - cfg.rx.limit);
+
+        seRxChange(nil);
+        end;
       end;
   end;
 
@@ -749,7 +658,7 @@ procedure TfmMain.OnCommTxStart;
     else
       serial.DataTx := txSeqList.Data[sgTxSequences.Selection.Top - 1];
 
-    acTx.Enabled := False;
+    acTxSend.Enabled := False;
   end;
 
 procedure TfmMain.OnCommTxEnd;
@@ -771,25 +680,28 @@ procedure TfmMain.seTxChange(Sender: TObject);
       case cbTxType.ItemIndex of
         TT_ASC:
           begin
-          x  := (Lines.TextLineBreakStyle = tlbsCRLF).ToInteger + 1;
-          tx := UTF8ToEncodingByIndex(Text.Remove(Text.Length - x, x), cbTxEncoding.ItemIndex);
+          x        := (Lines.TextLineBreakStyle = tlbsCRLF).ToInteger + 1;
+          tx       := UTF8ToEncodingByIndex(Text.Remove(Text.Length - x, x), cbTxEncoding.ItemIndex);
           end;
-        TT_HEX: tx := CodesToStr(Text, 16, 0);
-        TT_BIN: tx := CodesToStr(Text, 2, 0);
-        TT_DEC: tx := CodesToStr(Text, 10, 0);
+        TT_HEX: tx := Text.FromToCodes(16);
+        TT_BIN: tx := Text.FromToCodes(2);
+        TT_DEC: tx := Text.FromToCodes(10);
         end;
 
     if seTxHex.Visible then
       begin
       seTxHex.BeginUpdate;
-      with fmSettings do
-        seTxHex.Text   := StringToHex(tx, HEXLineBytes, HEXBlockBytes);
+      seTxHex.Text     := tx.ToHex(cfg.editor.hex.line, cfg.editor.hex.block);
       seTxHex.SelStart := Length(seTxHex.Text);
       seTxHex.EndUpdate;
       end;
 
     if lbTxSize.Visible then
-      lbTxSize.Caption := SizeStr(tx);
+      if cfg.editor.view.inBytes then
+        lbTxSize.Caption := tx.Length.ToString + ' ' + TXT_BYTE_SHORT
+      else
+        lbTxSize.Caption := tx.Length.SizeInBytes(
+          TXT_BYTE_SHORT, TXT_BYTE_KB, TXT_BYTE_MB, TXT_BYTE_GB, False);
   end;
 
 procedure TfmMain.seRxChange(Sender: TObject);
@@ -802,7 +714,7 @@ procedure TfmMain.seRxChange(Sender: TObject);
         if AText = '' then
           Clear
         else
-          Text   := AText + CheckBoolean(LE, LineEnding, '');  // SetFocus;
+          Text   := AText + LE.Select(LineEnding, '');  // SetFocus;
         SelStart := Text.Length;  // Perform(EM_SCROLLCARET, 0, 0);
         EndUpdate;
         end;
@@ -823,7 +735,7 @@ procedure TfmMain.seRxChange(Sender: TObject);
         if AText = '' then
           Clear
         else
-          Text   := AText + CheckBoolean(LE, LineEnding, '');
+          Text   := AText + LE.Select(LineEnding, '');
         TopLine  := t;
         SelStart := ss;
         SelEnd   := se;
@@ -848,9 +760,9 @@ procedure TfmMain.seRxChange(Sender: TObject);
 
     case cbRxType.ItemIndex of
       TT_ASC: rxUTF := EncodingToUTF8ByIndex(rx, cbRxEncoding.ItemIndex);
-      TT_HEX: rxUTF := StrToCodes(rx, 16, seRx.CharsInWindow);
-      TT_BIN: rxUTF := StrToCodes(rx, 2, seRx.CharsInWindow);
-      TT_DEC: rxUTF := StrToCodes(rx, 10, seRx.CharsInWindow);
+      TT_HEX: rxUTF := rx.ToCodes(16, seRx.CharsInWindow);
+      TT_BIN: rxUTF := rx.ToCodes(2, seRx.CharsInWindow);
+      TT_DEC: rxUTF := rx.ToCodes(10, seRx.CharsInWindow);
       end;
 
     if acShowRxBox.Checked then
@@ -859,11 +771,15 @@ procedure TfmMain.seRxChange(Sender: TObject);
 
       if seRxHex.Visible then
         SynEditUpdate(acRxScrollToEnd.Checked, seRxHex,
-          StringToHex(rx, fmSettings.HEXLineBytes, fmSettings.HEXBlockBytes));
+          rx.ToHex(cfg.editor.hex.line, cfg.editor.hex.block));
       end;
 
-    if lbRxSize.Visible then lbRxSize.Caption := SizeStr(rx);
-    if fmChart.Visible then fmChart.GraphData := rx;
+    if lbRxSize.Visible then
+      if cfg.editor.view.inBytes then
+        lbRxSize.Caption := rx.Length.ToString + ' ' + TXT_BYTE_SHORT
+      else
+        lbRxSize.Caption := rx.Length.SizeInBytes(
+          TXT_BYTE_SHORT, TXT_BYTE_KB, TXT_BYTE_MB, TXT_BYTE_GB, False);
   end;
 
 procedure TfmMain.cbTxTypeChange(Sender: TObject);
@@ -873,10 +789,10 @@ procedure TfmMain.cbTxTypeChange(Sender: TObject);
     seTx.BeginUpdate;
     case cbTxType.ItemIndex of
       TT_ASC: seTx.Text := EncodingToUTF8ByIndex(tx, cbTxEncoding.ItemIndex) +
-          CheckBoolean(tx.Length > 0, LineEnding, '');
-      TT_HEX: seTx.Text := StrToCodes(tx, 16, seTx.CharsInWindow);
-      TT_BIN: seTx.Text := StrToCodes(tx, 2, seTx.CharsInWindow);
-      TT_DEC: seTx.Text := StrToCodes(tx, 10, seTx.CharsInWindow);
+          (tx.Length > 0).Select(LineEnding, '');
+      TT_HEX: seTx.Text := tx.ToCodes(16, seTx.CharsInWindow);
+      TT_BIN: seTx.Text := tx.ToCodes(2, seTx.CharsInWindow);
+      TT_DEC: seTx.Text := tx.ToCodes(10, seTx.CharsInWindow);
       end;
     seTx.EndUpdate;
 
@@ -900,23 +816,38 @@ procedure TfmMain.seTxRxMouseWheel(Sender: TObject; Shift: TShiftState;
         + WheelDelta div abs(WheelDelta);
 
       case TSynEdit(Sender).Name of
-        'seTx': fmSettings.FontTx.Assign(seTx.Font);
-        'seRx': fmSettings.FontRx.Assign(seRx.Font);
+
+        'seTx':
+          {$IFDEF ALLOW_DARK_THEME}
+          if IsDarkModeEnabled then
+            cfg.tx.fontdark.size := seTx.Font.Size
+          else                                    
+          {$ENDIF}
+          cfg.tx.font.size := seTx.Font.Size;
+
+        'seRx':
+          {$IFDEF ALLOW_DARK_THEME}
+          if IsDarkModeEnabled then
+            cfg.rx.fontdark.size := seRx.Font.Size
+          else
+          {$ENDIF}
+          cfg.rx.font.size := seRx.Font.Size;
         end;
 
       sgTxSequencesChangeBounds(Sender);
+      Handled := True;
       end;
   end;
 
 
-{ ***  Управление портом  *** }
+ { ***  Управление портом  *** }
 
-// настройки трансивера UART
+ // настройки трансивера UART
 procedure TfmMain.SetPortSettingsControls(Sender: TObject);
-  const
-    parity: array [0..4] of Char = ('N', 'E', 'O', 'M', 'S');
   var
-    baudrateValue: Integer;
+    baudrateValue:      Integer;
+    dataBits, stopBits: Integer;
+    parityBit:          char;
   begin
     if cbBaudrate.ItemIndex = cbBaudrate.Items.Count - 1 then
       begin
@@ -929,13 +860,33 @@ procedure TfmMain.SetPortSettingsControls(Sender: TObject);
       seBaudRateCustom.Visible := False;
       end;
 
-    if Sender <> nil then
-      serial.PortSettings(
-        cbPortsList.Text,
-        baudrateValue,
-        cbDataBits.ItemIndex + 5,
-        parity[cbParityBits.ItemIndex],
-        cbStopBits.ItemIndex);
+    // default values: 8N1
+    dataBits  := 8;
+    parityBit := 'N';
+    stopBits  := 0;
+
+    // set data bits
+    if acPortDB5.Checked then dataBits := 5 else
+    if acPortDB6.Checked then dataBits := 6 else
+    if acPortDB7.Checked then dataBits := 7 else
+      acPortDB8.Checked                := True;  // if unchecked all set default
+
+    // set parity bits
+    if acPortPBE.Checked then parityBit := 'E' else
+    if acPortPBO.Checked then parityBit := 'O' else
+    if acPortPBM.Checked then parityBit := 'M' else
+    if acPortPBS.Checked then parityBit := 'S' else
+      acPortPBN.Checked                 := True; // if unchecked all set default
+
+    // set stop bits
+    if acPortSB1h.Checked then stopBits := 1 else
+    if acPortSB2.Checked then stopBits  := 2 else
+      acPortSB1.Checked                 := True; // if unchecked all set default
+
+    // set new settings of port
+    if (Sender <> nil) and (cbPortsList.ItemIndex in [0..portList.Count]) then
+      serial.PortSettings(portList[cbPortsList.ItemIndex],
+        baudrateValue, dataBits, parityBit, stopBits);
 
     UpdateControls(True);
   end;
@@ -947,13 +898,16 @@ procedure TfmMain.actionPortGeneral(Sender: TObject);
       // получение списка доступных портов
       'acScan':
         begin
+        serial.CheckPort            := False;
+        portList.CommaText          := serial.GetExistingPorts;
+        serial.CheckPort            := cfg.connect.check;
         cbPortsList.Items.CommaText := serial.GetExistingPorts;
         cbPortsList.ItemWidth       := GetListStringsMaxWidth(Self, cbPortsList.Items);
         cbPortsList.ItemIndex       := serial.GetPortIndexInList;
         if cbPortsList.ItemIndex < 0 then cbPortsList.ItemIndex := 0;
 
         stStatusBar.Panels.Items[1].Text :=
-          PORTS_FINDED + ': ' + cbPortsList.Items.Count.ToString;
+          Format(PORTS_FINDED, [cbPortsList.Items.Count]);
         end;
 
       // подключение к порту / отключение от порта
@@ -998,7 +952,7 @@ procedure TfmMain.actionTxGeneral(Sender: TObject);
     case TComponent(Sender).Name of
 
       // команда отправки данных
-      'acTx':
+      'acTxSend':
         serial.Transmit;
 
       // автопередача по таймеру
@@ -1126,17 +1080,17 @@ procedure TfmMain.acTxImportExecute(Sender: TObject);
   begin
     if Sender <> nil then
       begin
-      TxOpenDialog.FileName := ExtractFileName(TxOpenDialog.FileName);
-      if not TxOpenDialog.Execute then Exit;
+      dlgTxOpen.FileName := ExtractFileName(dlgTxOpen.FileName);
+      if not dlgTxOpen.Execute then Exit;
       end;
 
-    if not fmSettings.FileDataAdding and fmSettings.LoadWarning and (tx <> '')
-      and (fmConfirm.Show(TXT_WARNING, WARN_LOAD, mbYesNo, Self) = mrNo) then Exit;
+    if not cfg.tx.addition and cfg.tx.loadWarn and (tx <> '') then
+      if (fmConfirm.Show(TXT_WARNING, WARN_LOAD, mbYesNo, Self) = mrNo) then Exit;
 
     with TStringList.Create do
       begin
-      LoadFromFile(TxOpenDialog.FileName);
-      if fmSettings.FileDataAdding then
+      LoadFromFile(dlgTxOpen.FileName);
+      if cfg.tx.addition then
         tx += Text
       else
         tx := Text;
@@ -1168,54 +1122,54 @@ procedure TfmMain.actionRxGeneral(Sender: TObject);
         rx := '';
         seRxChange(Sender);
         end;
-
-      // показать окно построения графика по полученных данных
-      'acShowGraph':
-        begin
-        fmChart.MainForm  := fmMain;
-        fmChart.FormStyle := fmMain.FormStyle;
-        fmChart.Show;
-        seRxChange(nil);
-        end;
       end;
   end;
 
 procedure TfmMain.acRxExportExecute(Sender: TObject);
-  var
-    tmp: String;
+  const
+    lastName: String = ''; // static var
   begin
-    tmp := RxSaveDialog.FileName;
+    dlgRxSave.Filter   := Format('%s|*.txt|%s|*.*', [TXT_DLG_TEXT, TXT_DLG_ALL]);
+    dlgRxSave.FileName := (lastName <> '').Select(lastName, 'buffer_rx');
 
-    if RxSaveDialog.Execute then
+    if dlgRxSave.Execute then
       begin
 
       with TStringList.Create do
         begin
         Text := rx;
-        SaveToFile(RxSaveDialog.FileName);
+        SaveToFile(dlgRxSave.FileName);
         Free;
         end;
 
-      RxSaveDialog.FileName := ExtractFileName(RxSaveDialog.FileName);
-      end
-    else
-      RxSaveDialog.FileName := tmp;
+      lastName := ExtractFileName(dlgRxSave.FileName);
+      end;
   end;
 
 
 { ***  Управление видом  *** }
 procedure TfmMain.actionViewGeneral(Sender: TObject);
+  var
+    _offsetSign:  Integer;
+    _viewNothing: Boolean;
   begin
+    FMouseDownPos.Create(Left, Top);
     BeginFormUpdate;
     case TAction(Sender).Name of
 
       // опция главной формы 'поверх всех окон'
       'acShowOnTop':
-        FormStyle := CheckBoolean(acShowOnTop.Checked, fsSystemStayOnTop, fsNormal);
+        begin
+        FormStyle := acShowOnTop.Checked.Select(fsSystemStayOnTop, fsNormal);
+        EndFormUpdate;
+        Self.Left := FMouseDownPos.X;
+        Self.Top  := FMouseDownPos.Y;
+        BeginFormUpdate;
+        end;
 
       // вкл/выкл панель сигналов порта
       'acShowSignals':
-        gbSignals.Visible := acShowSignals.Checked;
+        pSignals.Visible := acShowSignals.Checked;
 
       // вкл/выкл номера строк
       'acShowLineCounts':
@@ -1229,15 +1183,11 @@ procedure TfmMain.actionViewGeneral(Sender: TObject);
       // вкл/выкл доп. поле с данными в HEX-виде или панель сохраненных сообщений
       'acShowHEX', 'acTxSequences':
         begin
-        //seTxHex.Visible    := acShowHEX.Checked;
-        seRxHex.Visible       := acShowHEX.Checked;
-        SplitterRx.Visible    := acShowHEX.Checked;
-        nbTxRight.Visible     := acShowHEX.Checked or acTxSequences.Checked;
-        SplitterTx.Visible    := nbTxRight.Visible;
-        nbTxRight.PageIndex   := acTxSequences.Checked.ToInteger;
-        acTxSeqEdit.Enabled   := acTxSequences.Checked;
-        acTxSeqRemove.Enabled := acTxSequences.Checked;
-        acTxSeqGet.Enabled    := acTxSequences.Checked;
+        seRxHex.Visible      := acShowHEX.Checked;
+        spSplitterRx.Visible := acShowHEX.Checked;
+        nbTxRight.Visible    := acShowHEX.Checked or acTxSequences.Checked;
+        spSplitterTx.Visible := nbTxRight.Visible;
+        nbTxRight.PageIndex  := acTxSequences.Checked.ToInteger;
 
         seRxChange(Sender);
         seTxChange(Sender);
@@ -1246,21 +1196,88 @@ procedure TfmMain.actionViewGeneral(Sender: TObject);
       // вкл/выкл видимость полей в/в
       'acShowTxBox', 'acShowRxBox':
         begin
-        gbRx.Visible           := acShowRxBox.Checked;
-        gbTx.Visible           := acShowTxBox.Checked;
-        psSplitterTxRx.Visible := gbRx.Visible and gbTx.Visible;
-        UpdatePanelsLayout;
+        pRxBox.Visible         := acShowRxBox.Checked;
+        pTxBox.Visible         := acShowTxBox.Checked;
+        _viewNothing           := not (pRxBox.Visible or pTxBox.Visible);
+        psSplitterTxRx.Visible := pRxBox.Visible and pTxBox.Visible;
+        lbHelpHint.Visible     := _viewNothing;
 
-        if gbRx.Visible or gbTx.Visible then
-          lbHelpHint.Caption := ''
-        else
-          lbHelpHint.Caption := MultiString(TXT_HELP_HINT);
+        if _viewNothing and acSearch.Checked then acSearch.Execute;
+
+        UpdatePanelsLayout;
+        end;
+
+      // управление видимостью главной панели инструментов
+      'acShowTBMain':
+        begin
+        pToolbar.Visible     := acShowTBMain.Checked;
+        pMainToolbar.Visible := acShowTBMain.Checked or pPortSettings.Visible;
+        end;
+
+      // управление видимостью панели инструментов порта
+      'acShowTBPort':
+        begin
+        pPortSettings.Visible := acShowTBPort.Checked;
+        pMainToolbar.Visible  := acShowTBPort.Checked or pToolbar.Visible;
+        end;
+
+      // управление видимостью панели инструментов передатчика
+      'acShowTBTx':
+        pTxToolbar.Visible := acShowTBTx.Checked;
+
+      // управление видимостью панели инструментов приемника
+      'acShowTBRx':
+        pRxToolbar.Visible := acShowTBRx.Checked;
+
+      // control visibility of form border
+      'acShowBorder':
+        begin
+        acExitEx.Visible := not acShowBorder.Checked;
+        _offsetSign      := acShowBorder.Checked.Select(-1, 1);
+        FMouseDownPos.X  += FPosOffset.X * _offsetSign;
+        FMouseDownPos.Y  += FPosOffset.Y * _offsetSign;
+
+        case WindowState of
+
+          wsNormal:
+            begin
+            BorderStyle := acShowBorder.Checked.Select(bsSizeable, bsNone);
+            EndFormUpdate;
+            Self.Left   := FMouseDownPos.X;
+            Self.Top    := FMouseDownPos.Y;
+            BeginFormUpdate;
+            end;
+
+          wsMaximized:
+            if acShowBorder.Checked then
+              begin
+              SetFormRect(Self, FFormMetrics);
+              Self.BorderStyle    := bsSizeable;
+              Self.FormStyle      := fsNormal;
+              acShowOnTop.Enabled := True;
+              end
+            else
+              begin
+              Self.BorderStyle    := bsNone;
+              Self.FormStyle      := fsStayOnTop;
+              acShowOnTop.Enabled := False;
+              end;
+          end;
         end;
       end;
 
+    acTxSeqAdd.Enabled    := acShowTxBox.Checked;
+    acTxSequences.Enabled := acShowTxBox.Checked;
+
     FormChangeBounds(Sender);
+    UpdateControls(True);
     EndFormUpdate;
     sgTxSequencesChangeBounds(nil);
+
+    {$IFDEF ALLOW_DARK_THEME}
+    if IsDarkModeEnabled then
+      MetaDarkFormChanged(Self);
+    {$ENDIF}
   end;
 
 
@@ -1281,29 +1298,43 @@ procedure TfmMain.actionSearchGeneral(Sender: TObject);
         pSearch.Visible := acSearch.Checked;
 
       // выбор поля, по которому искать
-      'rbTx', 'rbRx':
+      'rbSearchTx', 'rbSearchRx':
         begin
         BeginFormUpdate;
-        cbSearchReplace.Visible    := rbTx.Checked;
-        cbSearchReplaceAll.Visible := rbTx.Checked;
-        edReplace.Visible          := rbTx.Checked;
-        lbSearch1.Visible          := rbTx.Checked;
-        lbSearch2.Visible          := rbTx.Checked;
-        rbRx.Checked               := not rbTx.Checked;
+        lbSearch.Constraints.MinWidth  := Max(lbSearch.Width, lbReplace.Width);
+        lbReplace.Constraints.MinWidth := Max(lbSearch.Width, lbReplace.Width);
+
+        cbSearchReplace.Visible    := rbSearchTx.Checked;
+        cbSearchReplaceAll.Visible := rbSearchTx.Checked;
+        edReplace.Visible          := rbSearchTx.Checked;
+        lbReplace.Visible          := rbSearchTx.Checked;
+        lbSearchSpace1.Visible     := rbSearchTx.Checked;
+        lbSearchSpace2.Visible     := rbSearchTx.Checked;
+        rbSearchRx.Checked         := not rbSearchTx.Checked;
         EndFormUpdate;
         end;
 
       // команда запуска поиска/замены
       'acSearchNext', 'acSearchPrev':
         begin
-        se := TSynEdit(CheckBooleanPtr(rbTx.Checked, seTx, seRx));
+        se := TSynEdit(rbSearchTx.Checked.Select(seTx, seRx));
         if not se.CanFocus then Exit;
-        if cbSearchCaseSens.Checked then option += [ssoMatchCase];
+        if cbSearchCaseSens.Checked then option    += [ssoMatchCase];
         if senderName = 'acSearchPrev' then option += [ssoBackwards];
-        if rbTx.Checked and cbSearchReplace.Checked then option += [ssoReplace];
-        if rbTx.Checked and cbSearchReplaceAll.Checked then option += [ssoReplaceAll];
+        if cbSearchRegex.Checked then option       += [ssoRegExpr];
+
         se.SetFocus;
-        se.SelStart := CheckBoolean(senderName = 'acSearchPrev', se.SelStart, se.SelEnd);
+        se.SelStart := (senderName = 'acSearchPrev').Select(se.SelStart, se.SelEnd);
+
+        if rbSearchTx.Checked and cbSearchReplace.Checked then
+          if cbSearchReplaceAll.Checked then
+            begin
+            option      += [ssoReplaceAll];
+            se.SelStart := 1;
+            end
+          else
+            option      += [ssoReplace];
+
         se.SearchReplace(edSearch.Text, edReplace.Text, option);
         end;
 
@@ -1313,33 +1344,40 @@ procedure TfmMain.actionSearchGeneral(Sender: TObject);
 
 { ***  Команды общие  *** }
 procedure TfmMain.actionCommon(Sender: TObject);
+  var
+    helpFileBase: String;
   begin
+    helpFileBase := '..' + DirectorySeparator + HELP_DIR + DirectorySeparator + HELP_FILE;
+
     case TAction(Sender).Name of
 
       // завершение работы приложения
-      'acExit':
+      'acExit', 'acExitEx':
         Close;
 
       // открыть окно настроек приложения
       'acSettings':
         begin
-        fmSettings.ShowModal;
+        plotter.Pause := True;  // pause the plotter immediatelly
+        fmSettings.ShowModal;   // show settings window
         SettingsApply;
         end;
 
       // вызов справки html
       'acHelp':
-        OpenURL('..' + DirectorySeparator + HELP_DIR + DirectorySeparator + HELP_FILE + '.html');
+        if not OpenDocument(helpFileBase + '.' + cfg.com.lang + '.html') then
+          OpenDocument(helpFileBase + '.html');
 
       // вызов справки markdown
       'acHelpMD':
-        OpenURL('..' + DirectorySeparator + HELP_DIR + DirectorySeparator + HELP_FILE + '.md');
+        if not OpenDocument(helpFileBase + '.' + cfg.com.lang + '.md') then
+          OpenDocument(helpFileBase + '.md');
 
       // вызов справки онлайн
       'acHelpNet':
-        OpenURL(APP_SITE_ADDRESS + '/' + HELP_DIR_ONLINE + '/' + HELP_FILE + '.md');
+        OpenURL(APP_REPO_ADDRESS + '/' + HELP_DIR_ONLINE + '/' + HELP_FILE + '.md');
 
-      // ссылка на репозиторий
+      // link to online homepage
       'acWebsite':
         OpenURL(APP_SITE_ADDRESS);
 
@@ -1349,16 +1387,1118 @@ procedure TfmMain.actionCommon(Sender: TObject);
         fmAbout.FormStyle := FormStyle;
         fmAbout.Show;
         end;
+
+      // show update app form
+      'acAppUpdate', 'acUpdateGo':
+        fmUpdate.ShowModal;
+
+      // cancel showing update app notification
+      'acUpdateCancel':
+        fmUpdate.Later;
+
       end;
   end;
 
 
-{ ***  Отображение таблицы сохраненных сообщений для передачи  *** }
+{ ***  Плоттер  *** }
 
-// изменение размеров, подгонка ширины строк
+procedure TfmMain.actionPlotter(Sender: TObject);
+  var
+    i: Integer;
+  begin
+    BeginFormUpdate;
+
+    case TComponent(Sender).Name of
+
+      // reset plotter state (used on start-up in FormShow() )
+      'fmMain':
+        begin
+        plotter.OnParseDone := nil;
+
+        PlotterParserReInit;
+        plotter.Reset;
+
+        cbPlotterRegExp.Visible := plotter.Protocol = ppRegExp;
+
+        // clear and hide labels for redefined values
+        pPlotterRedef.Hide;
+        for i := Low(FPlotterRedefLb) to High(FPlotterRedefLb) do
+          FPlotterRedefLb[i].Caption := '';
+
+        for i := Low(FLineSerie) to High(FLineSerie) do
+          begin
+          FLineSerie[i].Clear;
+          FLineSerie[i].Active := FLineSerie[i].Active or cfg.plt.reactivate;
+          FLineLZone[i]        := Rect(-1, -1, -1, -1);
+
+          if cfg.plt.recolor then
+            begin
+            FLineSerie[i].SeriesColor         := cfg.plt.color.line[i];
+            FLineSerie[i].Pointer.Brush.Color := cfg.plt.color.line[i];
+            end;
+          end;
+
+        // here we restore some settings that
+        // may have been changed by the commands ...
+        chPlotter.BottomAxis.Grid.Visible := cfg.ax.grid;
+        chPlotter.LeftAxis.Grid.Visible   := cfg.ax.grid;
+
+        // ... and restore colors
+        AdjustThemeDependentValues;
+
+        actionPlotter(sePlotterPenSize);
+        actionPlotter(sePlotterPoints);
+        actionPlotter(cbPlotterPenStyle);
+        plotter.OnParseDone := @PlotterParserOnParseDone;
+        end;
+
+      'acPlotterClear':
+        begin
+        if cfg.plt.clearRx then
+          acRxClear.Execute;
+        actionPlotter(fmMain);
+        end;
+
+      // показать/закрыть плоттер
+      'acPlotterShow':
+        if acPlotterShow.Checked then
+          begin
+          if not acShowRxBox.Checked then acShowRxBox.Execute;
+          actionPlotter(acPlotterSettings);
+          pgRxPlotter.Show;
+          seRxChange(nil);
+          end
+        else
+          begin
+          tbPlotter.Visible   := False;
+          tbPlotterEx.Visible := False;
+          pgRxText.Show;
+          end;
+
+      // закрыть плоттер
+      'acPlotterClose':
+        acPlotterShow.Execute;
+
+      'acPlotterSettings':
+        PlotterParserReInit;
+
+      'acPlotterTracker':
+        acPlotterQTracker.Execute;
+
+      'acPlotterQTracker':
+        begin
+        acPlotterTracker.Checked   := acPlotterQTracker.Checked;
+        chToolPointTracker.Enabled := acPlotterQTracker.Checked;
+        chToolPointHint.Enabled    := acPlotterQTracker.Checked;
+        end;
+
+      'acPlotterLiveMode':
+        acPlotterQLiveMode.Execute;
+
+      'sePlotterViewport', 'acPlotterQLiveMode':
+        begin
+        acPlotterLiveMode.Checked := acPlotterQLiveMode.Checked;
+        if plotter.View = pvSweep then
+          actionPlotter(acPlotterClear)
+        else
+          PlotterParserReInit;
+        end;
+
+      'cbPlotterPenStyle':
+        PlotterSetLinesStyle(TPlotterPenStyle(cbPlotterPenStyle.ItemIndex));
+
+      'sePlotterPenSize':
+        PlotterSetLinesWidth(sePlotterPenSize.Value);
+
+      'sePlotterPoints':
+        PlotterSetPointSize(sePlotterPoints.Value);
+
+      'cbPlotterProtocol':
+        if TPlotterProtocol(cbPlotterProtocol.ItemIndex) <> plotter.Protocol then
+          actionPlotter(acPlotterClear);
+
+      'cbPlotterRegExp':
+        with cbPlotterRegExp do
+          if ItemIndex <> Tag then
+            begin
+            Tag := ItemIndex;
+            actionPlotter(acPlotterClear);
+            end;
+
+      'cbPlotterView':
+        if TPlotterView(cbPlotterView.ItemIndex) <> plotter.View then
+          actionPlotter(acPlotterClear);
+
+      'acPlotterExpCSV', 'acPlotterQExpCSV':
+        PlotterExportCSV;
+
+      'acPlotterExpImg', 'acPlotterQExpImg':
+        PlotterExportImage;
+
+      end;
+
+    UpdateControls(True);
+    EndFormUpdate;
+  end;
+
+
+procedure TfmMain.chToolPointHintHint(
+  ATool: TDataPointHintTool; const APoint: TPoint; var AHint: String);
+  var
+    serie: TLineSeries;
+    x, y:  Double;
+    t:     String;
+  begin
+    serie := ATool.Series as TLineSeries;
+    t     := serie.Title.Trim;
+    x     := serie.XValue[ATool.PointIndex];
+    y     := serie.YValue[ATool.PointIndex];
+
+    // подсказка под перекрестием
+    AHint := Format('%8s%s ' + LineEnding + ' X = %f ' + LineEnding + ' Y = %f ', ['', t, x, y]);
+
+    // подсказка в статусной строке
+    if cfg.com.status then
+      stStatusBar.Panels[1].Text := Format('%s: %f  %f', [t, x, y]);
+  end;
+
+procedure TfmMain.chToolZoomXBeforeMouseWheelDown(
+  ATool: TChartTool; APoint: TPoint);
+  begin
+    // контроль стилизации линий для уменьшения лага прорисовки
+    PlotterLineStyleVerify;
+
+    if acPlotterQLiveMode.Checked then
+      with sePlotterViewport do
+        if plotter.View = pvSweep then
+          Value := Value + Increment
+        else
+          Value := Value * 2;
+  end;
+
+procedure TfmMain.chToolZoomXBeforeMouseWheelUp(
+  ATool: TChartTool; APoint: TPoint);
+  begin
+    // контроль стилизации линий для уменьшения лага прорисовки
+    PlotterLineStyleVerify;
+
+    if acPlotterQLiveMode.Checked then
+      with sePlotterViewport do
+        if plotter.View = pvSweep then
+          Value := Value - Increment
+        else
+        if Value >= 2 * Increment then
+          Value := Value div 2;
+  end;
+
+procedure TfmMain.chToolsetZoomYBeforeMouseWheel(
+  ATool: TChartTool; APoint: TPoint);
+  begin
+    // контроль стилизации линий для уменьшения лага прорисовки
+    PlotterLineStyleVerify;
+
+    if chLiveView.Active then
+      chLiveView.ExtentY := lveLogical;
+  end;
+
+procedure TfmMain.chToolZoomDragBeforeMouseDown(ATool: TChartTool;
+  APoint: TPoint);
+  begin
+    // отключить стилизации линий для уменьшения лага прорисовки
+    PlotterLineStyleVerify(True);
+
+    if chLiveView.Active then
+      chLiveView.ExtentY := lveAuto;
+  end;
+
+procedure TfmMain.chPlotterDrawLegend(ASender: TChart; ADrawer: IChartDrawer;
+  ALegendItems: TChartLegendItems; ALegendItemSize: TPoint;
+  const ALegendRect: TRect; AColCount, ARowCount: Integer);
+  var
+    i, x, d, ex, ey, t, l, dx, h, y, xw, iw: Integer;
+    f: TFont;
+    s: String;
+  begin
+    if ALegendItems.Count = 0 then Exit;
+
+    f := TFont.Create;
+    f.Assign(ASender.Legend.Font);
+    ADrawer.SetFont(f);
+
+    dx := 0;
+    d  := 0;
+    l  := ALegendRect.Left;
+    t  := ALegendRect.Top;
+    h  := ADrawer.TextExtent('0').Y;
+    xw := cfg.legend.style.Select(2 * h, round(0.7 * h));
+
+    for i := Low(FLineSerie) to High(FLineSerie) do
+      with FLineSerie[i] do
+        begin
+        if Count = 0 then continue; // пропуск пустых линий
+
+        // пропуск линий без метки, если задана настройка
+        if not cfg.legend.untitled and plotter.Charts[i].DefaultCaption then break;
+
+        s := cfg.legend.index.Select((i + 1).ToString + ': ', '')
+          + Title.Trim;
+
+        if Pointer.HorizSize > 0 then
+          d := Pointer.HorizSize * 2 + 1;
+
+        x  := l + dx;
+        iw := ADrawer.TextExtent(s).X;
+
+        if x + xw + iw + 10 > chPlotter.Width - tbPlotter.Width then
+          begin
+          t  += h + 4;
+          x  := l;
+          dx := 0;
+          end;
+
+        y  := t + h div 2;
+        ex := x + h - d div 2 + 4;
+        ey := y - d div 2;
+
+        FLineLZone[i] := Rect(x + 4, t + 1, x + xw + iw + 8, t + h);
+
+        // draw frame
+        if cfg.legend.frame then
+          begin
+          if cfg.legend.coloredframe then
+            ADrawer.SetPenParams(LinePen.Style, SeriesColor)
+          else
+            ADrawer.SetPenParams(psSolid, chPlotter.Legend.Font.Color);
+          ADrawer.SetBrushParams(bsSolid, chPlotter.BackColor);
+          ADrawer.Rectangle(FLineLZone[i]);
+          end;
+
+        ADrawer.SetPenParams(LinePen.Style, SeriesColor);
+
+        if Active then
+          if cfg.legend.style then
+            begin
+            // draw line example
+            ADrawer.SetPenWidth(LinePen.Width);
+            ADrawer.SetBrushParams(bsClear, SeriesColor);
+            ADrawer.Line(x + 8 + LinePen.Width div 2, y, x + xw - LinePen.Width div 2, y);
+
+            // draw dots
+            ADrawer.SetBrushParams(bsSolid, SeriesColor);
+            ADrawer.SetPenParams(psSolid, clBlack);
+            ADrawer.Ellipse(ex, ey, ex + d, ey + d);
+            end
+          else
+            begin
+            // simple rectangle with color of line
+            ADrawer.SetPenWidth(1);
+            ADrawer.SetBrushParams(bsSolid, SeriesColor);
+            if cfg.legend.frame and not cfg.legend.coloredframe then
+              ADrawer.Rectangle(x + 5, t + 2, x + xw, t + h - 1)
+            else
+              ADrawer.Rectangle(x + 4, t + 1, x + xw, t + h);
+            end;
+
+        // draw label
+        if cfg.legend.colored then f.Color := SeriesColor;
+        ADrawer.SetFont(f);
+        ADrawer.SetBrushParams(bsClear, clWhite);
+        ADrawer.TextOut.Text(s).Pos(x + xw + 4, t - 1).Done;
+
+        dx += xw + iw + 8;
+        end;
+
+    f.Free;
+  end;
+
+procedure TfmMain.cbPlotterPenStyleDrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+  var
+    y: LongInt;
+  begin
+    // обработчик для отрисовки стиля линий вместо текстового описания
+
+    y := (ARect.Bottom + ARect.Top) div 2;
+
+    with cbPlotterPenStyle.Canvas do
+      begin
+      Pen.Width := 1;
+      Pen.Color := Brush.Color;
+      Pen.Style := psSolid;
+      Rectangle(ARect);      // выделение
+
+      Pen.Width := sePlotterPenSize.Value;
+      Pen.Color := Font.Color;
+      Pen.Style := PLOTTER_PEN_STYLE[TPlotterPenStyle(Index)];
+      Line(ARect.Left + Pen.Width, y, ARect.Right - Pen.Width, y);
+      end;
+  end;
+
+procedure TfmMain.chPlotterMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+  begin
+    if not cfg.legend.interactive then Exit;
+
+    FMouseDownPos := Point(X, Y);
+    lineSelected  := PlotterGetLegendClickedIndex(X, Y);
+
+    if ssCtrl in Shift then
+      lineParam := lpStyle
+    else
+    if ssAlt in Shift then
+      lineParam := lpPoint
+    else
+      lineParam := lpWidth;
+  end;
+
+procedure TfmMain.chPlotterMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+  begin
+    if not cfg.legend.interactive then Exit;
+
+    pPlotterHint.Visible := False;
+    lineSelected         := PlotterGetLegendClickedIndex(X, Y);
+    if lineSelected < 0 then Exit;
+
+    case Button of
+      mbLeft:      // ЛКМ - вкл/выкл видимость линии
+        FLineSerie[lineSelected].Active := not FLineSerie[lineSelected].Active;
+
+      mbRight:     // ПКМ - задать свой цвет линии
+        begin
+        dlgLineColor.Color := FLineSerie[lineSelected].SeriesColor;
+        if dlgLineColor.Execute then
+          begin
+          FLineSerie[lineSelected].SeriesColor         := dlgLineColor.Color;
+          FLineSerie[lineSelected].Pointer.Brush.Color := dlgLineColor.Color;
+          end;
+        end;
+      end;
+
+    lineSelected := -1;
+    lineParam    := lpNone;
+  end;
+
+procedure TfmMain.chPlotterMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+  var
+    cursorOutOfLegend: Boolean;
+    pos:               Integer;
+    s:                 String;
+    v:                 TPlotterPenStyle;
+  begin
+    if not cfg.legend.interactive then Exit;
+
+    // если движение мышью с ЛКМ было начато на метке - обрабатываем его
+    if lineSelected >= 0 then
+      begin
+      // преобразуем расстояние движения в значение
+      pos := (Y - FMouseDownPos.Y - 20) div 16;
+
+      case lineParam of
+
+        lpStyle: // движение вниз + Ctrl - стиль линии
+          begin
+          v := TPlotterPenStyle(Constrain(pos, Low(TPlotterPenStyle), High(TPlotterPenStyle)));
+          plotter.Charts[lineSelected].Style := v;
+          s := Format(TXT_PLOT_LINE_ST, [UTF8LowerCase(TXT_PLOTTER_PEN_STYLE[v])]);
+          end;
+
+        lpPoint: // движение вниз + Alt - размер точек линии
+          begin
+          PlotterSetLinePointSize(Constrain(pos, 0, 10), lineSelected);
+          s := Format(TXT_PLOT_LINE_PS, [plotter.Charts[lineSelected].PointSize]);
+          end;
+
+        lpWidth: // движение вниз - толщина линии
+          begin
+          plotter.Charts[lineSelected].Width := Constrain(pos, 1, 10);
+          s := Format(TXT_PLOT_LINE_WD, [plotter.Charts[lineSelected].Width]);
+          end;
+        end;
+
+      // подсказка для отображения значения
+      lbPlotterHint.Caption := FLineSerie[lineSelected].Title.Trim + LineEnding + s;
+      with pPlotterHint do
+        begin
+        BevelColor := FLineSerie[lineSelected].SeriesColor;
+        Visible    := True;
+        Top        := Constrain(chPlotter.Top + Y + 30, 0, pgRxPlotter.Height - Height);
+        Left       := Constrain(pPlotter.Left + X - Width div 2, 0, pgRxPlotter.Width - Width);
+        end;
+
+      PlotterLineStyleVerify;
+      end;
+
+    // не идем дальше, если кнопки мыши нажаты, чтобы не включать инструменты
+    // в процессе настройки толщины и стиля линии
+    if Shift * [ssLeft, ssRight] <> [] then Exit;
+
+    // отключение инструментов на метках легенды
+    cursorOutOfLegend      := PlotterGetLegendClickedIndex(X, Y) < 0;
+    chToolMove.Enabled     := cursorOutOfLegend;
+    chToolZoomDrag.Enabled := cursorOutOfLegend;
+  end;
+
+
+procedure TfmMain.PlotterParserInit;
+  var
+    i:      Integer;
+    series: String = '';
+  begin
+    for i := Low(FLineSerie) to High(FLineSerie) do
+      begin
+      FLineSerie[i]                := TLineSeries.Create(chPlotter);
+      FLineSerie[i].Active         := True;
+      FLineSerie[i].AxisIndexX     := 0;
+      FLineSerie[i].AxisIndexY     := 1;
+      FLineSerie[i].LinePen.Width  := 1;
+      FLineSerie[i].Legend.Visible := True;
+      FLineSerie[i].ShowPoints     := False;
+      FLineSerie[i].Pointer.Style  := psCircle;
+
+      chPlotter.AddSeries(FLineSerie[i]);
+      series += Format('%d,', [i]);
+      end;
+
+    // label to show redefined values
+    for i := Low(FPlotterRedefLb) to High(FPlotterRedefLb) do
+      begin
+      FPlotterRedefLb[i]            := TLabel.Create(fmMain);
+      FPlotterRedefLb[i].Caption    := '';
+      FPlotterRedefLb[i].Parent     := pPlotterRedef;
+      FPlotterRedefLb[i].Font.Color := clRed;
+      end;
+
+    chToolPointTracker.AffectedSeries := series;
+    chToolPointHint.AffectedSeries    := series;
+  end;
+
+procedure TfmMain.PlotterParserReInit;
+
+  procedure SetZoomControl(AToolsetZoom: TZoomMouseWheelTool; ASetting: TPlotterCtrl);
+    begin
+      case ASetting of
+        pcWheel: AToolsetZoom.Shift      := [];
+        pcCtrlWheel: AToolsetZoom.Shift  := [ssCtrl];
+        pcShiftWheel: AToolsetZoom.Shift := [ssShift];
+        pcRightWheel: AToolsetZoom.Shift := [ssRight];
+        end;
+    end;
+
+  begin
+    if fmSettings = nil then Exit; // если не можем прочитать настройки, выходим
+
+    BeginFormUpdate;
+    plotter.OnCommand      := nil;
+    chNavScrollBar.Visible := cfg.ax.ctrl.bar;
+    chNavPanel.Visible     := cfg.plt.view.minimap;
+    tbPlotter.Visible      := not cfg.plt.view.panelOnMain;
+    tbPlotterEx.Visible    := cfg.plt.view.panelOnMain and acPlotterShow.Checked;
+
+    // в live-режиме отключаем масштабирование по оси X
+    if acPlotterQLiveMode.Checked then
+      begin
+      chToolZoomX.ZoomFactor := 1;
+      chToolZoomX.ZoomRatio  := 1;
+      end
+    else
+      begin
+      chToolZoomX.ZoomFactor := 1 / cfg.ax.ctrl.factor;
+      chToolZoomX.ZoomRatio  := cfg.ax.ctrl.factor;
+      end;
+
+    SetZoomControl(chToolZoomX, cfg.ax.ctrl.method);
+    SetZoomControl(chToolZoomY, cfg.ay.ctrl.method);
+
+    actionPlotter(acPlotterQTracker);
+
+    plotter.Protocol        := TPlotterProtocol(cbPlotterProtocol.ItemIndex);
+    plotter.View            := TPlotterView(cbPlotterView.ItemIndex);
+    plotter.WindowSize      := sePlotterViewport.Value;
+    plotter.WindowClear     := round(plotter.WindowSize / 100 * cfg.ax.space);
+    chLiveView.ViewportSize := sePlotterViewport.Value + 1;
+    chToolZoomY.ZoomRatio   := 1 / cfg.ay.ctrl.factor;
+
+    // settings for regexp format
+    if cbPlotterRegExp.ItemIndex < 0 then cbPlotterRegExp.ItemIndex := 0;
+    plotter.RegExpString   := cfg.re.list.Items[cbPlotterRegExp.ItemIndex].RegExp;
+    plotter.RegExpLabel    := cfg.re.list.Items[cbPlotterRegExp.ItemIndex].RELabel;
+    plotter.RegExpValue    := cfg.re.list.Items[cbPlotterRegExp.ItemIndex].REValue;
+    plotter.RegExpCaseCare := cfg.re.casecare;
+
+    chPlotter.ZoomFull(True);
+    chPlotter.Foot.Visible     := cfg.ax.labels and (plotter.View = pv2D);
+    sbxPlotSettings.Visible    := acPlotterSettings.Checked;
+    acPlotterQLiveMode.Enabled := plotter.View <> pvSweep;
+    sePlotterViewport.Visible  := acPlotterQLiveMode.Checked or (plotter.View = pvSweep);
+    chLiveView.ExtentY         := lveAuto;
+    chLiveView.Active          := acPlotterQLiveMode.Checked and acPlotterQLiveMode.Enabled;
+    chLiveView.ViewportSize    := sePlotterViewport.Value;
+
+    // allow execute plotter commands
+    if cfg.plt.commands then
+      plotter.OnCommand := @PlotterParserOnCommand;
+
+    // allow smoothing via BGRA connector
+    if cfg.plt.smooth then
+      chPlotter.GUIConnector := chGUIConnBGRA
+    else
+      chPlotter.GUIConnector := nil;
+
+    // reset initial lines padding in window view
+    FLastMaxCh := -1;
+
+    EndFormUpdate;
+  end;
+
+procedure TfmMain.PlotterParserOnParseDone(ACharts: TPlotterChartsList);
+  var
+    _minCh, _maxCh: Integer;
+
+  procedure AddTitles;
+    var
+      _ch: Integer;
+    begin
+      for _ch := _minCh to _maxCh do
+        FLineSerie[_ch].Title := ACharts[_ch].Caption + '  ';
+    end;
+
+  procedure LimitSamples;
+    var
+      i, _ch, _del: Integer;
+    begin
+      for _ch := _minCh to _maxCh do
+        begin
+        _del := FLineSerie[_ch].Count - cfg.ax.samples;
+        if _del > 0 then              // if we have a tail
+          for i := 1 to _del do       // remove it
+            FLineSerie[_ch].Delete(0);
+        end;
+    end;
+
+  procedure AddNewData;
+    var
+      i, _ch: Integer;
+    begin
+      for _ch := _minCh to _maxCh do
+          try
+          for i := 0 to ACharts[_ch].Count - 1 do
+            with ACharts[_ch].Points[i] do
+              FLineSerie[_ch].AddXY(X, Y);
+          except
+          actionPlotter(acPlotterClear);
+          end;
+    end;
+
+  procedure PlotViewStandard;
+    begin
+      AddTitles;
+      AddNewData;
+      LimitSamples;
+    end;
+
+  procedure PlotView2D;
+    begin
+      // show x-axis title
+      if cfg.ax.labels and (_maxCh <> 0) then
+        chPlotter.Foot.Text.Text := ACharts.Item[0].Caption;
+
+      PlotViewStandard;
+    end;
+
+  procedure PlotViewWindow;
+    var
+      i, _ch: Integer;
+    begin
+      // init series in window mode
+      if (FLastMaxCh < _maxCh) or (FLineSerie[0].Count < plotter.WindowSize + 2) then
+        begin
+        FLastMaxCh := _maxCh;
+
+        for _ch := _minCh to _maxCh do
+          while FLineSerie[_ch].Count < plotter.WindowSize + 2 do
+            FLineSerie[_ch].AddXY(FLineSerie[_ch].Count, NaN);
+        end;
+
+      AddTitles;
+      plotter.WindowPositionSave;
+
+      // add new data
+      for _ch := _minCh to _maxCh do
+        begin
+        plotter.WindowPositionRestore;
+
+        for i := 0 to ACharts[_ch].Count - 1 do
+          begin
+          with ACharts[_ch].Points[i] do
+            begin
+            FLineSerie[_ch].YValue[plotter.WindowPos] := Y;
+
+            if not plotter.WindowReset and (plotter.WindowPos = 0) then
+              FLineSerie[_ch].YValue[plotter.WindowSize] := Y;
+            end;
+
+          plotter.WindowPositionIncrement;
+          end;
+
+        // draw 'empty cursor' after data as in oscilloscope
+        if not plotter.WindowReset then
+          for i := plotter.WindowPos to plotter.WindowPos + plotter.WindowClear do
+            if i > plotter.WindowSize then
+              break
+            else
+              FLineSerie[_ch].YValue[i] := NaN;
+        end;
+    end;
+
+  begin
+    _maxCh := (High(FLineSerie) < plotter.LinesCount - 1).Select(
+      High(FLineSerie), plotter.LinesCount - 1);
+
+    _minCh := (plotter.View = pv2D).Select(1, 0) + Low(FLineSerie);
+
+    BeginFormUpdate;
+
+      try
+      case plotter.View of
+
+        pvStandard:
+          PlotViewStandard;
+
+        pv2D:
+          PlotView2D;
+
+        pvSweep:
+          PlotViewWindow;
+        end;
+
+      // lines styles control for lower rendering lag
+      PlotterLineStyleVerify;
+
+      except
+      acPlotterClear.Execute;
+      end;
+
+    EndFormUpdate;
+  end;
+
+procedure TfmMain.PlotterParserOnCommand(ACommand: String; AValue: Double; AHexLen: Integer);
+  var
+    ivalue, tmp, i: Integer;
+    valView:        TPlotterView;
+  begin
+    // if command contains more than 5 characters it's probably not a command
+    if Length(ACommand) > 5 then Exit;
+    ivalue := Round(AValue);
+
+    case ACommand of
+
+      // command RESET: clear all lines and reinitialize
+      'r', 'reset':
+        begin
+        acPlotterClear.Execute;
+
+        // exit here to show no hints
+        Exit;
+        end;
+
+      // command CLEAR: remove <ivalue> last points of lines, 0 - all
+      'c', 'clear':
+        begin
+        ivalue := Constrain(ivalue, 0, plotter.Samples);
+        if ivalue = 0 then ivalue := plotter.Samples;
+        plotter.DeleteLastSamples(ivalue);
+
+        for i := Low(FLineSerie) to High(FLineSerie) do
+          if FLineSerie[i].Count <= ivalue then
+            FLineSerie[i].Clear
+          else
+            for tmp := 1 to ivalue do
+              FLineSerie[i].Delete(FLineSerie[i].Count - 1);
+
+        // exit here to show no hints
+        Exit;
+        end;
+
+      // command XWIN: set viewport in samples
+      'x', 'xwin':
+        begin
+        tmp := sePlotterViewport.Value;
+
+        sePlotterViewport.Value    := ivalue;
+        sePlotterViewport.OnChange := nil;
+        sePlotterViewport.Value    := tmp;   // set old value
+        sePlotterViewport.OnChange := @actionPlotter;
+        FPlotterRedefLb[0].Caption := TXT_REDEF_VIEWPORT + ': ' + ivalue.ToString;
+        end;
+
+      // command GRID: on/off x and y axes grid visibility
+      'g', 'grid':
+        begin
+        ivalue := Constrain(ivalue, 0, 1);
+
+        chPlotter.BottomAxis.Grid.Visible := ivalue <> 0;
+        chPlotter.LeftAxis.Grid.Visible   := ivalue <> 0;
+        FPlotterRedefLb[1].Caption        := TXT_REDEF_GRID + ': ' + ivalue.ToString;
+        end;
+
+      // command XGRID: on/off x-axis grid visibility
+      'xg', 'xgrid':
+        begin
+        ivalue := Constrain(ivalue, 0, 1);
+
+        chPlotter.BottomAxis.Grid.Visible := ivalue <> 0;
+        FPlotterRedefLb[2].Caption        := TXT_REDEF_XGRID + ': ' + ivalue.ToString;
+        end;
+
+      // command YGRID: on/off y-axis grid visibility
+      'yg', 'ygrid':
+        begin
+        ivalue := Constrain(ivalue, 0, 1);
+
+        chPlotter.LeftAxis.Grid.Visible := ivalue <> 0;
+        FPlotterRedefLb[3].Caption      := TXT_REDEF_YGRID + ': ' + ivalue.ToString;
+        end;
+
+      // command BACKGROUND: set background color of chart
+      'bg', 'back':
+        begin
+        chPlotter.BackColor        := RGBHexToColor(IntToHex(ivalue, AHexLen));
+        FPlotterRedefLb[4].Caption := TXT_REDEF_BGCOLOR + ': #' + IntToHex(ivalue, AHexLen);
+        end;
+
+      // command WIDTH: set width of all lines
+      'w', 'width':
+        begin
+        ivalue := Constrain(ivalue, 0, sePlotterPenSize.MaxValue);
+
+        PlotterSetLinesWidth(ivalue);
+        FPlotterRedefLb[5].Caption := TXT_REDEF_WIDTH + ': ' + ivalue.ToString;
+        end;
+
+      // command POINT: set size of points for all lines
+      'p', 'point':
+        begin
+        ivalue := Constrain(ivalue, 0, sePlotterPoints.MaxValue);
+
+        PlotterSetPointSize(ivalue);
+        FPlotterRedefLb[6].Caption := TXT_REDEF_POINTS + ': ' + ivalue.ToString;
+        end;
+
+      // command VIEW: set plotter view mode
+      'v', 'view':
+        begin
+        valView := TPlotterView(Constrain(ivalue, Low(TPlotterView), High(TPlotterView)));
+
+        if valView <> plotter.View then
+          begin
+          actionPlotter(acPlotterClear);
+          plotter.View := valView;
+          end;
+
+        FPlotterRedefLb[7].Caption := TXT_PLOTTER_VIEW[plotter.View];
+        end;
+
+        // unsupported command - exit immediately
+      else
+        Exit;
+      end;
+
+    // show hints of redefined values
+    pPlotterRedef.Show;
+  end;
+
+procedure TfmMain.PlotterExportCSV;
+  const
+    lastName: String = ''; // static var
+  var
+    _max, p: Integer;
+    csv:     TCSVDocument;
+    fmt:     TFormatSettings;
+    _state:  Boolean;
+
+
+  procedure AddTitle;
+    var
+      i: Integer;
+    begin
+      csv.AddRow('#');
+
+      if plotter.View = pv2D then       // 2nd col in 2D mode is X axis value
+        if FLineSerie[1].Count > 0 then // do if line 1 has data
+          csv.AddCell(csv.RowCount - 1, plotter.Charts[0].Caption);
+
+      for i := Low(FLineSerie) to High(FLineSerie) do
+        if FLineSerie[i].Count > 0 then // lines with data only
+          csv.AddCell(csv.RowCount - 1, FLineSerie[i].Title.Trim);
+    end;
+
+  procedure AddLine(APoint: Integer);
+    var
+      i: Integer;
+    begin
+      csv.AddRow(APoint.ToString);
+
+      if plotter.View = pv2D then       // 2nd col in 2D mode is X axis value
+        if FLineSerie[1].Count > 0 then // do if line 1 has data
+          csv.AddCell(csv.RowCount - 1, FloatToStr(FLineSerie[1].XValue[p], fmt));
+
+      for i := Low(FLineSerie) to High(FLineSerie) do
+        if FLineSerie[i].Count > 0 then // lines with data only
+          csv.AddCell(csv.RowCount - 1, FloatToStr(FLineSerie[i].YValue[p], fmt));
+    end;
+
+  begin
+    // disable plotter temporarily
+    _state                := acPlotterShow.Checked;
+    acPlotterShow.Checked := False;
+    Sleep(100);
+
+    csv  := TCSVDocument.Create;
+    _max := FLineSerie[(plotter.View = pv2D).Select(1, 0)].Count - 1;
+
+    if _max > 0 then
+      begin
+      dlgRxSave.Filter   := Format('%s|*.csv', [TXT_DLG_CSV]);
+      dlgRxSave.FileName := (lastName <> '').Select(lastName, 'charts-data');
+
+      if dlgRxSave.Execute then
+        begin
+        csv.Delimiter  := PLOTTER_CSV_DELIM[cfg.csv.delimiter];
+        csv.QuoteChar  := PLOTTER_CSV_QUOTES[cfg.csv.quotes];
+        csv.LineEnding := DATA_LINEBREAK[cfg.csv.linebreak];
+        fmt            := DefaultFormatSettings;
+        if cfg.csv.decimal <> pcddSystem then
+          fmt.DecimalSeparator := PLOTTER_CSV_DECDELIM[cfg.csv.decimal];
+
+        AddTitle;
+        for p := 0 to _max do
+            try
+            AddLine(p);
+            except
+            end;
+
+        csv.SaveToFile(dlgRxSave.FileName);
+
+        lastName := ExtractFileName(dlgRxSave.FileName);
+        end;
+      end;
+
+    csv.Free;
+    acPlotterShow.Checked := _state; // re-enable plotter
+  end;
+
+procedure TfmMain.PlotterExportImage;
+  const
+    lastDir: String    = '';    // static var
+    dlgShowed: Boolean = False; // static var  
+  var
+    bmp:       TBGRABitmap;
+    id:        IChartDrawer;
+    tmp, w, h: Integer;
+
+  function FileNameSetted: Boolean;
+    begin
+      with dlgRxSave do
+        begin
+        Filter     := Format('%s|*.png', [TXT_DLG_PNG]);
+        InitialDir := (lastDir = '').Select(InitialDir, lastDir);
+        FileName   := GetDateTimeFilename + '.png';
+        end;
+
+      if not cfg.png.silent then
+        dlgShowed          := dlgRxSave.Execute
+      else
+      if dlgShowed then
+        dlgRxSave.FileName := dlgRxSave.InitialDir + dlgRxSave.FileName
+      else
+      if dlgRxSave.Execute then
+        dlgShowed          := True;
+
+      Result := dlgShowed;
+    end;
+
+  function GetFontSize: Integer;
+    var
+      _size: Double;
+    begin
+      _size := 0;
+
+      if cfg.png.font.prop and cfg.png.custom then
+        begin
+        _size := Min(cfg.png.w / Width, cfg.png.h / Height);
+        _size *= Canvas.GetTextHeight('1');
+        end
+      else
+        _size := cfg.png.font.prop.Select(0, cfg.png.font.size);
+
+      Result := Round(Double((_size < 0.05).Select(-1, _size)));
+    end;
+
+  procedure SetChartFontSize(ASize: Integer);
+    begin
+      if ASize < 0 then Exit;
+      chPlotter.LeftAxis.Marks.LabelFont.Size := ASize;
+      chPlotter.BottomAxis.Marks.LabelFont.Size := ASize;
+      chPlotter.Legend.Font.Size := ASize;
+      chPlotter.Foot.Font.Size := ASize;
+    end;
+
+  begin
+    if FileNameSetted then
+      with chPlotter do
+        begin
+        BeginFormUpdate;
+        w   := cfg.png.custom.Select(cfg.png.w, Width);
+        h   := cfg.png.custom.Select(cfg.png.h, Height);
+        tmp := Font.Size;
+        SetChartFontSize(GetFontSize);
+
+        if cfg.plt.smooth then
+          begin
+          bmp  := TBGRABitmap.Create(w, h);
+          DisableRedrawing;
+            try
+            id := TBGRABitmapDrawer.Create(bmp);
+            Draw(id, Rect(0, 0, w, h));
+            bmp.SaveToFileUTF8(dlgRxSave.FileName);
+            finally
+            EnableRedrawing;
+            bmp.Free;
+            end;
+          end
+        else
+          begin
+          if cfg.png.custom then
+            begin
+            Align  := alNone;
+            Width  := w;
+            Height := h;
+            end;
+
+          SaveToFile(TPortableNetworkGraphic, dlgRxSave.FileName);
+          Align := alClient;
+          end;
+
+        SetChartFontSize(tmp);
+        EndFormUpdate;
+
+        lastDir := ExtractFilePath(dlgRxSave.FileName);
+        end;
+  end;
+
+procedure TfmMain.PlotterLineStyleVerify(AForceDisable: Boolean);
+  var
+    _enable: Boolean;
+    i:       Integer;
+  begin
+    // отключение стилизации линий для уменьшения лага прорисовки
+    // при большом количестве отображаемых точек
+    _enable := not AForceDisable and
+      (chPlotter.LogicalExtent.b.X - chPlotter.LogicalExtent.a.X <
+      chPlotter.Width * Map(chPlotter.Width, 500, 2000, 2, 1));
+
+    for i := Low(FLineSerie) to High(FLineSerie) do
+      with FLineSerie[i] do
+        begin
+
+        // if line has color defined in its parameters:
+        if plotter.Charts[i].CustomColor then
+          begin
+          SeriesColor         := plotter.Charts[i].Color;
+          Pointer.Brush.Color := SeriesColor;
+          end;
+
+        if _enable then
+
+          // custom style of lines
+          begin
+          LinePen.Width := plotter.Charts[i].Width;
+          LinePen.Style := PLOTTER_PEN_STYLE[plotter.Charts[i].Style];
+
+          if plotter.Charts[i].PointSize < 0 then
+            ShowPoints        := sePlotterPoints.Value > 0
+          else
+            begin
+            Pointer.HorizSize := plotter.Charts[i].PointSize;
+            Pointer.VertSize  := plotter.Charts[i].PointSize;
+            ShowPoints        := plotter.Charts[i].PointSize > 0;
+            end;
+          end
+
+        else
+
+          // simplified style of lines for faster rendering
+          begin
+          LinePen.Width := 1;
+          LinePen.Style := psSolid;
+          ShowPoints    := False;
+          end;
+        end;
+  end;
+
+procedure TfmMain.PlotterSetLinesStyle(AValue: TPlotterPenStyle);
+  var
+    i: Integer;
+  begin
+    for i := Low(FLineSerie) to High(FLineSerie) do
+      begin
+      plotter.Charts[i].Style     := AValue;
+      FLineSerie[i].LinePen.Style := PLOTTER_PEN_STYLE[AValue];
+      end;
+  end;
+
+procedure TfmMain.PlotterSetLinesWidth(AValue: Integer);
+  var
+    i: Integer;
+  begin
+    for i := Low(FLineSerie) to High(FLineSerie) do
+      begin
+      plotter.Charts[i].Width     := AValue;
+      FLineSerie[i].LinePen.Width := AValue;
+      end;
+
+    cbPlotterPenStyle.Repaint;
+  end;
+
+procedure TfmMain.PlotterSetLinePointSize(AValue, AIndex: Integer);
+  begin
+    if not (AIndex in [Low(FLineSerie)..High(FLineSerie)]) then Exit;
+    plotter.Charts[AIndex].PointSize     := AValue;
+    FLineSerie[AIndex].Pointer.HorizSize := AValue;
+    FLineSerie[AIndex].Pointer.VertSize  := AValue;
+    FLineSerie[AIndex].ShowPoints        := AValue > 0;
+  end;
+
+procedure TfmMain.PlotterSetPointSize(AValue: Integer);
+  var
+    i: Integer;
+  begin
+    for i := Low(FLineSerie) to High(FLineSerie) do
+      PlotterSetLinePointSize(AValue, i);
+  end;
+
+function TfmMain.PlotterGetLegendClickedIndex(X, Y: Integer): Integer;
+  var
+    i: Integer;
+  begin
+    Result := -1;
+    for i  := Low(FLineSerie) to High(FLineSerie) do
+      if FLineSerie[i].Count <> 0 then
+        if InRange(X, FLineLZone[i].Left, FLineLZone[i].Right) and
+          InRange(Y, FLineLZone[i].Top, FLineLZone[i].Bottom) then
+          Exit(i);
+  end;
+
+
+ { ***  Таблица сохраненных сообщений для передачи  *** }
+
+ // изменение размеров, подгонка ширины строк
 procedure TfmMain.sgTxSequencesChangeBounds(Sender: TObject);
   var
     vsbWidth: Integer = 0;
+    i:        Integer;
   begin
     if not acTxSequences.Checked then Exit;
 
@@ -1366,12 +2506,16 @@ procedure TfmMain.sgTxSequencesChangeBounds(Sender: TObject);
       begin
       BeginUpdate;
       Font.Assign(seTx.Font);
-      DefaultRowHeight := round(abs(seTx.Font.FontData.Height) * 1.3);
 
-      Columns.Items[0].Title.Font.Assign(Font);
-      Columns.Items[1].Title.Font.Assign(Font);
-      Columns.Items[0].Title.Font.Bold := True;
-      Columns.Items[1].Title.Font.Bold := True;
+      for i := 0 to Count - 1 do
+        begin
+        Items[i].Font.Assign(Font);
+        Items[i].Title.Font.Assign(Font);
+        Items[i].Title.Font.Bold := True;
+        end;
+
+      Items[0].Font.Italic := True;
+      DefaultRowHeight     := round(abs(seTx.Font.FontData.Height) * 1.3);
 
       // если полоса прокрутки есть - получаем ее ширину
       if VisibleRowCount < (RowCount - 1) then
@@ -1408,7 +2552,7 @@ procedure TfmMain.sgTxSequencesUpdate;
       BeginUpdate;
 
       RowCount := txSeqList.Count + 1;
-      for i := 1 to txSeqList.Count do
+      for i    := 1 to txSeqList.Count do
         with Rows[i] do
           begin
           Strings[0] := i.ToString;
@@ -1439,6 +2583,7 @@ procedure TfmMain.sgTxSequencesMouseDown(Sender: TObject; Button: TMouseButton;
     with sgTxSequences do
       begin
       MouseToCell(X, Y, aCol, aRow);
+      Row := aRow;
       Col := aCol;
 
       if (Button = mbRight) and (SelectedColumn.Index > 0) then
@@ -1451,15 +2596,12 @@ procedure TfmMain.sgTxSequencesMouseDown(Sender: TObject; Button: TMouseButton;
 procedure TfmMain.sgTxSequencesUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
   begin
     with sgTxSequences do
-      begin
-      Options := Options - [goEditing, goAlwaysShowEditor];
-
-      if UTF8Key = chr(13) then
-        actionTxGeneral(sgTxSequences)
-      else
+      if not (goEditing in Options) then
+        if UTF8Key = chr(13) then
+          actionTxGeneral(sgTxSequences)
+        else
         if SelectedColumn.Index > 0 then
           Options := Options + [goEditing];
-      end;
   end;
 
 // окончание редактирования заголовка сообщения
@@ -1469,30 +2611,79 @@ procedure TfmMain.sgTxSequencesEditingDone(Sender: TObject);
       if goEditing in Options then
         begin
         Options := Options - [goEditing, goAlwaysShowEditor];
-        txSeqList.Caption[Selection.Top - 1] := Cells[1, Selection.Top];
+        //txSeqList.Caption[Selection.Top - 1] := Cells[1, Selection.Top];
         sgTxSequencesUpdate;
         end;
   end;
 
+// редактирование заголовка сохраненного сообщения
+procedure TfmMain.sgTxSequencesSetEditText(Sender: TObject; ACol,
+  ARow: Integer; const Value: String);
+  begin
+    with sgTxSequences do
+      if ARow >= FixedRows then
+        txSeqList.Caption[ARow - 1] := Cells[1, ARow];
+  end;
 
-{ ***  Сервисные методы  *** }
 
-// обновление изменяемых элементов интерфейса
+ { ***  Сервисные методы  *** }
+
+ // обновление изменяемых элементов интерфейса
 procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
   const
     updateFlag: Boolean = True;
     connected: Boolean  = True;
   var
-    atitle, port, status: String;
+    atitle, atitSh, port, status: String;
+    _txSeqEditing, _txSeqMoving:  Boolean;
+    _textBoxesVisible:            Boolean;
   begin
     BeginFormUpdate;
 
-    atitle              := fmAbout.AppIntName;
-    port                := '';
-    updateFlag          := connected xor serial.Connected;
-    connected           := serial.Connected;
-    acTx.Enabled        := connected and not serial.IsTxing;
-    acTxSeqSend.Enabled := acTx.Enabled and acTxSequences.Checked;
+    if Assigned(fmAbout) then
+      atitle := fmAbout.AppIntName;
+
+    port             := '';
+    updateFlag       := connected xor serial.Connected;
+    connected        := serial.Connected;
+    acTxSend.Enabled := connected and not serial.IsTxing;
+    plotter.Pause    := not (connected and acRxEnable.Checked and acPlotterShow.Checked) or fmSettings.Showing;
+
+    // auto answer mustn't work if plotter is working
+    acAutoAnswerEnable.Enabled := not acPlotterShow.Checked;
+    acAutoAnswerSetup.Enabled  := not acPlotterShow.Checked;
+
+    // управление доступностью инструментов для работы с списком сохраненных сбщ
+    _txSeqEditing           := acTxSequences.Checked and acShowTxBox.Checked and (sgTxSequences.Row >= 1);
+    _txSeqMoving            := acTxSequences.Checked and acShowTxBox.Checked and (sgTxSequences.RowCount >= 3);
+    acTxSeqSend.Enabled     := _txSeqEditing and acTxSend.Enabled;
+    acTxSeqEdit.Enabled     := _txSeqEditing;
+    acTxSeqRemove.Enabled   := _txSeqEditing;
+    acTxSeqGet.Enabled      := _txSeqEditing;
+    acTxSeqMoveDown.Enabled := _txSeqMoving;
+    acTxSeqMoveUp.Enabled   := _txSeqMoving;
+
+    acPlotterExpCSV.Enabled  := acPlotterShow.Checked;
+    acPlotterQExpCSV.Enabled := acPlotterShow.Checked;
+    acPlotterExpImg.Enabled  := acPlotterShow.Checked;
+    acPlotterQExpImg.Enabled := acPlotterShow.Checked;
+
+    lbRxSize.Visible         := not acPlotterShow.Checked and cfg.editor.view.size;
+    lbRxPosAndSel.Visible    := not acPlotterShow.Checked and cfg.editor.view.pos;
+    lbPlotterSize.Visible    := acPlotterShow.Checked and cfg.plt.size;
+    lbPlotterCounter.Visible := acPlotterShow.Checked and cfg.ax.counter;
+
+    cbSearchReplaceAll.Enabled := cbSearchReplace.Checked;
+
+    if Assigned(fmUpdate) then
+      pAppUpdate.Visible := fmUpdate.IsNotify;
+
+    if lbPlotterCounter.Visible then
+      lbPlotterCounter.Caption := plotter.Samples.ToString;
+
+    if lbPlotterSize.Visible then
+      lbPlotterSize.Caption := plotter.DataSize.SizeInBytes(
+        TXT_BYTE_SHORT, TXT_BYTE_KB, TXT_BYTE_MB, TXT_BYTE_GB, False);
 
     if AForceUpdate or updateFlag then
       begin
@@ -1500,8 +2691,11 @@ procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
         begin
         port   := serial.ConfigString + ' ' + SPEED;
         status := serial.ConfigShort + ' ' + SPEED;
-        atitle += ' - ' + port + ' - Tx';
-        atitle += CheckBoolean(serial.RxEnable, '/Rx', '');
+        atitSh := atitle + ' – ' + status + ' – Tx';
+        atitSh += serial.RxEnable.Select('/Rx', '');
+        atitle += ' – ' + port + ' – Tx';
+        atitle += serial.RxEnable.Select('/Rx', '');
+
 
         acConnect.Caption    := DISCONNECT;
         acConnect.Hint       := DISCONNECT_HINT;
@@ -1520,19 +2714,35 @@ procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
 
       stStatusBar.Panels.Items[1].Text := status;
       Caption           := atitle;
-      Application.Title := Caption;
-      tiTrayIcon.Hint   := Caption;
+      Application.Title := atitle;
+      tiTrayIcon.Hint   := atitSh.Replace(' – ', LineEnding);
+
+      if acPlotterShow.Checked then
+        tiTrayIcon.Hint := tiTrayIcon.Hint + Format(' – plotter: %s, %s',
+          [cbPlotterProtocol.Text, cbPlotterView.Text]);
 
       //cbTxEncoding.Enabled := cbTxType.ItemIndex = 0;
       //cbRxEncoding.Enabled := cbRxType.ItemIndex = 0;
 
-      gbTx.Caption := TX_CAPTION +
-        CheckBoolean(fmSettings.ShowEncoding and (cbTxType.ItemIndex = 0),
-        ' — ' + TXT_ENCODING + ' ' + cbTxEncoding.Text, '');
+      _textBoxesVisible := acShowTxBox.Checked or
+        (acShowRxBox.Checked and not acPlotterShow.Checked);
 
-      gbRx.Caption := RX_CAPTION +
-        CheckBoolean(fmSettings.ShowEncoding and (cbRxType.ItemIndex = 0),
-        ' — ' + TXT_ENCODING + ' ' + cbRxEncoding.Text, '');
+      acSearch.Enabled         := _textBoxesVisible;
+      acShowHEX.Enabled        := _textBoxesVisible;
+      acShowLineCounts.Enabled := _textBoxesVisible;
+
+      lbTx.Caption := TX_CAPTION +
+        (cfg.com.encoding and (cbTxType.ItemIndex = 0)).Select(
+        ' — ' + Format(TXT_ENCODING, [cbTxEncoding.Text]), '');
+
+      if acPlotterShow.Checked then
+        lbRx.Caption := PLOTTER_CAPTION + Format(' — %s, %s', [
+          String(cbPlotterProtocol.Text).Replace('  ', ' ').Replace('  ', ' '),
+          String(cbPlotterView.Text).FirstLowCase])
+      else
+        lbRx.Caption := RX_CAPTION +
+          (cfg.com.encoding and (cbRxType.ItemIndex = 0)).Select(
+          ' — ' + Format(TXT_ENCODING, [cbRxEncoding.Text]), '');
       end;
 
     pTranceiver.Visible := acShowTxBox.Checked or acShowRxBox.Checked;
@@ -1544,15 +2754,20 @@ procedure TfmMain.UpdateIndicators;
   const
     lock: Integer = 0;
 
-  function SetIndicatorText(AValue: Boolean): String;
+  function SetIndicatorText(AValue: TSerialSignal): String;
     begin
-      if not fmSettings.ShowRS232Captions then Exit('');
-      Result := CheckBoolean(serial.Connected, indicatorText[AValue], '---');
+      if not cfg.com.RS232 then Exit('');
+      Result := serial.Connected.Select(indicatorText[serial.Signal[AValue]], '---');
     end;
 
   function SetIndicatorColor(AValue: Boolean): TColor;
     begin
-      Result := CheckBoolean(serial.Connected, indicatorColor[AValue], inactiveColor);
+      Result := serial.Connected.Select(indicatorColor[AValue], FInactiveColor);
+    end;
+
+  function SetIndicatorColor(AValue: TSerialSignal): TColor;
+    begin
+      Result := SetIndicatorColor(serial.Signal[AValue]);
     end;
 
   begin
@@ -1560,29 +2775,29 @@ procedure TfmMain.UpdateIndicators;
     Inc(lock);
 
     // цвета индикаторов активности Tx/Rx
-    if fmSettings.ShowIndicators then
+    if cfg.com.leds then
       begin
       pLEDTx.Color := SetIndicatorColor(serial.IsTxing);
       pLEDRx.Color := SetIndicatorColor(serial.IsRxing);
       end;
 
     // цвета индикаторов RS-232
-    pSignalRTS.Color   := SetIndicatorColor(serial.Signal[ssRTS]);
-    pSignalDTR.Color   := SetIndicatorColor(serial.Signal[ssDTR]);
-    pSignalBreak.Color := SetIndicatorColor(serial.Signal[ssBreak]);
-    pSignalCTS.Color   := SetIndicatorColor(serial.Signal[ssCTS]);
-    pSignalDSR.Color   := SetIndicatorColor(serial.Signal[ssDSR]);
-    pSignalRing.Color  := SetIndicatorColor(serial.Signal[ssRing]);
-    pSignalRLSD.Color  := SetIndicatorColor(serial.Signal[ssRLSD]);
+    pSignalRTS.Color   := SetIndicatorColor(ssRTS);
+    pSignalDTR.Color   := SetIndicatorColor(ssDTR);
+    pSignalBreak.Color := SetIndicatorColor(ssBreak);
+    pSignalCTS.Color   := SetIndicatorColor(ssCTS);
+    pSignalDSR.Color   := SetIndicatorColor(ssDSR);
+    pSignalRing.Color  := SetIndicatorColor(ssRing);
+    pSignalRLSD.Color  := SetIndicatorColor(ssRLSD);
 
     // подписи индикаторов RS-232
-    pSignalRTS.Caption   := SetIndicatorText(serial.Signal[ssRTS]);
-    pSignalDTR.Caption   := SetIndicatorText(serial.Signal[ssDTR]);
-    pSignalBreak.Caption := SetIndicatorText(serial.Signal[ssBreak]);
-    pSignalCTS.Caption   := SetIndicatorText(serial.Signal[ssCTS]);
-    pSignalDSR.Caption   := SetIndicatorText(serial.Signal[ssDSR]);
-    pSignalRing.Caption  := SetIndicatorText(serial.Signal[ssRing]);
-    pSignalRLSD.Caption  := SetIndicatorText(serial.Signal[ssRLSD]);
+    pSignalRTS.Caption   := SetIndicatorText(ssRTS);
+    pSignalDTR.Caption   := SetIndicatorText(ssDTR);
+    pSignalBreak.Caption := SetIndicatorText(ssBreak);
+    pSignalCTS.Caption   := SetIndicatorText(ssCTS);
+    pSignalDSR.Caption   := SetIndicatorText(ssDSR);
+    pSignalRing.Caption  := SetIndicatorText(ssRing);
+    pSignalRLSD.Caption  := SetIndicatorText(ssRLSD);
 
     // краткое текст ошибки в панели статуса
     if serial.Error <> ceNone then
@@ -1599,54 +2814,41 @@ procedure TfmMain.UpdatePanelsLayout;
   begin
     BeginFormUpdate;
 
-    with fmSettings do
-        try
-        if psSplitterTxRx.Visible then
-          begin
-          gbTx.Parent := TPairSplitterSide(CheckBooleanPtr(
-            PanelsLayout in [plTxTop, plTxLeft], psSide1, psSide2));
+      try
+      if psSplitterTxRx.Visible then
+        begin
+        pTxBox.Parent := TPairSplitterSide(
+          (cfg.com.layout in [plTxTop, plTxLeft]).Select(psSide1, psSide2));
 
-          gbRx.Parent := TPairSplitterSide(CheckBooleanPtr(
-            PanelsLayout in [plTxTop, plTxLeft], psSide2, psSide1));
-          end
-        else
-          begin
-          gbTx.Parent := pTranceiver;
-          gbRx.Parent := pTranceiver;
-          end;
-
-        psSplitterTxRx.SplitterType := CheckBoolean(
-          PanelsLayout in [plTxTop, plTxDown], pstVertical, pstHorizontal);
-
-        psSplitterTxRx.Cursor := CheckBoolean(
-          PanelsLayout in [plTxTop, plTxDown], crVSplit, crHSplit);
-        finally
+        pRxBox.Parent := TPairSplitterSide(
+          (cfg.com.layout in [plTxTop, plTxLeft]).Select(psSide2, psSide1));
+        end
+      else
+        begin
+        pTxBox.Parent := pTranceiver;
+        pRxBox.Parent := pTranceiver;
         end;
+
+      psSplitterTxRx.SplitterType :=
+        (cfg.com.layout in [plTxTop, plTxDown]).Select(pstVertical, pstHorizontal);
+
+      psSplitterTxRx.Cursor :=
+        (cfg.com.layout in [plTxTop, plTxDown]).Select(crVSplit, crHSplit);
+      finally
+      psSplitterTxRxChangeBounds(nil);
+      end;
 
     EndFormUpdate;
   end;
 
 // обновление информации о выделении в полях в/в
-function TfmMain.UpdateSelectionInfo(ASynEdit: TSynEdit; AEncoding: String;
-  InHEX: Boolean = False): String;
-  var
-    pos, sel: Integer;
+procedure TfmMain.UpdateSelectionInfo(ALabel: TLabel; ASynEdit: TSynEdit; AEncoding: String;
+  InHEX: Boolean = False);
   begin
-    if fmSettings.ShowPosAndSel then
-      if not ASynEdit.Focused then
-        Result := ''
-      else
-        begin
-        pos := GetEditorCursorPosition(ASynEdit, AEncoding, InHEX);
-        sel := GetEditorSelectionSize(ASynEdit, AEncoding, InHEX);
-
-        if fmSettings.ShowMenu then
-          miSelection.Caption :=
-            TXT_BYTE_POS + ' ' + pos.ToString + ', ' +
-            TXT_BYTE_SEL + ' ' + sel.ToString
-        else
-          Result              := pos.ToString + ', ' + sel.ToString;
-        end;
+    if ASynEdit.Focused and ALabel.Visible then
+      ALabel.Caption := Format('%s: %d   %s: %d', [
+        TXT_POSITION, GetEditorCursorPosition(ASynEdit, AEncoding, InHEX),
+        TXT_SELECTION, GetEditorSelectionSize(ASynEdit, AEncoding, InHEX)]);
   end;
 
 
@@ -1657,9 +2859,9 @@ procedure TfmMain.EncodingsTxRxSet;
     begin
       with AComboBox do
         begin
-        Tag := ItemIndex;
+        Tag       := ItemIndex;
         EncodingsListAssign(Items);
-        ItemIndex := CheckBoolean(Tag < 0, 0, Tag);
+        ItemIndex := (Tag < 0).Select(0, Tag);
         ItemWidth := GetListStringsMaxWidth(Self, Items);
         end;
     end;
@@ -1674,7 +2876,7 @@ procedure TfmMain.EncodingsTxRxSet;
         Items.Add('HEX');
         Items.Add('BIN');
         Items.Add('DEC');
-        ItemIndex := CheckBoolean(Tag < 0, 0, Tag);
+        ItemIndex := (Tag < 0).Select(0, Tag);
         end;
     end;
 
@@ -1697,8 +2899,8 @@ function TfmMain.GetEditorCursorPosition(ASynEdit: TSynEdit; AEncoding: String;
       if lastSel <> SelStart then
         begin
         if InHEX then
-          with fmSettings do
-            lastRes := HexStringPosition(SelStart, HEXLineBytes, HEXBlockBytes)
+          with cfg.editor.hex do
+            lastRes := HexStringPosition(SelStart, line, block)
         else
           lastRes   := UTF8ToEncoding(Text.Substring(0, SelStart), AEncoding).Length - 1;
 
@@ -1721,10 +2923,10 @@ function TfmMain.GetEditorSelectionSize(ASynEdit: TSynEdit;
       if lastLen <> SelEnd - SelStart then
         begin
         if InHEX then
-          with fmSettings do
+          with cfg.editor.hex do
             lastRes :=
-              HexStringPosition(SelEnd + 2, HEXLineBytes, HEXBlockBytes) -
-              HexStringPosition(SelStart, HEXLineBytes, HEXBlockBytes)
+              HexStringPosition(SelEnd + 2, line, block) -
+              HexStringPosition(SelStart, line, block)
         else
           lastRes   := UTF8ToEncoding(
             Text.Substring(SelStart - 1, SelEnd - SelStart), AEncoding).Length;
@@ -1736,139 +2938,403 @@ function TfmMain.GetEditorSelectionSize(ASynEdit: TSynEdit;
   end;
 
 
+// адаптация размеров компонентов интерфейса
+procedure TfmMain.AdjustComponentSizes;
+
+  procedure SetControlWidth(AControls: array of TControl; ASize: Integer; ANoMax: Boolean = False);
+    var
+      item: TControl;
+    begin
+      if Length(AControls) = 0 then Exit;
+
+      for item in AControls do
+        begin
+        if (item <> nil) and (ASize > 0) then
+          begin
+          item.Constraints.MinWidth   := ASize;
+          if not ANoMax then
+            item.Constraints.MaxWidth := ASize;
+          end;
+
+        case item.ToString of
+
+          'TComboBox':
+            TComboBox(item).ItemWidth := GetListStringsMaxWidth(Self, TComboBox(item).Items);
+
+          'TLabel':
+            TLabel(item).Constraints.MaxWidth := 0;
+
+          end;
+        end;
+    end;
+
+  procedure SetControlSizes(AControls: array of TControl; ASizeH: Integer; ASizeW: Integer = 0);
+    var
+      item: TControl;
+    begin
+      if Length(AControls) = 0 then Exit;
+
+      for item in AControls do
+        begin
+        if item.ToString = 'TToolBar' then
+          begin
+          TToolBar(item).ButtonHeight := ASizeH;
+          TToolBar(item).ButtonWidth  := (ASizeW > 0).Select(ASizeW, ASizeH);
+          Exit;
+          end;
+
+        //if item.ToString = 'TToolBar' then
+          begin
+          item.Constraints.MinHeight := ASizeH;
+          item.Constraints.MinWidth  := (ASizeW > 0).Select(ASizeW, ASizeH);
+          end;
+        end;
+    end;
+
+  procedure SetToolbarButtonSize(AToolbars: array of TToolBar; W: Integer; H: Integer = -1);
+    var
+      item: TToolBar;
+    begin
+      if Length(AToolbars) = 0 then Exit;
+
+      for item in AToolbars do
+        begin
+        item.ButtonHeight   := (H < 0).Select(W, H);
+        item.ButtonWidth    := W;
+        item.DisabledImages := imImageListD;
+        end;
+    end;
+
+  var
+    w, h, i: Integer;
+  begin
+    BeginFormUpdate;
+
+    // on 96dpi's screen at 100% resolution muat be 16px
+    imSVGList.RenderSize := Round(Scale96ToScreen(16) * cfg.com.iconsRes / 100);
+
+    Font.Height := 0; // set default size as reference
+    Font.Height := Round(Canvas.GetTextHeight('0') * cfg.com.fontSize / 100);
+
+    // adjust font height for all forms
+    for i := 0 to Screen.FormCount - 1 do
+      Screen.Forms[i].Font.Height := Font.Height;
+
+    Screen.HintFont.Height := Font.Height;
+    Screen.MenuFont.Height := Font.Height;
+
+    chPlotter.Legend.Font.Height := Font.Height;
+    chPlotter.Foot.Font.Height   := Font.Height;
+
+    chPlotter.BottomAxis.Marks.LabelFont.Height := Font.Height;
+    chPlotter.LeftAxis.Marks.LabelFont.Height   := Font.Height;
+
+    // adjust font for labels with custom font
+    for i := 0 to ComponentCount - 1 do
+      if Components[i].ClassName = TLabel.ClassName then
+        TControl(Components[i]).Font.Height := Font.Height;
+
+    // allow adjusting components with autosize option
+    EndFormUpdate;
+
+    BeginFormUpdate;
+
+    h := Canvas.GetTextHeight('0');
+    stStatusBar.Height := h + 2;
+    SetControlWidth([pLEDTx, pLEDRx], 2 * h);
+
+    w := Canvas.GetTextWidth('0 234 567 ' + TXT_BYTE_KB);
+    SetControlWidth([lbTxSize, lbRxSize, lbPlotterSize], w);
+
+    SetControlWidth([cbPortsList], Canvas.GetTextWidth('COM00') + VertScrollBar.Size + 8);
+    SetControlWidth([seAutoSendTime], Canvas.GetTextWidth('000000') + VertScrollBar.Size + 8);
+    SetControlWidth([seBaudRateCustom], cbBaudrate.Width + 8);
+    SetControlWidth([cbBaudrate], GetListStringsMaxWidth(Self, cbBaudrate.Items) + 8);
+    SetControlWidth([cbTxType, cbRxType], GetListStringsMaxWidth(Self, cbRxType.Items) + 8);
+
+    w := Canvas.GetTextWidth('macintosh1') + VertScrollBar.Size + 8;
+    SetControlWidth([cbTxEncoding, cbRxEncoding], w);
+
+    w := Canvas.GetTextWidth('0') * 10 + VertScrollBar.Size + 8;
+    SetControlWidth([cbPlotterProtocol, cbPlotterView], w, True);
+
+    SetControlSizes([tbTx, tbRx], cbPortsList.Height, cbPortsList.Height + 8);
+    SetControlSizes([tbMain, tbPort, tbTxSequences], cbPortsList.Height + 1);
+
+    // set size of toolbar's buttons which depends on size of icons
+    h := Max(cbPortsList.Height + 1, round(imSVGList.RenderSize * 1.4));
+    w := round(h * 1.3);
+    SetToolbarButtonSize([tbMain, tbPlotter, tbPlotterMore, tbPlotterEx, tbPort, tbTxSequences], h);
+    SetToolbarButtonSize([tbTx, tbRx], w, h);
+
+    // adjust combos in toolbars: horizontal in center
+    pToolbarTxTime.Constraints.MinHeight   := tbTx.ButtonHeight;
+    pToolbarTxCombos.Constraints.MinHeight := tbTx.ButtonHeight;
+    pToolbarRxCombos.Constraints.MinHeight := tbRx.ButtonHeight;
+
+    psSide1.Constraints.MinHeight := 3 * pMainToolbar.Height;
+    psSide2.Constraints.MinHeight := 3 * pMainToolbar.Height;
+
+    // adjust LEDs height
+    pLEDTx.Constraints.MinHeight := Scale96ToScreen(8);
+    pLEDRx.Constraints.MinHeight := Scale96ToScreen(8);
+
+    EndFormUpdate;
+  end;
+
+// adjust colors and some other values according to theme
+procedure TfmMain.AdjustThemeDependentValues;
+  var
+    synEd: TSynEdit;
+    panel: TPanel;
+    fnt:   TFont;
+
+  procedure SetFont(AFont: TFont; AIndex, ASize: Integer; AColor: TColor);
+    begin
+      AFont.Name  := Screen.Fonts[AIndex];
+      AFont.Size  := ASize;
+      AFont.Color := AColor;
+    end;
+  begin
+    {$IFDEF ALLOW_DARK_THEME}
+    if IsDarkModeEnabled then
+      begin                        // dark theme, if available
+
+      // iconspack for dark theme located in resources
+      imSVGList.LoadRes       := 'ICONSPACK-DARK';
+      imSVGList.DisabledLevel := 96;
+
+      apAppProperties.HintColor      := $497634;
+      Screen.HintFont.Color        := clWindowText;
+      FInactiveColor                := Color + $444444;
+      sgTxSequences.AlternateColor := $2E4921;
+      sgTxSequences.Color          := $263D1B;
+      chPlotter.Color              := cfg.plt.dark.bg;
+      chPlotter.BackColor          := cfg.plt.dark.bgwork;
+      chPlotter.Legend.Font.Color  := cfg.plt.dark.txt;
+      chPlotter.Foot.Font.Color    := cfg.plt.dark.txt;
+      pPlotterToolbar.Color        := cfg.plt.dark.bgwork;
+
+      chPlotter.BottomAxis.Grid.Color            := cfg.ax.dark;
+      chPlotter.BottomAxis.Marks.LabelFont.Color := cfg.plt.dark.txt;
+      chPlotter.LeftAxis.Grid.Color              := cfg.ay.dark;
+      chPlotter.LeftAxis.Marks.LabelFont.Color   := cfg.plt.dark.txt;
+
+      for synEd in [seTx, seTxHex, seRx, seRxHex] do
+        begin
+          synEd.LineHighlightColor.Background := Color + $060606;
+          synEd.RightEdgeColor                := Color + $222222;
+        end;
+
+      for fnt in [seTx.Font, seTxHex.Font, fmASCIIChar.sgChar.Font] do
+        with cfg.tx.fontdark do
+          SetFont(fnt, index, size, color);
+
+      for fnt in [seRx.Font, seRxHex.Font] do
+        with cfg.rx.fontdark do
+          SetFont(fnt, index, size, color);
+
+      MetaDarkFormChanged(self);
+      end
+    else
+      {$ENDIF}
+      begin                        // light theme, default
+
+      // iconspack for light theme is loaded in component already
+
+      FInactiveColor               := Color - $444444;
+      sgTxSequences.AlternateColor := $CFE8C6;
+      sgTxSequences.Color          := $E7F2E1;
+      chPlotter.Color              := cfg.plt.color.bg;
+      chPlotter.BackColor          := cfg.plt.color.bgwork;
+      chPlotter.Legend.Font.Color  := cfg.plt.color.txt;
+      chPlotter.Foot.Font.Color    := cfg.plt.color.txt;
+      pPlotterToolbar.Color        := cfg.plt.color.bgwork;
+
+      chPlotter.BottomAxis.Grid.Color            := cfg.ax.color;
+      chPlotter.BottomAxis.Marks.LabelFont.Color := cfg.plt.color.txt;
+      chPlotter.LeftAxis.Grid.Color              := cfg.ay.color;
+      chPlotter.LeftAxis.Marks.LabelFont.Color   := cfg.plt.color.txt;
+
+      for synEd in [seTx, seTxHex, seRx, seRxHex] do
+        begin
+        synEd.LineHighlightColor.Background := Color - $060606;
+        synEd.RightEdgeColor                := Color - $222222;
+        end;
+
+      for fnt in [seTx.Font, seTxHex.Font, fmASCIIChar.sgChar.Font] do
+        with cfg.tx.font do
+          SetFont(fnt, index, size, color);
+
+      for fnt in [seRx.Font, seRxHex.Font] do
+        with cfg.rx.font do
+          SetFont(fnt, index, size, color);
+      end;
+
+    chToolPointTracker.CrosshairPen.Color := chPlotter.Legend.Font.Color;
+    sgTxSequences.Font.Color              := clWindowText;
+
+    for panel in [pSearch, pSignals, pAppUpdate, pTxTitle, pRxTitle] do
+      panel.Color := cl3DLight;
+
+    for synEd in [seTx, seTxHex, seRx, seRxHex] do
+      begin
+      synEd.Color := clWindow;
+      synEd.Gutter.LineNumberPart.MarkupInfo.Foreground := clGrayText;
+      end;
+  end;
+
+
 // действие: применение настроек
 procedure TfmMain.SettingsApply(Sender: TObject);
   var
     tmpSE: TCustomSynEdit;
+    i:     Integer;
   begin
+    LanguageChange;       // set new interface language
+    AdjustComponentSizes; // adjust sizes of components
     BeginFormUpdate;
-    with fmSettings do
-        try
-        seTx.Font.Assign(FontTx);
-        seTxHex.Font.Assign(FontTx);
-        seRx.Font.Assign(FontRx);
-        seRxHex.Font.Assign(FontRx);
 
-        fmMain.Menu           := TMainMenu(CheckBooleanPtr(ShowMenu, mmMainMenu, mmEmpty));
-        miSelection.Visible   := ShowPosAndSel;
-        lbTxPosAndSel.Visible := ShowPosAndSel and not ShowMenu;
-        lbRxPosAndSel.Visible := ShowPosAndSel and not ShowMenu;
-        stStatusBar.Visible   := ShowStatusBar;
-        pLEDTx.Visible        := ShowIndicators;
-        pLEDRx.Visible        := ShowIndicators;
-        lbTxSize.Visible      := ShowSizes;
-        lbRxSize.Visible      := ShowSizes;
-        seTx.RightEdge        := RightEdge;
-        seRx.RightEdge        := RightEdge;
-        seTx.TabWidth         := TabSize;
-        seRx.TabWidth         := TabSize;
+      try
 
-        { применение стиля новой строки, так хитро потому, что
-          в уже созданного SynEdit невозможно изменить стиль напрямую }
-        System.DefaultTextLineBreakStyle := LineBreakStyle;
-        tmpSE      := TCustomSynEdit.Create(nil);
-        tmpSE.Text := seTx.Text;
-        seTx.ShareTextBufferFrom(tmpSE);
-        FreeAndNil(tmpSE);
+      fmMain.Menu           := TMainMenu(cfg.com.menu.Select(mmMainMenu, nil));
+      lbTxPosAndSel.Visible := cfg.editor.view.pos;
+      stStatusBar.Visible   := cfg.com.status;
+      pLEDTx.Visible        := cfg.com.leds;
+      pLEDRx.Visible        := cfg.com.leds;
+      lbTxSize.Visible      := cfg.editor.view.size;
+      seTx.RightEdge        := cfg.editor.right.pos;
+      seRx.RightEdge        := cfg.editor.right.pos;
+      seTx.TabWidth         := cfg.editor.tab;
+      seRx.TabWidth         := cfg.editor.tab;
 
-        serial.Hardflow           := Hardflow;
-        serial.BreakDuration      := BreakTime;
-        serial.DeadlockTimeout    := DeadlockTimeout;
-        serial.CheckPort          := CheckPort;
-        serial.TimestampStrBefore := TSBefore;
-        serial.TimestampStrAfter  := TSAfter;
-        serial.RxPacketTime       := TimeoutRx;
-        serial.EnableRxTimestamp  := Timestamp;
+      // height of RS-232 indicators
+      pSignalBreak.Constraints.MinHeight := cfg.com.RS232.Select(
+        Canvas.GetTextHeight('0') + 2, Scale96ToScreen(8));
 
-        sbRTS.Enabled := not Hardflow;
-        sbDTR.Enabled := not Hardflow;
+      for tmpSE in [seTx, seTxHex, seRx, seRxHex] do
+        tmpSE.Font.Quality := cfg.editor.quality.Select(fqCleartypeNatural, fqNonAntialiased);
 
-        if ShowRightEdge then
+      // применение стиля новой строки, так хитро потому, что
+      // в уже созданного SynEdit невозможно изменить стиль напрямую
+      System.DefaultTextLineBreakStyle := cfg.editor.linebreak;
+      tmpSE      := TCustomSynEdit.Create(nil);
+      tmpSE.Text := seTx.Text;
+      seTx.ShareTextBufferFrom(tmpSE);
+      FreeAndNil(tmpSE);
+
+      serial.Hardflow           := cfg.connect.hardflow;
+      serial.BreakDuration      := cfg.tx.breakTime;
+      serial.DeadlockTimeout    := cfg.tx.timeout;
+      serial.TimestampStrBefore := cfg.rx.timestamp.before;
+      serial.TimestampStrAfter  := cfg.rx.timestamp.after;
+      serial.RxPacketTime       := cfg.rx.timestamp.timeout;
+      serial.EnableRxTimestamp  := cfg.rx.timestamp.enable;
+
+      sbRTS.Enabled := not cfg.connect.hardflow;
+      sbDTR.Enabled := not cfg.connect.hardflow;
+
+      chPlotter.Margins.Top    := cfg.ay.offset.t;
+      chPlotter.Margins.Bottom := cfg.ay.offset.b;
+      chPlotter.Legend.Visible := cfg.legend.enable;
+
+      chPlotter.BottomAxis.Grid.Visible  := cfg.ax.grid;
+      chPlotter.BottomAxis.Marks.Visible := cfg.ax.marks;
+      chPlotter.LeftAxis.Grid.Visible    := cfg.ay.grid;
+      chPlotter.LeftAxis.Marks.Visible   := cfg.ay.marks;
+
+      cbPlotterRegExp.Tag             := cbPlotterRegExp.ItemIndex;
+      cbPlotterRegExp.Items.CommaText := cfg.re.list.CommaText;
+      cbPlotterRegExp.ItemIndex       := cbPlotterRegExp.Tag;
+
+      // change colors only if settings applied
+      if fmSettings.ModalResult <> mrCancel then
+        for i := 0 to MAX_SERIES - 1 do
           begin
-          seTx.Options := seTx.Options - [eoHideRightMargin];
-          seRx.Options := seRx.Options - [eoHideRightMargin];
-          end
-        else
-          begin
-          seTx.Options := seTx.Options + [eoHideRightMargin];
-          seRx.Options := seRx.Options + [eoHideRightMargin];
+          FLineSerie[i].SeriesColor         := cfg.plt.color.line[i];
+          FLineSerie[i].Pointer.Brush.Color := cfg.plt.color.line[i];
           end;
 
-        //if fmSettings <> nil then
-        //  begin
-        //  FormWindowStateChange(self);
-        //  end;
-        except
-        if fmConfirm.Show(TXT_ERROR, WARN_SETTINGS, mbYesNo, self) = mrYes then
-          Close;
+      if cfg.editor.right.enable then
+        begin
+        seTx.Options := seTx.Options - [eoHideRightMargin];
+        seRx.Options := seRx.Options - [eoHideRightMargin];
+        end
+      else
+        begin
+        seTx.Options := seTx.Options + [eoHideRightMargin];
+        seRx.Options := seRx.Options + [eoHideRightMargin];
         end;
 
-    LanguageChange;
+      //if fmSettings <> nil then
+      //  begin
+      //  FormWindowStateChange(self);
+      //  end;
+      except
+      if fmConfirm.Show(TXT_ERROR, WARN_SETTINGS, mbYesNo, Self) = mrYes then
+        Close;
+      end;
+
     actionViewGeneral(acShowTxBox);
     FormChangeBounds(Sender);
     seTxChange(Sender);
     seRxChange(Sender);
+    PlotterParserReInit;
+    AdjustThemeDependentValues;
     EndFormUpdate;
   end;
 
 // перевод интерфейса
 procedure TfmMain.LanguageChange;
   begin
+    BeginFormUpdate;
     fmSettings.LanguageChangeImmediately;
 
-    EncodingsTxRxSet;   // обновляем список кодировок
+    // обновляем список кодировок
+    EncodingsTxRxSet;
 
     // обновляем подсказки
-    acToggleRTS.Hint        := MultiString(HINT_RTS);
-    acToggleDTR.Hint        := MultiString(HINT_DTR);
-    acToggleBreak.Hint      := MultiString(HINT_BREAK);
-    lbSignalCTS.Hint        := MultiString(HINT_CTS);
-    lbSignalDSR.Hint        := MultiString(HINT_DSR);
-    lbSignalRing.Hint       := MultiString(HINT_RING);
-    lbSignalRLSD.Hint       := MultiString(HINT_RLSD);
-    pSignalRTS.Hint         := MultiString(HINT_RTS);
-    pSignalDTR.Hint         := MultiString(HINT_DTR);
-    pSignalBreak.Hint       := MultiString(HINT_BREAK);
-    pSignalCTS.Hint         := MultiString(HINT_CTS);
-    pSignalDSR.Hint         := MultiString(HINT_DSR);
-    pSignalRing.Hint        := MultiString(HINT_RING);
-    pSignalRLSD.Hint        := MultiString(HINT_RLSD);
-    acAutoSend.Hint         := MultiString(HINT_AUTOSEND);
-    acAutoAnswerEnable.Hint := MultiString(HINT_AUTOANSWER);
+    acToggleRTS.Hint        := 'Request to Send' + LineEnding + HINT_RTS;
+    acToggleDTR.Hint        := 'Data Terminal Ready' + LineEnding + HINT_DTR;
+    acToggleBreak.Hint      := 'Break' + LineEnding + HINT_BREAK;
+    lbSignalCTS.Hint        := 'Clear to Send' + LineEnding + HINT_CTS;
+    lbSignalDSR.Hint        := 'Data Set Ready' + LineEnding + HINT_DSR;
+    lbSignalRing.Hint       := 'Ring Indicator' + LineEnding + HINT_RING;
+    lbSignalRLSD.Hint       := 'Receive Line Signal Detect' + LineEnding + '(Data Carrier Detect)' + LineEnding + HINT_RLSD;
+    pSignalRTS.Hint         := 'Request to Send' + LineEnding + HINT_RTS;
+    pSignalDTR.Hint         := 'Data Terminal Ready' + LineEnding + HINT_DTR;
+    pSignalBreak.Hint       := 'Break' + LineEnding + HINT_BREAK;
+    pSignalCTS.Hint         := 'Clear to Send' + LineEnding + HINT_CTS;
+    pSignalDSR.Hint         := 'Data Set Ready' + LineEnding + HINT_DSR;
+    pSignalRing.Hint        := 'Ring Indicator' + LineEnding + HINT_RING;
+    pSignalRLSD.Hint        := 'Receive Line Signal Detect' + LineEnding + '(Data Carrier Detect)' + LineEnding + HINT_RLSD;
+    acAutoSend.Hint         := HINT_AUTOSEND;
+    acAutoAnswerEnable.Hint := HINT_AUTOANSWER;
 
     // обновляем выпадающие списки
-    ComboBoxUpdateList(cbDataBits, [
-      TXT_LIST_DATABITS_5, TXT_LIST_DATABITS_6,
-      TXT_LIST_DATABITS_7, TXT_LIST_DATABITS_8]);
-
-    ComboBoxUpdateList(cbParityBits, [
-      TXT_LIST_PARBITS_N, TXT_LIST_PARBITS_O, TXT_LIST_PARBITS_E,
-      TXT_LIST_PARBITS_M, TXT_LIST_PARBITS_S]);
-
-    ComboBoxUpdateList(cbStopBits, [
-      TXT_LIST_STOPBITS_1, TXT_LIST_STOPBITS_15, TXT_LIST_STOPBITS_2]);
-
-    ComboBoxUpdateList(cbBaudrate, [
-      '110', '300', '600', '1200', '2400', '4800', '9600',
-      '14400', '19200', '38400', '56000', '57600', '115200',
-      '128000', '230400', '256000', '460800', '921600', TXT_BR_OTHER]);
-
-    ComboBoxUpdateList(fmChart.cbGraphDataType, [
-      TXT_LIST_CHART_RAW_8, TXT_LIST_CHART_RAW_16,
-      TXT_LIST_CHART_RAW_24, TXT_LIST_CHART_RAW_32,
-      TXT_LIST_CHART_HEX, TXT_LIST_CHART_DEC]);
+    ComboBoxUpdateList(cbBaudrate, TXT_BAUDRATE);
+    ComboBoxUpdateList(cbPlotterProtocol, TXT_PLOTTER_PROTOCOL);
+    ComboBoxUpdateList(cbPlotterView, TXT_PLOTTER_VIEW);
+    ComboBoxUpdateList(cbPlotterPenStyle, TXT_PLOTTER_PEN_STYLE);
 
     sgTxSequences.Columns.Items[1].Title.Caption := TXT_DATA;
 
     UpdateControls(True);
+    EndFormUpdate;
   end;
 
 
 initialization
+  portList  := TStringList.Create;
   serial    := TSerialPortThread.Create;
   txSeqList := TSequencesList.Create;
+  plotter   := TPlotterParser.Create(MAX_SERIES);
+
 
 finalization
+  portList.Free;
   serial.Terminate;
-  FreeAndNil(txSeqList);
+  txSeqList.Free;
+  plotter.Free;
+
 end.

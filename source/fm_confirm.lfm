@@ -1,41 +1,46 @@
 object fmConfirm: TfmConfirm
-  Left = 399
-  Height = 123
-  Top = 266
-  Width = 562
+  Left = 365
+  Height = 154
+  Top = 308
+  Width = 702
   AutoSize = True
   BorderIcons = []
   BorderStyle = bsToolWindow
-  ClientHeight = 123
-  ClientWidth = 562
-  Constraints.MinWidth = 480
+  ClientHeight = 154
+  ClientWidth = 702
+  Constraints.MinWidth = 600
+  DesignTimePPI = 120
+  OnDeactivate = FormDeactivate
   OnShow = FormShow
+  OnUTF8KeyPress = FormUTF8KeyPress
   Position = poMainFormCenter
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '2.2.6.0'
   object pMessage: TPanel
     Left = 0
-    Height = 45
+    Height = 58
     Top = 0
-    Width = 562
+    Width = 702
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 45
-    ClientWidth = 562
-    Color = clWhite
+    ClientHeight = 58
+    ClientWidth = 702
+    Color = clBtnHighlight
     ParentColor = False
     TabOrder = 1
+    OnClick = FormDeactivate
     object lbMessage: TLabel
-      Left = 15
-      Height = 15
-      Top = 15
-      Width = 532
+      Left = 19
+      Height = 20
+      Top = 19
+      Width = 664
       Align = alClient
       Alignment = taCenter
-      BorderSpacing.Around = 15
+      BorderSpacing.Around = 19
       Caption = '---'
       Layout = tlCenter
       ParentColor = False
+      OnClick = FormDeactivate
     end
   end
   object pButtons: TPanel
@@ -43,12 +48,12 @@ object fmConfirm: TfmConfirm
     AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = pMessage
     AnchorSideTop.Side = asrBottom
-    Left = 46
-    Height = 66
-    Top = 50
-    Width = 470
+    Left = 64
+    Height = 74
+    Top = 64
+    Width = 575
     AutoSize = True
-    BorderSpacing.Top = 5
+    BorderSpacing.Top = 6
     BevelOuter = bvNone
     ChildSizing.LeftRightSpacing = 15
     ChildSizing.TopBottomSpacing = 15
@@ -56,70 +61,37 @@ object fmConfirm: TfmConfirm
     ChildSizing.VerticalSpacing = 10
     ChildSizing.Layout = cclTopToBottomThenLeftToRight
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 66
-    ClientWidth = 470
+    ClientHeight = 74
+    ClientWidth = 575
     TabOrder = 0
     object bbYes: TBitBtn
       Left = 15
-      Height = 36
+      Height = 44
       Top = 15
-      Width = 140
+      Width = 175
       AutoSize = True
-      BorderSpacing.InnerBorder = 5
+      BorderSpacing.InnerBorder = 6
       Caption = 'Да'
-      Constraints.MinHeight = 35
-      Constraints.MinWidth = 140
+      Constraints.MinHeight = 44
+      Constraints.MinWidth = 175
       Default = True
-      Glyph.Data = {
-        36040000424D3604000000000000360000002800000010000000100000000100
-        2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080EE008080
-        EE008080EE007E7EED008F8FFF006565BD9A7B7BE55F8D8DFE007E7EEB008080
-        EE008080EE008080EE008080EE008080EE008080EE008080EE008080EE008080
-        EE007E7EEB009393FF007B7BE28E000000FF131324FF9797FF3F8989FB007E7E
-        EC008080EE008080EE008080EE008080EE008080EE008080EE008080EE007F7F
-        EC008A8AFA009191FF55010102FF2D2D57FF0D0D1BFF16162CFF9999FF3F8989
-        FB007E7EEC008080EE008080EE008080EE008080EE008080EE008080ED008282
-        F3009E9EFF2316162DFF040409FFA3A3FF269292FF46000000FF16162CFF9999
-        FF3D8989FB007E7EEC008080EE008080EE008080EE008080EE007E7EEF00A0A0
-        FF0038386CEB000000FF8484ED758C8CFC008F8FFF008A8AF66A000000FF1616
-        2DFF9999FF3E8989FA007E7EEC008080EE008080EE008080EE009999FF005B5B
-        A9C0000000FF6666BCAE9898FF007D7DEC007D7DEB009191FF008A8AF66A0000
-        00FF16162DFF9999FF3C8989FB007E7EEC008080EE008080EE006C6CC1920000
-        00FF464682DE9F9FFF007E7EED008080EE008080EE007D7DEB009191FF008989
-        F56C000000FF17172EFF9999FF3C8989FA007E7EEC008080EE0053539DBD3B3B
-        6DEE9595FF168181F1008080ED008080EE008080EE008080EE007D7DEB009191
-        FF008989F56B000000FF18182FFF9999FF3B8989FA007E7EEC008A8AFF009595
-        FF007F7FEE007F7FED008080EE008080EE008080EE008080EE008080EE007D7D
-        EB009191FF008989F56D000000FF18182FFF9999FF3B8989FA008080EE008080
-        EE008080EE008080EE008080EE008080EE008080EE008080EE008080EE008080
-        EE007D7DEB009191FF008888F36D000000FF191932FF8F8FFE3E8080EE008080
-        EE008080EE008080EE008080EE008080EE008080EE008080EE008080EE008080
-        EE008080EE007D7DEB009191FF008686F16F000000FF38386BFF8080EE008080
-        EE008080EE008080EE008080EE008080EE008080EE008080EE008080EE008080
-        EE008080EE008080EE007D7DEC009292FF006F6FCE8D6565BC84FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
-      }
       ModalResult = 6
+      Images = fmMain.imImageList
+      ImageIndex = 42
+      OnUTF8KeyPress = FormUTF8KeyPress
       Spacing = 10
       TabOrder = 1
     end
     object bbNo: TBitBtn
-      Left = 165
-      Height = 36
+      Left = 200
+      Height = 44
       Top = 15
-      Width = 140
+      Width = 175
       AutoSize = True
-      BorderSpacing.InnerBorder = 5
+      BorderSpacing.InnerBorder = 6
       Caption = 'Нет'
-      Constraints.MinHeight = 35
-      Constraints.MinWidth = 140
+      Constraints.MinHeight = 44
+      Constraints.MinWidth = 175
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -157,20 +129,23 @@ object fmConfirm: TfmConfirm
         FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
       }
       ModalResult = 7
+      Images = fmMain.imImageList
+      ImageIndex = 16
+      OnUTF8KeyPress = FormUTF8KeyPress
       Spacing = 10
       TabOrder = 2
     end
     object bbCancel: TBitBtn
-      Left = 315
-      Height = 36
+      Left = 385
+      Height = 44
       Top = 15
-      Width = 140
+      Width = 175
       AutoSize = True
-      BorderSpacing.InnerBorder = 5
+      BorderSpacing.InnerBorder = 6
       Cancel = True
       Caption = 'Отмена'
-      Constraints.MinHeight = 35
-      Constraints.MinWidth = 140
+      Constraints.MinHeight = 44
+      Constraints.MinWidth = 175
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         20000000000000040000640000006400000000000000000000008080EE008080
@@ -208,6 +183,9 @@ object fmConfirm: TfmConfirm
         A7987F7FEA589797FF068888FC007D7DEB008080EE008080EE00
       }
       ModalResult = 2
+      Images = fmMain.imImageList
+      ImageIndex = 15
+      OnUTF8KeyPress = FormUTF8KeyPress
       Spacing = 10
       TabOrder = 0
     end

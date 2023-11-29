@@ -5,7 +5,7 @@ unit fm_confirm;
 interface
 
 uses
-  Forms, StdCtrls, Buttons, ExtCtrls, Dialogs, u_strings;
+  Classes, SysUtils, Forms, StdCtrls, Buttons, ExtCtrls, Dialogs, LCLType, Controls;
 
 type
 
@@ -22,8 +22,10 @@ type
     pValueR:   TPanel;
 
     procedure FormShow(Sender: TObject);
+    procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+    procedure FormDeactivate(Sender: TObject);
 
-  PRIVATE
+  private
     FButtons:       TMsgDlgButtons;
     FWindowCaption: String;
     FWindowParent:  TForm;
@@ -33,7 +35,7 @@ type
     procedure SetWindowCaption(AValue: String);
     procedure SetWindowText(AValue: String);
 
-  PUBLIC
+  public
     property Buttons: TMsgDlgButtons read FButtons write SetButtons;
     property WindowCaption: String read FWindowCaption write SetWindowCaption;
     property WindowText: String read FWindowText write SetWindowText;
@@ -72,11 +74,15 @@ procedure TfmConfirm.SetButtons(AValue: TMsgDlgButtons);
     bbYes.Visible    := mbYes in FButtons;
     bbNo.Visible     := mbNo in FButtons;
     bbCancel.Visible := mbCancel in FButtons;
+    pButtons.Visible := FButtons <> [];
   end;
 
 
 procedure TfmConfirm.FormShow(Sender: TObject);
   begin
+    lbMessage.Caption := String(lbMessage.Caption).Replace('---', '—');
+    lbMessage.Caption := String(lbMessage.Caption).Replace('--', '–');
+
     lbMessage.Constraints.MinWidth := pButtons.Width;
     if FWindowParent = nil then
       begin
@@ -90,15 +96,41 @@ procedure TfmConfirm.FormShow(Sender: TObject);
       end;
   end;
 
+procedure TfmConfirm.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+  begin
+    case UTF8Key of
+
+      // Enter
+      chr(13):
+        bbYes.Click;
+
+      // Esc
+      chr(27):
+        if bbCancel.Visible then
+          bbCancel.Click
+        else
+          bbNo.Click;
+      end;
+  end;
+
+procedure TfmConfirm.FormDeactivate(Sender: TObject);
+  begin
+    if FButtons = [] then Close;
+  end;
+
 function TfmConfirm.Show(ACaption, AText: String;
   AButtons: TMsgDlgButtons; AParent: TForm): TModalResult;
   begin
     WindowParent  := AParent;
     WindowState   := AParent.WindowState;
-    WindowText    := MultiString(AText);
-    WindowCaption := MultiString(ACaption);
+    WindowText    := AText;
+    WindowCaption := ACaption;
     Buttons       := AButtons;
-    Result        := fmConfirm.ShowModal;
+
+    if FButtons = [] then
+      inherited Show
+    else
+      Result := fmConfirm.ShowModal;
 
     lbMessage.Constraints.MinWidth := 0;
   end;

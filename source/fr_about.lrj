@@ -1,0 +1,5 @@
+{"version":1,"strings":[
+{"hash":49928165,"name":"tfraboutlinks.lblicense.caption","sourcebytes":[108,98,76,105,99,101,110,115,101],"value":"lbLicense"},
+{"hash":162101699,"name":"tfraboutlinks.lbcopyrights.caption","sourcebytes":[108,98,67,111,112,121,82,105,103,104,116,115],"value":"lbCopyRights"},
+{"hash":120037541,"name":"tfraboutlinks.lbsite.caption","sourcebytes":[108,98,83,105,116,101],"value":"lbSite"}
+]}

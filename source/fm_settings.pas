@@ -5,387 +5,417 @@ unit fm_settings;
 interface
 
 uses
-  Classes, SysUtils, Forms, Graphics, Dialogs, ComCtrls, Spin, StdCtrls,
+  Classes, SysUtils, Math, Forms, Graphics, Dialogs, ComCtrls, Spin, StdCtrls,
   ExtCtrls, ActnList, Controls, IniPropStorage, LCLTranslator, Buttons,
-  LazFileUtils, LazUTF8, u_encodings, u_utilities, u_strings;
+  LazFileUtils, LazUTF8, SynEdit,
+  fm_confirm,
+  u_encodings, u_utilities, u_common, u_settings, u_settings_record,
+  u_plotter_types, u_plotter_regexplist, u_plotter;
+
+resourcestring
+  TXT_COLOR_HINT   = 'Цвет %d-й линии плоттера';
+  TXT_WIN_THEME    = 'Только Windows 10 1809+';
 
 const
   LANGUAGE_DEFAULT = 'RU, Russian - Русский';
   LANGUAGES_DIR    = DirectorySeparator + 'lang';
   LANGUAGES_FILE   = LANGUAGES_DIR + DirectorySeparator + 'languages.ini';
+  LANGUAGE_FILE    = LANGUAGES_DIR + DirectorySeparator + 'uTerminal';
   SETTINGS_FILE    = DirectorySeparator + 'settings.ini';
-  TXT_EXAMPLE      = 'Text Example, 12345 - Пример АБВ';
+
+  // цвета графиков по умолчанию
+  DEFAULT_SERIE_COLOR: array[0..MAX_SERIES - 1] of TColor =
+    ($FF8000, $00D000, clRed, $C00000, clFuchsia, $0080FF, clGreen, $00E0E0,
+    $FF8000, $00D000, clRed, $C00000, clFuchsia, $0080FF, clGreen, $00E0E0);
 
 type
-  TPanelsLayout = (plTxTop = 0, plTxDown, plTxLeft, plTxRight);
 
   { TfmSettings }
 
   TfmSettings = class(TForm)
-    cbLineBreakStyle:    TComboBox;
-    cbAutoconnect:       TCheckBox;
-    cbFileLoadWarning:   TCheckBox;
-    cbFileDataAdd:       TCheckBox;
-    cbTxRestore:         TCheckBox;
-    cbRxRestore:         TCheckBox;
-    cbShowPosAndSel:     TCheckBox;
-    cbShowEncoding:      TCheckBox;
-    cbShowRS232Captions: TCheckBox;
-    edFontTxExample:     TEdit;
-    edFontRxExample:     TEdit;
-
-    IniStorageSettings:  TIniPropStorage;
-    lbLineBreakStyle:    TLabel;
-    lbHEXBlockBytes:     TLabel;
-    lbRxSizeLimit:       TLabel;
-    lbTxDeadlockTimeout: TLabel;
-    lbHEXLineBytes:      TLabel;
-    pValues3:            TPanel;
-    seRxSizeLimit:       TSpinEdit;
-    SettingsActionList:  TActionList;
-    acCancel:            TAction;
-    acOK:                TAction;
-    bbApply:             TBitBtn;
-    bbCancel:            TBitBtn;
-    bbDefaults:          TBitBtn;
-    btnFontRx:           TButton;
-    btnFontTx:           TButton;
-    cbLanguage:          TComboBox;
-    cbPanelsLayout:      TComboBox;
-    cbFontRxName:        TComboBox;
-    cbFontTxName:        TComboBox;
-    cbCheckPort:         TCheckBox;
-    cbFontQuality:       TCheckBox;
-    cbHardflow:          TCheckBox;
-    cbMinimizeToTray:    TCheckBox;
-    cbRxTimestamp:       TCheckBox;
-    cbShowIndicators:    TCheckBox;
-    cbShowMenu:          TCheckBox;
-    cbShowRightEdge:     TCheckBox;
-    cbShowSizes:         TCheckBox;
-    cbShowSplash:        TCheckBox;
-    cbShowStatusBar:     TCheckBox;
-    dlgFontRx:           TFontDialog;
-    dlgFontTx:           TFontDialog;
-    edRxTSAfter:         TEdit;
-    edRxTSBefore:        TEdit;
-    lbFontRx:            TLabel;
-    lbFontTx:            TLabel;
-    lbLanguage:          TLabel;
-    lbPanelsLayout:      TLabel;
-    lbRxPacketTime:      TLabel;
-    lbRxTSAfter:         TLabel;
-    lbRxTSBefore:        TLabel;
-    lbTabSize:           TLabel;
-    lbTxBreakTime:       TLabel;
-    pButtons:            TPanel;
-    pControls:           TPanel;
-    pLanguage:           TPanel;
-    pNaviColumns:        TPanel;
-    pValues:             TPanel;
-    pValues1:            TPanel;
-    pValues2:            TPanel;
-    seFontRxSize:        TSpinEdit;
-    seFontTxSize:        TSpinEdit;
-    seRightEdge:         TSpinEdit;
-    seRxTimeout:         TSpinEdit;
-    seTabSize:           TSpinEdit;
-    seTxBreakTime:       TSpinEdit;
-    PageCtrl:            TPageControl;
-    seHEXLineBytes:      TSpinEdit;
-    seTxDeadlockTimeout: TSpinEdit;
-    seHEXBlockBytes:     TSpinEdit;
-    tsFont:              TTabSheet;
-    tsHEX:               TTabSheet;
-    tsConnection:        TTabSheet;
-    tsEditor:            TTabSheet;
-    tsGeneral:           TTabSheet;
-    tsRx:                TTabSheet;
-    tsTx:                TTabSheet;
+    {$Include fm_settings_controls.inc}
 
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure IniStorageSettingsRestore(Sender: TObject);
-    procedure IniStorageSettingsSavingProperties(Sender: TObject);
-    procedure acOKExecute(Sender: TObject);
-    procedure acCancelExecute(Sender: TObject);
-    procedure btnFontClick(Sender: TObject);
-    procedure cbFontChange(Sender: TObject);
+    procedure ColorButtonsInit;
     procedure cbLanguageChange(Sender: TObject);
-    procedure TranslateComboBoxes;
+    procedure tmrUpdateTimer(Sender: TObject);
+    procedure tvTabsSelectionChanged(Sender: TObject);
+    procedure seFontSizeChange(Sender: TObject);
+    procedure actionExecute(Sender: TObject);
+    procedure edRegExpNameChange(Sender: TObject);
+    procedure seRegExpStrChange(Sender: TObject);
+    procedure cbRegExpListChange(Sender: TObject);
+    procedure seRegExpStrKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormDestroy(Sender: TObject);
 
-  PRIVATE
-    FLanguageIndex:     Integer;
-    FLineBreakStyle:    TTextLineBreakStyle;
-    FShowRS232Captions: Boolean;
-    FTabSize:           Integer;
-    FRightEdge:         Integer;
-    FBreakTime:         Integer;
-    FDeadlockTimeout:   Integer;
-    FTimeoutRx:         Integer;
-    FRxSizeLimit:       Integer;
-    FHEXBlockBytes:     Integer;
-    FHEXLineBytes:      Integer;
-    FFontTx:            TFont;
-    FFontRx:            TFont;
-    FCheckPort:         Boolean;
-    FFontQuality:       Boolean;
-    FHardflow:          Boolean;
-    FAutoconnect:       Boolean;
-    FMinToTray:         Boolean;
-    FShowIndicators:    Boolean;
-    FShowMenu:          Boolean;
-    FShowEncoding:      Boolean;
-    FShowRightEdge:     Boolean;
-    FShowSizes:         Boolean;
-    FShowStatusBar:     Boolean;
-    FSplash:            Boolean;
-    FLoadWarning:       Boolean;
-    FFileDataAdding:    Boolean;
-    FTimestamp:         Boolean;
-    FTxRestore:         Boolean;
-    FRxRestore:         Boolean;
-    FShowPosAndSel:     Boolean;
-    FLanguage:          String;
-    FTSAfter:           String;
-    FTSBefore:          String;
-    FPanelsLayout:      TPanelsLayout;
+  private
+    FLangList: TStringList;
+    FLang:     String;
+    FREList:   TPlotterRegExpList;
+    FREItem:   TPlotterRegExpItem;
 
     procedure IniStorageLangLoad;
+    procedure AddStandardSettings;
     procedure LoadComponentsFromFields;
     procedure LoadFieldsFromComponents;
 
-  PUBLIC
-    procedure LanguageChangeImmediately;
-
-    property Language: String read FLanguage;
-    property PanelsLayout: TPanelsLayout read FPanelsLayout;
-
-    property FontTx: TFont read FFontTx;
-    property FontRx: TFont read FFontRx;
-    property FontQuality: Boolean read FFontQuality;
-
-    property Splash: Boolean read FSplash;
-    property LoadWarning: Boolean read FLoadWarning;
-    property FileDataAdding: Boolean read FFileDataAdding;
-    property MinToTray: Boolean read FMinToTray;
-    property ShowMenu: Boolean read FShowMenu;
-    property ShowEncoding: Boolean read FShowEncoding;
-    property ShowRS232Captions: Boolean read FShowRS232Captions;
-    property ShowStatusBar: Boolean read FShowStatusBar;
-    property ShowRightEdge: Boolean read FShowRightEdge;
-    property RightEdge: Integer read FRightEdge;
-    property TabSize: Integer read FTabSize;
-    property LineBreakStyle: TTextLineBreakStyle read FLineBreakStyle;
-
-    property ShowSizes: Boolean read FShowSizes;
-    property ShowIndicators: Boolean read FShowIndicators;
-    property CheckPort: Boolean read FCheckPort;
-    property Hardflow: Boolean read FHardflow;
-    property Autoconnect: Boolean read FAutoconnect;
-
-    property ShowPosAndSel: Boolean read FShowPosAndSel;
-    property BreakTime: Integer read FBreakTime;
-    property DeadlockTimeout: Integer read FDeadlockTimeout;
-    property Timestamp: Boolean read FTimestamp;
-    property TSBefore: String read FTSBefore;
-    property TSAfter: String read FTSAfter;
-    property TimeoutRx: Integer read FTimeoutRx;
-    property RxSizeLimit: Integer read FRxSizeLimit;
-    property TxRestore: Boolean read FTxRestore;
-    property RxRestore: Boolean read FRxRestore;
-
-    property HEXLineBytes: Integer read FHEXLineBytes;
-    property HEXBlockBytes: Integer read FHEXBlockBytes;
+  public
+    function LanguageChangeImmediately: Boolean;
 
   end;
 
+// public variables, available in other units
 var
-  fmSettings:     TfmSettings;
-  IniStorageLang: TIniPropStorage;
+  fmSettings:  TfmSettings;
+  cfg:         TAppConfiguration; // all settings of app
+  useStorages: Boolean = True;
+  appThemeAvailable: Boolean = False;
+
+function GetAppIniFileName: String;
 
 
 implementation
 
+var
+  Settings:     TSettings;
+  cbSerieColor: array[0..MAX_SERIES - 1] of TColorButton;
+  lbSerieColor: array[0..MAX_SERIES - 1] of TLabel;
+  defaultFont:  Integer;
+
+
+function GetAppIniFileName: String;
+  begin
+    Result := ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE;
+  end;
+
 {$R *.lfm}
 
-{ TfmSettings }
+ { TfmSettings }
 
 procedure TfmSettings.FormCreate(Sender: TObject);
   begin
-    FFontTx := TFont.Create;
-    FFontRx := TFont.Create;
+    {$IFDEF DEBUG}
+    cbShowSplash.Checked := False;
+    {$ENDIF}
 
-    edFontTxExample.Caption := 'Tx: ' + TXT_EXAMPLE;
-    edFontRxExample.Caption := 'Rx: ' + TXT_EXAMPLE;
-
-    IniStorageSettings.IniFileName := ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE;
-    PageCtrl.ActivePageIndex       := 0;
-
+    ColorButtonsInit;
     IniStorageLangLoad;
+    AddStandardSettings;
+
+    // font default settings
+    cbFontTxName.Items  := screen.Fonts;
+    cbFontRxName.Items  := screen.Fonts;
+    cbFontTxNameD.Items := screen.Fonts;
+    cbFontRxNameD.Items := screen.Fonts;
+    defaultFont         := Max(0, Screen.Fonts.IndexOf('Consolas'));
+
+    pcPageCtrl.ActivePageIndex := 0;
+    pcPageCtrl.ShowTabs        := not tvTabs.Visible;
+    seRegExpStr.Gutter.Visible := True;
+    lbRegExpPos.Caption        := '0';
+
+    FREItem := TPlotterRegExpItem.Create;
+    FREList := TPlotterRegExpList.Create(GetAppIniFileName);
+
+    // load list of RegExp presets
+    if useStorages then FREList.LoadFromIni;
+    cbRegExpList.Items.CommaText := FREList.CommaText;
+    cbRegExpList.ItemIndex       := 0;
+
+    // load app settings
+    if useStorages then Settings.LoadFromIniStorage;
+    LoadFieldsFromComponents;
   end;
 
 procedure TfmSettings.FormShow(Sender: TObject);
-  var
-    i, tmp: Integer;
+
+  procedure FormAutoSize;
+    var
+      i: Integer;
+    begin
+      for i := 1 to pcPageCtrl.PageCount do
+        begin
+        BeginFormUpdate;
+        pcPageCtrl.ActivePageIndex       := i - 1;
+        pcPageCtrl.Pages[i - 1].AutoSize := True;
+
+        AutoSize := True;
+        EndFormUpdate;
+
+        Constraints.MinWidth  := Width;
+        Constraints.MinHeight := Height;
+
+        AutoSize := False;
+        end;
+    end;
+
+  procedure AdjustComponentsSizes;
+    var
+      i: Integer;
+      w: Integer = 0;
+    begin  Settings.UpdateComboboxList;
+      Settings.AdjustComboItemWidth;
+
+      // get tree view min width
+      for i := 0 to tvTabs.Items.Count - 1 do
+        w := Max(w, Canvas.GetTextWidth(tvTabs.Items.Item[i].Text));
+
+      // set tree view min sizes
+      tvTabs.Constraints.MinWidth  := w + tvTabs.Indent * 2 + VertScrollBar.Size;
+      tvTabs.Constraints.MinHeight := tvTabs.Items.Count * tvTabs.DefaultItemHeight;
+
+      // adjust speedbuttons to show as square buttons
+      sbRegExpAdd.Constraints.MinWidth := sbRegExpAdd.Height;
+      sbRegExpDel.Constraints.MinWidth := sbRegExpDel.Height;
+
+      lbAppRestart.Constraints.MinHeight := cbAppTheme.Height;
+    end;
+
+  procedure DarkThemeSupport;
+    begin
+      if appThemeAvailable then
+        begin
+        pDarkTheme.BorderStyle := bsNone;
+        cbAppTheme.Visible     := True;
+        pTitleLT1.Visible      := True;
+        pFontDarkBlock.Visible := True;
+        end
+      else
+        lbAppRestart.Caption   := ' ' + TXT_WIN_THEME + ' ';
+    end;
+
   begin
     BeginFormUpdate;
-
-    TranslateComboBoxes;
-
-    if edFontTxExample.Caption = '' then
-      edFontTxExample.Caption := 'Tx: ' + TXT_EXAMPLE;
-
-    if edFontRxExample.Caption = '' then
-      edFontRxExample.Caption := 'Rx: ' + TXT_EXAMPLE;
-
-    if Sender <> nil then
-      LoadComponentsFromFields;
-
-    if Sender <> nil then
-      Position := poDefault;
-
+    AdjustComponentsSizes;
+    DarkThemeSupport;
+    if Assigned(Sender) then LoadComponentsFromFields;
     EndFormUpdate;
 
-    tmp := PageCtrl.ActivePageIndex;
-
-    for i := 1 to PageCtrl.PageCount do
-      begin
-      BeginFormUpdate;
-      PageCtrl.ActivePageIndex := i - 1;
-      AutoSize                 := True;
-      EndFormUpdate;
-
-      Constraints.MinWidth  := Width;
-      Constraints.MinHeight := Height;
-
-      AutoSize := False;
-      end;
+    pcPageCtrl.Tag := pcPageCtrl.ActivePageIndex;
+    if Assigned(Sender) then FormAutoSize;
 
     BeginFormUpdate;
-
-    if Sender <> nil then
-      Position := poMainFormCenter;
-
-    PageCtrl.ActivePageIndex := tmp;
-    cbFontTxName.Items       := screen.Fonts;
-    cbFontRxName.Items       := screen.Fonts;
-
-    cbLineBreakStyle.ItemWidth := GetListStringsMaxWidth(Self, cbLineBreakStyle.Items);
-    cbLanguage.ItemWidth       := GetListStringsMaxWidth(Self, cbLanguage.Items);
-    cbFontRxName.ItemWidth     := GetListStringsMaxWidth(Self, cbFontRxName.Items);
-    cbFontTxName.ItemWidth     := GetListStringsMaxWidth(Self, cbFontTxName.Items);
-    cbPanelsLayout.ItemWidth   := GetListStringsMaxWidth(Self, cbPanelsLayout.Items);
-
+    pcPageCtrl.ActivePageIndex        := pcPageCtrl.Tag;
+    if Assigned(Sender) then Position := poMainFormCenter;
     EndFormUpdate;
+
+    tmrUpdate.Enabled := True;
   end;
 
 procedure TfmSettings.FormClose(Sender: TObject; var CloseAction: TCloseAction);
   begin
+    tmrUpdate.Enabled := False;
     if ModalResult <> mrOk then acCancel.Execute;
   end;
 
+procedure TfmSettings.FormDestroy(Sender: TObject);
+  begin
+    if not useStorages then Exit;
+
+    // save settings to storage
+    LoadComponentsFromFields;
+    FREList.SaveToIni;
+    Settings.SaveToIniStorage;
+  end;
+
+
+procedure TfmSettings.AddStandardSettings;
+  var
+    i: Integer;
+  begin
+    if Settings = nil then
+      Settings := TSettings.Create(Self, ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE);
+
+    with cfg do
+      begin
+      Settings.Add(cbLanguage, @com.langIndex);
+      Settings.Add(seIconsRes, @com.iconsRes);
+      Settings.Add(seFontSize, @com.fontSize);
+      Settings.Add(cbShowSplash, @com.splash);
+      Settings.Add(cbGluedWindow, @com.glued);
+      Settings.Add(cbShowIndicators, @com.leds);
+      Settings.Add(cbMinimizeToTray, @com.tray);
+      Settings.Add(cbShowMenu, @com.menu);
+      Settings.Add(cbShowEncoding, @com.encoding);
+      Settings.Add(cbShowRS232Captions, @com.RS232);
+      Settings.Add(cbShowStatusBar, @com.status);
+
+      Settings.Add(seTabSize, @editor.tab);
+      Settings.Add(cbFontQuality, @editor.quality);
+      Settings.Add(cbShowRightEdge, @editor.right.enable);
+      Settings.Add(seRightEdge, @editor.right.pos);
+      Settings.Add(cbShowSizes, @editor.view.size);
+      Settings.Add(cbSizesInBytes, @editor.view.inBytes);
+      Settings.Add(cbShowPosAndSel, @editor.view.pos);
+      Settings.Add(seHEXBlockBytes, @editor.hex.block);
+      Settings.Add(seHEXLineBytes, @editor.hex.line);
+
+      Settings.Add(cbAutoconnect, @connect.auto);
+      Settings.Add(cbCheckPort, @connect.check);
+      Settings.Add(cbHardflow, @connect.hardflow);
+
+      Settings.Add(cbTxRestore, @tx.restore);
+      Settings.Add(cbFileLoadWarning, @tx.loadWarn);
+      Settings.Add(cbFileDataAdd, @tx.addition);
+      Settings.Add(seTxBreakTime, @tx.breakTime);
+      Settings.Add(seTxDeadlockTO, @tx.timeout);
+      Settings.Add(cbFontTxName, @tx.font.index);
+      Settings.Add(seFontTxSize, @tx.font.size);
+      Settings.Add(colbFontTx, @tx.font.color);
+      Settings.Add(cbFontTxNameD, @tx.fontdark.index);
+      Settings.Add(seFontTxSizeD, @tx.fontdark.size);
+      Settings.Add(colbFontTxD, @tx.fontdark.color);
+
+      Settings.Add(cbRxRestore, @rx.restore);
+      Settings.Add(seRxSizeLimit, @rx.limit, 1024);
+      Settings.Add(cbRxTimestamp, @rx.timestamp.enable);
+      Settings.Add(edRxTSBefore, @rx.timestamp.before);
+      Settings.Add(edRxTSAfter, @rx.timestamp.after);
+      Settings.Add(seRxTimeout, @rx.timestamp.timeout);
+      Settings.Add(cbFontRxName, @rx.font.index);
+      Settings.Add(seFontRxSize, @rx.font.size);
+      Settings.Add(colbFontRx, @rx.font.color);
+      Settings.Add(cbFontRxNameD, @rx.fontdark.index);
+      Settings.Add(seFontRxSizeD, @rx.fontdark.size);
+      Settings.Add(colbFontRxD, @rx.fontdark.color);
+
+      Settings.Add(seImageWidth, @png.w);
+      Settings.Add(seImageHeight, @png.h);
+      Settings.Add(cbImageDialogOne, @png.silent);
+      Settings.Add(cbImageCustomSize, @png.custom);
+      Settings.Add(cbImageFontProp, @png.font.prop);
+      Settings.Add(seImageFontSize, @png.font.size);
+
+      Settings.Add(cbPlotLineRecolor, @plt.recolor);
+      Settings.Add(cbPlotLineReactivate, @plt.reactivate);
+      Settings.Add(cbPlotCopyRx, @plt.copyRx);
+      Settings.Add(cbPlotClearRx, @plt.clearRx);
+      Settings.Add(cbPlotAllowCommands, @plt.commands);
+      Settings.Add(cbPlotSmooth, @plt.smooth);
+      Settings.Add(cbPlotSize, @plt.size);
+      Settings.Add(cbPlotMinimap, @plt.view.minimap);
+      Settings.Add(cbPlotPanelOnMain, @plt.view.panelOnMain);
+      Settings.Add(colbPlotterBG, @plt.color.bg);
+      Settings.Add(colbPlotterBGW, @plt.color.bgwork);
+      Settings.Add(colbPlotterText, @plt.color.txt);
+      Settings.Add(colbPlotterBGd, @plt.dark.bg);
+      Settings.Add(colbPlotterBGWd, @plt.dark.bgwork);
+      Settings.Add(colbPlotterTextd, @plt.dark.txt);
+
+      Settings.Add(cbPlotGridX, @ax.grid);
+      Settings.Add(cbPlotMarksX, @ax.marks);
+      Settings.Add(cbPlotLabelX, @ax.labels);
+      Settings.Add(cbPlotSampleCount, @ax.counter);
+      Settings.Add(sePlotSamples, @ax.samples);
+      Settings.Add(sePlotWinClear, @ax.space);
+      Settings.Add(colbPlotterGX, @ax.color);
+      Settings.Add(colbPlotterGXd, @ax.dark);
+      Settings.Add(fsePlotCtrlFactorX, @ax.ctrl.factor);
+      Settings.Add(cbPlotXBar, @ax.ctrl.bar);
+
+      Settings.Add(cbPlotGridY, @ay.grid);
+      Settings.Add(cbPlotMarksY, @ay.marks);
+      Settings.Add(colbPlotterGY, @ay.color);
+      Settings.Add(colbPlotterGYd, @ay.dark);
+      Settings.Add(fsePlotCtrlFactorY, @ay.ctrl.factor);
+      Settings.Add(sePlotOffsetYTop, @ay.offset.t);
+      Settings.Add(sePlotOffsetYBot, @ay.offset.b);
+
+      Settings.Add(cbPlotLegendShow, @legend.enable);
+      Settings.Add(cbPlotShowUntitled, @legend.untitled);
+      Settings.Add(cbPlotLegendColored, @legend.colored);
+      Settings.Add(cbPlotLegendColoredB, @legend.coloredframe);
+      Settings.Add(cbPlotLegendActive, @legend.interactive);
+      Settings.Add(cbPlotLegendFrame, @legend.frame);
+      Settings.Add(cbPlotLegendIndex, @legend.index);
+      Settings.Add(cbPlotLegendStyle, @legend.style);
+
+      Settings.Add(cbRegExpCaseCare, @re.casecare);
+      Settings.Add(cbRegExpList, nil);
+
+      for i := 0 to MAX_SERIES - 1 do
+        Settings.Add(cbSerieColor[i], @plt.color.line[i]);
+
+      // для перевода строк в TComboBox задаем массив строк
+      Settings.Add(cbPanelsLayout, @com.layoutIndex, TXT_PANELS_LAYOUT);
+      Settings.Add(cbAppTheme, @com.theme, TXT_THEMES);
+      Settings.Add(cbAppUpdateWay, @com.update.wayIndex, TXT_UPDATE_WAY);
+      Settings.Add(cbAppUpdateFreq, @com.update.freqIndex, TXT_UPDATE_FREQ);
+      Settings.Add(cbLineBreakStyle, @editor.linebreakIndex, TXT_LINEBREAK);
+      Settings.Add(cbCSVDelimiter, @csv.delimiterIndex, TXT_PLOTTER_CSV_DELIM);
+      Settings.Add(cbCSVDecDelimiter, @csv.decimalIndex, TXT_PLOTTER_CSV_DECDELIM);
+      Settings.Add(cbCSVQuotes, @csv.quotesIndex, TXT_PLOTTER_CSV_QUOTES);
+      Settings.Add(cbCSVLineBreak, @csv.linebreakIndex, TXT_LINEBREAK);
+      Settings.Add(cbPlotCtrlX, @ax.ctrl.methodIndex, TXT_CTRL_METHOD);
+      Settings.Add(cbPlotCtrlY, @ay.ctrl.methodIndex, TXT_CTRL_METHOD);
+      end;
+  end;
 
 procedure TfmSettings.LoadComponentsFromFields;
   begin
-    cbLanguage.ItemIndex        := FLanguageIndex;
-    cbPanelsLayout.ItemIndex    := Integer(FPanelsLayout);
-    cbShowSplash.Checked        := FSplash;
-    cbFileLoadWarning.Checked   := FLoadWarning;
-    cbFileDataAdd.Checked       := FFileDataAdding;
-    cbMinimizeToTray.Checked    := FMinToTray;
-    cbShowMenu.Checked          := FShowMenu;
-    cbShowEncoding.Checked      := FShowEncoding;
-    cbShowRS232Captions.Checked := FShowRS232Captions;
-    cbShowStatusBar.Checked     := FShowStatusBar;
-    cbShowRightEdge.Checked     := FShowRightEdge;
-    seRightEdge.Value           := FRightEdge;
-    seTabSize.Value             := FTabSize;
-    cbLineBreakStyle.ItemIndex  := Integer(FLineBreakStyle);
-    cbFontQuality.Checked       := FFontQuality;
-    cbShowSizes.Checked         := FShowSizes;
-    cbShowIndicators.Checked    := FShowIndicators;
-    cbCheckPort.Checked         := FCheckPort;
-    cbHardflow.Checked          := FHardflow;
-    cbAutoconnect.Checked       := FAutoconnect;
-    cbShowPosAndSel.Checked     := FShowPosAndSel;
-    seTxBreakTime.Value         := FBreakTime;
-    seTxDeadlockTimeout.Value   := FDeadlockTimeout;
-    cbTxRestore.Checked         := FTxRestore;
-    cbRxRestore.Checked         := FRxRestore;
-    cbRxTimestamp.Checked       := FTimestamp;
-    edRxTSBefore.Text           := FTSBefore;
-    edRxTSAfter.Text            := FTSAfter;
-    seRxTimeout.Value           := FTimeoutRx;
-    seRxSizeLimit.Value         := FRxSizeLimit div 1000;
-    seHEXBlockBytes.Value       := FHEXBlockBytes;
-    seHEXLineBytes.Value        := FHEXLineBytes;
+    Settings.LoadCompValues;
 
-    if FFontTx <> nil then dlgFontTx.Font.Assign(FFontTx);
-    if FFontRx <> nil then dlgFontRx.Font.Assign(FFontRx);
-    btnFontClick(nil);
+    // load current RegExp preset data to fields
+    cbRegExpListChange(nil);
   end;
 
 procedure TfmSettings.LoadFieldsFromComponents;
   begin
-    FLanguageIndex     := cbLanguage.ItemIndex;
-    FLanguage          := LowerCase(Copy(cbLanguage.Text, 1, 2));
-    FSplash            := cbShowSplash.Checked;
-    FLoadWarning       := cbFileLoadWarning.Checked;
-    FFileDataAdding    := cbFileDataAdd.Checked;
-    FMinToTray         := cbMinimizeToTray.Checked;
-    FShowMenu          := cbShowMenu.Checked;
-    FShowEncoding      := cbShowEncoding.Checked;
-    FShowRS232Captions := cbShowRS232Captions.Checked;
-    FShowStatusBar     := cbShowStatusBar.Checked;
-    FShowRightEdge     := cbShowRightEdge.Checked;
-    FRightEdge         := seRightEdge.Value;
-    FTabSize           := seTabSize.Value;
-    FLineBreakStyle    := TTextLineBreakStyle(cbLineBreakStyle.ItemIndex);
-    FFontQuality       := cbFontQuality.Checked;
-    FShowSizes         := cbShowSizes.Checked;
-    FShowIndicators    := cbShowIndicators.Checked;
-    FCheckPort         := cbCheckPort.Checked;
-    FHardflow          := cbHardflow.Checked;
-    FAutoconnect       := cbAutoconnect.Checked;
-    FShowPosAndSel     := cbShowPosAndSel.Checked;
-    FBreakTime         := seTxBreakTime.Value;
-    FDeadlockTimeout   := seTxDeadlockTimeout.Value;
-    FTxRestore         := cbTxRestore.Checked;
-    FRxRestore         := cbRxRestore.Checked;
-    FTimestamp         := cbRxTimestamp.Checked;
-    FTSBefore          := edRxTSBefore.Text;
-    FTSAfter           := edRxTSAfter.Text;
-    FTimeoutRx         := seRxTimeout.Value;
-    FRxSizeLimit       := seRxSizeLimit.Value * 1000;
-    FPanelsLayout      := TPanelsLayout(cbPanelsLayout.ItemIndex);
-    FHEXBlockBytes     := seHEXBlockBytes.Value;
-    FHEXLineBytes      := seHEXLineBytes.Value;
+    Settings.LoadFields;
 
-    cbFontChange(nil);
+    // create default regexp if regexp list is empty
+    if cbRegExpList.ItemIndex < 0 then
+      with TPlotterParser.Create(1) do
+        begin
+        edRegExpName.Text  := '(default)';
+        edRegExpLabel.Text := RegExpLabel;
+        edRegExpValue.Text := RegExpValue;
+        seRegExpStr.Text   := RegExpString;
+        acRegExpAdd.Execute;
+        Free;
+        end;
+
+    // set values to non-standard settings
+    with cfg do
+      begin
+      com.lang         := FLang;
+      com.layout       := TPanelsLayout(com.layoutIndex);
+      com.update.way   := TAppUpdateWay(com.update.wayIndex);
+      com.update.freq  := TAppUpdateFreq(com.update.freqIndex);
+      editor.linebreak := TTextLineBreakStyle(editor.linebreakIndex);
+      csv.delimiter    := TPlotterCSVDelim(csv.delimiterIndex);
+      csv.decimal      := TPlotterCSVDecDelim(csv.decimalIndex);
+      csv.quotes       := TPlotterCSVQuotes(csv.quotesIndex);
+      csv.linebreak    := TTextLineBreakStyle(csv.linebreakIndex);
+      ax.ctrl.method   := TPlotterCtrl(ax.ctrl.methodIndex);
+      ay.ctrl.method   := TPlotterCtrl(ay.ctrl.methodIndex);
+      re.list          := FREList;
+
+      if tx.font.index < 0 then tx.font.index := defaultFont;
+      if rx.font.index < 0 then rx.font.index := defaultFont;
+
+      if tx.fontdark.index < 0 then tx.fontdark.index := defaultFont;
+      if rx.fontdark.index < 0 then rx.fontdark.index := defaultFont;
+      end;
   end;
 
-
-procedure TfmSettings.IniStorageSettingsRestore(Sender: TObject);
-  begin
-    LoadFieldsFromComponents;
-  end;
-
-procedure TfmSettings.IniStorageSettingsSavingProperties(Sender: TObject);
-  begin
-    LoadComponentsFromFields;
-  end;
 
 procedure TfmSettings.IniStorageLangLoad;
   var
-    i, cnt: Integer;
+    i, cnt:    Integer;
+    lng, flng: String;
   begin
-    cbLanguage.Clear;
-    cbLanguage.Items.Append(LANGUAGE_DEFAULT);
+    if FLangList = nil then
+      FLangList := TStringList.Create;
 
-    IniStorageLang := TIniPropStorage.Create(nil);
-    with IniStorageLang do
+    LazGetLanguageIDs(lng, flng);
+    cbLanguage.Clear;
+    FLangList.Append('');
+    cbLanguage.Items.Append('System or native: ' + flng + ' (' + lng.ToLower + ')');
+
+    with TIniPropStorage.Create(nil) do
       begin
       IniFileName := ExtractFileDir(ParamStrUTF8(0)) + LANGUAGES_FILE;
       Active      := True;
@@ -398,113 +428,237 @@ procedure TfmSettings.IniStorageLangLoad;
         WriteString('L-1', LANGUAGE_DEFAULT);
         end;
 
-      // считываем список локализаций, кроме 1-го пункта (язык по умолчанию)
+      // считываем список локализаций
       cnt := ReadInteger('Count', 1);
       cbLanguage.ItemIndex := 0;
 
-      if cnt > 1 then
-        for i := 2 to cnt do
-          cbLanguage.Items.Append(ReadString('L-' + i.ToString, ''));
+      if cnt > 0 then
+        for i := 1 to cnt do
+          begin
+          FLangList.Append(GetLangCode(ReadString('L-' + i.ToString, '')));
+          cbLanguage.Items.Append(GetLangCaption(ReadString('L-' + i.ToString, '')));
+          end;
+
+      Free;
       end;
   end;
 
 
-procedure TfmSettings.acOKExecute(Sender: TObject);
+procedure TfmSettings.actionExecute(Sender: TObject);
   begin
-    LoadFieldsFromComponents;
+    case TComponent(Sender).Name of
 
-    ModalResult := mrOk;
+      'acOK':
+        begin
+        LoadFieldsFromComponents;
+        ModalResult := mrOk;
+        end;
+
+      'acCancel':
+        begin
+        LoadComponentsFromFields;
+        ModalResult := mrCancel;
+        end;
+
+      'acRegExpAdd':
+        begin
+        if FREItem.Error then Exit;
+        if FREList.Add(edRegExpName.Text, seRegExpStr.Text,
+          edRegExpLabel.Text, edRegExpValue.Text) < 0 then Exit;
+
+        cbRegExpList.Items.CommaText := FREList.CommaText;
+        cbRegExpList.Text            := edRegExpName.Text;
+        end;
+
+      'acRegExpDel':
+        begin
+        cbRegExpList.Tag := cbRegExpList.ItemIndex;
+        if FREList.Delete(cbRegExpList.Text) < 0 then Exit;
+
+        cbRegExpList.Items.CommaText := FREList.CommaText;
+        cbRegExpList.ItemIndex       := Max(cbRegExpList.Tag - 1, 0);
+        end;
+
+      'lbPlotLegendHintBtn':
+        fmConfirm.Show('', lbPlotLegendHint.Caption, [], Self);
+
+      end;
   end;
 
-procedure TfmSettings.acCancelExecute(Sender: TObject);
-  begin
-    LoadComponentsFromFields;
 
-    ModalResult := mrCancel;
-  end;
-
-
-procedure TfmSettings.btnFontClick(Sender: TObject);
+procedure TfmSettings.tmrUpdateTimer(Sender: TObject);
   var
-    dlg: TFontDialog;
+    f: Boolean;
   begin
-    if Sender <> nil then
-      begin
-      case TComponent(Sender).Name of
-        'btnFontTx': dlg := dlgFontTx;
-        'btnFontRx': dlg := dlgFontRx;
-        end;
+    f := cbRxTimestamp.Checked;
 
-      with dlg do
-        if Execute then
-          case TComponent(Sender).Name of
-            'btnFontTx': dlgFontTx := dlg;
-            'btnFontRx': dlgFontRx := dlg;
-            end;
+    lbRxTSBefore.Enabled     := f;
+    lbRxTSAfter.Enabled      := f;
+    lbRxPacketTime.Enabled   := f;
+    edRxTSBefore.Enabled     := f;
+    edRxTSAfter.Enabled      := f;
+    seRxTimeout.Enabled      := f;
+    seRightEdge.Enabled      := cbShowRightEdge.Checked;
+    seImageHeight.Enabled    := cbImageCustomSize.Checked;
+    seImageWidth.Enabled     := cbImageCustomSize.Checked;
+    seImageFontSize.Enabled  := not cbImageFontProp.Checked;
+    lbImageDialogOne.Enabled := cbImageDialogOne.Checked;
+
+    f := cbPlotLegendShow.Checked;
+
+    cbPlotShowUntitled.Enabled   := f;
+    cbPlotLegendActive.Enabled   := f;
+    cbPlotLegendIndex.Enabled    := f;
+    cbPlotLegendStyle.Enabled    := f;
+    cbPlotLegendFrame.Enabled    := f;
+    cbPlotLineReactivate.Enabled := f;
+    cbPlotLegendColored.Enabled  := f;
+    cbPlotLegendColoredB.Enabled := f and cbPlotLegendFrame.Checked;
+    lbPlotLegendHint.Enabled     := f and cbPlotLegendActive.Checked;
+  end;
+
+procedure TfmSettings.ColorButtonsInit;
+  var
+    i:    Integer;
+    item: TControl;
+  begin
+    // draw selector of color of lines
+    for i := 0 to MAX_SERIES - 1 do
+      begin
+
+      // color button
+      cbSerieColor[i]             := TColorButton.Create(fmSettings);
+      cbSerieColor[i].Parent      := pSeriesColor;
+      cbSerieColor[i].ButtonColor := DEFAULT_SERIE_COLOR[i];
+      cbSerieColor[i].Flat        := True;
+      cbSerieColor[i].BorderWidth := 0;
+      cbSerieColor[i].Name        := Format('cbSerieColor%d', [i + 1]);
+      cbSerieColor[i].Hint        := Format('        ' + TXT_COLOR_HINT, [i + 1]);
+      cbSerieColor[i].Cursor      := crHandPoint;
+
+      // appropriate label
+      lbSerieColor[i]           := TLabel.Create(fmSettings);
+      lbSerieColor[i].Parent    := pSeriesColor;
+      lbSerieColor[i].Name      := Format('lbSerieColor%d', [i + 1]);
+      lbSerieColor[i].Caption   := IntToStr(i + 1);
+      lbSerieColor[i].Layout    := tlCenter;
+      lbSerieColor[i].Alignment := taCenter;
       end;
 
-    cbFontTxName.Text  := dlgFontTx.Font.Name;
-    seFontTxSize.Value := dlgFontTx.Font.Size;
-    cbFontRxName.Text  := dlgFontRx.Font.Name;
-    seFontRxSize.Value := dlgFontRx.Font.Size;
+    if appThemeAvailable then
+      begin
+      for item in [lbPlotColorLight, lbPlotColorTheme, lbPlotColorDark,
+          colbPlotterBGd, colbPlotterBGWd, colbPlotterTextd,
+          colbPlotterGXd, colbPlotterGYd] do
+        item.Visible := True;
+      end
+    else
+      begin
+      pPlotColors.ChildSizing.ControlsPerLine   := 5;
+      pPlotColors.ChildSizing.EnlargeHorizontal := crsAnchorAligning;
 
-    cbFontChange(nil);
+      for item in [lbPlotColorBG, lbPlotColorBGW, lbPlotColorText,
+          lbPlotColorGX, lbPlotColorGY] do
+        (item as TLabel).Alignment := taLeftJustify;
+      end;
   end;
 
-procedure TfmSettings.cbFontChange(Sender: TObject);
+
+procedure TfmSettings.tvTabsSelectionChanged(Sender: TObject);
+  var
+    i: Integer;
   begin
-    if Sender <> nil then
-      case TComponent(Sender).Name of
-        'cbFontTxName': dlgFontTx.Font.Name := cbFontTxName.Text;
-        'cbFontRxName': dlgFontRx.Font.Name := cbFontRxName.Text;
-        'seFontTxSize': dlgFontTx.Font.Size := seFontTxSize.Value;
-        'seFontRxSize': dlgFontRx.Font.Size := seFontRxSize.Value;
-        end;
-
-    FFontTx.Assign(dlgFontTx.Font);
-    FFontRx.Assign(dlgFontRx.Font);
-
-    FFontTx.Quality := CheckBoolean(cbFontQuality.Checked, fqCleartypeNatural, fqNonAntialiased);
-    FFontRx.Quality := CheckBoolean(cbFontQuality.Checked, fqCleartypeNatural, fqNonAntialiased);
-
-    edFontTxExample.Font.Assign(FFontTx);
-    edFontRxExample.Font.Assign(FFontRx);
+    i := tvTabs.Selected.AbsoluteIndex;
+    if i < pcPageCtrl.PageCount then
+      pcPageCtrl.Pages[i].Show;
   end;
-
 
 procedure TfmSettings.cbLanguageChange(Sender: TObject);
   begin
-    LanguageChangeImmediately;
+    // сохраняем позиции списков перед переводом
+    Settings.ItemIndexBackup;
+
+    if not LanguageChangeImmediately then Exit;
 
     // перерисовываем форму, чтобы более длинные метки полностью помещались
     FormShow(nil);
+
+    // восстанавливаем позиции списков
+    Settings.ItemIndexRestore;
   end;
 
-procedure TfmSettings.TranslateComboBoxes;
-  begin
-    ComboBoxUpdateList(cbLineBreakStyle, [
-      TXT_LIST_ENTER_UNIX, TXT_LIST_ENTER_WIN, TXT_LIST_ENTER_MAC]);
-
-    ComboBoxUpdateList(cbPanelsLayout, [
-      TXT_LIST_LAYOUT_1, TXT_LIST_LAYOUT_2, TXT_LIST_LAYOUT_3, TXT_LIST_LAYOUT_4]);
-  end;
-
-
-procedure TfmSettings.LanguageChangeImmediately;
+procedure TfmSettings.seFontSizeChange(Sender: TObject);
   var
-    strTxEx, strRxEx: String;
+    i: Integer;
   begin
-    // примеры текста не надо переводить, запоминаем
-    strTxEx := edFontTxExample.Caption;
-    strRxEx := edFontRxExample.Caption;
+    BeginFormUpdate;
+    Font.Height := 0;
+    Font.Height := Round(Canvas.Font.GetTextHeight('0') * seFontSize.Value / 100);
+
+    // for labels with custom font
+    for i := 0 to ComponentCount - 1 do
+      if Components[i].ClassName = TLabel.ClassName then
+        TControl(Components[i]).Font.Height := Font.Height;
+
+    EndFormUpdate;
+  end;
+
+
+procedure TfmSettings.edRegExpNameChange(Sender: TObject);
+  begin
+    acRegExpAdd.Enabled := not FREItem.Error and (edRegExpName.Text <> '');
+  end;
+
+procedure TfmSettings.seRegExpStrChange(Sender: TObject);
+  begin
+    FREItem.RegExp        := seRegExpStr.Text;
+    pRegExpError.Visible  := FREItem.Error;
+    lbRegExpError.Caption := FREItem.ErrorMsg;
+    lbRegExpPos.Caption   := (seRegExpStr.SelStart - 1).ToString;
+    edRegExpNameChange(Sender);
+  end;
+
+procedure TfmSettings.cbRegExpListChange(Sender: TObject);
+  var
+    i: Integer;
+  begin
+    i := FREList.IndexOf(cbRegExpList.Text);
+    if i < 0 then Exit;
+
+    with FREList.Items[i] do
+      begin
+      edRegExpName.Text  := Name;
+      edRegExpLabel.Text := RELabel;
+      edRegExpValue.Text := REValue;
+      seRegExpStr.Text   := RegExp;
+      end;
+  end;
+
+procedure TfmSettings.seRegExpStrKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+  begin
+    seRegExpStrChange(Sender);
+  end;
+
+
+function TfmSettings.LanguageChangeImmediately: Boolean;
+  var
+    i:         Integer;
+    lng, flng: String;
+  begin
+    LazGetLanguageIDs(lng, flng);
 
     // применяем язык интерфейса не выходя из настроек
-    SetDefaultLang(LowerCase(Copy(cbLanguage.Text, 1, 2)),
-      ExtractFileDir(ParamStrUTF8(0)) + LANGUAGES_DIR);
+    FLang := SetDefaultLang(FLangList[cbLanguage.ItemIndex], '', LANGUAGE_FILE);
 
-    // восстанавиваем примеры текста
-    edFontTxExample.Caption := strTxEx;
-    edFontRxExample.Caption := strRxEx;
+    if FLang.Length = 2 then
+      Result := FLang <> flng
+    else
+      Result := FLang <> lng;
+
+    // translate tree view tabs
+    for i := 0 to pcPageCtrl.PageCount - 1 do
+      if i < tvTabs.Items.Count then
+        tvTabs.Items.Item[i].Text := pcPageCtrl.Pages[i].Caption;
   end;
 
 

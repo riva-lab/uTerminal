@@ -5,14 +5,16 @@ unit u_txsequences;
 interface
 
 uses
-  Classes, SysUtils, base64, IniPropStorage, LazUTF8, u_encodings, u_utilities;
+  Classes, SysUtils, base64, IniPropStorage, LazUTF8,
+  fm_settings,
+  u_encodings, u_utilities, u_common;
 
 type
 
   { TSequencesList }
 
   TSequencesList = class
-  PRIVATE
+  private
     FData, FCaption: TStringList;
     FCount:          Integer;
     FNumSys:         Integer;
@@ -28,9 +30,9 @@ type
     procedure SetData(Index: Integer; AValue: String);
     procedure SetStrings(Index: Integer; AValue: String);
 
-  PUBLIC
+  public
     constructor Create;
-    destructor Destroy; OVERRIDE;
+    destructor Destroy; override;
 
     procedure LoadFromIni(ARes: TIniPropStorage);
     procedure SaveToIni(ARes: TIniPropStorage);
@@ -83,7 +85,10 @@ function TSequencesList.GetCaption(Index: Integer): String;
 procedure TSequencesList.SetCaption(Index: Integer; AValue: String);
   begin
     if not IsIndexCorrect(Index) then Exit;
-    FCaption.Strings[Index] := UTF8LeftStr(AValue, 16);
+    if AValue = FData.Strings[Index] then
+      FCaption.Strings[Index] := ''
+    else
+      FCaption.Strings[Index] := UTF8LeftStr(AValue, 16);
   end;
 
 function TSequencesList.GetData(Index: Integer): String;
@@ -137,17 +142,22 @@ procedure TSequencesList.LoadFromIni(ARes: TIniPropStorage);
   end;
 
 procedure TSequencesList.SaveToIni(ARes: TIniPropStorage);
+  var
+    _data, _name: String;
   begin
     if ARes = nil then Exit;
-    if FCount = 0 then Exit;
+
+    _data := (FCount = 0).Select('', EncodeStringBase64(FData.CommaText));
+    _name := (FCount = 0).Select('', EncodeStringBase64(FCaption.CommaText));
 
     with ARes do
       begin
       IniSection := 'TX Sequences List';
+      EraseSections;
 
       WriteInteger('TXSCount', FCount);
-      WriteString('TXSData', EncodeStringBase64(FData.CommaText));
-      WriteString('TXSName', EncodeStringBase64(FCaption.CommaText));
+      WriteString('TXSData', _data);
+      WriteString('TXSName', _name);
 
       IniSection := ''; // выход из текущей секции
       end;
@@ -187,9 +197,9 @@ function TSequencesList.GetCell(AIndex: Integer): String;
 
     if FCaption.Strings[AIndex].Length > 0 then
       Result := FCaption.Strings[AIndex] else
-      if FNumSys = 0 then
-        Result := EncodingToUTF8(FData.Strings[AIndex], FEncoding) else
-        Result := EncodingToUTF8(StrToCodes(FData[AIndex], FNumSys, 80), FEncoding);
+    if FNumSys = 0 then
+      Result := EncodingToUTF8(FData.Strings[AIndex], FEncoding) else
+      Result := EncodingToUTF8(FData[AIndex].ToCodes(FNumSys, 80), FEncoding);
   end;
 
 function TSequencesList.GetHint(AIndex: Integer): String;
@@ -203,20 +213,29 @@ function TSequencesList.GetHint(AIndex: Integer): String;
     end;
 
   var
-    hline: String;
+    hline, s: String;
 
   begin
     if not IsIndexCorrect(AIndex) then Exit('');
 
     if FNumSys = 0 then
       Result := EncodingToUTF8(FData.Strings[AIndex], FEncoding) else
-      Result := EncodingToUTF8(StrToCodes(FData[AIndex], FNumSys, 80), FEncoding);
+      Result := EncodingToUTF8(FData[AIndex].ToCodes(FNumSys, 80), FEncoding);
 
-    hline := HorzLine(Result.Length);
+    if UTF8Length(Result) > 256 then
+      Result := UTF8Copy(Result, 1, 256) + LineEnding + '...';
+
+    hline    := HorzLine(Result.Length);
     if FCaption.Strings[AIndex].Length > 0 then
       Result := FCaption.Strings[AIndex] + ':' + hline + LineEnding + Result;
 
-    Result += hline + SizeStr(FData[AIndex]);
+    if cfg.editor.view.inBytes then
+      s := FData[AIndex].Length.ToString + ' ' + TXT_BYTE_SHORT
+    else
+      s := FData[AIndex].Length.SizeInBytes(
+        TXT_BYTE_SHORT, TXT_BYTE_KB, TXT_BYTE_MB, TXT_BYTE_GB, False);
+
+    Result += hline + Format(TXT_BYTE_SIZE, [s]);
   end;
 
 function TSequencesList.Move(AIndex: Integer; ADirUp: Boolean): Boolean;
@@ -226,9 +245,8 @@ function TSequencesList.Move(AIndex: Integer; ADirUp: Boolean): Boolean;
     if ADirUp and (AIndex < 1) then Exit(False);
     if not ADirUp and (AIndex >= FCount - 1) then Exit(False);
 
-    FData.Move(AIndex, AIndex + CheckBoolean(ADirUp, -1, 1));
-    FCaption.Move(AIndex, AIndex + CheckBoolean(ADirUp, -1, 1));
+    FData.Move(AIndex, AIndex + ADirUp.Select(-1, 1));
+    FCaption.Move(AIndex, AIndex + ADirUp.Select(-1, 1));
   end;
 
 end.
-

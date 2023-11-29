@@ -26,7 +26,9 @@ resourcestring
   ENC_88591   = '8859-1 (ISO/IEC - западно-европейская, лат. 1)';
   ENC_88592   = '8859-2 (ISO/IEC - центрально-европейская, лат. 2)';
   ENC_885915  = '8859-15 (ISO/IEC - западно-европейская новая, лат. 9)';
-  ENC_KOI8    = 'КОИ-8 (ANSI - русская)';
+  ENC_KOI8R   = 'KOI8-R (русская)';
+  ENC_KOI8U   = 'KOI8-U (русско-украинская)';
+  ENC_KOI8RU  = 'KOI8-RU (русско-белорусско-украинская)';
   ENC_MACR    = 'Macintosh (MAC - латиница)';
   ENC_UTF8    = '65001 (UTF8 без BOM)';
   ENC_UTF8BOM = '65001 (UTF8)';
@@ -99,7 +101,11 @@ procedure EncodingsListUpdate;
     EncodingItemAdd(EncodingCPIso1, ENC_88591);
     EncodingItemAdd(EncodingCPIso2, ENC_88592);
     EncodingItemAdd(EncodingCPIso15, ENC_885915);
-    EncodingItemAdd(EncodingCPKOI8, ENC_KOI8);
+
+    EncodingItemAdd(EncodingCPKOI8R, ENC_KOI8R);
+    EncodingItemAdd(EncodingCPKOI8U, ENC_KOI8U);
+    EncodingItemAdd(EncodingCPKOI8RU, ENC_KOI8RU);
+
     EncodingItemAdd(EncodingCPMac, ENC_MACR);
 
     EncodingItemAdd(EncodingUTF8, ENC_UTF8);

@@ -5,38 +5,42 @@ unit fm_about;
 interface
 
 uses
-  SysUtils, Forms, Controls, ExtCtrls, StdCtrls, LCLType, LCLIntf,
-  app_ver, u_strings, fr_about, Classes;
+  Classes, SysUtils, Forms, Controls, StdCtrls, LCLType, LCLIntf, BCSVGViewer,
+  fr_about, u_utilities, OnlineUpdater, ouVersion;
 
 resourcestring
-  ABOUT_RIGHTS  = 'Все права защищены\nСвободное ПО';
-  ABOUT_VERSION = 'версия';
-  ABOUT_BIT     = '-битная';
-  ABOUT_BUILD   = 'сборка';
-  ABOUT_SITE    = 'сайт';
-  ABOUT_LICENSE = 'лицензия';
-  ABOUT_INFO    = 'информация';
-  ABOUT_DESCR   = 'микроТерминал для последовательного порта\n';
+  ABOUT_VERSION     = 'версия %d.%d.%d';
+  ABOUT_BIT         = '%s-битная';
+  ABOUT_BUILD       = 'сборка #%d, %s';
+  ABOUT_SITE        = 'сайт';
+  ABOUT_LICENSE     = 'лицензия';
+  ABOUT_INFO        = 'информация';
 
 const
-
-  // адрес сайта, пример https://example.site/home, пустая строка адреса отключает видимость ссылки
-  APP_SITE_ADDRESS = 'https://gitlab.com/riva-lab/uTerminal';
-  APP_SITE         = 'gitlab.com'; // отображаемое имя сайта
-
   FILE_LICENSE      = 'license.md';
   FILE_LICENSE_HTML = 'license.html';
   FILE_README       = 'readme.md';
   FILE_README_HTML  = 'readme.html';
+  ABOUT_RIGHTS      = 'Modified FreeBSD License';
+  ABOUT_OPENSRC     = 'Open Source Freeware';
+
+  // адрес сайта, пример https://example.site/home,
+  // пустая строка адреса отключает видимость ссылки
+  APP_SITE_ADDRESS  = 'https://riva-lab.gitlab.io/html/apps/uterminal.html';
+
+  // отображаемое имя сайта
+  APP_SITE          = 'riva-lab.gitlab.io';
+
+  APP_REPO_ADDRESS  = 'https://gitlab.com/riva-lab/uTerminal';
 
 type
 
   { TfmAbout }
 
   TfmAbout = class(TForm)
-    frALinks: TfrAboutLinks;
-    imLogo:   TImage;
-    lbInfo:   TLabel;
+    frALinks:  TfrAboutLinks;
+    lbInfo:    TLabel;
+    BCSVGLogo: TBCSVGViewer;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
@@ -44,20 +48,16 @@ type
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure linkClick(Sender: TObject);
 
-  PRIVATE
-    FAppArc:           String;
-    FAppAuthor:        String;
-    FAppBrief:         String;
-    FAppBuild:         String;
-    FAppCopyright:     String;
-    FAppDescription:   String;
-    FAppIntName:       String;
-    FAppSite:          String;
-    FAppSiteAvailable: Boolean;
-    FAppVersion:       String;
-    FAppComments:      String;
+  private
+    FAppArc:       String;
+    FAppAuthor:    String;
+    FAppBuild:     String;
+    FAppCopyright: String;
+    FAppDescr:     String;
+    FAppIntName:   String;
+    FAppVersion:   String;
 
-  PUBLIC
+  public
     procedure ShowSplash(IsShow: Boolean = True);
     procedure VisitSite;
     procedure UpdateInfo;
@@ -68,10 +68,7 @@ type
     property AppArc: String read FAppArc;
     property AppAuthor: String read FAppAuthor;
     property AppCopyright: String read FAppCopyright;
-    property AppDescription: String read FAppDescription;
-    property AppBrief: String read FAppBrief;
-    property AppSite: String read FAppSite;
-    property AppSiteAvailable: Boolean read FAppSiteAvailable;
+    property AppDescription: String read FAppDescr;
   end;
 
 var
@@ -86,8 +83,8 @@ implementation
 procedure TfmAbout.FormCreate(Sender: TObject);
   begin
     UpdateInfo;
-    Constraints.MaxWidth  := imLogo.Width;
-    Constraints.MaxHeight := imLogo.Height;
+    BCSVGLogo.Height := Scale96ToScreen(240);
+    BCSVGLogo.Width  := Scale96ToScreen(360);
   end;
 
 procedure TfmAbout.FormDeactivate(Sender: TObject);
@@ -98,6 +95,7 @@ procedure TfmAbout.FormDeactivate(Sender: TObject);
 procedure TfmAbout.FormShow(Sender: TObject);
   begin
     UpdateInfo;
+    BCSVGLogo.SVGString := GetResourceAsString('LOGO');
   end;
 
 procedure TfmAbout.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -110,17 +108,38 @@ procedure TfmAbout.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 
 
 procedure TfmAbout.linkClick(Sender: TObject);
+
+  function TryOpenFile(AFilename: String): Boolean;
+    begin
+      Result := False;
+      if OpenDocument(AFilename) then Exit(True);
+      if OpenDocument('..' + DirectorySeparator + AFilename) then Exit(True);
+    end;
+
+  procedure GetFromResources(ARes: String; AFilename: String);
+    begin
+      with TResourceStream.Create(HINSTANCE, ARes, RT_RCDATA) do
+          try
+          SaveToFile(AFilename);
+          finally
+          Free;
+          OpenDocument(AFilename); // open file
+          Sleep(2000);             // wait for 2s while file is opening
+          DeleteFile(AFilename);   // delete file
+          end;
+    end;
+
   begin
     case TComponent(Sender).Name of
       'lbCopyRights':
-        if not OpenDocument(FILE_README) then
-          if not OpenDocument('..' + DirectorySeparator + FILE_README_HTML) then
-            OpenDocument('..' + DirectorySeparator + FILE_README);
+        if not TryOpenFile(FILE_README_HTML) then
+          if not TryOpenFile(FILE_README) then
+            GetFromResources('README', FILE_README);
 
       'lbLicense':
-        if not OpenDocument(FILE_LICENSE) then
-          if not OpenDocument('..' + DirectorySeparator + FILE_LICENSE_HTML) then
-            OpenDocument('..' + DirectorySeparator + FILE_LICENSE);
+        if not TryOpenFile(FILE_LICENSE_HTML) then
+          if not TryOpenFile(FILE_LICENSE) then
+            GetFromResources('LICENSE', FILE_LICENSE);
 
       'lbSite':
         VisitSite;
@@ -165,46 +184,65 @@ procedure TfmAbout.VisitSite;
   end;
 
 procedure TfmAbout.UpdateInfo;
-  const
-  {$IfDef WIN64}
-    sys_arc = '64';
-  {$Else}
-    sys_arc = '32';
-  {$EndIf}
   var
-    info:          String;
     BuildDateTime: TDateTime;
+    _build:        Integer = 0;
   begin
+    FAppArc := '';
+
+    {$IfDef WINDOWS}
+      {$IfDef WIN64}
+      FAppArc := Format(ABOUT_BIT, ['64']);
+      {$EndIf}
+      {$IfDef WIN32}
+      FAppArc := Format(ABOUT_BIT, ['32']);
+      {$EndIf}
+    {$EndIf}
+
+    with TFileVersionInfoSimple.Create do
+        try
+        if Assigned(ReadVersionInfo) then
+          begin
+          FAppIntName   := InternalName;
+          FAppAuthor    := CompanyName;
+          FAppDescr     := FileDescription;
+          FAppCopyright := '© ' + LegalCopyright;
+          with  ParseVersion(FileVersion) do
+            begin
+            FAppVersion := Format(ABOUT_VERSION, [Major, Minor, Revision]);
+            _build      := Build;
+            end;
+
+          end;
+        finally
+        Free;
+        end;
+
     TryStrToDate({$INCLUDE %DATE%}, BuildDateTime, 'YYYY/MM/DD', '/');
+    FAppBuild := Format(ABOUT_BUILD, [_build, FormatDateTime('yyyy.mm.dd', BuildDateTime)]);
 
-    ReadAppInfo;
-    FAppIntName       := app_info.InternalName;
-    FAppArc           := sys_arc + ABOUT_BIT;
-    FAppAuthor        := app_info.CompanyName;
-    FAppBuild         := ABOUT_BUILD + ' ' + FormatDateTime('yyyy.mm.dd', BuildDateTime);
-    FAppDescription   := app_info.FileDescription;
-    FAppVersion       := ABOUT_VERSION + ' ' + app_info.FileVersion;
-    FAppCopyright     := '© ' + app_info.LegalCopyright;
-    //FAppComments      := app_info.Comments;
-    FAppComments      := ABOUT_DESCR;
-    FAppBrief         := FAppIntName + ' ' + FAppVersion + ', ' + FAppArc + ', ' + FAppBuild;
-    FAppSite          := APP_SITE;
-    FAppSiteAvailable := Length(APP_SITE_ADDRESS) > 0;
+    with TStringList.Create do
+        try
+        Add(FAppIntName);
+        Add(FAppVersion + (FAppArc <> '').Select(', ' + FAppArc, ''));
+        Add(FAppBuild);
+        Add('');
+        Add(FAppDescr);
+        Add('');
+        Add(FAppCopyright);
+        Add(FAppAuthor);
+        Add(ABOUT_RIGHTS);
+        Add(ABOUT_OPENSRC);
+        lbInfo.Caption := Text;
+        finally
+        Free;
+        end;
 
-    info := app_info.InternalName + LineEnding;
-    info += FAppVersion + ', ' + FAppArc + LineEnding;
-    info += FAppBuild + LineEnding + LineEnding;
-    info += MultiString(FAppComments) + LineEnding + LineEnding;
-    info += FAppCopyright + LineEnding;
-    info += MultiString(ABOUT_RIGHTS) + LineEnding;
-    info += FAppAuthor;
-
-    lbInfo.Caption                := info;
-    frALinks.lbSite.Caption       := {ABOUT_SITE + ': ' +} APP_SITE;
+    frALinks.lbSite.Caption       := APP_SITE;
     frALinks.lbSite.Hint          := APP_SITE_ADDRESS;
-    frALinks.lbSite.Visible       := FAppSiteAvailable;
+    frALinks.lbSite.Visible       := APP_SITE_ADDRESS <> '';
     frALinks.lbLicense.Hint       := FILE_LICENSE;
-    frALinks.lbCopyRights.Hint    := FILE_README;
+    frALinks.lbCopyRights.Hint    := FILE_README_HTML;
     frALinks.lbLicense.Caption    := ABOUT_LICENSE;
     frALinks.lbCopyRights.Caption := ABOUT_INFO;
   end;

@@ -8,10 +8,10 @@ uses
   Classes, Windows, SysUtils, registry, synaser, synautil, u_utilities, LazUTF8;
 
 resourcestring
-  TXT_CS_OFFLINE = 'Отключен';
-  TXT_CS_ONLINE  = 'Готов';
-  TXT_CS_RXING   = 'Прием...';
-  TXT_CS_TXING   = 'Передача...';
+  TXT_CS_OFFLINE  = 'Отключен';
+  TXT_CS_ONLINE   = 'Готов';
+  TXT_CS_RXING    = 'Прием...';
+  TXT_CS_TXING    = 'Передача...';
 
   TXT_CE_NONE     = 'Успех';
   TXT_CE_RXERROR  = 'Ошибка приема';
@@ -19,7 +19,7 @@ resourcestring
   TXT_CE_TXERROR  = 'Ошибка передачи';
   TXT_CE_TXCANCEL = 'Передача отменена';
 
-  TXT_PORT_BUSY = 'занят';
+  TXT_PORT_BUSY   = 'занят';
 
 type
   TNewDataProc  = procedure of object;
@@ -39,58 +39,58 @@ type
   { TSerialPortThread }
 
   TSerialPortThread = class(TThread)
-  PRIVATE
-    const
+  private
+  const
     TIME_POLL_RX             = 30;          // [мс] период опроса входного буфера
     TIME_BREAK_DEFAULT       = 100;         // [мс] длительность сигнала Break
     TIME_RX_DEFAULT          = 1000;        // [мс] таймаут пакета при приеме
     TIME_TX_DEFAULT          = 1000;        // [мс] период автопередачи
     TIME_TX_DEADLOCK_DEFAULT = 1000;        // [мс] период автопередачи
 
-  PRIVATE
-    FSerialTest:         TBlockSerial;
-    FSerial:             TBlockSerial;
-    FPortsList:          TStringList;
-    FPortIndexInList:    Integer;
-    FPort:               String;
-    FPortName:           String;
-    FPortPrevious:       String;
-    FTimestampStrAfter:  String;
+  private
+    FSerialTest:       TBlockSerial;
+    FSerial:           TBlockSerial;
+    FPortsList:        TStringList;
+    FPortIndexInList:  Integer;
+    FPort:             String;
+    FPortName:         String;
+    FPortPrevious:     String;
+    FTimestampStrAfter: String;
     FTimestampStrBefore: String;
-    FPortBaud:           Integer;
-    FPortDataBits:       Integer;
-    FPortBPS:            Integer;
-    FTxPacketOffset:     Integer;
-    FTxPackets:          Integer;
-    FTxPacketSize:       Integer;
-    FAutoSendInterval:   LongWord;
-    FPortParity:         Char;
-    FPortStopBits:       Integer;
-    FDeadlockTimeout:    Integer;
-    FBreakDuration:      Integer;
-    FRxPacketTime:       Integer;
-    FStarted:            Boolean;
-    FHardflow:           Boolean;
-    FRxEnable:           Boolean;
-    FRunning:            Boolean;
-    FConnected:          Boolean;
-    FTxStart:            Boolean;
-    FIsRxing:            Boolean;
-    FIsTxing:            Boolean;
-    FCheckPort:          Boolean;
-    FEnableRxTimestamp:  Boolean;
-    FAutoSend:           Boolean;
-    FError:              TCommError;
-    FOnRxEnd:            TNewDataProc;
-    FOnRxStart:          TNewDataProc;
-    FOnTxEnd:            TNewDataProc;
-    FOnTxStart:          TNewDataProc;
-    FDataRx:             Ansistring;
-    FDataTx:             Ansistring;
-    FDataTxAns:          Ansistring;
-    FSignals:            array [TSerialSignal] of Boolean;
+    FPortBaud:         Integer;
+    FPortDataBits:     Integer;
+    FPortBPS:          Integer;
+    FTxPacketOffset:   Integer;
+    FTxPackets:        Integer;
+    FTxPacketSize:     Integer;
+    FAutoSendInterval: LongWord;
+    FPortParity:       Char;
+    FPortStopBits:     Integer;
+    FDeadlockTimeout:  Integer;
+    FBreakDuration:    Integer;
+    FRxPacketTime:     Integer;
+    FStarted:          Boolean;
+    FHardflow:         Boolean;
+    FRxEnable:         Boolean;
+    FRunning:          Boolean;
+    FConnected:        Boolean;
+    FTxStart:          Boolean;
+    FIsRxing:          Boolean;
+    FIsTxing:          Boolean;
+    FCheckPort:        Boolean;
+    FEnableRxTimestamp: Boolean;
+    FAutoSend:         Boolean;
+    FError:            TCommError;
+    FOnRxEnd:          TNewDataProc;
+    FOnRxStart:        TNewDataProc;
+    FOnTxEnd:          TNewDataProc;
+    FOnTxStart:        TNewDataProc;
+    FDataRx:           Ansistring;
+    FDataTx:           Ansistring;
+    FDataTxAns:        Ansistring;
+    FSignals:          array [TSerialSignal] of Boolean;
 
-  PRIVATE
+  private
     function GetConfigStr(AShort: Boolean): String;
     function GetConfigShort: String;
     function GetConfigString: String;
@@ -110,11 +110,11 @@ type
     function BreakControl(ATickMs: LongWord): Boolean;
     procedure OnStatus(Sender: TObject; Reason: THookSerialReason; const Value: String);
 
-    procedure Execute; OVERRIDE;
+    procedure Execute; override;
 
-  PUBLIC
+  public
     constructor Create;
-    destructor Destroy; OVERRIDE;
+    destructor Destroy; override;
 
     procedure PortSettings(APort: String; ABaud, ADataBits: Integer;
       AParity: Char; AStopBits: Integer);
@@ -127,7 +127,7 @@ type
     function GetExistingPorts: String;
     function GetPortIndexInList: Integer;
 
-  PUBLIC
+  public
     property OnRxEnd: TNewDataProc read FOnRxEnd write FOnRxEnd;
     property OnRxStart: TNewDataProc read FOnRxStart write FOnRxStart;
     property OnTxEnd: TNewDataProc read FOnTxEnd write FOnTxEnd;
@@ -166,9 +166,9 @@ type
 
 implementation
 
-{  ***  Класс  TSerialPortThread  ***  }
+ {  ***  Класс  TSerialPortThread  ***  }
 
-{ Методы доступа к свойствам класса get/set }
+ { Методы доступа к свойствам класса get/set }
 
 function TSerialPortThread.GetErrorString: String;
   begin
@@ -185,7 +185,7 @@ function TSerialPortThread.GetConfigStr(AShort: Boolean): String;
   var
     sb: array [0..2] of String = ('1', '1,5', '2');
   begin
-    Result := CheckBoolean(AShort, FPort, FPortName) + ', ';
+    Result := AShort.Select(FPort, FPortName) + ', ';
     Result += FPortDataBits.ToString + '-';
     Result += FPortParity + '-';
     Result += sb[FPortStopBits] + ', ';
@@ -267,9 +267,9 @@ function TSerialPortThread.OpenPort: Boolean;
         Result := False;
         end;
 
-    FStarted := FStarted and Result;
+    FStarted     := FStarted and Result;
     if not Result then
-      FError := cePortBusy else
+      FError     := cePortBusy else
       begin
       FError     := ceNone;
       FTxStart   := False;
@@ -325,7 +325,7 @@ procedure TSerialPortThread.PortSettings(APort: String; ABaud,
       FPortName := APort;
       end
     else
-      FPort := '---';
+      FPort     := '---';
 
     lastOpened := PortOpened;                 // считываем состояние порта до переконфигурации
     if FPortPrevious <> FPort then ClosePort; // закрываем порт, если изменяется именно порт
@@ -345,10 +345,10 @@ function TSerialPortThread.IsPortReady: Boolean;
     if not FStarted then
       ClosePort
     else
-      if PortOpened then
-        Result := True
-      else
-        Result := OpenPort;
+    if PortOpened then
+      Result := True
+    else
+      Result := OpenPort;
   end;
 
 function TSerialPortThread.IsPortFree(APort: String): Boolean;
@@ -438,8 +438,7 @@ procedure TSerialPortThread.TransmitData;
   begin
     if not FTxStart then
       begin
-      FSerial.DeadlockTimeout :=
-        CheckBoolean(FAutoSend, FAutoSendInterval, FDeadlockTimeout);
+      FSerial.DeadlockTimeout := FAutoSend.Select(FAutoSendInterval, FDeadlockTimeout);
       Exit;
       end;
 
@@ -618,8 +617,9 @@ destructor TSerialPortThread.Destroy;
     inherited Destroy;
   end;
 
- // получение списка доступных портов
- //http://patotech.blogspot.com/2012/04/enumerate-com-ports-in-windows-with.html
+{$IFDEF WINDOWS}
+// получение списка доступных портов
+//http://patotech.blogspot.com/2012/04/enumerate-com-ports-in-windows-with.html
 function TSerialPortThread.GetExistingPorts: String;
   var
     reg:       TRegistry;
@@ -693,7 +693,7 @@ function TSerialPortThread.GetExistingPorts: String;
         for n := 0 to l.Count - 1 do
           begin
           pn := reg.ReadString(l[n]);
-          fn := '  [' + WinCPToUTF8(findFriendlyName('\System\CurrentControlSet\Enum\', pn)) + ']';
+          fn := '   [' + SysToUTF8(findFriendlyName('\System\CurrentControlSet\Enum\', pn)) + ']';
           if FCheckPort and not IsPortFree(pn) then fn += ' <' + TXT_PORT_BUSY + '>';
           if pn = FPort then p := pn + fn;
           v.Add(pn + fn);
@@ -714,6 +714,7 @@ function TSerialPortThread.GetExistingPorts: String;
     //FPortsList.Sort;
     //Result := FPortsList.CommaText;
   end;
+{$ENDIF}
 
 function TSerialPortThread.GetPortIndexInList: Integer;
   begin

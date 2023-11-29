@@ -46,7 +46,7 @@ type
     procedure sgSequencesSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
 
-  PRIVATE
+  private
     FAnswerListA:   TStringList;
     FSequenceListA: TStringList;
     FAnswerList:    TStringList;
@@ -54,7 +54,7 @@ type
 
     procedure UpdateTable;
 
-  PUBLIC
+  public
     property AnswerList: TStringList read FAnswerList write FAnswerList;
     property SequenceList: TStringList read FSequenceList write FSequenceList;
   end;
@@ -91,17 +91,31 @@ procedure TfmCommands.FormShow(Sender: TObject);
 
 procedure TfmCommands.IniStorageCmdRestoreProperties(Sender: TObject);
   begin
-    IniStorageCmd.ReadStrings('seq', FSequenceListA, FSequenceListA);
-    IniStorageCmd.ReadStrings('ans', FAnswerListA, FAnswerListA);
-    IniStorageCmd.ReadStrings('seq', FSequenceList, FSequenceList);
-    IniStorageCmd.ReadStrings('ans', FAnswerList, FAnswerList);
+    with IniStorageCmd do
+      begin
+      IniSection := 'AutoAnswer';
+
+      ReadStrings('SeqList', FSequenceListA, FSequenceListA);
+      ReadStrings('AnsList', FAnswerListA, FAnswerListA);
+      ReadStrings('SeqList', FSequenceList, FSequenceList);
+      ReadStrings('AnsList', FAnswerList, FAnswerList);
+
+      IniSection := ''; // выход из текущей секции
+      end;
   end;
 
 procedure TfmCommands.IniStorageCmdSaveProperties(Sender: TObject);
   begin
-    IniStorageCmd.EraseSections;
-    IniStorageCmd.WriteStrings('seq', FSequenceList);
-    IniStorageCmd.WriteStrings('ans', FAnswerList);
+    with IniStorageCmd do
+      begin
+      IniSection := 'AutoAnswer';
+      EraseSections;
+
+      WriteStrings('SeqList', FSequenceList);
+      WriteStrings('AnsList', FAnswerList);
+
+      IniSection := ''; // выход из текущей секции
+      end;
   end;
 
 procedure TfmCommands.sgSequencesSelectCell(Sender: TObject; aCol, aRow: Integer;
@@ -128,6 +142,7 @@ procedure TfmCommands.UpdateTable;
     i:         Integer;
   begin
     sgSequences.RowCount := FSequenceListA.Count + 1;
+
     for i := 1 to FSequenceListA.Count do
       begin
       sgSequences.Cols[0].Strings[i] := FSequenceListA.Strings[i - 1];

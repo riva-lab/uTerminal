@@ -1,31 +1,31 @@
 object fmASCIIChar: TfmASCIIChar
-  Left = 390
-  Height = 378
-  Top = 307
-  Width = 532
+  Left = 362
+  Height = 472
+  Top = 331
+  Width = 665
   BorderIcons = [biSystemMenu, biMaximize]
-  ClientHeight = 378
-  ClientWidth = 532
+  ClientHeight = 472
+  ClientWidth = 665
+  DesignTimePPI = 120
   OnCreate = FormCreate
   OnShow = FormShow
-  OnUTF8KeyPress = sgCharUTF8KeyPress
   Position = poMainFormCenter
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '2.2.6.0'
   object sgChar: TStringGrid
     Left = 0
-    Height = 302
+    Height = 377
     Top = 0
-    Width = 532
+    Width = 665
     Align = alClient
     AlternateColor = cl3DLight
     AutoFillColumns = True
     BorderStyle = bsNone
     Color = 15790320
     ColCount = 0
-    DefaultRowHeight = 64
+    DefaultRowHeight = 80
     FixedCols = 0
     FixedRows = 0
-    Font.Height = -19
+    Font.Height = -24
     Font.Name = 'Consolas'
     GridLineWidth = 0
     MouseWheelOption = mwGrid
@@ -33,63 +33,64 @@ object fmASCIIChar: TfmASCIIChar
     ParentFont = False
     RowCount = 0
     TabOrder = 0
-    TitleFont.Height = -19
-    TitleFont.Name = 'Consolas'
     UseXORFeatures = True
     OnDblClick = sgCharDblClick
     OnDrawCell = sgCharDrawCell
     OnMouseWheel = sgCharMouseWheel
     OnPrepareCanvas = sgCharPrepareCanvas
-    OnResize = sgCharResize
     OnSelectCell = sgCharSelectCell
-    OnUTF8KeyPress = sgCharUTF8KeyPress
   end
-  object Panel2: TPanel
+  object pControl: TPanel
     Left = 0
-    Height = 49
-    Top = 306
-    Width = 532
+    Height = 61
+    Top = 382
+    Width = 665
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 49
-    ClientWidth = 532
-    TabOrder = 1
-    object BitBtn1: TBitBtn
-      Left = 315
-      Height = 39
-      Top = 5
-      Width = 129
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.HorizontalSpacing = 6
+    ChildSizing.VerticalSpacing = 6
+    ClientHeight = 61
+    ClientWidth = 665
+    TabOrder = 2
+    object bbInsert: TBitBtn
+      Left = 367
+      Height = 49
+      Top = 6
+      Width = 175
       Action = acOK
       Align = alRight
       AutoSize = True
-      BorderSpacing.Around = 5
-      BorderSpacing.InnerBorder = 5
-      OnUTF8KeyPress = sgCharUTF8KeyPress
-      TabOrder = 0
+      BorderSpacing.InnerBorder = 6
+      Default = True
+      Images = fmMain.imImageList
+      ImageIndex = 14
+      TabOrder = 1
     end
-    object BitBtn2: TBitBtn
-      Left = 449
-      Height = 39
-      Top = 5
-      Width = 78
+    object bbCancel: TBitBtn
+      Left = 548
+      Height = 49
+      Top = 6
+      Width = 111
       Action = acCancel
       Align = alRight
       AutoSize = True
-      BorderSpacing.Around = 5
-      BorderSpacing.InnerBorder = 5
-      OnUTF8KeyPress = sgCharUTF8KeyPress
-      TabOrder = 1
+      BorderSpacing.InnerBorder = 6
+      Images = fmMain.imImageList
+      ImageIndex = 15
+      TabOrder = 2
     end
     object rgCodeType: TRadioGroup
-      Left = 5
-      Height = 39
-      Top = 5
-      Width = 305
+      Left = 6
+      Height = 49
+      Top = 6
+      Width = 341
       Align = alClient
       AutoFill = True
       AutoSize = True
-      BorderSpacing.Around = 5
+      BorderSpacing.Right = 20
       Caption = 'Отображаемый в таблице код символа'
       ChildSizing.LeftRightSpacing = 6
       ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
@@ -98,8 +99,8 @@ object fmASCIIChar: TfmASCIIChar
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 4
-      ClientHeight = 19
-      ClientWidth = 301
+      ClientHeight = 24
+      ClientWidth = 337
       Columns = 4
       ItemIndex = 0
       Items.Strings = (
@@ -109,54 +110,56 @@ object fmASCIIChar: TfmASCIIChar
         'Нет'
       )
       OnClick = rgCodeTypeClick
-      TabOrder = 2
+      TabOrder = 0
     end
   end
-  object StatusBar: TStatusBar
+  object sbStatus: TStatusBar
     Left = 0
-    Height = 23
-    Top = 355
-    Width = 532
+    Height = 29
+    Top = 443
+    Width = 665
     Panels = <    
       item
-        Width = 50
+        Width = 62
       end    
       item
-        Width = 50
+        Width = 62
       end    
       item
-        Width = 100
+        Width = 125
       end    
       item
-        Width = 50
+        Width = 62
       end>
     SimplePanel = False
   end
   object pDivide: TPanel
     Left = 0
-    Height = 4
-    Top = 302
-    Width = 532
+    Height = 5
+    Top = 377
+    Width = 665
     Align = alBottom
     BevelOuter = bvNone
     Color = 4227072
-    Constraints.MaxHeight = 4
-    Constraints.MinHeight = 4
+    Constraints.MaxHeight = 5
+    Constraints.MinHeight = 5
     ParentColor = False
-    TabOrder = 3
+    TabOrder = 1
   end
   object ActionList1: TActionList
-    left = 90
-    top = 195
+    Left = 113
+    Top = 244
     object acOK: TAction
       Caption = 'Вставить символ'
       ImageIndex = 14
       OnExecute = acOKExecute
+      ShortCut = 13
     end
     object acCancel: TAction
       Caption = 'Отмена'
       ImageIndex = 15
       OnExecute = acCancelExecute
+      ShortCut = 27
     end
   end
 end

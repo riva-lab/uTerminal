@@ -1,25 +1,27 @@
 object frAboutLinks: TfrAboutLinks
   Left = 0
-  Height = 66
+  Height = 82
   Top = 0
-  Width = 320
+  Width = 400
   AutoSize = True
   ChildSizing.LeftRightSpacing = 1
   ChildSizing.TopBottomSpacing = 1
-  ChildSizing.HorizontalSpacing = 5
+  ChildSizing.HorizontalSpacing = 16
   ChildSizing.VerticalSpacing = 5
   ChildSizing.Layout = cclTopToBottomThenLeftToRight
-  ClientHeight = 66
-  ClientWidth = 320
+  ClientHeight = 82
+  ClientWidth = 400
+  DesignTimePPI = 120
+  ParentFont = False
   TabOrder = 0
-  DesignLeft = 388
-  DesignTop = 461
+  DesignLeft = 372
+  DesignTop = 482
   object lbLicense: TLabel
     Cursor = crHandPoint
     Left = 1
-    Height = 15
+    Height = 20
     Top = 1
-    Width = 49
+    Width = 61
     Caption = 'lbLicense'
     Font.Color = 10544795
     Font.Style = [fsUnderline]
@@ -28,10 +30,10 @@ object frAboutLinks: TfrAboutLinks
   end
   object lbCopyRights: TLabel
     Cursor = crHandPoint
-    Left = 55
-    Height = 15
+    Left = 78
+    Height = 20
     Top = 1
-    Width = 71
+    Width = 88
     Caption = 'lbCopyRights'
     Font.Color = 10544795
     Font.Style = [fsUnderline]
@@ -40,10 +42,10 @@ object frAboutLinks: TfrAboutLinks
   end
   object lbSite: TLabel
     Cursor = crHandPoint
-    Left = 131
-    Height = 15
+    Left = 182
+    Height = 20
     Top = 1
-    Width = 29
+    Width = 38
     Caption = 'lbSite'
     Font.Color = 10544795
     Font.Style = [fsUnderline]
