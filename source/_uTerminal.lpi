@@ -278,7 +278,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\libraries\synapse40.1-ultibo\source\lib;plotter"/>
+      <OtherUnitFiles Value="..\libraries\AraratSynapse;plotter"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
