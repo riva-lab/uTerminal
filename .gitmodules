@@ -1,3 +1,6 @@
 [submodule "libraries/AraratSynapse"]
 	path = libraries/AraratSynapse
 	url = https://github.com/ultibohub/AraratSynapse
+[submodule "libraries/TRegExpr"]
+	path = libraries/TRegExpr
+	url = https://github.com/andgineer/TRegExpr
