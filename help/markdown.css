@@ -1,0 +1,502 @@
+/* Page Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap'); */
+
+/* Code Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap'); */
+
+
+/* LIGHT COLORS, DEFAULT */
+* {
+    --v-color-bg: #fff;
+    --v-color-body-border: #f2f2f2;
+    --v-color-block: #fcfcfc;
+    --v-color-block-border: #e8e8e8;
+    --v-color-code-bg: #f2f2f2;
+    --v-color-code-block-bg: #fcfcfc;
+    --v-color-code: #000;
+    --v-color-border: #d0d0d0;
+    --v-color-text: #000;
+    --v-color-header: #2ba64e;
+    --v-color-link: #185bed;
+    --v-color-link-visited: #cc0cc6;
+    --v-color-checkbox-bg: #2c75fc;
+    --v-color-checkbox-mark: #fff;
+    --v-color-table-even: #f2f2f2;
+    --v-color-table-odd: #fbfbfb;
+    --v-color-table-head: #ededed;
+    --v-color-table-head-text: #348b4d;
+    --v-color-table-line: #bbb;
+    --v-color-quote: #ffa962;
+    --v-color-quote-gradient: #e8e8e8;
+    --v-color-quote-text: #444;
+    --v-color-list-mark: #01b90a;
+}
+
+/* DARK COLORS */
+@media (prefers-color-scheme: dark) {
+    * {
+        --v-color-bg: #111;
+        --v-color-body-border: #222;
+        --v-color-block: #1a1a1a;
+        --v-color-block-border: #333;
+        --v-color-code-bg: #333;
+        --v-color-code-block-bg: #222;
+        --v-color-code: #bbb;
+        --v-color-border: #555;
+        --v-color-text: #ccc;
+        --v-color-header: #47b165;
+        --v-color-link: #298aba;
+        --v-color-link-visited: #cc0cc6;
+        --v-color-checkbox-bg: #4a72be;
+        --v-color-checkbox-mark: #fff;
+        --v-color-table-even: #222;
+        --v-color-table-odd: #1a1a1a;
+        --v-color-table-head: #333;
+        --v-color-table-head-text: #ddd;
+        --v-color-table-line: #666;
+        --v-color-quote: #a33811;
+        --v-color-quote-gradient: #222;
+        --v-color-quote-text: #aaa;
+        --v-color-list-mark: #71b686;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    font: inherit;
+    font-size: 100%;
+    text-align: justify;
+    vertical-align: baseline;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Roboto', 'Fira Sans', 'Noto Sans', Arial, sans-serif;
+    line-height: 1.8em;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--v-color-bg);
+    color: var(--v-color-text);
+}
+
+body {
+    text-rendering: optimizeLegibility;
+    max-width: 58em;
+    margin: 2em auto;
+    padding: 1.6em 2em;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 12px;
+    border-color: var(--v-color-body-border);
+}
+
+
+/* CONTENT */
+
+p {
+    margin-bottom: 0.4em;
+    margin-top: 0.4em;
+    hyphens: auto;
+}
+
+a {
+    text-decoration: none;
+    color: var(--v-color-link);
+}
+
+a:visited {
+    color: var(--v-color-link-visited);
+}
+
+a img {
+    border: none
+}
+
+b,
+strong {
+    font-weight: bold;
+}
+
+i,
+em {
+    font-style: italic;
+    margin-right: 0.1em;
+}
+
+hr {
+    border-top: 2px solid var(--v-color-border);
+    margin: 1em 0;
+}
+
+/* CONTENT END */
+
+
+/* HEADERS */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: left;
+    line-height: 1.2em;
+    margin-bottom: 0.5em;
+    margin-top: 1.5em;
+    color: var(--v-color-header);
+}
+
+h1 > a,
+h2 > a,
+h3 > a,
+h4 > a,
+h5 > a,
+h6 > a,
+h1 > a:visited,
+h2 > a:visited,
+h3 > a:visited,
+h4 > a:visited,
+h5 > a:visited,
+h6 > a:visited {
+    color: var(--v-color-header);
+}
+
+h1::before,
+h2::before,
+h3::before,
+h4::before,
+h5::before,
+h6::before {
+    display: block;
+    position: absolute;
+    margin-left: -26px;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    text-align: right;
+    color: var(--v-color-list-mark);
+    content: '1';
+}
+
+h1:hover::before,
+h2:hover::before,
+h3:hover::before,
+h4:hover::before,
+h5:hover::before,
+h6:hover::before {
+    margin-left: -26px;
+    font-size: 1em;
+    content: '↑';
+}
+
+h2::before {
+    content: '2';
+}
+
+h3::before {
+    content: '3';
+}
+
+h4::before {
+    content: '4';
+}
+
+h5::before {
+    content: '5';
+}
+
+h6::before {
+    content: '6';
+}
+
+h1 {
+    font-size: 1.8em;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-color: var(--v-color-border);
+}
+
+h1:first-child {
+    margin-top: 0.7em;
+    margin-bottom: 1.5em;
+    text-align: center;
+    background-image: linear-gradient(to top, var(--v-color-body-border) 0%, var(--v-color-bg) 100%);
+    border-radius: 6px;
+}
+
+h1:first-child::before {
+    content: none;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+h5 {
+    font-weight: bold;
+}
+
+h6 {
+    font-style: italic;
+}
+
+/* HEADERS END */
+
+
+/* BLOCKQUOTES */
+
+blockquote {
+    display: block;
+    margin: 0.6em 0;
+    padding: 0.5em 0;
+    padding-left: 1em;
+    border-left: 0.2em solid var(--v-color-quote);
+    background-image: linear-gradient(to right, var(--v-color-quote-gradient) 0%, var(--v-color-bg) 100%);
+    color: var(--v-color-quote-text);
+}
+
+/* BLOCKQUOTES END */
+
+
+/* IMAGES */
+
+img {
+    max-width: 100%;
+    height: auto
+}
+
+img,
+embed {
+    vertical-align: middle;
+    max-width: 100%;
+}
+
+.p-img,
+.p-embed {
+    display: block;
+    text-align: center;
+    width: 100%;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 6px;
+    padding: 0.5em;
+    margin-top: 0.8em;
+    margin-bottom: 1em;
+    background-color: var(--v-color-block);
+    border-color: var(--v-color-block-border);
+}
+
+/* IMAGES END*/
+
+
+/* LISTS */
+
+ul,
+ol {
+    margin-left: 2em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    list-style-position: outside;
+}
+
+ul {
+    list-style-type: disc;
+}
+
+ul ul {
+    list-style-type: circle;
+}
+
+ul ul ul {
+    list-style-type: square;
+}
+
+ul p,
+ol p {
+    margin-bottom: 0;
+}
+
+ol ol > li {
+    counter-increment: ol2;
+}
+
+ol ol > li::marker {
+    content: counter(ol2)') ';
+}
+
+ol ol ol > li {
+    counter-increment: ol3;
+}
+
+ol ol ol > li::marker {
+    content: counter(ol3, lower-alpha)') ';
+}
+
+li::marker {
+    color: var(--v-color-list-mark);
+}
+
+/* LISTS END */
+
+
+/* CODE */
+
+code {
+    font-family: 'Fira Mono', monospace;
+    font-weight: normal;
+    display: inline;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: .2em;
+    padding: 0.05em 0.3em;
+    margin: 0 0.15em;
+    background-color: var(--v-color-code-bg);
+    border-color: var(--v-color-border);
+    color: var(--v-color-code);
+}
+
+pre {
+    display: block;
+    background: transparent;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+pre code {
+    display: block;
+    width: 100%;
+    line-height: 1.5em;
+    border-width: 1px;
+    border-radius: 6px;
+    padding: 1.5em 1em;
+    background-color: var(--v-color-code-block-bg);
+}
+
+/* CODE END */
+
+
+/* TODO LIST */
+
+input[type="checkbox"] {
+    position: relative;
+    appearance: none;
+    background: var(--v-color-checkbox-bg);
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 0.2em;
+    margin: 0 0.35em 0.25em -1.6em;
+    vertical-align: middle;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '✓';
+    color: var(--v-color-checkbox-mark);
+    font-size: 1.3em;
+    font-weight: bold;
+    position: absolute;
+    left: .05em;
+    top: -0.2em;
+}
+
+/* TODO LIST END */
+
+
+/*  TABLE */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0.8em auto 1em auto;
+}
+
+table th {
+    font-weight: bold;
+    color: var(--v-color-table-head-text);
+}
+
+table td,
+table th {
+    border: 0;
+    text-align: left;
+    vertical-align: middle;
+    padding: 0.6em 1em;
+    font-size: .95em;
+    line-height: 1.5em;
+}
+
+table td {
+    border-left: 2px solid var(--v-color-bg);
+}
+
+table td:first-child {
+    border-left: 0;
+}
+
+thead tr {
+    background-color: var(--v-color-table-head);
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--v-color-table-even);
+}
+
+tbody tr:nth-child(odd) {
+    background-color: var(--v-color-table-odd);
+}
+
+table tr:first-child > td {
+    border-top: 4px solid var(--v-color-table-line);
+}
+
+/* TABLE END */
+
+
+/* TOC */
+
+.toc {
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 6px;
+    padding: 1em;
+    margin: 2.5em 0;
+    background-color: var(--v-color-block);
+    border-color: var(--v-color-block-border);
+}
+
+.toc ul {
+    list-style-type: none;
+}
+
+ul.toc-h1 {
+    margin-left: 0;
+}
+
+ul.toc-h1 > li:first-child {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 1.2em;
+    border-bottom-color: var(--v-color-border);
+}
+
+ul.toc-h1 > li:first-child a {
+    color: var(--v-color-header);
+}
+
+/* TOC END */
