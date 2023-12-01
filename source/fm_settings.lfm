@@ -692,6 +692,7 @@ object fmSettings: TfmSettings
         AutoSize = True
         BorderSpacing.Bottom = 8
         BevelOuter = bvNone
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
@@ -856,6 +857,7 @@ object fmSettings: TfmSettings
           AutoSize = True
           BorderSpacing.Bottom = 8
           BevelOuter = bvNone
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ClientHeight = 24
           ClientWidth = 564
           Color = cl3DLight
@@ -1515,10 +1517,8 @@ object fmSettings: TfmSettings
           Height = 24
           Top = 0
           Width = 100
-          Color = clDefault
           Layout = tlCenter
           ParentColor = False
-          Transparent = False
         end
         object cbRxTimestamp: TCheckBox
           Left = 110

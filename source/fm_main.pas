@@ -253,9 +253,8 @@ procedure TfmMain.FormCreate(Sender: TObject);
       miSub: array of TMenuItem;
       miNew: TMenuItem;
     begin
-      miNew            := TMenuItem.Create(MenuItem1);
-      miNew.Caption    := acPortSettingsMenu.Caption;
-      miNew.ImageIndex := acPortSettingsMenu.ImageIndex;
+      miNew        := TMenuItem.Create(MenuItem1);
+      miNew.Action := acPortSettingsMenu;
       MenuItem1.Insert(5, miNew);
 
       SetLength(miSub, 0);

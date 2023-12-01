@@ -142,20 +142,23 @@ procedure TSettings.Add(AComponent: TComponent; AField: Pointer;
   var
     lastIndex, i: Integer;
   begin
-    if Find(AComponent) >= 0 then Exit;
-    if Assigned(AField) and (Find(AField) >= 0) then Exit;
+    lastIndex := Find(AComponent);
+    if lastIndex < 0 then
+      begin
+      if Assigned(AField) and (Find(AField) >= 0) then Exit;
 
-    lastIndex := FCount;
-    FCount    += 1;
-    SetLength(FAComp, FCount);
-    SetLength(FAField, FCount);
-    SetLength(FIIBackup, FCount);
-    SetLength(FCBList, FCount);
-    SetLength(FAMult, FCount);
+      lastIndex := FCount;
+      FCount    += 1;
+      SetLength(FAComp, FCount);
+      SetLength(FAField, FCount);
+      SetLength(FIIBackup, FCount);
+      SetLength(FCBList, FCount);
+      SetLength(FAMult, FCount);
 
-    FAComp[lastIndex]  := AComponent;
-    FAField[lastIndex] := AField;
-    FAMult[lastIndex]  := AMultiplier;
+      FAComp[lastIndex]  := AComponent;
+      FAField[lastIndex] := AField;
+      FAMult[lastIndex]  := AMultiplier;
+      end;
 
     if Length(AComboList) > 0 then
       begin

@@ -26,7 +26,7 @@
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="..\bin\lang"/>
-      <ExcludedIdentifiers Count="73">
+      <ExcludedIdentifiers Count="74">
         <Item1 Value="tfmmain.acconnect.caption"/>
         <Item2 Value="tfmmain.actogglebreak.caption"/>
         <Item3 Value="tfmmain.actoggledtr.caption"/>
@@ -100,13 +100,14 @@
         <Item71 Value="tfmabout.bcsvglogo.caption"/>
         <Item72 Value="tfmconfirm.lbmessage.caption"/>
         <Item73 Value="tfmupdate.lbsize.caption"/>
+        <Item74 Value="tfmmain.cbsearchregex.caption"/>
       </ExcludedIdentifiers>
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="2"/>
-      <BuildNr Value="89"/>
+      <BuildNr Value="90"/>
       <Language Value="0419"/>
       <StringTable CompanyName="https://riva-lab.gitlab.io" FileDescription="Serial port terminal and plotter" InternalName="uTerminal" LegalCopyright="Riva, 2017-2018, 2021-2023" ProductName="uTerminal"/>
     </VersionInfo>

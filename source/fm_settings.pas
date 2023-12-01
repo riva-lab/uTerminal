@@ -39,6 +39,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ColorButtonsInit;
+    procedure ColorButtonsTranslate;
     procedure cbLanguageChange(Sender: TObject);
     procedure tmrUpdateTimer(Sender: TObject);
     procedure tvTabsSelectionChanged(Sender: TObject);
@@ -533,7 +534,6 @@ procedure TfmSettings.ColorButtonsInit;
       cbSerieColor[i].Flat        := True;
       cbSerieColor[i].BorderWidth := 0;
       cbSerieColor[i].Name        := Format('cbSerieColor%d', [i + 1]);
-      cbSerieColor[i].Hint        := Format('        ' + TXT_COLOR_HINT, [i + 1]);
       cbSerieColor[i].Cursor      := crHandPoint;
 
       // appropriate label
@@ -561,6 +561,17 @@ procedure TfmSettings.ColorButtonsInit;
           lbPlotColorGX, lbPlotColorGY] do
         (item as TLabel).Alignment := taLeftJustify;
       end;
+
+    ColorButtonsTranslate;
+  end;
+
+procedure TfmSettings.ColorButtonsTranslate;
+  var
+    i: Integer;
+  begin
+    for i := 0 to MAX_SERIES - 1 do
+      if Assigned(cbSerieColor[i]) then
+        cbSerieColor[i].Hint := Format('        ' + TXT_COLOR_HINT, [i + 1]);
   end;
 
 
@@ -654,6 +665,10 @@ function TfmSettings.LanguageChangeImmediately: Boolean;
       Result := FLang <> flng
     else
       Result := FLang <> lng;
+
+    AddStandardSettings;
+    Settings.UpdateComboboxList;
+    ColorButtonsTranslate;
 
     // translate tree view tabs
     for i := 0 to pcPageCtrl.PageCount - 1 do

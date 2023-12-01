@@ -857,10 +857,6 @@ msgstr ""
 msgid "Если отмечено, регистр букв учитывается"
 msgstr ""
 
-#: tfmmain.cbsearchregex.caption
-msgid "regex"
-msgstr ""
-
 #: tfmmain.cbsearchregex.hint
 msgid "Использовать регулярные выражения"
 msgstr ""
