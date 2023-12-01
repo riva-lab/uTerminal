@@ -31,12 +31,12 @@ object fmAbout: TfmAbout
   object lbInfo: TLabel
     AnchorSideTop.Control = BCSVGLogo
     AnchorSideRight.Control = BCSVGLogo
-    AnchorSideRight.Side = asrBottom
-    Left = 493
+    AnchorSideRight.Side = asrCenter
+    Left = 272
     Height = 20
     Top = 44
     Width = 39
-    Alignment = taRightJustify
+    Alignment = taCenter
     Anchors = [akTop, akRight]
     BorderSpacing.Around = 12
     Caption = 'lbInfo'
