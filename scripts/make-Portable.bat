@@ -4,25 +4,11 @@ echo off
 
 
 echo.
-echo Текущие дата и время
-echo.
-
-set DD=%DATE:~0,2%
-set MM=%DATE:~3,2%
-set YY=%DATE:~8,2%
-set YYYY=%DATE:~6,4%
-set HH=%TIME:~0,2%
-set MN=%TIME:~3,2%
-
-set DATE_STAMP=%YYYY%-%MM%-%DD%_%HH%-%MN%
-
-
-
-echo.
 echo Задаем пути исполняемых файлов утилит
-echo Не используем сжатие бинарников - слетает темная тема: set UPX_EXECUTABLE=upx
+echo Не используем сжатие бинарников - слетает темная тема: 
 echo.
 
+rem set UPX_EXECUTABLE=upx
 set SEVENZIP_EXECUTABLE=7z
 set PO_UTILITY=scripts\tools\poFileUtility.EXE
 
@@ -33,31 +19,32 @@ echo Настройки проекта
 echo.
 
 set PROJNAME=uTerminal
-
 set BUILD=Release
-set DEST=install\%DATE_STAMP%
-
 set LANGDIR=bin\lang
-set LANGINI=%LANGDIR%\*.ini
-set LANG=%LANGDIR%\%PROJNAME%.??.po
-set LANGTMP=%LANGDIR%\%PROJNAME%.pot
-set FILES_ADDITION=readme.* license.* versions.* help/*
+set COMMONFILES=%LANGDIR%\*.ini %LANGDIR%\%PROJNAME%.pot %LANGDIR%\%PROJNAME%.??.po readme.* license.* versions.* help\* bin\openssl-license.txt
 
 
 echo.
 echo Создаем файл html справки
 echo.
-cmd /c "gen-help-html.bat"
+call "gen-help-html.bat"
 
 echo.
 echo Создаем файл html readme
 echo.
-cmd /c "gen-readme-html.bat"
+call "gen-readme-html.bat"
 
 echo.
 echo Копируем SVG файлы из light в dark
 echo.
-cmd /c "help-copy-light-svg.bat"
+call "help-copy-light-svg.bat"
+
+echo.
+echo Создаем выходной каталог для текущей версии:
+
+FOR /F "delims=" %%i IN ('get-version.bat "%cd%\..\bin\uTerminal-win32-Release.exe"') DO set EXEVER=%%i
+set DEST=install\v%EXEVER%
+echo  - каталог %DEST%
 
 
 
@@ -74,48 +61,34 @@ echo.
 copy %LANGDIR%\%PROJNAME%-win64-%BUILD%.*.po  %LANGDIR%\%PROJNAME%.*.po
 
 echo.
-echo Копирование win64 файлов шаблона перевода в общий
+echo Копирование win64 шаблона локализации перевода в общий шаблон
 echo.
 copy %LANGDIR%\%PROJNAME%-win64-%BUILD%.pot   %LANGDIR%\%PROJNAME%.pot
 
 echo.
-echo Перенос строк в файле перевода для языка оригинала в .ru.po
+echo Перенос строк в файле перевода для языка оригинала и сохранение в .ru.po
 echo.
 %PO_UTILITY% %LANGDIR%\%PROJNAME%.pot %LANGDIR%\%PROJNAME%.ru.po transfer
 
 
-echo.
-echo Создаем архив для win64
-echo.
+setlocal enabledelayedexpansion
+for %%a in (32,64) do (
+    if %%a==32 set SPECIFIC=bin\libcrypto-1_1.dll     bin\libssl-1_1.dll
+    if %%a==64 set SPECIFIC=bin\libcrypto-1_1-x64.dll bin\libssl-1_1-x64.dll
 
-set PROJARC=win64
+    set PROJARC=win%%a
+    set BINARY=bin\*!PROJARC!-%BUILD%.exe
+    set FILES=!BINARY! %COMMONFILES% !SPECIFIC!
+    set FILENAME=%DEST%\%PROJNAME%-!PROJARC!-Portable.zip
 
-set BINARY=bin\*%PROJARC%-%BUILD%.exe
-set LIBS=bin\libcrypto-1_1-x64.dll bin\libssl-1_1-x64.dll bin\openssl-license.txt
+    echo.
+    echo Создаем архив:
+    echo  - ZIP: {!FILENAME!}
+    echo  - Files: {!FILES!}
 
-set FILENAME="%DEST%\%PROJNAME%-%PROJARC%-Portable.zip"
-set FILES="%BINARY%" "%LANG%" "%LANGTMP%" "%LANGINI%" %FILES_ADDITION% %LIBS%
+    del /f /q "!FILENAME!"
+    
+    "%UPX_EXECUTABLE%" --lzma !BINARY!
+    "%SEVENZIP_EXECUTABLE%" a -tzip -mx5 !FILENAME! !FILES!
+)
 
-del /f /q %FILENAME%
-
-"%UPX_EXECUTABLE%"       --lzma         "%BINARY%"
-"%SEVENZIP_EXECUTABLE%"  a -tzip -mx5   %FILENAME%  %FILES%
-
-
-
-echo.
-echo Создаем архив для win32
-echo.
-
-set PROJARC=win32
-
-set BINARY=bin\*%PROJARC%-%BUILD%.exe
-set LIBS=bin\libcrypto-1_1.dll bin\libssl-1_1.dll bin\openssl-license.txt
-
-set FILENAME="%DEST%\%PROJNAME%-%PROJARC%-Portable.zip"
-set FILES="%BINARY%" "%LANG%" "%LANGTMP%" "%LANGINI%" %FILES_ADDITION% %LIBS%
-
-del /f /q %FILENAME%
-
-"%UPX_EXECUTABLE%"       --lzma         "%BINARY%"
-"%SEVENZIP_EXECUTABLE%"  a -tzip -mx5   %FILENAME%  %FILES%
