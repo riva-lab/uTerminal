@@ -98,6 +98,10 @@ Copyright (c) 2017-2018, 2021-2023 Riva, [FreeBSD License, modified](license.md)
 
 Разработано в [Free Pascal RAD IDE Lazarus](http://www.lazarus-ide.org) v2.2.6, компилятор [Free Pascal Compiler](https://freepascal.org) v3.2.2.
 
+Установщик для Windows создан в [Inno Setup](https://jrsoftware.org/isinfo.php). [Copyright](https://jrsoftware.org/files/is/license.txt) (C) 1997-2023, Jordan Russell, Martijn Laan.
+
+Значок установщика: [icon-icons.com](https://icon-icons.com/icon/software/76005), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0).
+
 ## Зависимости
 
 - [Ararat Synapse Library](https://github.com/ultibohub/AraratSynapse) Ararat Synapse Library Release 40.1 (Ultibo port of Synapse) 2017-09-29 — the synchronyous socket library. Copyright (c)2001-2011, Lukas Gebauer.
