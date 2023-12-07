@@ -187,7 +187,7 @@ function getImagesCatalog(type) {
     return '';
 }
 
-https://stackoverflow.com/questions/56393880/how-do-i-detect-dark-mode-using-javascript
+// https://stackoverflow.com/questions/56393880/how-do-i-detect-dark-mode-using-javascript
 function setColorScheme(scheme) {
     var catDst = '';
     var catSrc = '';
