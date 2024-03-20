@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: uTerminal\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-12-02 00:10+0200\n"
-"Last-Translator: Riva <--->\n"
-"Language-Team: Riva, 2023\n"
-"Language: en\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Crowdin-Project: uterminal\n"
+"X-Crowdin-Project-ID: 658516\n"
+"X-Crowdin-Language: en\n"
+"X-Crowdin-File: /master/bin/lang/uTerminal-win64-Release.pot\n"
+"X-Crowdin-File-ID: 26\n"
+"Project-Id-Version: uterminal\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"PO-Revision-Date: 2024-03-20 15:19\n"
 
 #: fm_about.about_bit
 #, object-pascal-format
@@ -84,7 +84,6 @@ msgid "Найдено портов: %d"
 msgstr "Found ports: %d"
 
 #: fm_main.rx_caption
-msgctxt "fm_main.rx_caption"
 msgid "Прием [Rx]"
 msgstr "Reception [Rx]"
 
@@ -166,7 +165,6 @@ msgid "Сетка Y"
 msgstr "Grid Y"
 
 #: fm_main.tx_caption
-msgctxt "fm_main.tx_caption"
 msgid "Передача [Tx]"
 msgstr "Transmission [Tx]"
 
@@ -218,7 +216,6 @@ msgid "Обновить"
 msgstr "Update"
 
 #: tfmcommands.caption
-msgctxt "tfmcommands.caption"
 msgid "Автоответ"
 msgstr "Automatic response"
 
@@ -268,7 +265,6 @@ msgid "Включить автоответ"
 msgstr "Enable auto response"
 
 #: tfmmain.acautoanswerheader.caption
-msgctxt "tfmmain.acautoanswerheader.caption"
 msgid "Автоматический ответ:"
 msgstr "Automatic response:"
 
@@ -302,7 +298,7 @@ msgid "Файл"
 msgstr "File"
 
 #: tfmmain.achelp.caption
-msgctxt "TFMMAIN.ACHELP.CAPTION"
+msgctxt "tfmmain.achelp.caption"
 msgid "Справка"
 msgstr "Help"
 
@@ -364,6 +360,7 @@ msgid "Закрыть плоттер"
 msgstr "Close plotter"
 
 #: tfmmain.acplotterexpcsv.caption
+msgctxt "tfmmain.acplotterexpcsv.caption"
 msgid "Экспорт в CSV"
 msgstr "Export to CSV"
 
@@ -373,6 +370,7 @@ msgid "Экспорт данных в CSV"
 msgstr "Export data to CSV"
 
 #: tfmmain.acplotterexpimg.caption
+msgctxt "tfmmain.acplotterexpimg.caption"
 msgid "Экспорт в PNG"
 msgstr "Export to PNG"
 
@@ -611,7 +609,7 @@ msgid "Показывать данные в HEX-виде"
 msgstr "Show data in HEX format"
 
 #: tfmmain.acshowhex.hint
-msgctxt "TFMMAIN.ACSHOWHEX.HINT"
+msgctxt "tfmmain.acshowhex.hint"
 msgid "Показывать данные в HEX-виде"
 msgstr "Show data in HEX format"
 
@@ -621,7 +619,7 @@ msgid "Показывать номера строк"
 msgstr "Show line numbers"
 
 #: tfmmain.acshowlinecounts.hint
-msgctxt "TFMMAIN.ACSHOWLINECOUNTS.HINT"
+msgctxt "tfmmain.acshowlinecounts.hint"
 msgid "Показывать номера строк"
 msgstr "Show line numbers"
 
@@ -790,7 +788,7 @@ msgid "Удалить выбранное сообщение из списка"
 msgstr "Delete selected message from list"
 
 #: tfmmain.actxseqsend.caption
-msgctxt "TFMMAIN.ACTXSEQSEND.CAPTION"
+msgctxt "tfmmain.actxseqsend.caption"
 msgid "Отправить"
 msgstr "Send"
 
@@ -841,11 +839,9 @@ msgid "Формат входных данных"
 msgstr "Input data format"
 
 #: tfmmain.cbplotterregexp.hint
-msgid ""
-"Предустановка RegExp\n"
+msgid "Предустановка RegExp\n"
 "(предустановки можно настроить в Настройки > RegExp)"
-msgstr ""
-"RegExp preset\n"
+msgstr "RegExp preset\n"
 "(presets can be configured in Settings > RegExp)"
 
 #: tfmmain.cbplotterview.hint
@@ -942,7 +938,6 @@ msgid "Найти в"
 msgstr "Find in"
 
 #: tfmmain.lbsignals.caption
-msgctxt "tfmmain.lbsignals.caption"
 msgid "Сигналы RS-232"
 msgstr "RS-232 signals"
 
@@ -952,7 +947,6 @@ msgid "Позиция, размер выделения"
 msgstr "Position, selection size"
 
 #: tfmmain.lbtxsize.hint
-msgctxt "tfmmain.lbtxsize.hint"
 msgid "Количество данных в буфере передачи"
 msgstr "Amount of data in transmit buffer"
 
@@ -991,21 +985,17 @@ msgid "OK"
 msgstr "OK"
 
 #: tfmsettings.acregexpadd.hint
-msgid ""
-"Добавить предустановку в список. \n"
+msgid "Добавить предустановку в список. \n"
 "Если предустановка с заданным именем уже есть в списке, \n"
 "она будет заменена"
-msgstr ""
-"Add preset to list. \n"
+msgstr "Add preset to list. \n"
 "If preset with specified name is already in list, \n"
 "it will be replaced"
 
 #: tfmsettings.acregexpdel.hint
-msgid ""
-"Удалить предустановку из списка \n"
+msgid "Удалить предустановку из списка \n"
 "(отмена невозможна!)"
-msgstr ""
-"Remove preset from list \n"
+msgstr "Remove preset from list \n"
 "(cannot be canceled!)"
 
 #: tfmsettings.caption
@@ -1074,26 +1064,20 @@ msgid "Сворачивать в трей"
 msgstr "Minimize to tray"
 
 #: tfmsettings.cbplotallowcommands.caption
-msgctxt "tfmsettings.cbplotallowcommands.caption"
 msgid "Разрешить выполнение команд Arduino Advanced"
 msgstr "Enable execution of Arduino Advanced commands"
 
 #: tfmsettings.cbplotallowcommands.hint
-msgctxt "tfmsettings.cbplotallowcommands.hint"
-msgid ""
-"Если флажок снят, команды будут игнорироваться. \n"
+msgid "Если флажок снят, команды будут игнорироваться. \n"
 "Список и формат доступных команд - см. справку. "
-msgstr ""
-"If unchecked, commands will be ignored. \n"
+msgstr "If unchecked, commands will be ignored. \n"
 "For list and format of available commands, see Help. "
 
 #: tfmsettings.cbplotclearrx.caption
-msgctxt "tfmsettings.cbplotclearrx.caption"
 msgid "Очищать буфер приема при очистке плоттера"
 msgstr "Clear receive buffer when cleaning plotter"
 
 #: tfmsettings.cbplotcopyrx.caption
-msgctxt "tfmsettings.cbplotcopyrx.caption"
 msgid "Дублировать данные в буфер приема"
 msgstr "Duplicate data in receive buffer"
 
@@ -1108,66 +1092,52 @@ msgid "Сетка"
 msgstr "Grid"
 
 #: tfmsettings.cbplotlabelx.caption
-msgctxt "tfmsettings.cbplotlabelx.caption"
 msgid "Подпись в режиме 2D"
 msgstr "Caption in 2D mode"
 
 #: tfmsettings.cbplotlegendactive.caption
-msgctxt "tfmsettings.cbplotlegendactive.caption"
 msgid "Разрешить интерактивность"
 msgstr "Allow interactivity"
 
 #: tfmsettings.cbplotlegendcolored.caption
-msgctxt "tfmsettings.cbplotlegendcolored.caption"
 msgid "Расцвечивать"
 msgstr "Colorize"
 
 #: tfmsettings.cbplotlegendcolored.hint
-msgctxt "tfmsettings.cbplotlegendcolored.hint"
 msgid "Если флажок установлен, то цвет метки соответствует цвету линии"
 msgstr "If checked, label color corresponds to line color"
 
 #: tfmsettings.cbplotlegendcoloredb.caption
-msgctxt "tfmsettings.cbplotlegendcoloredb.caption"
 msgid "и стилизировать ее"
 msgstr "and stylize it"
 
 #: tfmsettings.cbplotlegendcoloredb.hint
-msgctxt "tfmsettings.cbplotlegendcoloredb.hint"
-msgid ""
-"Если стилизировать, то цвет и стиль рамки\n"
+msgid "Если стилизировать, то цвет и стиль рамки\n"
 "будет соответствовать цвету и стилю линии"
-msgstr ""
-"If stylized, color and style of frame\n"
+msgstr "If stylized, color and style of frame\n"
 "will match color and style of line"
 
 #: tfmsettings.cbplotlegendframe.caption
-msgctxt "tfmsettings.cbplotlegendframe.caption"
 msgid "Отображать рамку"
 msgstr "Show frame"
 
 #: tfmsettings.cbplotlegendindex.caption
-msgctxt "tfmsettings.cbplotlegendindex.caption"
 msgid "Добавлять индекс линии"
 msgstr "Add line index"
 
 #: tfmsettings.cbplotlegendindex.hint
-msgctxt "tfmsettings.cbplotlegendindex.hint"
 msgid "Первая линия имеет индекс 1, и т.д."
 msgstr "First line has index of 1, and so on"
 
 #: tfmsettings.cbplotlegendshow.caption
-msgctxt "tfmsettings.cbplotlegendshow.caption"
 msgid "Отображать легенду"
 msgstr "Show legend"
 
 #: tfmsettings.cbplotlegendstyle.caption
-msgctxt "tfmsettings.cbplotlegendstyle.caption"
 msgid "Отображать стиль линии вместо простого прямоугольника слева"
 msgstr "Show line style instead of just rectangle on left side"
 
 #: tfmsettings.cbplotlinereactivate.caption
-msgctxt "tfmsettings.cbplotlinereactivate.caption"
 msgid "Восстанавливать видимость отключенных линий"
 msgstr "Restore visibility of disabled lines"
 
@@ -1177,7 +1147,6 @@ msgid "Опция работает по индексу линии, а не по 
 msgstr "Option works by line index, not by line label!"
 
 #: tfmsettings.cbplotlinerecolor.caption
-msgctxt "tfmsettings.cbplotlinerecolor.caption"
 msgid "Восстанавливать цвет линий по умолчанию"
 msgstr "Restore default line color"
 
@@ -1197,37 +1166,30 @@ msgid "Метки"
 msgstr "Labels"
 
 #: tfmsettings.cbplotminimap.caption
-msgctxt "tfmsettings.cbplotminimap.caption"
 msgid "Мини-карта для навигации на панели быстрой настройки"
 msgstr "Navigation mini-map on quick settings panel"
 
 #: tfmsettings.cbplotpanelonmain.caption
-msgctxt "tfmsettings.cbplotpanelonmain.caption"
 msgid "Панель кнопок плоттера на главной панели"
 msgstr "Plotter button panel on main toolbar"
 
 #: tfmsettings.cbplotsamplecount.caption
-msgctxt "tfmsettings.cbplotsamplecount.caption"
 msgid "Счетчик семплов"
 msgstr "Sample counter"
 
 #: tfmsettings.cbplotshowuntitled.caption
-msgctxt "tfmsettings.cbplotshowuntitled.caption"
 msgid "для линий без метки (в виде индекса @n)"
 msgstr "for unlabeled lines (as index @n)"
 
 #: tfmsettings.cbplotsize.caption
-msgctxt "tfmsettings.cbplotsize.caption"
 msgid "Количество поступивших данных"
 msgstr "Receive data quantity"
 
 #: tfmsettings.cbplotsmooth.caption
-msgctxt "tfmsettings.cbplotsmooth.caption"
 msgid "Субпиксельное сглаживание (может немного уменьшить частоту отрисовки)"
 msgstr "Subpixel anti-aliasing (may slightly reduce rendering frequency)"
 
 #: tfmsettings.cbplotxbar.caption
-msgctxt "tfmsettings.cbplotxbar.caption"
 msgid "Отображать полосу навигации"
 msgstr "Show navigation bar"
 
@@ -1318,12 +1280,10 @@ msgid "Цвет шрифта"
 msgstr "Font color"
 
 #: tfmsettings.edregexplabel.hint
-msgid ""
-"Символ подстановки нумерованной группы: $ \n"
+msgid "Символ подстановки нумерованной группы: $ \n"
 "Отделение номера группы от цифры: { } \n"
 "Экранироване: \\ "
-msgstr ""
-"Numbered group insert: $ \n"
+msgstr "Numbered group insert: $ \n"
 "Separating group number from digit: { } \n"
 "Escaping character: \\ "
 
@@ -1341,12 +1301,10 @@ msgid "уникальное название предустановки"
 msgstr "unique preset name"
 
 #: tfmsettings.edregexpvalue.hint
-msgid ""
-"Целые числа могут иметь префикс:\n"
+msgid "Целые числа могут иметь префикс:\n"
 "$ - шестнадцатеричное, % - двоичное, & - восьмеричное.\n"
 "Число без префикса интерпретируется как обычное десятичное."
-msgstr ""
-"Integer numbers can be prefixed with:\n"
+msgstr "Integer numbers can be prefixed with:\n"
 "$ - hexadecimal, % - binary, & - octal.\n"
 "Number without prefix is interpreted as regular decimal number."
 
@@ -1356,12 +1314,10 @@ msgid "шаблон подстановки"
 msgstr "substitution pattern"
 
 #: tfmsettings.lbappfontsize.caption
-msgctxt "tfmsettings.lbappfontsize.caption"
 msgid "Размер шрифта, %"
 msgstr "Font size in %"
 
 #: tfmsettings.lbappiconsize.caption
-msgctxt "tfmsettings.lbappiconsize.caption"
 msgid "Размер иконок, %"
 msgstr "Icon size in %"
 
@@ -1415,11 +1371,9 @@ msgid "Темная тема"
 msgstr "Dark theme"
 
 #: tfmsettings.lbfonthint.caption
-msgid ""
-"Подсказка.\n"
+msgid "Подсказка.\n"
 "Поля Tx и Rx поддерживают изменение размера шрифта по Ctrl + колесу."
-msgstr ""
-"Tip.\n"
+msgstr "Tip.\n"
 "Tx and Rx fields support changing font size by Ctrl + wheel."
 
 #: tfmsettings.lbfontlight.caption
@@ -1499,12 +1453,10 @@ msgid "Действия"
 msgstr "Actions"
 
 #: tfmsettings.lbplotclear.caption
-msgctxt "tfmsettings.lbplotclear.caption"
 msgid "Очистка плоттера"
 msgstr "Plotter clearing"
 
 #: tfmsettings.lbplotcolorbasic.caption
-msgctxt "tfmsettings.lbplotcolorbasic.caption"
 msgid "Основные цвета"
 msgstr "Basic colors"
 
@@ -1536,7 +1488,6 @@ msgid "Светлая"
 msgstr "Light"
 
 #: tfmsettings.lbplotcolorlines.caption
-msgctxt "tfmsettings.lbplotcolorlines.caption"
 msgid "Цвета линий"
 msgstr "Line colors"
 
@@ -1590,23 +1541,19 @@ msgid "Способ масштабирования"
 msgstr "Scaling way"
 
 #: tfmsettings.lbplotlegendhint.caption
-msgid ""
-"Щелчок ЛКМ на метке --- включение или выключение видимости линии.\n"
+msgid "Щелчок ЛКМ на метке --- включение или выключение видимости линии.\n"
 "Зажать ЛКМ на метке и потянуть вниз --- изменение толщины линии.\n"
 "Зажать Ctrl + ЛКМ на метке и потянуть вниз --- изменение стиля линии.\n"
 "Зажать Alt + ЛКМ на метке и потянуть вниз --- изменение размера (радиуса) точек линии.\n"
-"Щелчок ПКМ на метке --- задать новый цвет линии.\n"
-"\n"
+"Щелчок ПКМ на метке --- задать новый цвет линии.\n\n"
 "ЛКМ --- левая кнопка мыши, ПКМ --- правая кнопка мыши.\n"
 "Измененные настройки линий действуют в текущем сеансе. После перезапуска приложения\n"
 "будут установлены значения по умолчанию, заданные на панели быстрой настройки."
-msgstr ""
-"Click LMB on label --- turns line visibility on or off.\n"
+msgstr "Click LMB on label --- turns line visibility on or off.\n"
 "Press LMB on label and drag down --- change line thickness.\n"
 "Press Ctrl + LMB on label and drag down --- change line style.\n"
 "Press Alt + LMB on label and drag down --- change line point size (radius).\n"
-"Click RMB on label --- set new line color.\n"
-"\n"
+"Click RMB on label --- set new line color.\n\n"
 "LMB --- left mouse button, RMB --- right mouse button.\n"
 "Сhanged line settings are valid in current session. Default values\n"
 "set in quick settings panel will be applied when application is restarted."
@@ -1624,17 +1571,14 @@ msgid "Текст метки"
 msgstr "Label text"
 
 #: tfmsettings.lbplotoffsetybot.caption
-msgctxt "tfmsettings.lbplotoffsetybot.caption"
 msgid "Отступ снизу при автомасштабе, пиксели"
 msgstr "Bottom margin when auto-zooming, pixels"
 
 #: tfmsettings.lbplotoffsetytop.caption
-msgctxt "tfmsettings.lbplotoffsetytop.caption"
 msgid "Отступ сверху при автомасштабе, пиксели"
 msgstr "Top margin when auto-zooming, pixels"
 
 #: tfmsettings.lbplotsamples.caption
-msgctxt "tfmsettings.lbplotsamples.caption"
 msgid "Максимальное число семплов"
 msgstr "Maximum amount of samples"
 
@@ -1644,7 +1588,6 @@ msgid "Отображение"
 msgstr "Show"
 
 #: tfmsettings.lbplotwinclear.caption
-msgctxt "tfmsettings.lbplotwinclear.caption"
 msgid "Ширина \"пробела\" в режиме развертки, %"
 msgstr "Width of \"space\" in sweep mode, %"
 
@@ -1713,7 +1656,6 @@ msgid "Длительность сигнала Break (приблизительн
 msgstr "Break signal duration (approximately), ms"
 
 #: tfmsettings.lbtxdeadlockto.caption
-msgctxt "tfmsettings.lbtxdeadlockto.caption"
 msgid "Таймаут отправки (приблизительно), мс"
 msgstr "Transmission timeout (approximately), ms"
 
@@ -1792,12 +1734,10 @@ msgid "HEX вид"
 msgstr "HEX view"
 
 #: tfmsettings.tsplotctrl.caption
-msgctxt "tfmsettings.tsplotctrl.caption"
 msgid "Управление"
 msgstr "Control"
 
 #: tfmsettings.tsplotlegend.caption
-msgctxt "tfmsettings.tsplotlegend.caption"
 msgid "Легенда"
 msgstr "Legend"
 
@@ -1840,19 +1780,15 @@ msgid "Обновление"
 msgstr "Update"
 
 #: u_common.hint_autoanswer
-msgid ""
-"Если выбрано, то при получении данных будет автоматически\n"
+msgid "Если выбрано, то при получении данных будет автоматически\n"
 "отправлен ответ (если имеется, можно редактировать в настройках)"
-msgstr ""
-"If checked, response will be sent automatically\n"
+msgstr "If checked, response will be sent automatically\n"
 "(if available, can be edited in settings) when data is received"
 
 #: u_common.hint_autosend
-msgid ""
-"Если выбрано, передача будет инициироваться автоматически\n"
+msgid "Если выбрано, передача будет инициироваться автоматически\n"
 "через заданные промежутки времени"
-msgstr ""
-"If checked, transmission will be initiated\n"
+msgstr "If checked, transmission will be initiated\n"
 "automatically at programmed time periods"
 
 #: u_common.hint_break
@@ -1884,7 +1820,6 @@ msgid "Запрос на передачу"
 msgstr "Request to send"
 
 #: u_common.txt_baudrate_other
-msgctxt "u_common.txt_baudrate_other"
 msgid "Другая"
 msgstr "Other"
 
@@ -1910,7 +1845,6 @@ msgid "Размер: %s"
 msgstr "Size: %s"
 
 #: u_common.txt_confirm
-msgctxt "u_common.txt_confirm"
 msgid "Подтверждение"
 msgstr "Confirmation"
 
@@ -1931,7 +1865,6 @@ msgid "Колесо"
 msgstr "Wheel"
 
 #: u_common.txt_data
-msgctxt "u_common.txt_data"
 msgid "Данные"
 msgstr "Data"
 
@@ -1941,9 +1874,7 @@ msgid "Ошибка"
 msgstr "Error"
 
 #: u_common.txt_help_hint
-msgid ""
-"Здесь отображаются поля ввода и/или вывода данных.\n"
-"\n"
+msgid "Здесь отображаются поля ввода и/или вывода данных.\n\n"
 "--- Как работать с терминалом ---\n"
 "1. Просканируйте систему на наличие доступных портов.\n"
 "2. Выберите порт, задайте настройки, подключитесь.\n"
@@ -1953,9 +1884,7 @@ msgid ""
 "6. Можно задать таймер автоматической передачи данных.\n"
 "7. Плоттер позволит визуализировать принятые значения.\n"
 "8. Почти все элементы интерфейса имеют подсказку - просто наведите курсор."
-msgstr ""
-"Input and/or output fields are displayed here.\n"
-"\n"
+msgstr "Input and/or output fields are displayed here.\n\n"
 "--- How to work with terminal ---\n"
 "1. Scan system for available ports.\n"
 "2. Select port, specify settings, and connect.\n"
@@ -1967,37 +1896,30 @@ msgstr ""
 "8. Almost all interface elements have hint - just hover mouse pointer."
 
 #: u_common.txt_list_enter_mac
-msgctxt "u_common.txt_list_enter_mac"
 msgid "CR     (0xD,         стиль MacOS)"
 msgstr "CR     (0xD,         MacOS style)"
 
 #: u_common.txt_list_enter_unix
-msgctxt "u_common.txt_list_enter_unix"
 msgid "LF      (0xA,         стиль Unix)"
 msgstr "LF      (0xA,         Unix style)"
 
 #: u_common.txt_list_enter_win
-msgctxt "u_common.txt_list_enter_win"
 msgid "CRLF (0xD 0xA, стиль Windows)"
 msgstr "CRLF (0xD 0xA, Windows style)"
 
 #: u_common.txt_list_layout_1
-msgctxt "u_common.txt_list_layout_1"
 msgid "Tx - вверху, Rx - внизу"
 msgstr "Tx - top, Rx - bottom"
 
 #: u_common.txt_list_layout_2
-msgctxt "u_common.txt_list_layout_2"
 msgid "Tx - внизу, Rx - вверху"
 msgstr "Tx - bottom, Rx - top"
 
 #: u_common.txt_list_layout_3
-msgctxt "u_common.txt_list_layout_3"
 msgid "Tx - слева, Rx - справа"
 msgstr "Tx - left, Rx - right"
 
 #: u_common.txt_list_layout_4
-msgctxt "u_common.txt_list_layout_4"
 msgid "Tx - справа, Rx - слева"
 msgstr "Tx - right, Rx - left"
 
@@ -2091,42 +2013,33 @@ msgid "Раз в неделю"
 msgstr "Weekly"
 
 #: u_common.txt_warning
-msgctxt "u_common.txt_warning"
 msgid "Предупреждение"
 msgstr "Warning"
 
 #: u_common.warn_load
-msgid ""
-"Данные из файла будут загружены в буфер передачи.\n"
+msgid "Данные из файла будут загружены в буфер передачи.\n"
 "Текущие данные будут утеряны. Продолжить?"
-msgstr ""
-"Data from file will be loaded into transmit buffer.\n"
+msgstr "Data from file will be loaded into transmit buffer.\n"
 "Current data will be lost. Do you want to continue?"
 
 #: u_common.warn_reset
-msgid ""
-"При следующем запуске приложения будут загружены\n"
+msgid "При следующем запуске приложения будут загружены\n"
 "настройки по умолчанию. Продолжить?"
-msgstr ""
-"Default settings will be loaded when application\n"
+msgstr "Default settings will be loaded when application\n"
 "is launched next time. Continue?"
 
 #: u_common.warn_settings
-msgid ""
-"Не удалось применить все настройки!\n"
+msgid "Не удалось применить все настройки!\n"
 "Возникла критическая ошибка. Перезапустите приложение.\n"
 "Завершить работу приложения?"
-msgstr ""
-"Unable to apply all settings!\n"
+msgstr "Unable to apply all settings!\n"
 "Critical error has occurred. Restart application.\n"
 "Quit application?"
 
 #: u_common.warn_update
-msgid ""
-"Сейчас скачивается обновление.\n"
+msgid "Сейчас скачивается обновление.\n"
 "Прервать и закрыть приложение?"
-msgstr ""
-"Update is downloading at the moment.\n"
+msgstr "Update is downloading at the moment.\n"
 "Do you want to interrupt and quit application?"
 
 #: u_encodings.enc_1250
@@ -2340,3 +2253,4 @@ msgstr "Transmitting..."
 #: u_serial.txt_port_busy
 msgid "занят"
 msgstr "busy"
+
