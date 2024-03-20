@@ -1,0 +1,3 @@
+files:
+  - source: /bin/lang/*.pot
+    translation: /bin/lang/%file_name%.%locale_with_underscore%.po
