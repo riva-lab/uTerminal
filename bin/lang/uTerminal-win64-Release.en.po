@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uTerminal\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-12-02 00:10+0200\n"
+"PO-Revision-Date: 2024-03-20 17:11+0200\n"
 "Last-Translator: Riva <--->\n"
 "Language-Team: Riva, 2023\n"
 "Language: en\n"
@@ -84,7 +84,6 @@ msgid "Найдено портов: %d"
 msgstr "Found ports: %d"
 
 #: fm_main.rx_caption
-msgctxt "fm_main.rx_caption"
 msgid "Прием [Rx]"
 msgstr "Reception [Rx]"
 
@@ -166,7 +165,6 @@ msgid "Сетка Y"
 msgstr "Grid Y"
 
 #: fm_main.tx_caption
-msgctxt "fm_main.tx_caption"
 msgid "Передача [Tx]"
 msgstr "Transmission [Tx]"
 
@@ -218,7 +216,6 @@ msgid "Обновить"
 msgstr "Update"
 
 #: tfmcommands.caption
-msgctxt "tfmcommands.caption"
 msgid "Автоответ"
 msgstr "Automatic response"
 
@@ -268,7 +265,6 @@ msgid "Включить автоответ"
 msgstr "Enable auto response"
 
 #: tfmmain.acautoanswerheader.caption
-msgctxt "tfmmain.acautoanswerheader.caption"
 msgid "Автоматический ответ:"
 msgstr "Automatic response:"
 
@@ -302,7 +298,7 @@ msgid "Файл"
 msgstr "File"
 
 #: tfmmain.achelp.caption
-msgctxt "TFMMAIN.ACHELP.CAPTION"
+msgctxt "tfmmain.achelp.caption"
 msgid "Справка"
 msgstr "Help"
 
@@ -364,6 +360,7 @@ msgid "Закрыть плоттер"
 msgstr "Close plotter"
 
 #: tfmmain.acplotterexpcsv.caption
+msgctxt "tfmmain.acplotterexpcsv.caption"
 msgid "Экспорт в CSV"
 msgstr "Export to CSV"
 
@@ -373,6 +370,7 @@ msgid "Экспорт данных в CSV"
 msgstr "Export data to CSV"
 
 #: tfmmain.acplotterexpimg.caption
+msgctxt "tfmmain.acplotterexpimg.caption"
 msgid "Экспорт в PNG"
 msgstr "Export to PNG"
 
@@ -611,7 +609,7 @@ msgid "Показывать данные в HEX-виде"
 msgstr "Show data in HEX format"
 
 #: tfmmain.acshowhex.hint
-msgctxt "TFMMAIN.ACSHOWHEX.HINT"
+msgctxt "tfmmain.acshowhex.hint"
 msgid "Показывать данные в HEX-виде"
 msgstr "Show data in HEX format"
 
@@ -621,7 +619,7 @@ msgid "Показывать номера строк"
 msgstr "Show line numbers"
 
 #: tfmmain.acshowlinecounts.hint
-msgctxt "TFMMAIN.ACSHOWLINECOUNTS.HINT"
+msgctxt "tfmmain.acshowlinecounts.hint"
 msgid "Показывать номера строк"
 msgstr "Show line numbers"
 
@@ -790,7 +788,7 @@ msgid "Удалить выбранное сообщение из списка"
 msgstr "Delete selected message from list"
 
 #: tfmmain.actxseqsend.caption
-msgctxt "TFMMAIN.ACTXSEQSEND.CAPTION"
+msgctxt "tfmmain.actxseqsend.caption"
 msgid "Отправить"
 msgstr "Send"
 
@@ -942,7 +940,6 @@ msgid "Найти в"
 msgstr "Find in"
 
 #: tfmmain.lbsignals.caption
-msgctxt "tfmmain.lbsignals.caption"
 msgid "Сигналы RS-232"
 msgstr "RS-232 signals"
 
@@ -952,7 +949,6 @@ msgid "Позиция, размер выделения"
 msgstr "Position, selection size"
 
 #: tfmmain.lbtxsize.hint
-msgctxt "tfmmain.lbtxsize.hint"
 msgid "Количество данных в буфере передачи"
 msgstr "Amount of data in transmit buffer"
 
@@ -1018,7 +1014,8 @@ msgid "Автоматически подключаться к порту при 
 msgstr "Automatically connect to port on application startup"
 
 #: tfmsettings.cbautoconnect.hint
-msgid "Попытаться подключиться к порту, который был использован в предыдущей сессии"
+msgid ""
+"Попытаться подключиться к порту, который был использован в предыдущей сессии"
 msgstr "Try to connect to port that was used in previous session"
 
 #: tfmsettings.cbcheckport.caption
@@ -1050,7 +1047,8 @@ msgid "\"Липкое\" окно"
 msgstr "\"Sticky\" window"
 
 #: tfmsettings.cbgluedwindow.hint
-msgid "Если флажок установлено, то окно будет \"прилипать\" к краям рабочего стола"
+msgid ""
+"Если флажок установлено, то окно будет \"прилипать\" к краям рабочего стола"
 msgstr "If checked, window will \"stick\" to edges of desktop"
 
 #: tfmsettings.cbhardflow.caption
@@ -1074,12 +1072,10 @@ msgid "Сворачивать в трей"
 msgstr "Minimize to tray"
 
 #: tfmsettings.cbplotallowcommands.caption
-msgctxt "tfmsettings.cbplotallowcommands.caption"
 msgid "Разрешить выполнение команд Arduino Advanced"
 msgstr "Enable execution of Arduino Advanced commands"
 
 #: tfmsettings.cbplotallowcommands.hint
-msgctxt "tfmsettings.cbplotallowcommands.hint"
 msgid ""
 "Если флажок снят, команды будут игнорироваться. \n"
 "Список и формат доступных команд - см. справку. "
@@ -1088,12 +1084,10 @@ msgstr ""
 "For list and format of available commands, see Help. "
 
 #: tfmsettings.cbplotclearrx.caption
-msgctxt "tfmsettings.cbplotclearrx.caption"
 msgid "Очищать буфер приема при очистке плоттера"
 msgstr "Clear receive buffer when cleaning plotter"
 
 #: tfmsettings.cbplotcopyrx.caption
-msgctxt "tfmsettings.cbplotcopyrx.caption"
 msgid "Дублировать данные в буфер приема"
 msgstr "Duplicate data in receive buffer"
 
@@ -1108,32 +1102,26 @@ msgid "Сетка"
 msgstr "Grid"
 
 #: tfmsettings.cbplotlabelx.caption
-msgctxt "tfmsettings.cbplotlabelx.caption"
 msgid "Подпись в режиме 2D"
 msgstr "Caption in 2D mode"
 
 #: tfmsettings.cbplotlegendactive.caption
-msgctxt "tfmsettings.cbplotlegendactive.caption"
 msgid "Разрешить интерактивность"
 msgstr "Allow interactivity"
 
 #: tfmsettings.cbplotlegendcolored.caption
-msgctxt "tfmsettings.cbplotlegendcolored.caption"
 msgid "Расцвечивать"
 msgstr "Colorize"
 
 #: tfmsettings.cbplotlegendcolored.hint
-msgctxt "tfmsettings.cbplotlegendcolored.hint"
 msgid "Если флажок установлен, то цвет метки соответствует цвету линии"
 msgstr "If checked, label color corresponds to line color"
 
 #: tfmsettings.cbplotlegendcoloredb.caption
-msgctxt "tfmsettings.cbplotlegendcoloredb.caption"
 msgid "и стилизировать ее"
 msgstr "and stylize it"
 
 #: tfmsettings.cbplotlegendcoloredb.hint
-msgctxt "tfmsettings.cbplotlegendcoloredb.hint"
 msgid ""
 "Если стилизировать, то цвет и стиль рамки\n"
 "будет соответствовать цвету и стилю линии"
@@ -1142,32 +1130,26 @@ msgstr ""
 "will match color and style of line"
 
 #: tfmsettings.cbplotlegendframe.caption
-msgctxt "tfmsettings.cbplotlegendframe.caption"
 msgid "Отображать рамку"
 msgstr "Show frame"
 
 #: tfmsettings.cbplotlegendindex.caption
-msgctxt "tfmsettings.cbplotlegendindex.caption"
 msgid "Добавлять индекс линии"
 msgstr "Add line index"
 
 #: tfmsettings.cbplotlegendindex.hint
-msgctxt "tfmsettings.cbplotlegendindex.hint"
 msgid "Первая линия имеет индекс 1, и т.д."
 msgstr "First line has index of 1, and so on"
 
 #: tfmsettings.cbplotlegendshow.caption
-msgctxt "tfmsettings.cbplotlegendshow.caption"
 msgid "Отображать легенду"
 msgstr "Show legend"
 
 #: tfmsettings.cbplotlegendstyle.caption
-msgctxt "tfmsettings.cbplotlegendstyle.caption"
 msgid "Отображать стиль линии вместо простого прямоугольника слева"
 msgstr "Show line style instead of just rectangle on left side"
 
 #: tfmsettings.cbplotlinereactivate.caption
-msgctxt "tfmsettings.cbplotlinereactivate.caption"
 msgid "Восстанавливать видимость отключенных линий"
 msgstr "Restore visibility of disabled lines"
 
@@ -1177,7 +1159,6 @@ msgid "Опция работает по индексу линии, а не по 
 msgstr "Option works by line index, not by line label!"
 
 #: tfmsettings.cbplotlinerecolor.caption
-msgctxt "tfmsettings.cbplotlinerecolor.caption"
 msgid "Восстанавливать цвет линий по умолчанию"
 msgstr "Restore default line color"
 
@@ -1197,37 +1178,30 @@ msgid "Метки"
 msgstr "Labels"
 
 #: tfmsettings.cbplotminimap.caption
-msgctxt "tfmsettings.cbplotminimap.caption"
 msgid "Мини-карта для навигации на панели быстрой настройки"
 msgstr "Navigation mini-map on quick settings panel"
 
 #: tfmsettings.cbplotpanelonmain.caption
-msgctxt "tfmsettings.cbplotpanelonmain.caption"
 msgid "Панель кнопок плоттера на главной панели"
 msgstr "Plotter button panel on main toolbar"
 
 #: tfmsettings.cbplotsamplecount.caption
-msgctxt "tfmsettings.cbplotsamplecount.caption"
 msgid "Счетчик семплов"
 msgstr "Sample counter"
 
 #: tfmsettings.cbplotshowuntitled.caption
-msgctxt "tfmsettings.cbplotshowuntitled.caption"
 msgid "для линий без метки (в виде индекса @n)"
 msgstr "for unlabeled lines (as index @n)"
 
 #: tfmsettings.cbplotsize.caption
-msgctxt "tfmsettings.cbplotsize.caption"
 msgid "Количество поступивших данных"
 msgstr "Receive data quantity"
 
 #: tfmsettings.cbplotsmooth.caption
-msgctxt "tfmsettings.cbplotsmooth.caption"
 msgid "Субпиксельное сглаживание (может немного уменьшить частоту отрисовки)"
 msgstr "Subpixel anti-aliasing (may slightly reduce rendering frequency)"
 
 #: tfmsettings.cbplotxbar.caption
-msgctxt "tfmsettings.cbplotxbar.caption"
 msgid "Отображать полосу навигации"
 msgstr "Show navigation bar"
 
@@ -1356,12 +1330,10 @@ msgid "шаблон подстановки"
 msgstr "substitution pattern"
 
 #: tfmsettings.lbappfontsize.caption
-msgctxt "tfmsettings.lbappfontsize.caption"
 msgid "Размер шрифта, %"
 msgstr "Font size in %"
 
 #: tfmsettings.lbappiconsize.caption
-msgctxt "tfmsettings.lbappiconsize.caption"
 msgid "Размер иконок, %"
 msgstr "Icon size in %"
 
@@ -1455,8 +1427,16 @@ msgid "Количество байт в строке"
 msgstr "Bytes in string"
 
 #: tfmsettings.lbimagedialogone.caption
-msgid "После запуска приложения при первом экспорте изображения будет отображен диалог выбора каталога. Все последующие изображения будут экспортироваться в каталог, выбранный ранее. Имя файла будет сгенерировано на основе даты и времени экспорта."
-msgstr "After launching application, dialog for selecting directory will be displayed at first image export. All further images will be exported to previously selected catalog. File name will be generated from export date and time."
+msgid ""
+"После запуска приложения при первом экспорте изображения будет отображен "
+"диалог выбора каталога. Все последующие изображения будут экспортироваться в "
+"каталог, выбранный ранее. Имя файла будет сгенерировано на основе даты и "
+"времени экспорта."
+msgstr ""
+"After launching application, dialog for selecting directory will be "
+"displayed at first image export. All further images will be exported to "
+"previously selected catalog. File name will be generated from export date "
+"and time."
 
 #: tfmsettings.lbimagefont.caption
 msgctxt "tfmsettings.lbimagefont.caption"
@@ -1499,12 +1479,10 @@ msgid "Действия"
 msgstr "Actions"
 
 #: tfmsettings.lbplotclear.caption
-msgctxt "tfmsettings.lbplotclear.caption"
 msgid "Очистка плоттера"
 msgstr "Plotter clearing"
 
 #: tfmsettings.lbplotcolorbasic.caption
-msgctxt "tfmsettings.lbplotcolorbasic.caption"
 msgid "Основные цвета"
 msgstr "Basic colors"
 
@@ -1536,7 +1514,6 @@ msgid "Светлая"
 msgstr "Light"
 
 #: tfmsettings.lbplotcolorlines.caption
-msgctxt "tfmsettings.lbplotcolorlines.caption"
 msgid "Цвета линий"
 msgstr "Line colors"
 
@@ -1594,12 +1571,15 @@ msgid ""
 "Щелчок ЛКМ на метке --- включение или выключение видимости линии.\n"
 "Зажать ЛКМ на метке и потянуть вниз --- изменение толщины линии.\n"
 "Зажать Ctrl + ЛКМ на метке и потянуть вниз --- изменение стиля линии.\n"
-"Зажать Alt + ЛКМ на метке и потянуть вниз --- изменение размера (радиуса) точек линии.\n"
+"Зажать Alt + ЛКМ на метке и потянуть вниз --- изменение размера (радиуса) "
+"точек линии.\n"
 "Щелчок ПКМ на метке --- задать новый цвет линии.\n"
 "\n"
 "ЛКМ --- левая кнопка мыши, ПКМ --- правая кнопка мыши.\n"
-"Измененные настройки линий действуют в текущем сеансе. После перезапуска приложения\n"
-"будут установлены значения по умолчанию, заданные на панели быстрой настройки."
+"Измененные настройки линий действуют в текущем сеансе. После перезапуска "
+"приложения\n"
+"будут установлены значения по умолчанию, заданные на панели быстрой "
+"настройки."
 msgstr ""
 "Click LMB on label --- turns line visibility on or off.\n"
 "Press LMB on label and drag down --- change line thickness.\n"
@@ -1624,17 +1604,14 @@ msgid "Текст метки"
 msgstr "Label text"
 
 #: tfmsettings.lbplotoffsetybot.caption
-msgctxt "tfmsettings.lbplotoffsetybot.caption"
 msgid "Отступ снизу при автомасштабе, пиксели"
 msgstr "Bottom margin when auto-zooming, pixels"
 
 #: tfmsettings.lbplotoffsetytop.caption
-msgctxt "tfmsettings.lbplotoffsetytop.caption"
 msgid "Отступ сверху при автомасштабе, пиксели"
 msgstr "Top margin when auto-zooming, pixels"
 
 #: tfmsettings.lbplotsamples.caption
-msgctxt "tfmsettings.lbplotsamples.caption"
 msgid "Максимальное число семплов"
 msgstr "Maximum amount of samples"
 
@@ -1644,7 +1621,6 @@ msgid "Отображение"
 msgstr "Show"
 
 #: tfmsettings.lbplotwinclear.caption
-msgctxt "tfmsettings.lbplotwinclear.caption"
 msgid "Ширина \"пробела\" в режиме развертки, %"
 msgstr "Width of \"space\" in sweep mode, %"
 
@@ -1713,7 +1689,6 @@ msgid "Длительность сигнала Break (приблизительн
 msgstr "Break signal duration (approximately), ms"
 
 #: tfmsettings.lbtxdeadlockto.caption
-msgctxt "tfmsettings.lbtxdeadlockto.caption"
 msgid "Таймаут отправки (приблизительно), мс"
 msgstr "Transmission timeout (approximately), ms"
 
@@ -1792,12 +1767,10 @@ msgid "HEX вид"
 msgstr "HEX view"
 
 #: tfmsettings.tsplotctrl.caption
-msgctxt "tfmsettings.tsplotctrl.caption"
 msgid "Управление"
 msgstr "Control"
 
 #: tfmsettings.tsplotlegend.caption
-msgctxt "tfmsettings.tsplotlegend.caption"
 msgid "Легенда"
 msgstr "Legend"
 
@@ -1884,7 +1857,6 @@ msgid "Запрос на передачу"
 msgstr "Request to send"
 
 #: u_common.txt_baudrate_other
-msgctxt "u_common.txt_baudrate_other"
 msgid "Другая"
 msgstr "Other"
 
@@ -1910,7 +1882,6 @@ msgid "Размер: %s"
 msgstr "Size: %s"
 
 #: u_common.txt_confirm
-msgctxt "u_common.txt_confirm"
 msgid "Подтверждение"
 msgstr "Confirmation"
 
@@ -1931,7 +1902,6 @@ msgid "Колесо"
 msgstr "Wheel"
 
 #: u_common.txt_data
-msgctxt "u_common.txt_data"
 msgid "Данные"
 msgstr "Data"
 
@@ -1967,37 +1937,30 @@ msgstr ""
 "8. Almost all interface elements have hint - just hover mouse pointer."
 
 #: u_common.txt_list_enter_mac
-msgctxt "u_common.txt_list_enter_mac"
 msgid "CR     (0xD,         стиль MacOS)"
 msgstr "CR     (0xD,         MacOS style)"
 
 #: u_common.txt_list_enter_unix
-msgctxt "u_common.txt_list_enter_unix"
 msgid "LF      (0xA,         стиль Unix)"
 msgstr "LF      (0xA,         Unix style)"
 
 #: u_common.txt_list_enter_win
-msgctxt "u_common.txt_list_enter_win"
 msgid "CRLF (0xD 0xA, стиль Windows)"
 msgstr "CRLF (0xD 0xA, Windows style)"
 
 #: u_common.txt_list_layout_1
-msgctxt "u_common.txt_list_layout_1"
 msgid "Tx - вверху, Rx - внизу"
 msgstr "Tx - top, Rx - bottom"
 
 #: u_common.txt_list_layout_2
-msgctxt "u_common.txt_list_layout_2"
 msgid "Tx - внизу, Rx - вверху"
 msgstr "Tx - bottom, Rx - top"
 
 #: u_common.txt_list_layout_3
-msgctxt "u_common.txt_list_layout_3"
 msgid "Tx - слева, Rx - справа"
 msgstr "Tx - left, Rx - right"
 
 #: u_common.txt_list_layout_4
-msgctxt "u_common.txt_list_layout_4"
 msgid "Tx - справа, Rx - слева"
 msgstr "Tx - right, Rx - left"
 
@@ -2091,7 +2054,6 @@ msgid "Раз в неделю"
 msgstr "Weekly"
 
 #: u_common.txt_warning
-msgctxt "u_common.txt_warning"
 msgid "Предупреждение"
 msgstr "Warning"
 
@@ -2340,3 +2302,15 @@ msgstr "Transmitting..."
 #: u_serial.txt_port_busy
 msgid "занят"
 msgstr "busy"
+
+#~ msgctxt "TFMMAIN.ACSHOWHEX.HINT"
+#~ msgid "Показывать данные в HEX-виде"
+#~ msgstr "Show data in HEX format"
+
+#~ msgctxt "TFMMAIN.ACSHOWLINECOUNTS.HINT"
+#~ msgid "Показывать номера строк"
+#~ msgstr "Show line numbers"
+
+#~ msgctxt "TFMMAIN.ACTXSEQSEND.CAPTION"
+#~ msgid "Отправить"
+#~ msgstr "Send"
