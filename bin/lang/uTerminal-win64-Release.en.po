@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: uTerminal\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2024-03-20 17:11+0200\n"
-"Last-Translator: Riva <--->\n"
-"Language-Team: Riva, 2023\n"
-"Language: en\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Crowdin-Project: uterminal\n"
+"X-Crowdin-Project-ID: 658516\n"
+"X-Crowdin-Language: en\n"
+"X-Crowdin-File: /master/bin/lang/uTerminal-win64-Release.pot\n"
+"X-Crowdin-File-ID: 26\n"
+"Project-Id-Version: uterminal\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"PO-Revision-Date: 2024-03-20 15:19\n"
 
 #: fm_about.about_bit
 #, object-pascal-format
@@ -839,11 +839,9 @@ msgid "Формат входных данных"
 msgstr "Input data format"
 
 #: tfmmain.cbplotterregexp.hint
-msgid ""
-"Предустановка RegExp\n"
+msgid "Предустановка RegExp\n"
 "(предустановки можно настроить в Настройки > RegExp)"
-msgstr ""
-"RegExp preset\n"
+msgstr "RegExp preset\n"
 "(presets can be configured in Settings > RegExp)"
 
 #: tfmmain.cbplotterview.hint
@@ -987,21 +985,17 @@ msgid "OK"
 msgstr "OK"
 
 #: tfmsettings.acregexpadd.hint
-msgid ""
-"Добавить предустановку в список. \n"
+msgid "Добавить предустановку в список. \n"
 "Если предустановка с заданным именем уже есть в списке, \n"
 "она будет заменена"
-msgstr ""
-"Add preset to list. \n"
+msgstr "Add preset to list. \n"
 "If preset with specified name is already in list, \n"
 "it will be replaced"
 
 #: tfmsettings.acregexpdel.hint
-msgid ""
-"Удалить предустановку из списка \n"
+msgid "Удалить предустановку из списка \n"
 "(отмена невозможна!)"
-msgstr ""
-"Remove preset from list \n"
+msgstr "Remove preset from list \n"
 "(cannot be canceled!)"
 
 #: tfmsettings.caption
@@ -1014,8 +1008,7 @@ msgid "Автоматически подключаться к порту при 
 msgstr "Automatically connect to port on application startup"
 
 #: tfmsettings.cbautoconnect.hint
-msgid ""
-"Попытаться подключиться к порту, который был использован в предыдущей сессии"
+msgid "Попытаться подключиться к порту, который был использован в предыдущей сессии"
 msgstr "Try to connect to port that was used in previous session"
 
 #: tfmsettings.cbcheckport.caption
@@ -1047,8 +1040,7 @@ msgid "\"Липкое\" окно"
 msgstr "\"Sticky\" window"
 
 #: tfmsettings.cbgluedwindow.hint
-msgid ""
-"Если флажок установлено, то окно будет \"прилипать\" к краям рабочего стола"
+msgid "Если флажок установлено, то окно будет \"прилипать\" к краям рабочего стола"
 msgstr "If checked, window will \"stick\" to edges of desktop"
 
 #: tfmsettings.cbhardflow.caption
@@ -1076,11 +1068,9 @@ msgid "Разрешить выполнение команд Arduino Advanced"
 msgstr "Enable execution of Arduino Advanced commands"
 
 #: tfmsettings.cbplotallowcommands.hint
-msgid ""
-"Если флажок снят, команды будут игнорироваться. \n"
+msgid "Если флажок снят, команды будут игнорироваться. \n"
 "Список и формат доступных команд - см. справку. "
-msgstr ""
-"If unchecked, commands will be ignored. \n"
+msgstr "If unchecked, commands will be ignored. \n"
 "For list and format of available commands, see Help. "
 
 #: tfmsettings.cbplotclearrx.caption
@@ -1122,11 +1112,9 @@ msgid "и стилизировать ее"
 msgstr "and stylize it"
 
 #: tfmsettings.cbplotlegendcoloredb.hint
-msgid ""
-"Если стилизировать, то цвет и стиль рамки\n"
+msgid "Если стилизировать, то цвет и стиль рамки\n"
 "будет соответствовать цвету и стилю линии"
-msgstr ""
-"If stylized, color and style of frame\n"
+msgstr "If stylized, color and style of frame\n"
 "will match color and style of line"
 
 #: tfmsettings.cbplotlegendframe.caption
@@ -1292,12 +1280,10 @@ msgid "Цвет шрифта"
 msgstr "Font color"
 
 #: tfmsettings.edregexplabel.hint
-msgid ""
-"Символ подстановки нумерованной группы: $ \n"
+msgid "Символ подстановки нумерованной группы: $ \n"
 "Отделение номера группы от цифры: { } \n"
 "Экранироване: \\ "
-msgstr ""
-"Numbered group insert: $ \n"
+msgstr "Numbered group insert: $ \n"
 "Separating group number from digit: { } \n"
 "Escaping character: \\ "
 
@@ -1315,12 +1301,10 @@ msgid "уникальное название предустановки"
 msgstr "unique preset name"
 
 #: tfmsettings.edregexpvalue.hint
-msgid ""
-"Целые числа могут иметь префикс:\n"
+msgid "Целые числа могут иметь префикс:\n"
 "$ - шестнадцатеричное, % - двоичное, & - восьмеричное.\n"
 "Число без префикса интерпретируется как обычное десятичное."
-msgstr ""
-"Integer numbers can be prefixed with:\n"
+msgstr "Integer numbers can be prefixed with:\n"
 "$ - hexadecimal, % - binary, & - octal.\n"
 "Number without prefix is interpreted as regular decimal number."
 
@@ -1387,11 +1371,9 @@ msgid "Темная тема"
 msgstr "Dark theme"
 
 #: tfmsettings.lbfonthint.caption
-msgid ""
-"Подсказка.\n"
+msgid "Подсказка.\n"
 "Поля Tx и Rx поддерживают изменение размера шрифта по Ctrl + колесу."
-msgstr ""
-"Tip.\n"
+msgstr "Tip.\n"
 "Tx and Rx fields support changing font size by Ctrl + wheel."
 
 #: tfmsettings.lbfontlight.caption
@@ -1427,16 +1409,8 @@ msgid "Количество байт в строке"
 msgstr "Bytes in string"
 
 #: tfmsettings.lbimagedialogone.caption
-msgid ""
-"После запуска приложения при первом экспорте изображения будет отображен "
-"диалог выбора каталога. Все последующие изображения будут экспортироваться в "
-"каталог, выбранный ранее. Имя файла будет сгенерировано на основе даты и "
-"времени экспорта."
-msgstr ""
-"After launching application, dialog for selecting directory will be "
-"displayed at first image export. All further images will be exported to "
-"previously selected catalog. File name will be generated from export date "
-"and time."
+msgid "После запуска приложения при первом экспорте изображения будет отображен диалог выбора каталога. Все последующие изображения будут экспортироваться в каталог, выбранный ранее. Имя файла будет сгенерировано на основе даты и времени экспорта."
+msgstr "After launching application, dialog for selecting directory will be displayed at first image export. All further images will be exported to previously selected catalog. File name will be generated from export date and time."
 
 #: tfmsettings.lbimagefont.caption
 msgctxt "tfmsettings.lbimagefont.caption"
@@ -1567,26 +1541,19 @@ msgid "Способ масштабирования"
 msgstr "Scaling way"
 
 #: tfmsettings.lbplotlegendhint.caption
-msgid ""
-"Щелчок ЛКМ на метке --- включение или выключение видимости линии.\n"
+msgid "Щелчок ЛКМ на метке --- включение или выключение видимости линии.\n"
 "Зажать ЛКМ на метке и потянуть вниз --- изменение толщины линии.\n"
 "Зажать Ctrl + ЛКМ на метке и потянуть вниз --- изменение стиля линии.\n"
-"Зажать Alt + ЛКМ на метке и потянуть вниз --- изменение размера (радиуса) "
-"точек линии.\n"
-"Щелчок ПКМ на метке --- задать новый цвет линии.\n"
-"\n"
+"Зажать Alt + ЛКМ на метке и потянуть вниз --- изменение размера (радиуса) точек линии.\n"
+"Щелчок ПКМ на метке --- задать новый цвет линии.\n\n"
 "ЛКМ --- левая кнопка мыши, ПКМ --- правая кнопка мыши.\n"
-"Измененные настройки линий действуют в текущем сеансе. После перезапуска "
-"приложения\n"
-"будут установлены значения по умолчанию, заданные на панели быстрой "
-"настройки."
-msgstr ""
-"Click LMB on label --- turns line visibility on or off.\n"
+"Измененные настройки линий действуют в текущем сеансе. После перезапуска приложения\n"
+"будут установлены значения по умолчанию, заданные на панели быстрой настройки."
+msgstr "Click LMB on label --- turns line visibility on or off.\n"
 "Press LMB on label and drag down --- change line thickness.\n"
 "Press Ctrl + LMB on label and drag down --- change line style.\n"
 "Press Alt + LMB on label and drag down --- change line point size (radius).\n"
-"Click RMB on label --- set new line color.\n"
-"\n"
+"Click RMB on label --- set new line color.\n\n"
 "LMB --- left mouse button, RMB --- right mouse button.\n"
 "Сhanged line settings are valid in current session. Default values\n"
 "set in quick settings panel will be applied when application is restarted."
@@ -1813,19 +1780,15 @@ msgid "Обновление"
 msgstr "Update"
 
 #: u_common.hint_autoanswer
-msgid ""
-"Если выбрано, то при получении данных будет автоматически\n"
+msgid "Если выбрано, то при получении данных будет автоматически\n"
 "отправлен ответ (если имеется, можно редактировать в настройках)"
-msgstr ""
-"If checked, response will be sent automatically\n"
+msgstr "If checked, response will be sent automatically\n"
 "(if available, can be edited in settings) when data is received"
 
 #: u_common.hint_autosend
-msgid ""
-"Если выбрано, передача будет инициироваться автоматически\n"
+msgid "Если выбрано, передача будет инициироваться автоматически\n"
 "через заданные промежутки времени"
-msgstr ""
-"If checked, transmission will be initiated\n"
+msgstr "If checked, transmission will be initiated\n"
 "automatically at programmed time periods"
 
 #: u_common.hint_break
@@ -1911,9 +1874,7 @@ msgid "Ошибка"
 msgstr "Error"
 
 #: u_common.txt_help_hint
-msgid ""
-"Здесь отображаются поля ввода и/или вывода данных.\n"
-"\n"
+msgid "Здесь отображаются поля ввода и/или вывода данных.\n\n"
 "--- Как работать с терминалом ---\n"
 "1. Просканируйте систему на наличие доступных портов.\n"
 "2. Выберите порт, задайте настройки, подключитесь.\n"
@@ -1923,9 +1884,7 @@ msgid ""
 "6. Можно задать таймер автоматической передачи данных.\n"
 "7. Плоттер позволит визуализировать принятые значения.\n"
 "8. Почти все элементы интерфейса имеют подсказку - просто наведите курсор."
-msgstr ""
-"Input and/or output fields are displayed here.\n"
-"\n"
+msgstr "Input and/or output fields are displayed here.\n\n"
 "--- How to work with terminal ---\n"
 "1. Scan system for available ports.\n"
 "2. Select port, specify settings, and connect.\n"
@@ -2058,37 +2017,29 @@ msgid "Предупреждение"
 msgstr "Warning"
 
 #: u_common.warn_load
-msgid ""
-"Данные из файла будут загружены в буфер передачи.\n"
+msgid "Данные из файла будут загружены в буфер передачи.\n"
 "Текущие данные будут утеряны. Продолжить?"
-msgstr ""
-"Data from file will be loaded into transmit buffer.\n"
+msgstr "Data from file will be loaded into transmit buffer.\n"
 "Current data will be lost. Do you want to continue?"
 
 #: u_common.warn_reset
-msgid ""
-"При следующем запуске приложения будут загружены\n"
+msgid "При следующем запуске приложения будут загружены\n"
 "настройки по умолчанию. Продолжить?"
-msgstr ""
-"Default settings will be loaded when application\n"
+msgstr "Default settings will be loaded when application\n"
 "is launched next time. Continue?"
 
 #: u_common.warn_settings
-msgid ""
-"Не удалось применить все настройки!\n"
+msgid "Не удалось применить все настройки!\n"
 "Возникла критическая ошибка. Перезапустите приложение.\n"
 "Завершить работу приложения?"
-msgstr ""
-"Unable to apply all settings!\n"
+msgstr "Unable to apply all settings!\n"
 "Critical error has occurred. Restart application.\n"
 "Quit application?"
 
 #: u_common.warn_update
-msgid ""
-"Сейчас скачивается обновление.\n"
+msgid "Сейчас скачивается обновление.\n"
 "Прервать и закрыть приложение?"
-msgstr ""
-"Update is downloading at the moment.\n"
+msgstr "Update is downloading at the moment.\n"
 "Do you want to interrupt and quit application?"
 
 #: u_encodings.enc_1250
@@ -2303,14 +2254,3 @@ msgstr "Transmitting..."
 msgid "занят"
 msgstr "busy"
 
-#~ msgctxt "TFMMAIN.ACSHOWHEX.HINT"
-#~ msgid "Показывать данные в HEX-виде"
-#~ msgstr "Show data in HEX format"
-
-#~ msgctxt "TFMMAIN.ACSHOWLINECOUNTS.HINT"
-#~ msgid "Показывать номера строк"
-#~ msgstr "Show line numbers"
-
-#~ msgctxt "TFMMAIN.ACTXSEQSEND.CAPTION"
-#~ msgid "Отправить"
-#~ msgstr "Send"
