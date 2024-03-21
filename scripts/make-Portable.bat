@@ -21,7 +21,7 @@ echo.
 set PROJNAME=uTerminal
 set BUILD=Release
 set LANGDIR=bin\lang
-set COMMONFILES=%LANGDIR%\*.ini %LANGDIR%\%PROJNAME%.pot %LANGDIR%\%PROJNAME%.??.po readme.* license.* versions.* help\* bin\openssl-license.txt
+set COMMONFILES=%LANGDIR%\*.ini %LANGDIR%\%PROJNAME%.pot %LANGDIR%\%PROJNAME%.??.po %LANGDIR%\%PROJNAME%.?????.po readme.* license.* versions.* help\* bin\openssl-license.txt
 
 
 echo.
