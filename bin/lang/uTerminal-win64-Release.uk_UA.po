@@ -1,0 +1,2256 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: uterminal\n"
+"X-Crowdin-Project-ID: 658516\n"
+"X-Crowdin-Language: uk\n"
+"X-Crowdin-File: /master/bin/lang/uTerminal-win64-Release.pot\n"
+"X-Crowdin-File-ID: 26\n"
+"Project-Id-Version: uterminal\n"
+"Language-Team: Ukrainian\n"
+"Language: uk_UA\n"
+"PO-Revision-Date: 2024-03-21 16:12\n"
+
+#: fm_about.about_bit
+#, object-pascal-format
+msgid "%s-битная"
+msgstr "%s-бітна"
+
+#: fm_about.about_build
+#, object-pascal-format
+msgid "сборка #%d, %s"
+msgstr "збірка #%d, %s"
+
+#: fm_about.about_info
+msgid "информация"
+msgstr "інформація"
+
+#: fm_about.about_license
+msgid "лицензия"
+msgstr "ліцензія"
+
+#: fm_about.about_site
+msgid "сайт"
+msgstr "сайт"
+
+#: fm_about.about_version
+#, object-pascal-format
+msgid "версия %d.%d.%d"
+msgstr "версія %d.%d.%d"
+
+#: fm_insertchar.txt_insert_char
+#, object-pascal-format
+msgid "%s, символ <%s>"
+msgstr "%s, символ <%s>"
+
+#: fm_main.connect
+msgid "Подключить"
+msgstr "Підключити"
+
+#: fm_main.connected_to
+msgid "Подключен к"
+msgstr "Підключений до"
+
+#: fm_main.connect_hint
+msgid "Подключиться к выбранному порту"
+msgstr "Підключитися до обраного порту"
+
+#: fm_main.disconnect
+msgid "Отключить"
+msgstr "Відключити"
+
+#: fm_main.disconnected_from
+msgid "Отключен от"
+msgstr "Відключений від"
+
+#: fm_main.disconnect_hint
+msgid "Отключиться от текущего порта"
+msgstr "Відключитися від поточного порту"
+
+#: fm_main.error
+msgctxt "fm_main.error"
+msgid "Ошибка"
+msgstr "Помилка"
+
+#: fm_main.plotter_caption
+msgctxt "fm_main.plotter_caption"
+msgid "Плоттер"
+msgstr "Плоттер"
+
+#: fm_main.ports_finded
+#, object-pascal-format
+msgid "Найдено портов: %d"
+msgstr "Знайдено портів: %d"
+
+#: fm_main.rx_caption
+msgid "Прием [Rx]"
+msgstr "Прийом [Rx]"
+
+#: fm_main.speed
+msgid "бод/с"
+msgstr "бод/с"
+
+#: fm_main.text_type_text
+msgctxt "fm_main.text_type_text"
+msgid "Текст"
+msgstr "Текст"
+
+#: fm_main.txt_dlg_all
+msgctxt "fm_main.txt_dlg_all"
+msgid "Файл"
+msgstr "Файл"
+
+#: fm_main.txt_dlg_csv
+msgid "Файл CSV"
+msgstr "Файл CSV"
+
+#: fm_main.txt_dlg_png
+msgid "PNG - изображение Portable Network Graphics"
+msgstr "PNG - зображення Portable Network Graphics"
+
+#: fm_main.txt_dlg_text
+msgid "Текстовый файл"
+msgstr "Текстовий файл"
+
+#: fm_main.txt_encoding
+#, object-pascal-format
+msgid "кодировка %s"
+msgstr "кодування %s"
+
+#: fm_main.txt_plot_line_ps
+#, object-pascal-format
+msgid "Радиус точек - %d пикс."
+msgstr "Радіус точок - %d пікс."
+
+#: fm_main.txt_plot_line_st
+#, object-pascal-format
+msgid "Стиль линии - %s"
+msgstr "Стиль лінії - %s"
+
+#: fm_main.txt_plot_line_wd
+#, object-pascal-format
+msgid "Толщина линии - %d пикс."
+msgstr "Товщина лінії - %d пікс."
+
+#: fm_main.txt_redef_bgcolor
+msgctxt "fm_main.txt_redef_bgcolor"
+msgid "Фон"
+msgstr "Фон"
+
+#: fm_main.txt_redef_grid
+msgctxt "fm_main.txt_redef_grid"
+msgid "Сетка"
+msgstr "Сітка"
+
+#: fm_main.txt_redef_points
+msgctxt "fm_main.txt_redef_points"
+msgid "Точки"
+msgstr "Точки"
+
+#: fm_main.txt_redef_viewport
+msgid "Окно"
+msgstr "Вікно"
+
+#: fm_main.txt_redef_width
+msgid "Толщина"
+msgstr "Товщина"
+
+#: fm_main.txt_redef_xgrid
+msgid "Сетка X"
+msgstr "Сітка X"
+
+#: fm_main.txt_redef_ygrid
+msgid "Сетка Y"
+msgstr "Сітка Y"
+
+#: fm_main.tx_caption
+msgid "Передача [Tx]"
+msgstr "Передача [Tx]"
+
+#: fm_settings.txt_color_hint
+#, object-pascal-format
+msgid "Цвет %d-й линии плоттера"
+msgstr "Колір %d-ї лінії плоттера"
+
+#: fm_settings.txt_win_theme
+msgid "Только Windows 10 1809+"
+msgstr "Тільки Windows 10 1809+"
+
+#: tfmasciichar.accancel.caption
+msgctxt "tfmasciichar.accancel.caption"
+msgid "Отмена"
+msgstr "Скасувати"
+
+#: tfmasciichar.acok.caption
+msgid "Вставить символ"
+msgstr "Вставити символ"
+
+#: tfmasciichar.rgcodetype.caption
+msgid "Отображаемый в таблице код символа"
+msgstr "Відображуваний у таблиці код символу"
+
+#: tfmcommands.acadd.caption
+msgctxt "tfmcommands.acadd.caption"
+msgid "Добавить"
+msgstr "Додати"
+
+#: tfmcommands.accancel.caption
+msgctxt "tfmcommands.accancel.caption"
+msgid "Отмена"
+msgstr "Скасувати"
+
+#: tfmcommands.acdelete.caption
+msgctxt "tfmcommands.acdelete.caption"
+msgid "Удалить"
+msgstr "Видалити"
+
+#: tfmcommands.acok.caption
+msgctxt "tfmcommands.acok.caption"
+msgid "OK"
+msgstr "OK"
+
+#: tfmcommands.acupdate.caption
+msgctxt "tfmcommands.acupdate.caption"
+msgid "Обновить"
+msgstr "Оновити"
+
+#: tfmcommands.caption
+msgid "Автоответ"
+msgstr "Автовідповідь"
+
+#: tfmcommands.lbinput.caption
+msgctxt "tfmcommands.lbinput.caption"
+msgid "Входная последовательность"
+msgstr "Вхідна послідовність"
+
+#: tfmcommands.lbresponce.caption
+msgctxt "tfmcommands.lbresponce.caption"
+msgid "Ответная последовательность"
+msgstr "Відповідна послідовність"
+
+#: tfmcommands.sgsequences.columns[0].title.caption
+msgctxt "tfmcommands.sgsequences.columns[0].title.caption"
+msgid "Входная последовательность"
+msgstr "Вхідна послідовність"
+
+#: tfmcommands.sgsequences.columns[1].title.caption
+msgctxt "tfmcommands.sgsequences.columns[1].title.caption"
+msgid "Ответная последовательность"
+msgstr "Відповідна послідовність"
+
+#: tfmconfirm.bbcancel.caption
+msgctxt "tfmconfirm.bbcancel.caption"
+msgid "Отмена"
+msgstr "Скасувати"
+
+#: tfmconfirm.bbno.caption
+msgid "Нет"
+msgstr "Ні"
+
+#: tfmconfirm.bbyes.caption
+msgid "Да"
+msgstr "Так"
+
+#: tfmmain.acappupdate.caption
+msgid "Обновление ..."
+msgstr "Оновлення ..."
+
+#: tfmmain.acappupdate.hint
+msgid "Поиск и скачивание обновлений"
+msgstr "Пошук і завантаження оновлень"
+
+#: tfmmain.acautoanswerenable.caption
+msgid "Включить автоответ"
+msgstr "Увімкнути автовідповідь"
+
+#: tfmmain.acautoanswerheader.caption
+msgid "Автоматический ответ:"
+msgstr "Автоматична відповідь:"
+
+#: tfmmain.acautoanswersetup.caption
+msgid "Таблица ответов ..."
+msgstr "Таблиця відповідей ..."
+
+#: tfmmain.acautoanswersetup.hint
+msgid "Окно задания ответных последовательностей"
+msgstr "Вікно задання послідовностей для відповіді"
+
+#: tfmmain.acautosend.caption
+msgid "Автомат"
+msgstr "Автомат"
+
+#: tfmmain.acconnectionheader.caption
+msgid "Соединение"
+msgstr "З'єднання"
+
+#: tfmmain.acexit.caption
+msgid "Выход"
+msgstr "Вихід"
+
+#: tfmmain.acexit.hint
+msgid "Завершить работу приложения"
+msgstr "Завершити роботу програми"
+
+#: tfmmain.acfileheader.caption
+msgctxt "tfmmain.acfileheader.caption"
+msgid "Файл"
+msgstr "Файл"
+
+#: tfmmain.achelp.caption
+msgctxt "tfmmain.achelp.caption"
+msgid "Справка"
+msgstr "Допомога"
+
+#: tfmmain.achelp.hint
+msgid "Открыть руководство пользователя"
+msgstr "Відкрити керівництво користувача"
+
+#: tfmmain.achelpheader.caption
+msgctxt "tfmmain.achelpheader.caption"
+msgid "Справка"
+msgstr "Допомога"
+
+#: tfmmain.achelpmd.caption
+msgid "Справка в markdown"
+msgstr "Допомога в markdown"
+
+#: tfmmain.achelpmd.hint
+msgid "Открыть руководство пользователя в формате markdown"
+msgstr "Відкрити керівництво користувача в форматі markdown"
+
+#: tfmmain.achelpnet.caption
+msgid "Справка в сети"
+msgstr "Допомога в мережі"
+
+#: tfmmain.achelpnet.hint
+msgid "Открыть руководство пользователя в репозитории (онлайн)"
+msgstr "Відкрити керівництво користувача в репозиторії (онлайн)"
+
+#: tfmmain.acinfo.caption
+msgid "О приложении"
+msgstr "Про програму"
+
+#: tfmmain.acinfo.hint
+msgid "Информация о приложении"
+msgstr "Інформація про програму"
+
+#: tfmmain.acinsertchar.caption
+msgid "Вставить символ ..."
+msgstr "Вставити символ ..."
+
+#: tfmmain.acinsertchar.hint
+msgid "Вставка произольного символа ASCII"
+msgstr "Вставка довільного символа ASCII"
+
+#: tfmmain.acplotterclear.caption
+msgid "Очистить"
+msgstr "Очистити"
+
+#: tfmmain.acplotterclear.hint
+msgid "Очистить плоттер"
+msgstr "Очистити плоттер"
+
+#: tfmmain.acplotterclose.caption
+msgid "Закрыть"
+msgstr "Закрити"
+
+#: tfmmain.acplotterclose.hint
+msgid "Закрыть плоттер"
+msgstr "Закрити плоттер"
+
+#: tfmmain.acplotterexpcsv.caption
+msgctxt "tfmmain.acplotterexpcsv.caption"
+msgid "Экспорт в CSV"
+msgstr "Експорт в CSV"
+
+#: tfmmain.acplotterexpcsv.hint
+msgctxt "tfmmain.acplotterexpcsv.hint"
+msgid "Экспорт данных в CSV"
+msgstr "Експорт даних в CSV"
+
+#: tfmmain.acplotterexpimg.caption
+msgctxt "tfmmain.acplotterexpimg.caption"
+msgid "Экспорт в PNG"
+msgstr "Експорт в PNG"
+
+#: tfmmain.acplotterexpimg.hint
+msgctxt "tfmmain.acplotterexpimg.hint"
+msgid "Экспорт в изображение"
+msgstr "Експорт в зображення"
+
+#: tfmmain.acplotterheader.caption
+msgctxt "tfmmain.acplotterheader.caption"
+msgid "Плоттер"
+msgstr "Плоттер"
+
+#: tfmmain.acplotterlivemode.caption
+msgctxt "tfmmain.acplotterlivemode.caption"
+msgid "Live-режим"
+msgstr "Live-режим"
+
+#: tfmmain.acplotterlivemode.hint
+msgctxt "tfmmain.acplotterlivemode.hint"
+msgid "Live-режим (если выбрано, иначе - накопление)"
+msgstr "Live-режим (якщо вибрано, інакше - накопичення)"
+
+#: tfmmain.acplotterqexpcsv.hint
+msgctxt "tfmmain.acplotterqexpcsv.hint"
+msgid "Экспорт данных в CSV"
+msgstr "Експорт даних в CSV"
+
+#: tfmmain.acplotterqexpimg.hint
+msgctxt "tfmmain.acplotterqexpimg.hint"
+msgid "Экспорт в изображение"
+msgstr "Експорт в зображення"
+
+#: tfmmain.acplotterqlivemode.hint
+msgctxt "tfmmain.acplotterqlivemode.hint"
+msgid "Live-режим (если выбрано, иначе - накопление)"
+msgstr "Live-режим (якщо вибрано, інакше - накопичення)"
+
+#: tfmmain.acplotterqtracker.hint
+msgctxt "tfmmain.acplotterqtracker.hint"
+msgid "Трекер - отслеживание точек на линиях"
+msgstr "Трекер - відстеження точок на лініях"
+
+#: tfmmain.acplottersettings.caption
+msgctxt "tfmmain.acplottersettings.caption"
+msgid "Быстрая настройка"
+msgstr "Швидке налаштування"
+
+#: tfmmain.acplottersettings.hint
+msgid "Панель быстрой настройки плоттера"
+msgstr "Панель швидкого налаштування плоттера"
+
+#: tfmmain.acplottershow.caption
+msgid "Переключиться на плоттер"
+msgstr "Перемкнутися на плоттер"
+
+#: tfmmain.acplottershow.hint
+msgid "Переключиться на плоттер по данных из буфера приема"
+msgstr "Перемкнутися на плоттер по даних з буфера прийому"
+
+#: tfmmain.acplottertracker.caption
+msgid "Трекер"
+msgstr "Трекер"
+
+#: tfmmain.acplottertracker.hint
+msgctxt "tfmmain.acplottertracker.hint"
+msgid "Трекер - отслеживание точек на линиях"
+msgstr "Трекер - відстеження точок на лініях"
+
+#: tfmmain.acportdb5.caption
+msgid "5 бит"
+msgstr "5 біт"
+
+#: tfmmain.acportdb6.caption
+msgid "6 бит"
+msgstr "6 біт"
+
+#: tfmmain.acportdb7.caption
+msgid "7 бит"
+msgstr "7 біт"
+
+#: tfmmain.acportdb8.caption
+msgid "8 бит"
+msgstr "8 біт"
+
+#: tfmmain.acportdbheader.caption
+msgid "Биты данных:"
+msgstr "Біти даних:"
+
+#: tfmmain.acportpbe.caption
+msgid "Even - доп. до четности"
+msgstr "Even - доп. до парності"
+
+#: tfmmain.acportpbheader.caption
+msgid "Бит четности:"
+msgstr "Біт парності:"
+
+#: tfmmain.acportpbm.caption
+msgid "Mark - всегда 1"
+msgstr "Mark - завжди 1"
+
+#: tfmmain.acportpbn.caption
+msgid "None - нет"
+msgstr "None - немає"
+
+#: tfmmain.acportpbo.caption
+msgid "Odd - доп. до нечетности"
+msgstr "Odd - доп. до непарності"
+
+#: tfmmain.acportpbs.caption
+msgid "Space - всегда 0"
+msgstr "Space - завжди 0"
+
+#: tfmmain.acportsb1.caption
+msgid "1 стоп-бит"
+msgstr "1 стоп-біт"
+
+#: tfmmain.acportsb1h.caption
+msgid "1,5 стоп-бита"
+msgstr "1,5 стоп-біта"
+
+#: tfmmain.acportsb2.caption
+msgid "2 стоп-бита"
+msgstr "2 стоп-біта"
+
+#: tfmmain.acportsbheader.caption
+msgid "Стоп-биты:"
+msgstr "Стоп-біти:"
+
+#: tfmmain.acportsettingsmenu.caption
+msgid "Доп. настройки порта"
+msgstr "Дод. налаштування порту"
+
+#: tfmmain.acportsettingsmenu.hint
+msgid "Дополнительные настройки порта"
+msgstr "Додаткові налаштування порту"
+
+#: tfmmain.acreset.caption
+msgctxt "tfmmain.acreset.caption"
+msgid "Сброс"
+msgstr "Скидання"
+
+#: tfmmain.acrxclear.caption
+msgid "Очистить буфер приема"
+msgstr "Очистити буфер прийому"
+
+#: tfmmain.acrxclear.hint
+msgid "Очистить данные в буфере приема"
+msgstr "Очистити дані в буфері прийому"
+
+#: tfmmain.acrxcopy.caption
+msgid "Скопировать данные"
+msgstr "Копіювати дані"
+
+#: tfmmain.acrxcopy.hint
+msgid "Скопировать данные в буфер обмена"
+msgstr "Копіювати дані в буфер обміну"
+
+#: tfmmain.acrxenable.caption
+msgid "Включить прием"
+msgstr "Увімкнути прийом"
+
+#: tfmmain.acrxenable.hint
+msgid "Разрешение работы приемника"
+msgstr "Дозвіл роботи приймача"
+
+#: tfmmain.acrxexport.caption
+msgid "Сохранить данные в файл ..."
+msgstr "Зберегти дані в файл ..."
+
+#: tfmmain.acrxexport.hint
+msgid "Сохранить данные из буфера приема в файл"
+msgstr "Зберегти дані з буфера прийому в файл"
+
+#: tfmmain.acrxheader.caption
+msgctxt "tfmmain.acrxheader.caption"
+msgid "Прием"
+msgstr "Прийом"
+
+#: tfmmain.acrxscrolltoend.caption
+msgid "Прокручивать к концу"
+msgstr "Прокручувати до кінця"
+
+#: tfmmain.acrxscrolltoend.hint
+msgid "При приеме новых данных прокручивать к концу"
+msgstr "При прийомі нових даних прокручувати до кінця"
+
+#: tfmmain.acscan.caption
+msgid "Сканировать"
+msgstr "Сканувати"
+
+#: tfmmain.acscan.hint
+msgid "Обновить список доступных портов"
+msgstr "Оновити список доступних портів"
+
+#: tfmmain.acsearch.caption
+msgid "Поиск"
+msgstr "Пошук"
+
+#: tfmmain.acsearch.hint
+msgid "Панель поиска"
+msgstr "Панель пошуку"
+
+#: tfmmain.acsearchnext.caption
+msgid "Найти далее"
+msgstr "Шукати далі"
+
+#: tfmmain.acsearchnext.hint
+msgid "Найти следующее совпадение"
+msgstr "Знайти наступний збіг"
+
+#: tfmmain.acsearchprev.caption
+msgid "Найти предыдущее"
+msgstr "Шукати попереднє"
+
+#: tfmmain.acsearchprev.hint
+msgid "Найти предыдущее совпадение"
+msgstr "Знайти попередній збіг"
+
+#: tfmmain.acsettings.caption
+msgctxt "tfmmain.acsettings.caption"
+msgid "Настройки"
+msgstr "Налаштування"
+
+#: tfmmain.acsettings.hint
+msgid "Настройки приложения"
+msgstr "Налаштування програми"
+
+#: tfmmain.acshowborder.caption
+msgid "Граница окна"
+msgstr "Границя вікна"
+
+#: tfmmain.acshowhex.caption
+msgctxt "tfmmain.acshowhex.caption"
+msgid "Показывать данные в HEX-виде"
+msgstr "Відображати дані в HEX-вигляді"
+
+#: tfmmain.acshowhex.hint
+msgctxt "tfmmain.acshowhex.hint"
+msgid "Показывать данные в HEX-виде"
+msgstr "Відображати дані в HEX-вигляді"
+
+#: tfmmain.acshowlinecounts.caption
+msgctxt "tfmmain.acshowlinecounts.caption"
+msgid "Показывать номера строк"
+msgstr "Відображати номери рядків"
+
+#: tfmmain.acshowlinecounts.hint
+msgctxt "tfmmain.acshowlinecounts.hint"
+msgid "Показывать номера строк"
+msgstr "Відображати номери рядків"
+
+#: tfmmain.acshowontop.caption
+msgid "Поверх всех окон"
+msgstr "Поверх всіх вікон"
+
+#: tfmmain.acshowontop.hint
+msgid "Показывать окно терминала поверх остальных окон"
+msgstr "Показувати вікно термінала поверх решти вікон"
+
+#: tfmmain.acshowrxbox.caption
+msgid "Показывать буфер приема"
+msgstr "Відображати буфер прийому"
+
+#: tfmmain.acshowrxbox.hint
+msgid "Показывать область интерфейса с данными буфера приема"
+msgstr "Відображати область інтерфейсу з даними буфера прийому"
+
+#: tfmmain.acshowsignals.caption
+msgid "Панель сигналов"
+msgstr "Панель сигналів"
+
+#: tfmmain.acshowsignals.hint
+msgid "Показывать область интерфейса с индикаторами сигналов"
+msgstr "Відображати область інтерфейсу з індикаторами сигналів"
+
+#: tfmmain.acshowtbheader.caption
+msgid "Панели инструментов:"
+msgstr "Панелі інструментів:"
+
+#: tfmmain.acshowtbmain.caption
+msgid "Главная"
+msgstr "Головна"
+
+#: tfmmain.acshowtbmain.hint
+msgid "Показать/скрыть главную панель инструментов"
+msgstr "Відобразити/сховати головну панель інструментів"
+
+#: tfmmain.acshowtbport.caption
+msgid "Порт"
+msgstr "Порт"
+
+#: tfmmain.acshowtbport.hint
+msgid "Показать/скрыть панель инструментов порта"
+msgstr "Відобразити/сховати панель інструментів порта"
+
+#: tfmmain.acshowtbrx.caption
+msgid "Приемник"
+msgstr "Приймач"
+
+#: tfmmain.acshowtbrx.hint
+msgid "Показать/скрыть панель инструментов приемника"
+msgstr "Відобразити/сховати панель інструментів приймача"
+
+#: tfmmain.acshowtbtx.caption
+msgid "Передатчик"
+msgstr "Передавач"
+
+#: tfmmain.acshowtbtx.hint
+msgid "Показать/скрыть панель инструментов передатчика"
+msgstr "Відобразити/сховати панель інструментів передавача"
+
+#: tfmmain.acshowtxbox.caption
+msgid "Показывать буфер передачи"
+msgstr "Відображати буфер передачі"
+
+#: tfmmain.acshowtxbox.hint
+msgid "Показывать область интерфейса с данными буфера передачи"
+msgstr "Відображати область інтерфейсу з даними буфера передачі"
+
+#: tfmmain.actxclear.caption
+msgid "Очистить буфер передачи"
+msgstr "Очистити буфер передачі"
+
+#: tfmmain.actxclear.hint
+msgid "Очистить данные в буфере передачи"
+msgstr "Очистити дані в буфері передачі"
+
+#: tfmmain.actxcommandmode.caption
+msgid "Командный режим"
+msgstr "Режим команд"
+
+#: tfmmain.actxcommandmode.hint
+msgid "Очистить буфер передачи после передачи"
+msgstr "Очистити буфер передачі після передачі"
+
+#: tfmmain.actxheader.caption
+msgctxt "tfmmain.actxheader.caption"
+msgid "Передача"
+msgstr "Передача"
+
+#: tfmmain.actximport.caption
+msgctxt "tfmmain.actximport.caption"
+msgid "Загрузить данные из файла ..."
+msgstr "Завантажити дані з файлу ..."
+
+#: tfmmain.actximport.hint
+msgid "Загрузить данные из файла в буфер передачи"
+msgstr "Завантажити дані з файлу в буфер передачі"
+
+#: tfmmain.actxsend.caption
+msgctxt "tfmmain.actxsend.caption"
+msgid "Отправить"
+msgstr "Відправити"
+
+#: tfmmain.actxsend.hint
+msgctxt "tfmmain.actxsend.hint"
+msgid "Отправить данные из буфера"
+msgstr "Відправити дані з буфера"
+
+#: tfmmain.actxseqadd.caption
+msgctxt "tfmmain.actxseqadd.caption"
+msgid "Добавить"
+msgstr "Додати"
+
+#: tfmmain.actxseqadd.hint
+msgid "Добавить текущий буфер передачи в список"
+msgstr "Додати поточний буфер передачі в список"
+
+#: tfmmain.actxseqedit.caption
+msgctxt "tfmmain.actxseqedit.caption"
+msgid "Обновить"
+msgstr "Оновити"
+
+#: tfmmain.actxseqedit.hint
+msgid "Обновить выбранное сообщение"
+msgstr "Оновити вибране повідомлення"
+
+#: tfmmain.actxseqget.caption
+msgid "Получить"
+msgstr "Отримати"
+
+#: tfmmain.actxseqget.hint
+msgid "Заменить текущий буфер данными выбранного сообщения"
+msgstr "Замінити поточний буфер даними вибраного повідомлення"
+
+#: tfmmain.actxseqheader.caption
+msgctxt "tfmmain.actxseqheader.caption"
+msgid "Список сохраненных последовательностей:"
+msgstr "Список збережених послідовностей:"
+
+#: tfmmain.actxseqmovedown.caption
+msgid "Переместить вниз"
+msgstr "Перемістити вниз"
+
+#: tfmmain.actxseqmovedown.hint
+msgid "Переместить элемент списка вниз на 1 позицию"
+msgstr "Перемістити елемент списку вниз на 1 позицію"
+
+#: tfmmain.actxseqmoveup.caption
+msgid "Переместить вверх"
+msgstr "Перемістити вгору"
+
+#: tfmmain.actxseqmoveup.hint
+msgid "Переместить элемент списка вверх на 1 позицию"
+msgstr "Перемістити елемент списку вгору на 1 позицію"
+
+#: tfmmain.actxseqremove.caption
+msgctxt "tfmmain.actxseqremove.caption"
+msgid "Удалить"
+msgstr "Видалити"
+
+#: tfmmain.actxseqremove.hint
+msgid "Удалить выбранное сообщение из списка"
+msgstr "Видалити вибране повідомлення із списку"
+
+#: tfmmain.actxseqsend.caption
+msgctxt "tfmmain.actxseqsend.caption"
+msgid "Отправить"
+msgstr "Відправити"
+
+#: tfmmain.actxseqsend.hint
+msgid "Отправить выбранное сообщение"
+msgstr "Відправити вибране повідомлення"
+
+#: tfmmain.actxsequences.caption
+msgid "Показать"
+msgstr "Показати"
+
+#: tfmmain.actxsequences.hint
+msgid "Список сохраненных сообщений для передачи"
+msgstr "Список збережених повідомлень для передачі"
+
+#: tfmmain.acupdatecancel.caption
+msgid "Не сейчас"
+msgstr "Пізніше"
+
+#: tfmmain.acupdatego.caption
+msgctxt "tfmmain.acupdatego.caption"
+msgid "Обновить"
+msgstr "Оновити"
+
+#: tfmmain.acviewheader.caption
+msgctxt "tfmmain.acviewheader.caption"
+msgid "Вид"
+msgstr "Вигляд"
+
+#: tfmmain.acwebsite.caption
+msgid "Домашняя страница"
+msgstr "Домашня сторінка"
+
+#: tfmmain.acwebsite.hint
+msgid "Открыть репозиторий приложения"
+msgstr "Відкрити репозиторій програми"
+
+#: tfmmain.cbbaudrate.hint
+msgid "Скорость обмена, бод/с"
+msgstr "Швидкість обміну, бод/с"
+
+#: tfmmain.cbplotterpenstyle.hint
+msgid "Стиль линии по умолчанию"
+msgstr "Стиль лінії за замовчуванням"
+
+#: tfmmain.cbplotterprotocol.hint
+msgid "Формат входных данных"
+msgstr "Формат вхідних даних"
+
+#: tfmmain.cbplotterregexp.hint
+msgid "Предустановка RegExp\n"
+"(предустановки можно настроить в Настройки > RegExp)"
+msgstr "Передустановка RegExp\n"
+"(передустановки можна налаштувати в Налаштування > RegExp)"
+
+#: tfmmain.cbplotterview.hint
+msgid "Режим отображения"
+msgstr "Режим відображення"
+
+#: tfmmain.cbportslist.hint
+msgid "Список доступных портов"
+msgstr "Список доступних портів"
+
+#: tfmmain.cbrxencoding.hint
+msgid "Кодировка данных в буфере приема"
+msgstr "Кодування даних в буфері прийому"
+
+#: tfmmain.cbrxtype.hint
+msgid "Представление данных в буфере приема"
+msgstr "Вигляд даних в буфері прийому"
+
+#: tfmmain.cbsearchcasesens.caption
+msgid "регистр"
+msgstr "регістр"
+
+#: tfmmain.cbsearchcasesens.hint
+msgid "Если отмечено, регистр букв учитывается"
+msgstr "Якщо вибрано, то регістр літер береться до уваги"
+
+#: tfmmain.cbsearchregex.hint
+msgid "Использовать регулярные выражения"
+msgstr "Використовувати регулярні вирази"
+
+#: tfmmain.cbsearchreplaceall.caption
+msgid "все"
+msgstr "всі"
+
+#: tfmmain.cbtxencoding.hint
+msgid "Кодировка данных в буфере передачи"
+msgstr "Кодування даних в буфері передачі"
+
+#: tfmmain.cbtxtype.hint
+msgid "Представление данных в буфере передачи"
+msgstr "Вигляд даних в буфері передачі"
+
+#: tfmmain.dlgrxsave.title
+msgctxt "tfmmain.dlgrxsave.title"
+msgid "Сохранить файл как ..."
+msgstr "Зберегти файл як ..."
+
+#: tfmmain.dlgtxopen.title
+msgctxt "tfmmain.dlgtxopen.title"
+msgid "Загрузить данные из файла ..."
+msgstr "Завантажити дані з файлу ..."
+
+#: tfmmain.edreplace.texthint
+msgid "на что заменить"
+msgstr "на що замінити"
+
+#: tfmmain.edsearch.texthint
+msgid "что искать"
+msgstr "що шукати"
+
+#: tfmmain.lbappupdate.caption
+msgid "Доступна новая версия приложения. Обновить?"
+msgstr "Доступна нова версія програми. Оновити?"
+
+#: tfmmain.lbplottercounter.hint
+msgid "Количество семплов"
+msgstr "Кількість семплів"
+
+#: tfmmain.lbplotterredef.caption
+msgctxt "tfmmain.lbplotterredef.caption"
+msgid "Переопределено:"
+msgstr "Перевизначено:"
+
+#: tfmmain.lbplottersize.hint
+msgid "Количество поступивших данных на плоттер"
+msgstr "Кількість даних, що поступили на плоттер"
+
+#: tfmmain.lbreplace.caption
+msgctxt "tfmmain.lbreplace.caption"
+msgid "Заменить"
+msgstr "Замінити"
+
+#: tfmmain.lbrxposandsel.hint
+msgctxt "tfmmain.lbrxposandsel.hint"
+msgid "Позиция, размер выделения"
+msgstr "Позиція, розмір виділення"
+
+#: tfmmain.lbrxsize.hint
+msgid "Количество данных в буфере приема"
+msgstr "Кількість даних в буфері прийому"
+
+#: tfmmain.lbsearch.caption
+msgid "Найти в"
+msgstr "Шукати в"
+
+#: tfmmain.lbsignals.caption
+msgid "Сигналы RS-232"
+msgstr "Сигнали RS-232"
+
+#: tfmmain.lbtxposandsel.hint
+msgctxt "tfmmain.lbtxposandsel.hint"
+msgid "Позиция, размер выделения"
+msgstr "Позиція, розмір виділення"
+
+#: tfmmain.lbtxsize.hint
+msgid "Количество данных в буфере передачи"
+msgstr "Кількість даних в буфері передачі"
+
+#: tfmmain.pledrx.hint
+msgid "Индикатор активного приема"
+msgstr "Індикатор активного прийому"
+
+#: tfmmain.pledtx.hint
+msgid "Индикатор активной передачи"
+msgstr "Індикатор активної передачі"
+
+#: tfmmain.seautosendtime.hint
+msgid "Период автоматической отправки, мс"
+msgstr "Період автоматичної відправки, мс"
+
+#: tfmmain.seplotterpensize.hint
+msgid "Толщина линии по умолчанию"
+msgstr "Товщина лінії за замовчуванням"
+
+#: tfmmain.seplotterpoints.hint
+msgid "Размер (радиус) точек по умолчанию"
+msgstr "Розмір (радіус) точок за замовчуванням"
+
+#: tfmmain.seplotterviewport.hint
+msgid "Ширина окна в семплах"
+msgstr "Ширина вікна в семплах"
+
+#: tfmsettings.accancel.caption
+msgctxt "tfmsettings.accancel.caption"
+msgid "Отмена"
+msgstr "Скасувати"
+
+#: tfmsettings.acok.caption
+msgctxt "tfmsettings.acok.caption"
+msgid "OK"
+msgstr "OK"
+
+#: tfmsettings.acregexpadd.hint
+msgid "Добавить предустановку в список. \n"
+"Если предустановка с заданным именем уже есть в списке, \n"
+"она будет заменена"
+msgstr "Додати передустановку до списку. \n"
+"Якщо передустановка із заданим ім'ям уже є у списку, \n"
+"її буде замінено"
+
+#: tfmsettings.acregexpdel.hint
+msgid "Удалить предустановку из списка \n"
+"(отмена невозможна!)"
+msgstr "Видалити передустановку зі списку \n"
+"(скасування неможливе!)"
+
+#: tfmsettings.caption
+msgctxt "tfmsettings.caption"
+msgid "Настройки"
+msgstr "Налаштування"
+
+#: tfmsettings.cbautoconnect.caption
+msgid "Автоматически подключаться к порту при запуске приложения"
+msgstr "Автоматично підключатися до порту під час запуску програми"
+
+#: tfmsettings.cbautoconnect.hint
+msgid "Попытаться подключиться к порту, который был использован в предыдущей сессии"
+msgstr "Спробувати підключитися до порту, який використовувався в попередній сесії"
+
+#: tfmsettings.cbcheckport.caption
+msgid "Проверять доступность порта при сканировании"
+msgstr "Перевіряти доступність порту при скануванні"
+
+#: tfmsettings.cbcheckport.hint
+msgid "Проверка производится попыткой подключения к порту"
+msgstr "Перевірка проводиться спробою підключення до порту"
+
+#: tfmsettings.cbfiledataadd.caption
+msgid "Добавлять данные из файла в конец буфера передачи"
+msgstr "Додавати дані з файлу в кінець буфера передачі"
+
+#: tfmsettings.cbfiledataadd.hint
+msgid "Если не выбрано, буфер будет перезаписан данными из файла"
+msgstr "Якщо не вибрано, то буфер буде перезаписаний даними з файлу"
+
+#: tfmsettings.cbfileloadwarning.caption
+msgid "Предупреждение при загрузке данных из файла"
+msgstr "Попередження при завантаженні даних з файлу"
+
+#: tfmsettings.cbfontquality.caption
+msgid "Сглаживание текста Cleartype"
+msgstr "Згладжування тексту Cleartype"
+
+#: tfmsettings.cbgluedwindow.caption
+msgid "\"Липкое\" окно"
+msgstr "\"Липке\" вікно"
+
+#: tfmsettings.cbgluedwindow.hint
+msgid "Если флажок установлено, то окно будет \"прилипать\" к краям рабочего стола"
+msgstr "Якщо галочку встановлено, то вікно буде \"прилипати\" до країв робочого столу"
+
+#: tfmsettings.cbhardflow.caption
+msgid "Включить аппаратное управление потоком (RTS/CTS)"
+msgstr "Увімкнути апаратне керування потоком (RTS/CTS)"
+
+#: tfmsettings.cbimagecustomsize.caption
+msgid "Использовать указанный размер (видимый, если не выбрано):"
+msgstr "Використовувати вказаний розмір (видимий, якщо не вибрано):"
+
+#: tfmsettings.cbimagedialogone.caption
+msgid "Показывать диалог сохранения только один раз"
+msgstr "Відображати діалог зберігання тільки один раз"
+
+#: tfmsettings.cbimagefontprop.caption
+msgid "Размер шрифта пропорционален размеру изображения"
+msgstr "Розмір шрифту пропорціональний розміру зображення"
+
+#: tfmsettings.cbminimizetotray.caption
+msgid "Сворачивать в трей"
+msgstr "Згортати в трей"
+
+#: tfmsettings.cbplotallowcommands.caption
+msgid "Разрешить выполнение команд Arduino Advanced"
+msgstr "Дозволити виконання команд Arduino Advanced"
+
+#: tfmsettings.cbplotallowcommands.hint
+msgid "Если флажок снят, команды будут игнорироваться. \n"
+"Список и формат доступных команд - см. справку. "
+msgstr "Якщо галочка знята, команди будуть ігноруватися. \n"
+"Список і формат доступних команд - див. допомогу. "
+
+#: tfmsettings.cbplotclearrx.caption
+msgid "Очищать буфер приема при очистке плоттера"
+msgstr "Очищати буфер прийому при очищенні плоттера"
+
+#: tfmsettings.cbplotcopyrx.caption
+msgid "Дублировать данные в буфер приема"
+msgstr "Дублювати дані в буфер прийому"
+
+#: tfmsettings.cbplotgridx.caption
+msgctxt "tfmsettings.cbplotgridx.caption"
+msgid "Сетка"
+msgstr "Сітка"
+
+#: tfmsettings.cbplotgridy.caption
+msgctxt "tfmsettings.cbplotgridy.caption"
+msgid "Сетка"
+msgstr "Сітка"
+
+#: tfmsettings.cbplotlabelx.caption
+msgid "Подпись в режиме 2D"
+msgstr "Мітка в режимі 2D"
+
+#: tfmsettings.cbplotlegendactive.caption
+msgid "Разрешить интерактивность"
+msgstr "Дозволити інтерактивність"
+
+#: tfmsettings.cbplotlegendcolored.caption
+msgid "Расцвечивать"
+msgstr "Забарвлювати"
+
+#: tfmsettings.cbplotlegendcolored.hint
+msgid "Если флажок установлен, то цвет метки соответствует цвету линии"
+msgstr "Якщо галочку встановлено, то колір мітки відповідає кольору лінії"
+
+#: tfmsettings.cbplotlegendcoloredb.caption
+msgid "и стилизировать ее"
+msgstr "і стилізувати її"
+
+#: tfmsettings.cbplotlegendcoloredb.hint
+msgid "Если стилизировать, то цвет и стиль рамки\n"
+"будет соответствовать цвету и стилю линии"
+msgstr "Якщо стилізувати, то колір і стиль рамки\n"
+"відповідатиме кольору та стилю лінії"
+
+#: tfmsettings.cbplotlegendframe.caption
+msgid "Отображать рамку"
+msgstr "Відображати рамку"
+
+#: tfmsettings.cbplotlegendindex.caption
+msgid "Добавлять индекс линии"
+msgstr "Додавати індекс лінії"
+
+#: tfmsettings.cbplotlegendindex.hint
+msgid "Первая линия имеет индекс 1, и т.д."
+msgstr "Перша лінія має індекс 1, і т.д."
+
+#: tfmsettings.cbplotlegendshow.caption
+msgid "Отображать легенду"
+msgstr "Відображати легенду"
+
+#: tfmsettings.cbplotlegendstyle.caption
+msgid "Отображать стиль линии вместо простого прямоугольника слева"
+msgstr "Відображати стиль лінії замість простого прямокутника зліва"
+
+#: tfmsettings.cbplotlinereactivate.caption
+msgid "Восстанавливать видимость отключенных линий"
+msgstr "Відновлювати видимість відключених ліній"
+
+#: tfmsettings.cbplotlinereactivate.hint
+msgctxt "tfmsettings.cbplotlinereactivate.hint"
+msgid "Опция работает по индексу линии, а не по ее метке!"
+msgstr "Опція працює по індексу лінії, а не по її мітці!"
+
+#: tfmsettings.cbplotlinerecolor.caption
+msgid "Восстанавливать цвет линий по умолчанию"
+msgstr "Відновлювати колір ліній за замовчуванням"
+
+#: tfmsettings.cbplotlinerecolor.hint
+msgctxt "tfmsettings.cbplotlinerecolor.hint"
+msgid "Опция работает по индексу линии, а не по ее метке!"
+msgstr "Опція працює по індексу лінії, а не по її мітці!"
+
+#: tfmsettings.cbplotmarksx.caption
+msgctxt "tfmsettings.cbplotmarksx.caption"
+msgid "Метки"
+msgstr "Мітки"
+
+#: tfmsettings.cbplotmarksy.caption
+msgctxt "tfmsettings.cbplotmarksy.caption"
+msgid "Метки"
+msgstr "Мітки"
+
+#: tfmsettings.cbplotminimap.caption
+msgid "Мини-карта для навигации на панели быстрой настройки"
+msgstr "Міні-карта для навігації на панелі швидкого налаштування"
+
+#: tfmsettings.cbplotpanelonmain.caption
+msgid "Панель кнопок плоттера на главной панели"
+msgstr "Панель кнопок плоттера на головній панелі"
+
+#: tfmsettings.cbplotsamplecount.caption
+msgid "Счетчик семплов"
+msgstr "Лічильник семплів"
+
+#: tfmsettings.cbplotshowuntitled.caption
+msgid "для линий без метки (в виде индекса @n)"
+msgstr "для ліній без мітки (у вигляді індексу @n)"
+
+#: tfmsettings.cbplotsize.caption
+msgid "Количество поступивших данных"
+msgstr "Кількість отриманих даних"
+
+#: tfmsettings.cbplotsmooth.caption
+msgid "Субпиксельное сглаживание (может немного уменьшить частоту отрисовки)"
+msgstr "Субпіксельне згладжування (може дещо зменшити частоту виведення)"
+
+#: tfmsettings.cbplotxbar.caption
+msgid "Отображать полосу навигации"
+msgstr "Відображати стрічку навігації"
+
+#: tfmsettings.cbregexpcasecare.caption
+msgid "Учитывать регистр"
+msgstr "Враховувати регістр"
+
+#: tfmsettings.cbregexpcasecare.hint
+msgid "Влияет на все предустановки!"
+msgstr "Впливає на всі передустановки!"
+
+#: tfmsettings.cbrxrestore.caption
+msgctxt "tfmsettings.cbrxrestore.caption"
+msgid "Восстанавливать содержимое буфера при запуске приложения"
+msgstr "Відновлювати вміст буфера при запуску програми"
+
+#: tfmsettings.cbrxtimestamp.caption
+msgid "Добавлять (в начале пакета)"
+msgstr "Додавати (на початку пакета)"
+
+#: tfmsettings.cbshowencoding.caption
+msgid "Отображать название кодировки текста в заголовке поля"
+msgstr "Відображати кодування тексту в заголовку поля"
+
+#: tfmsettings.cbshowindicators.caption
+msgid "Индикаторы активности"
+msgstr "Індикатори активності"
+
+#: tfmsettings.cbshowmenu.caption
+msgid "Стандартное меню"
+msgstr "Стандартне меню"
+
+#: tfmsettings.cbshowposandsel.caption
+msgid "Отображать позицию курсора и размер выделения (в байтах)"
+msgstr "Відображати позицію курсору та розмір виділення (у байтах)"
+
+#: tfmsettings.cbshowrightedge.caption
+msgid "Правая видимая граница"
+msgstr "Права видима межа"
+
+#: tfmsettings.cbshowrs232captions.caption
+msgid "Значения на индикаторах сигналов RS-232"
+msgstr "Значення на індикаторах сигналів RS-232"
+
+#: tfmsettings.cbshowsizes.caption
+msgid "Количество данных в буферах"
+msgstr "Кількість даних у буферах"
+
+#: tfmsettings.cbshowsplash.caption
+msgid "Заставка при запуске"
+msgstr "Заставка при запуску"
+
+#: tfmsettings.cbshowstatusbar.caption
+msgid "Статусная строка"
+msgstr "Статусний рядок"
+
+#: tfmsettings.cbsizesinbytes.caption
+msgid "в байтах"
+msgstr "в байтах"
+
+#: tfmsettings.cbsizesinbytes.hint
+msgid "если не установлен - в Б/КБ/МБ..."
+msgstr "якщо не встановлено - у Б/КБ/МБ..."
+
+#: tfmsettings.cbtxrestore.caption
+msgctxt "tfmsettings.cbtxrestore.caption"
+msgid "Восстанавливать содержимое буфера при запуске приложения"
+msgstr "Відновлювати вміст буфера при запуску програми"
+
+#: tfmsettings.colbfontrx.hint
+msgctxt "tfmsettings.colbfontrx.hint"
+msgid "Цвет шрифта"
+msgstr "Колір шрифту"
+
+#: tfmsettings.colbfontrxd.hint
+msgctxt "tfmsettings.colbfontrxd.hint"
+msgid "Цвет шрифта"
+msgstr "Колір шрифту"
+
+#: tfmsettings.colbfonttx.hint
+msgctxt "tfmsettings.colbfonttx.hint"
+msgid "Цвет шрифта"
+msgstr "Колір шрифту"
+
+#: tfmsettings.colbfonttxd.hint
+msgctxt "tfmsettings.colbfonttxd.hint"
+msgid "Цвет шрифта"
+msgstr "Колір шрифту"
+
+#: tfmsettings.edregexplabel.hint
+msgid "Символ подстановки нумерованной группы: $ \n"
+"Отделение номера группы от цифры: { } \n"
+"Экранироване: \\ "
+msgstr "Символ підстановки нумерованої групи: $ \n"
+"Відокремлення номера групи від цифри: { } \n"
+"Екранування: \\ "
+
+#: tfmsettings.edregexplabel.texthint
+msgctxt "tfmsettings.edregexplabel.texthint"
+msgid "шаблон подстановки"
+msgstr "шаблон підстановки"
+
+#: tfmsettings.edregexpname.hint
+msgid "Имя для идентификации предустановки, отображается в списке"
+msgstr "Ім'я для ідентифікації передустановки, відображається у списку"
+
+#: tfmsettings.edregexpname.texthint
+msgid "уникальное название предустановки"
+msgstr "унікальна назва передустановки"
+
+#: tfmsettings.edregexpvalue.hint
+msgid "Целые числа могут иметь префикс:\n"
+"$ - шестнадцатеричное, % - двоичное, & - восьмеричное.\n"
+"Число без префикса интерпретируется как обычное десятичное."
+msgstr "Цілі числа можуть мати префікс:\n"
+"$ - шістнадцяткове, % - двійкове, & - вісімкове.\n"
+"Число без префікса інтерпретується як звичайне десяткове."
+
+#: tfmsettings.edregexpvalue.texthint
+msgctxt "tfmsettings.edregexpvalue.texthint"
+msgid "шаблон подстановки"
+msgstr "шаблон підстановки"
+
+#: tfmsettings.lbappfontsize.caption
+msgid "Размер шрифта, %"
+msgstr "Розмір шрифту, %"
+
+#: tfmsettings.lbappiconsize.caption
+msgid "Размер иконок, %"
+msgstr "Розмір іконок, %"
+
+#: tfmsettings.lbappinterface.caption
+msgid "Элементы"
+msgstr "Елементи"
+
+#: tfmsettings.lbappother.caption
+msgid "Прочее"
+msgstr "Інше"
+
+#: tfmsettings.lbapprestart.caption
+msgid "Необходим перезапуск!"
+msgstr "Потрібен перезапуск!"
+
+#: tfmsettings.lbapptheme.caption
+msgid "Цветовая тема (после перезапуска)"
+msgstr "Колірна тема (після перезапуску)"
+
+#: tfmsettings.lbappupdate.caption
+msgctxt "tfmsettings.lbappupdate.caption"
+msgid "Обновление"
+msgstr "Оновлення"
+
+#: tfmsettings.lbappupdatefreq.caption
+msgid "Частота проверки:"
+msgstr "Частота перевірки:"
+
+#: tfmsettings.lbappupdatefreq1.caption
+msgid "Способ установки:"
+msgstr "Спосіб встановлення:"
+
+#: tfmsettings.lbcsvdecdelimiter.caption
+msgid "Десятичный разделитель в CSV"
+msgstr "Десятковий розділювач у CSV"
+
+#: tfmsettings.lbcsvdelimiter.caption
+msgid "Разделитель данных в CSV"
+msgstr "Розділювач даних у CSV"
+
+#: tfmsettings.lbcsvlinebreak.caption
+msgid "Переход на новую строку"
+msgstr "Перехід на новий рядок"
+
+#: tfmsettings.lbcsvquotes.caption
+msgid "Кавычки в CSV"
+msgstr "Лапки в CSV"
+
+#: tfmsettings.lbfontdark.caption
+msgid "Темная тема"
+msgstr "Темна тема"
+
+#: tfmsettings.lbfonthint.caption
+msgid "Подсказка.\n"
+"Поля Tx и Rx поддерживают изменение размера шрифта по Ctrl + колесу."
+msgstr "Підказка.\n"
+"Поля Tx і Rx підтримують зміну розміру шрифту через Ctrl + колесо."
+
+#: tfmsettings.lbfontlight.caption
+msgid "Светлая тема"
+msgstr "Світла тема"
+
+#: tfmsettings.lbfontrx.caption
+msgctxt "tfmsettings.lbfontrx.caption"
+msgid "Прием (Rx)"
+msgstr "Прийом (Rx)"
+
+#: tfmsettings.lbfontrxd.caption
+msgctxt "tfmsettings.lbfontrxd.caption"
+msgid "Прием (Rx)"
+msgstr "Прийом (Rx)"
+
+#: tfmsettings.lbfonttx.caption
+msgctxt "tfmsettings.lbfonttx.caption"
+msgid "Передача (Tx)"
+msgstr "Передача (Tx)"
+
+#: tfmsettings.lbfonttxd.caption
+msgctxt "tfmsettings.lbfonttxd.caption"
+msgid "Передача (Tx)"
+msgstr "Передача (Tx)"
+
+#: tfmsettings.lbhexblockbytes.caption
+msgid "Количество байт в блоке"
+msgstr "Кількість байт у блоці"
+
+#: tfmsettings.lbhexlinebytes.caption
+msgid "Количество байт в строке"
+msgstr "Кількість байт у рядку"
+
+#: tfmsettings.lbimagedialogone.caption
+msgid "После запуска приложения при первом экспорте изображения будет отображен диалог выбора каталога. Все последующие изображения будут экспортироваться в каталог, выбранный ранее. Имя файла будет сгенерировано на основе даты и времени экспорта."
+msgstr "Після запуску програми при першому експорті зображення буде виведено діалог вибору каталогу. Усі наступні зображення будуть експортуватися в каталог, обраний раніше. Ім'я файлу буде згенеровано на основі дати і часу експорту."
+
+#: tfmsettings.lbimagefont.caption
+msgctxt "tfmsettings.lbimagefont.caption"
+msgid "Размер шрифта"
+msgstr "Розмір шрифту"
+
+#: tfmsettings.lbimagefontsizeh.caption
+msgctxt "tfmsettings.lbimagefontsizeh.caption"
+msgid "Высота"
+msgstr "Висота"
+
+#: tfmsettings.lbimagefontsizew.caption
+msgctxt "tfmsettings.lbimagefontsizew.caption"
+msgid "Ширина"
+msgstr "Ширина"
+
+#: tfmsettings.lbimagesize.caption
+msgid "Размер изображения"
+msgstr "Розмір зображення"
+
+#: tfmsettings.lblanguage.caption
+msgid "Язык"
+msgstr "Мова"
+
+#: tfmsettings.lblinebreakstyle.caption
+msgid "Переход на новую строку (при нажатии Enter)"
+msgstr "Перехід на новий рядок (при натисканні Enter)"
+
+#: tfmsettings.lbpanelslayout.caption
+msgid "Размещение полей"
+msgstr "Розміщення полів"
+
+#: tfmsettings.lbpanelslayout1.caption
+msgctxt "tfmsettings.lbpanelslayout1.caption"
+msgid "Отображение"
+msgstr "Відображення"
+
+#: tfmsettings.lbpanelslayout2.caption
+msgid "Действия"
+msgstr "Дії"
+
+#: tfmsettings.lbplotclear.caption
+msgid "Очистка плоттера"
+msgstr "Очищення плоттера"
+
+#: tfmsettings.lbplotcolorbasic.caption
+msgid "Основные цвета"
+msgstr "Основні кольори"
+
+#: tfmsettings.lbplotcolorbg.caption
+msgctxt "tfmsettings.lbplotcolorbg.caption"
+msgid "Фон"
+msgstr "Фон"
+
+#: tfmsettings.lbplotcolorbgw.caption
+msgid "Фон рабочей области"
+msgstr "Фон робочої області"
+
+#: tfmsettings.lbplotcolordark.caption
+msgctxt "tfmsettings.lbplotcolordark.caption"
+msgid "Темная"
+msgstr "Темна"
+
+#: tfmsettings.lbplotcolorgx.caption
+msgid "Сетка по оси X"
+msgstr "Сітка по осі X"
+
+#: tfmsettings.lbplotcolorgy.caption
+msgid "Сетка по оси Y"
+msgstr "Сітка по осі Y"
+
+#: tfmsettings.lbplotcolorlight.caption
+msgctxt "tfmsettings.lbplotcolorlight.caption"
+msgid "Светлая"
+msgstr "Світла"
+
+#: tfmsettings.lbplotcolorlines.caption
+msgid "Цвета линий"
+msgstr "Кольори ліній"
+
+#: tfmsettings.lbplotcolortext.caption
+msgctxt "tfmsettings.lbplotcolortext.caption"
+msgid "Текст"
+msgstr "Текст"
+
+#: tfmsettings.lbplotcolortheme.caption
+msgid "<<<         Тема         >>>"
+msgstr "<<<         Тема         >>>"
+
+#: tfmsettings.lbplotctrlaxisx.caption
+msgctxt "tfmsettings.lbplotctrlaxisx.caption"
+msgid "Ось X (горизонтальная)"
+msgstr "Вісь X (горизонтальна)"
+
+#: tfmsettings.lbplotctrlaxisx2.caption
+msgctxt "tfmsettings.lbplotctrlaxisx2.caption"
+msgid "Ось X (горизонтальная)"
+msgstr "Вісь X (горизонтальна)"
+
+#: tfmsettings.lbplotctrlaxisy.caption
+msgctxt "tfmsettings.lbplotctrlaxisy.caption"
+msgid "Ось Y (вертикальная)"
+msgstr "Вісь Y (вертикальна)"
+
+#: tfmsettings.lbplotctrlaxisy1.caption
+msgctxt "tfmsettings.lbplotctrlaxisy1.caption"
+msgid "Ось Y (вертикальная)"
+msgstr "Вісь Y (вертикальна)"
+
+#: tfmsettings.lbplotctrlfactorx.caption
+msgctxt "tfmsettings.lbplotctrlfactorx.caption"
+msgid "Коэффициент масштабирования"
+msgstr "Коефіцієнт масштабування"
+
+#: tfmsettings.lbplotctrlfactory.caption
+msgctxt "tfmsettings.lbplotctrlfactory.caption"
+msgid "Коэффициент масштабирования"
+msgstr "Коефіцієнт масштабування"
+
+#: tfmsettings.lbplotctrlx.caption
+msgctxt "tfmsettings.lbplotctrlx.caption"
+msgid "Способ масштабирования"
+msgstr "Спосіб масштабування"
+
+#: tfmsettings.lbplotctrly.caption
+msgctxt "tfmsettings.lbplotctrly.caption"
+msgid "Способ масштабирования"
+msgstr "Спосіб масштабування"
+
+#: tfmsettings.lbplotlegendhint.caption
+msgid "Щелчок ЛКМ на метке --- включение или выключение видимости линии.\n"
+"Зажать ЛКМ на метке и потянуть вниз --- изменение толщины линии.\n"
+"Зажать Ctrl + ЛКМ на метке и потянуть вниз --- изменение стиля линии.\n"
+"Зажать Alt + ЛКМ на метке и потянуть вниз --- изменение размера (радиуса) точек линии.\n"
+"Щелчок ПКМ на метке --- задать новый цвет линии.\n\n"
+"ЛКМ --- левая кнопка мыши, ПКМ --- правая кнопка мыши.\n"
+"Измененные настройки линий действуют в текущем сеансе. После перезапуска приложения\n"
+"будут установлены значения по умолчанию, заданные на панели быстрой настройки."
+msgstr "Клацання ЛКМ на мітці --- увімкнення або вимкнення видимості лінії.\n"
+"Затиснути ЛКМ на мітці та потягнути вниз --- зміна товщини лінії.\n"
+"Затиснути Ctrl + ЛКМ на мітці і потягнути вниз --- зміна стилю лінії.\n"
+"Затиснути Alt + ЛКМ на мітці і потягнути вниз --- зміна розміру (радіуса) точок лінії.\n"
+"Клацання ПКМ на мітці --- задати новий колір лінії.\n\n"
+"ЛКМ --- ліва кнопка миші, ПКМ --- права кнопка миші.\n"
+"Змінені налаштування ліній діють у поточному сеансі. Після перезапуску програми\n"
+"будуть встановлені значення за замовчуванням, задані на панелі швидкого налаштування."
+
+#: tfmsettings.lbplotlegendhintbtn.caption
+msgid "что это?"
+msgstr "що це?"
+
+#: tfmsettings.lbplotlegendlabel.caption
+msgid "Метка"
+msgstr "Мітка"
+
+#: tfmsettings.lbplotlegendtext.caption
+msgid "Текст метки"
+msgstr "Текст мітки"
+
+#: tfmsettings.lbplotoffsetybot.caption
+msgid "Отступ снизу при автомасштабе, пиксели"
+msgstr "Відступ знизу при автомасштабі, пікселі"
+
+#: tfmsettings.lbplotoffsetytop.caption
+msgid "Отступ сверху при автомасштабе, пиксели"
+msgstr "Відступ зверху при автомасштабі, пікселі"
+
+#: tfmsettings.lbplotsamples.caption
+msgid "Максимальное число семплов"
+msgstr "Максимальне число семплів"
+
+#: tfmsettings.lbplotview.caption
+msgctxt "tfmsettings.lbplotview.caption"
+msgid "Отображение"
+msgstr "Відображення"
+
+#: tfmsettings.lbplotwinclear.caption
+msgid "Ширина \"пробела\" в режиме развертки, %"
+msgstr "Ширина \"пробілу\" в режимі розгортки, %"
+
+#: tfmsettings.lbregexplabel.caption
+msgid "Подстановка для получения метки:"
+msgstr "Підстановка для отримання мітки:"
+
+#: tfmsettings.lbregexplist.caption
+msgid "Список предустановок:"
+msgstr "Список передустановок:"
+
+#: tfmsettings.lbregexpmore.caption
+msgid "Дополнительно"
+msgstr "Додатково"
+
+#: tfmsettings.lbregexpname.caption
+msgid "Название предустановки:"
+msgstr "Назва передустановки:"
+
+#: tfmsettings.lbregexppreset.caption
+msgid "Предустановка"
+msgstr "Передустановка"
+
+#: tfmsettings.lbregexpstr.caption
+msgid "Регулярное выражение:"
+msgstr "Регулярний вираз:"
+
+#: tfmsettings.lbregexpvalue.caption
+msgid "Подстановка для получения значения:"
+msgstr "Підстановка для отримання значення:"
+
+#: tfmsettings.lbregexpwarn.caption
+msgid "Не забудьте сохранить измененную предустановку в список!"
+msgstr "Не забудьте зберегти змінену передустановку в список!"
+
+#: tfmsettings.lbrxpackettime.caption
+msgid "Таймаут пакета (приблизительно), мс"
+msgstr "Таймаут пакета (приблизно), мс"
+
+#: tfmsettings.lbrxsizelimit.caption
+msgid "Максимальный объем буфера приема, КБ"
+msgstr "Максимальний об'єм буфера прийому, КБ"
+
+#: tfmsettings.lbrxsizelimit.hint
+msgid "0 - нет ограничений"
+msgstr "0 - без обмежень"
+
+#: tfmsettings.lbrxtimestamp.caption
+msgid "Временная метка"
+msgstr "Часова мітка"
+
+#: tfmsettings.lbrxtsafter.caption
+msgid "Текст после временной метки"
+msgstr "Текст після часової мітки"
+
+#: tfmsettings.lbrxtsbefore.caption
+msgid "Текст до временной метки"
+msgstr "Текст до часової мітки"
+
+#: tfmsettings.lbtabsize.caption
+msgid "Ширина табуляции"
+msgstr "Ширина табуляції"
+
+#: tfmsettings.lbtxbreaktime.caption
+msgid "Длительность сигнала Break (приблизительно), мс"
+msgstr "Тривалість сигналу Break (приблизно), мс"
+
+#: tfmsettings.lbtxdeadlockto.caption
+msgid "Таймаут отправки (приблизительно), мс"
+msgstr "Таймаут відправки (приблизно), мс"
+
+#: tfmsettings.lbtxtimings.caption
+msgid "Интервалы"
+msgstr "Інтервали"
+
+#: tfmsettings.sefontrxsize.hint
+msgctxt "tfmsettings.sefontrxsize.hint"
+msgid "Размер шрифта"
+msgstr "Розмір шрифту"
+
+#: tfmsettings.sefontrxsized.hint
+msgctxt "tfmsettings.sefontrxsized.hint"
+msgid "Размер шрифта"
+msgstr "Розмір шрифту"
+
+#: tfmsettings.sefonttxsize.hint
+msgctxt "tfmsettings.sefonttxsize.hint"
+msgid "Размер шрифта"
+msgstr "Розмір шрифту"
+
+#: tfmsettings.sefonttxsized.hint
+msgctxt "tfmsettings.sefonttxsized.hint"
+msgid "Размер шрифта"
+msgstr "Розмір шрифту"
+
+#: tfmsettings.seimagefontsize.hint
+msgid "Размер, 0 - не менять"
+msgstr "Розмір, 0 - не змінювати"
+
+#: tfmsettings.seimageheight.hint
+msgctxt "tfmsettings.seimageheight.hint"
+msgid "Высота"
+msgstr "Висота"
+
+#: tfmsettings.seimagewidth.hint
+msgctxt "tfmsettings.seimagewidth.hint"
+msgid "Ширина"
+msgstr "Ширина"
+
+#: tfmsettings.tsappearance.caption
+msgid "Интерфейс"
+msgstr "Інтерфейс"
+
+#: tfmsettings.tscolors.caption
+msgid "Цвета"
+msgstr "Кольори"
+
+#: tfmsettings.tsconnection.caption
+msgid "Связь"
+msgstr "Зв'язок"
+
+#: tfmsettings.tseditor.caption
+msgid "Редактор"
+msgstr "Редактор"
+
+#: tfmsettings.tsexportcsv.caption
+msgid "Экспорт CSV"
+msgstr "Експорт в CSV"
+
+#: tfmsettings.tsexportpng.caption
+msgid "Экспорт PNG"
+msgstr "Експорт в PNG"
+
+#: tfmsettings.tsfont.caption
+msgid "Шрифт"
+msgstr "Шрифт"
+
+#: tfmsettings.tsgeneral.caption
+msgid "Общие"
+msgstr "Загальні"
+
+#: tfmsettings.tshex.caption
+msgid "HEX вид"
+msgstr "HEX вигляд"
+
+#: tfmsettings.tsplotctrl.caption
+msgid "Управление"
+msgstr "Керування"
+
+#: tfmsettings.tsplotlegend.caption
+msgid "Легенда"
+msgstr "Легенда"
+
+#: tfmsettings.tsplotter.caption
+msgctxt "tfmsettings.tsplotter.caption"
+msgid "Плоттер"
+msgstr "Плоттер"
+
+#: tfmsettings.tsplotview.caption
+msgctxt "tfmsettings.tsplotview.caption"
+msgid "Вид"
+msgstr "Вигляд"
+
+#: tfmsettings.tsrx.caption
+msgctxt "tfmsettings.tsrx.caption"
+msgid "Прием"
+msgstr "Прийом"
+
+#: tfmsettings.tstx.caption
+msgctxt "tfmsettings.tstx.caption"
+msgid "Передача"
+msgstr "Передача"
+
+#: tfmupdate.btncheck.caption
+msgid "Проверить"
+msgstr "Перевірити"
+
+#: tfmupdate.btnrestart.caption
+msgid "Перезапуск"
+msgstr "Перезапуск"
+
+#: tfmupdate.btnupdate.caption
+msgctxt "tfmupdate.btnupdate.caption"
+msgid "Обновить"
+msgstr "Оновити"
+
+#: tfmupdate.caption
+msgctxt "tfmupdate.caption"
+msgid "Обновление"
+msgstr "Оновлення"
+
+#: u_common.hint_autoanswer
+msgid "Если выбрано, то при получении данных будет автоматически\n"
+"отправлен ответ (если имеется, можно редактировать в настройках)"
+msgstr "Якщо вибрано, то після отримання даних буде автоматично\n"
+"надіслано відповідь (якщо є, можна редагувати в налаштуваннях)"
+
+#: u_common.hint_autosend
+msgid "Если выбрано, передача будет инициироваться автоматически\n"
+"через заданные промежутки времени"
+msgstr "Якщо вибрано, передача буде активуватися автоматично\n"
+"через задані проміжки часу"
+
+#: u_common.hint_break
+msgid "(лог. 0 длительностью, указанной в настройках)"
+msgstr "(лог. 0 тривалістю, вказаною в налаштуваннях)"
+
+#: u_common.hint_cts
+msgid "Готовность передачи"
+msgstr "Готовність передачі"
+
+#: u_common.hint_dsr
+msgid "Готовность источника данных"
+msgstr "Готовність передавача даних"
+
+#: u_common.hint_dtr
+msgid "Готовность приемника данных"
+msgstr "Готовність приймача даних"
+
+#: u_common.hint_ring
+msgid "Сигнал вызова"
+msgstr "Сигнал виклику"
+
+#: u_common.hint_rlsd
+msgid "Наличие несущей"
+msgstr "Наявність несучої"
+
+#: u_common.hint_rts
+msgid "Запрос на передачу"
+msgstr "Запит на передачу"
+
+#: u_common.txt_baudrate_other
+msgid "Другая"
+msgstr "Інша"
+
+#: u_common.txt_byte_gb
+msgid "ГБ"
+msgstr "ГБ"
+
+#: u_common.txt_byte_kb
+msgid "КБ"
+msgstr "КБ"
+
+#: u_common.txt_byte_mb
+msgid "МБ"
+msgstr "МБ"
+
+#: u_common.txt_byte_short
+msgid "Б"
+msgstr "Б"
+
+#: u_common.txt_byte_size
+#, object-pascal-format
+msgid "Размер: %s"
+msgstr "Розмір: %s"
+
+#: u_common.txt_confirm
+msgid "Подтверждение"
+msgstr "Підтвердження"
+
+#: u_common.txt_ctrl_ctrlw
+msgid "Ctrl + колесо"
+msgstr "Ctrl + колесо"
+
+#: u_common.txt_ctrl_rightw
+msgid "Правая кнопка мыши + колесо"
+msgstr "Права кнопка миші + колесо"
+
+#: u_common.txt_ctrl_shiftw
+msgid "Shift + колесо"
+msgstr "Shift + колесо"
+
+#: u_common.txt_ctrl_whell
+msgid "Колесо"
+msgstr "Колесо"
+
+#: u_common.txt_data
+msgid "Данные"
+msgstr "Дані"
+
+#: u_common.txt_error
+msgctxt "u_common.txt_error"
+msgid "Ошибка"
+msgstr "Помилка"
+
+#: u_common.txt_help_hint
+msgid "Здесь отображаются поля ввода и/или вывода данных.\n\n"
+"--- Как работать с терминалом ---\n"
+"1. Просканируйте систему на наличие доступных портов.\n"
+"2. Выберите порт, задайте настройки, подключитесь.\n"
+"3. Прием данных начнется сразу же после подключения к порту.\n"
+"4. Можно задать ответные последовательности для приемника.\n"
+"5. Передача данных возможна по команде.\n"
+"6. Можно задать таймер автоматической передачи данных.\n"
+"7. Плоттер позволит визуализировать принятые значения.\n"
+"8. Почти все элементы интерфейса имеют подсказку - просто наведите курсор."
+msgstr "Тут відображаються поля введення та/або виведення даних.\n\n"
+"--- Як працювати з терміналом ---\n"
+"1. Проскануйте систему на наявність доступних портів.\n"
+"2. Виберіть порт, задайте налаштування, підключіться.\n"
+"3. Прийом даних почнеться відразу ж після підключення до порту.\n"
+"4. Можна задати відповідні послідовності для приймача.\n"
+"5. Передавання даних можливе по команді.\n"
+"6. Можна задати таймер автоматичної передачі даних.\n"
+"7. Плоттер дасть можливість візуалізувати прийняті значення.\n"
+"8. Майже всі елементи інтерфейсу мають підказку - просто наведіть курсор."
+
+#: u_common.txt_list_enter_mac
+msgid "CR     (0xD,         стиль MacOS)"
+msgstr "CR     (0xD,         стиль MacOS)"
+
+#: u_common.txt_list_enter_unix
+msgid "LF      (0xA,         стиль Unix)"
+msgstr "LF      (0xA,         стиль Unix)"
+
+#: u_common.txt_list_enter_win
+msgid "CRLF (0xD 0xA, стиль Windows)"
+msgstr "CRLF (0xD 0xA, стиль Windows)"
+
+#: u_common.txt_list_layout_1
+msgid "Tx - вверху, Rx - внизу"
+msgstr "Tx - зверху, Rx - знизу"
+
+#: u_common.txt_list_layout_2
+msgid "Tx - внизу, Rx - вверху"
+msgstr "Tx - знизу, Rx - зверху"
+
+#: u_common.txt_list_layout_3
+msgid "Tx - слева, Rx - справа"
+msgstr "Tx - зліва, Rx - справа"
+
+#: u_common.txt_list_layout_4
+msgid "Tx - справа, Rx - слева"
+msgstr "Tx - справа, Rx - зліва"
+
+#: u_common.txt_position
+msgid "Поз"
+msgstr "Поз"
+
+#: u_common.txt_reset
+msgctxt "u_common.txt_reset"
+msgid "Сброс"
+msgstr "Скидання"
+
+#: u_common.txt_selection
+msgid "Выд"
+msgstr "Вид"
+
+#: u_common.txt_theme_dark
+msgctxt "u_common.txt_theme_dark"
+msgid "Темная"
+msgstr "Темна"
+
+#: u_common.txt_theme_light
+msgctxt "u_common.txt_theme_light"
+msgid "Светлая"
+msgstr "Світла"
+
+#: u_common.txt_theme_sys
+msgid "Системная"
+msgstr "Системна"
+
+#: u_common.txt_upd_atstartup
+msgid "При запуске"
+msgstr "При запуску"
+
+#: u_common.txt_upd_auto
+msgid "Автоматически"
+msgstr "Автоматично"
+
+#: u_common.txt_upd_check
+msgid "Только проверять"
+msgstr "Тільки перевіряти"
+
+#: u_common.txt_upd_checking
+msgid "Поиск обновлений..."
+msgstr "Пошук оновлень..."
+
+#: u_common.txt_upd_dayly
+msgid "Раз в день"
+msgstr "Раз на день"
+
+#: u_common.txt_upd_downloading
+#, object-pascal-format
+msgid "Скачивание обновления, %s..."
+msgstr "Завантаження оновлення, %s..."
+
+#: u_common.txt_upd_error
+msgid "Произошла ошибка при обновлении. Повторите попытку еще раз."
+msgstr "Сталася помилка під час оновлення. Повторіть спробу ще раз."
+
+#: u_common.txt_upd_manual
+msgid "Вручную"
+msgstr "Вручну"
+
+#: u_common.txt_upd_monthly
+msgid "Раз в месяц"
+msgstr "Раз на місяць"
+
+#: u_common.txt_upd_newver
+#, object-pascal-format
+msgid "Доступна новая версия: v%d.%d.%d.%d (%s)"
+msgstr "Доступна нова версія: v%d.%d.%d.%d (%s)"
+
+#: u_common.txt_upd_quarter
+msgid "Раз в квартал"
+msgstr "Раз на квартал"
+
+#: u_common.txt_upd_ready
+msgid "Все готово для обновления. Перезапустите приложение для завершения."
+msgstr "Все готово для оновлення. Перезапустіть програму для завершення."
+
+#: u_common.txt_upd_unzipping
+msgid "Распаковка..."
+msgstr "Розпакування..."
+
+#: u_common.txt_upd_uptodate
+msgid "Приложение актуально. Обновление не требуется."
+msgstr "Програма актуальна. Оновлення не потрібне."
+
+#: u_common.txt_upd_weekly
+msgid "Раз в неделю"
+msgstr "Раз на тиждень"
+
+#: u_common.txt_warning
+msgid "Предупреждение"
+msgstr "Попередження"
+
+#: u_common.warn_load
+msgid "Данные из файла будут загружены в буфер передачи.\n"
+"Текущие данные будут утеряны. Продолжить?"
+msgstr "Дані з файлу будуть завантажені в буфер передачі.\n"
+"Поточні дані буде втрачено. Продовжити?"
+
+#: u_common.warn_reset
+msgid "При следующем запуске приложения будут загружены\n"
+"настройки по умолчанию. Продолжить?"
+msgstr "Під час наступного запуску програми буде завантажено\n"
+"налаштування за замовчуванням. Продовжити?"
+
+#: u_common.warn_settings
+msgid "Не удалось применить все настройки!\n"
+"Возникла критическая ошибка. Перезапустите приложение.\n"
+"Завершить работу приложения?"
+msgstr "Не вдалося застосувати всі налаштування!\n"
+"Виникла критична помилка. Перезапустіть програму.\n"
+"Завершити роботу програми?"
+
+#: u_common.warn_update
+msgid "Сейчас скачивается обновление.\n"
+"Прервать и закрыть приложение?"
+msgstr "Зараз завантажується оновлення.\n"
+"Припинити і закрити програму?"
+
+#: u_encodings.enc_1250
+msgid "1250 (ANSI - центрально-европейская)"
+msgstr "1250 (ANSI - центрально-європейська)"
+
+#: u_encodings.enc_1251
+msgid "1251 (ANSI - кириллица)"
+msgstr "1251 (ANSI - кирилиця)"
+
+#: u_encodings.enc_1252
+msgid "1252 (ANSI - западно-европейская, лат. 1)"
+msgstr "1252 (ANSI - західно-європейська, лат. 1)"
+
+#: u_encodings.enc_1253
+msgid "1253 (ANSI - греческая)"
+msgstr "1253 (ANSI - грецька)"
+
+#: u_encodings.enc_1254
+msgid "1254 (ANSI - турецкая)"
+msgstr "1254 (ANSI - турецька)"
+
+#: u_encodings.enc_1255
+msgid "1255 (ANSI - иврит)"
+msgstr "1255 (ANSI - іврит)"
+
+#: u_encodings.enc_1256
+msgid "1256 (ANSI - арабская)"
+msgstr "1256 (ANSI - арабська)"
+
+#: u_encodings.enc_1257
+msgid "1257 (ANSI - балтийская)"
+msgstr "1257 (ANSI - балтійська)"
+
+#: u_encodings.enc_1258
+msgid "1258 (ANSI - вьетнамская)"
+msgstr "1258 (ANSI - в'єтнамська)"
+
+#: u_encodings.enc_437
+msgid "437 (DOS - латиница)"
+msgstr "437 (DOS - латинська)"
+
+#: u_encodings.enc_850
+msgid "850 (DOS - западно-европейская, лат.)"
+msgstr "850 (DOS - західно-європейська, лат.)"
+
+#: u_encodings.enc_852
+msgid "852 (DOS - центрально-европейская, лат.)"
+msgstr "852 (DOS - центрально-європейська, лат.)"
+
+#: u_encodings.enc_866
+msgid "866 (DOS - кириллица)"
+msgstr "866 (DOS - кирилиця)"
+
+#: u_encodings.enc_874
+msgid "874 (DOS - тайская)"
+msgstr "874 (DOS - тайська)"
+
+#: u_encodings.enc_88591
+msgid "8859-1 (ISO/IEC - западно-европейская, лат. 1)"
+msgstr "8859-1 (ISO/IEC - західно-європейська, лат. 1)"
+
+#: u_encodings.enc_885915
+msgid "8859-15 (ISO/IEC - западно-европейская новая, лат. 9)"
+msgstr "8859-15 (ISO/IEC - західно-європейська нова, лат. 9)"
+
+#: u_encodings.enc_88592
+msgid "8859-2 (ISO/IEC - центрально-европейская, лат. 2)"
+msgstr "8859-2 (ISO/IEC - центрально-європейська, лат. 2)"
+
+#: u_encodings.enc_ansi
+msgid "ANSI (ASCII 7-битная)"
+msgstr "ANSI (ASCII 7-бітна)"
+
+#: u_encodings.enc_koi8r
+msgid "KOI8-R (русская)"
+msgstr "KOI8-R (російська)"
+
+#: u_encodings.enc_koi8ru
+msgid "KOI8-RU (русско-белорусско-украинская)"
+msgstr "KOI8-RU (російсько-білорусько-українська)"
+
+#: u_encodings.enc_koi8u
+msgid "KOI8-U (русско-украинская)"
+msgstr "KOI8-U (російсько-українська)"
+
+#: u_encodings.enc_macr
+msgid "Macintosh (MAC - латиница)"
+msgstr "Macintosh (MAC - латиниця)"
+
+#: u_encodings.enc_utf8
+msgid "65001 (UTF8 без BOM)"
+msgstr "65001 (UTF8 без BOM)"
+
+#: u_encodings.enc_utf8bom
+msgid "65001 (UTF8)"
+msgstr "65001 (UTF8)"
+
+#: u_plotter_types.pcdd_comma
+msgctxt "u_plotter_types.pcdd_comma"
+msgid "Запятая"
+msgstr "Кома"
+
+#: u_plotter_types.pcdd_dot
+msgid "Точка"
+msgstr "Крапка"
+
+#: u_plotter_types.pcdd_sys
+msgid "Определяется системой"
+msgstr "Визначається системою"
+
+#: u_plotter_types.pcd_comma
+msgctxt "u_plotter_types.pcd_comma"
+msgid "Запятая"
+msgstr "Кома"
+
+#: u_plotter_types.pcd_semic
+msgid "Точка с запятой"
+msgstr "Крапка з комою"
+
+#: u_plotter_types.pcd_space
+msgid "Пробел"
+msgstr "Пробіл"
+
+#: u_plotter_types.pcd_tab
+msgid "Табуляция"
+msgstr "Табуляція"
+
+#: u_plotter_types.pcq_double
+msgid "Двойные"
+msgstr "Подвійні"
+
+#: u_plotter_types.pcq_single
+msgid "Одинарные"
+msgstr "Одинарні"
+
+#: u_plotter_types.pps_clear
+msgid "Прозрачная"
+msgstr "Прозора"
+
+#: u_plotter_types.pps_dash
+msgid "Штрихи"
+msgstr "Штрихи"
+
+#: u_plotter_types.pps_dashdot
+msgid "Штрих-точка"
+msgstr "Штрих-точка"
+
+#: u_plotter_types.pps_dashdotdot
+msgid "Штрих-точка-точка"
+msgstr "Штрих-точка-точка"
+
+#: u_plotter_types.pps_dot
+msgctxt "u_plotter_types.pps_dot"
+msgid "Точки"
+msgstr "Точки"
+
+#: u_plotter_types.pps_solid
+msgid "Сплошная"
+msgstr "Суцільна"
+
+#: u_plotter_types.pv_view_2d
+msgid "2D (X - первое значение)"
+msgstr "2D (X - перше значення)"
+
+#: u_plotter_types.pv_view_std
+msgid "Стандартный"
+msgstr "Стандартний"
+
+#: u_plotter_types.pv_view_sweep
+msgctxt "u_plotter_types.pv_view_sweep"
+msgid "Развертка"
+msgstr "Розгортка"
+
+#: u_serial.txt_ce_busy
+msgid "Порт недоступен"
+msgstr "Порт недоступний"
+
+#: u_serial.txt_ce_none
+msgid "Успех"
+msgstr "Успіх"
+
+#: u_serial.txt_ce_rxerror
+msgid "Ошибка приема"
+msgstr "Помилка прийому"
+
+#: u_serial.txt_ce_txcancel
+msgid "Передача отменена"
+msgstr "Передачу скасовано"
+
+#: u_serial.txt_ce_txerror
+msgid "Ошибка передачи"
+msgstr "Помилка передачі"
+
+#: u_serial.txt_cs_offline
+msgid "Отключен"
+msgstr "Відключений"
+
+#: u_serial.txt_cs_online
+msgid "Готов"
+msgstr "Готовий"
+
+#: u_serial.txt_cs_rxing
+msgid "Прием..."
+msgstr "Прийом..."
+
+#: u_serial.txt_cs_txing
+msgid "Передача..."
+msgstr "Передача..."
+
+#: u_serial.txt_port_busy
+msgid "занят"
+msgstr "зайнятий"
+
