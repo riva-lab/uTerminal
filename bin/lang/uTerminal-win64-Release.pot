@@ -1,31 +1,21 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-#: fm_about.about_bit
+#: appabout.about_bit
 #, object-pascal-format
+msgctxt "appabout.about_bit"
 msgid "%s-битная"
 msgstr ""
 
-#: fm_about.about_build
+#: appabout.about_build
 #, object-pascal-format
+msgctxt "appabout.about_build"
 msgid "сборка #%d, %s"
 msgstr ""
 
-#: fm_about.about_info
-msgid "информация"
-msgstr ""
-
-#: fm_about.about_license
-msgid "лицензия"
-msgstr ""
-
-#: fm_about.about_site
-msgid "сайт"
-msgstr ""
-
-#: fm_about.about_version
+#: appabout.about_version
 #, object-pascal-format
-msgid "версия %d.%d.%d"
+msgid "версия %s"
 msgstr ""
 
 #: fm_insertchar.txt_insert_char
@@ -164,6 +154,24 @@ msgstr ""
 
 #: fm_settings.txt_win_theme
 msgid "Только Windows 10 1809+"
+msgstr ""
+
+#: tfmabout.lbcopyrights.caption
+msgctxt "tfmabout.lbcopyrights.caption"
+msgid "информация"
+msgstr ""
+
+#: tfmabout.lbhomepage.caption
+msgid "домашняя страница"
+msgstr ""
+
+#: tfmabout.lblicense.caption
+msgctxt "tfmabout.lblicense.caption"
+msgid "лицензия"
+msgstr ""
+
+#: tfmabout.lbrepo.caption
+msgid "репозиторий"
 msgstr ""
 
 #: tfmasciichar.accancel.caption
