@@ -76,11 +76,7 @@
 
 Хотите видеть интерфейс **uTerminal** на своем родном языке? Присоединяйтесь к сообществу переводчиков **uTerminal**. Начните переводить, выбрав один из следующих вариантов:
 
-1. Используйте онлайн-сервис локализации [Crowdin](https://crowdin.com/projects): страница проекта [тут](https://ru.crowdin.com/project/uterminal).
-
-2. Используйте онлайн-сервис непрерывного сетевого перевода [Weblate](https://weblate.org): страница проекта [тут](https://hosted.weblate.org/projects/uterminal).
-
-3. Переводите файлы Gettext прямо из репозитория, следуя [инструкции](help/uTerminal-help.md#%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C-%D0%B2-%D0%BB%D0%BE%D0%BA%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%D0%B0) в справке.
+1. Переводите файлы Gettext прямо из репозитория, следуя [инструкции](help/uTerminal-help.md#%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C-%D0%B2-%D0%BB%D0%BE%D0%BA%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%D0%B0) в справке.
 
 Перевод будет добавлен в ближайший релиз, если он покрывает не менее 2/3 (~67%).
 
@@ -110,9 +106,9 @@
 
 ## Авторство
 
-Copyright (c) 2017-2023 Riva, [FreeBSD License, modified](license.md). История версий — [versions.md](versions.md).
+Copyright (c) 2017-2025 Riva, [FreeBSD License, modified](license.md). История версий — [versions.md](versions.md).
 
-Разработано в [Free Pascal RAD IDE Lazarus](http://www.lazarus-ide.org) v2.2.6, компилятор [Free Pascal Compiler](https://freepascal.org) v3.2.2.
+Разработано в [Free Pascal RAD IDE Lazarus](http://www.lazarus-ide.org) v3.0, компилятор [Free Pascal Compiler](https://freepascal.org) v3.2.2.
 
 Установщик для Windows создан в [Inno Setup](https://jrsoftware.org/isinfo.php). [Copyright](https://jrsoftware.org/files/is/license.txt) (C) 1997-2023, Jordan Russell, Martijn Laan.
 
@@ -127,5 +123,5 @@ Copyright (c) 2017-2023 Riva, [FreeBSD License, modified](license.md). Исто�
 - [BGRABitmap](https://bgrabitmap.github.io/) — a package designed to modify and create images with transparency.
 - [BGRA Controls](https://bgrabitmap.github.io/bgracontrols/) — a set of graphical UI elements. Author: Lainz.
 - [ImageSVGListDsgn](https://gitlab.com/riva-lab/ImageSVGListDsgn) — a list of SVG images instead of regular bitmaps. Copyright (c) 2023 Riva.
-- [OnlineUpdater](https://gitlab.com/riva-lab/OnlineUpdater) — package for updating application from online repository. Copyright (c) 2023 Riva.
+- [OnlineUpdaterPkg](https://gitlab.com/riva-lab/OnlineUpdaterPkg) — package for updating application from online repository. Copyright (c) 2023 Riva.
 - [OpenSSL](https://www.openssl.org/): [License](bin/openssl-license.txt) — toolkit for general-purpose cryptography and secure communication. Copyright (c) 1998-2023 The OpenSSL Project Authors. Copyright (c) 1995-1998 Eric A. Young, Tim J. Hudson.
