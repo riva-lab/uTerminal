@@ -107,9 +107,10 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="2"/>
-      <BuildNr Value="90"/>
+      <RevisionNr Value="1"/>
+      <BuildNr Value="91"/>
       <Language Value="0419"/>
-      <StringTable CompanyName="https://riva-lab.gitlab.io" FileDescription="Serial port terminal and plotter" InternalName="uTerminal" LegalCopyright="Riva, 2017-2018, 2021-2023" ProductName="uTerminal"/>
+      <StringTable Comments="Serial port terminal and plotter" CompanyName="Riva Lab :: riva-lab.gitlab.io" FileDescription="Serial port terminal and plotter" InternalName="uTerminal" LegalCopyright="Riva, 2017-2025" OriginalFilename="uTerminal" ProductName="uTerminal"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="win32-Debug" Default="True"/>
@@ -214,58 +215,56 @@
         <IsPartOfProject Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="fr_about.pas"/>
+        <Filename Value="u_txsequences.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frAboutLinks"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Frame"/>
       </Unit11>
       <Unit12>
-        <Filename Value="u_txsequences.pas"/>
+        <Filename Value="plotter\u_plotter.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="plotter\u_plotter.pas"/>
+        <Filename Value="plotter\u_plotter_types.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="plotter\u_plotter_types.pas"/>
+        <Filename Value="plotter\u_plotter_points.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="plotter\u_plotter_points.pas"/>
+        <Filename Value="plotter\u_plotter_charts.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="plotter\u_plotter_charts.pas"/>
+        <Filename Value="u_settings.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit16>
       <Unit17>
-        <Filename Value="u_settings.pas"/>
+        <Filename Value="plotter\u_plotter_regexplist.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit17>
       <Unit18>
-        <Filename Value="plotter\u_plotter_regexplist.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit18>
-      <Unit19>
         <Filename Value="fm_update.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmUpdate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="fm_main_controls.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="fm_main_controls.inc"/>
+        <Filename Value="fm_settings_controls.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit20>
       <Unit21>
-        <Filename Value="fm_settings_controls.inc"/>
+        <Filename Value="u_settings_record.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit21>
       <Unit22>
-        <Filename Value="u_settings_record.pas"/>
+        <Filename Value="misc\appabout.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="appAbout"/>
       </Unit22>
     </Units>
   </ProjectOptions>
@@ -277,7 +276,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\libraries\AraratSynapse;plotter"/>
+      <OtherUnitFiles Value="..\libraries\AraratSynapse;plotter;misc"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

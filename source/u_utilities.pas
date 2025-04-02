@@ -110,6 +110,9 @@ procedure SetFormRect(AForm: TForm; ARect: TRect);
  // get form top/left coordinates offset
 function GetFormOffset(AForm: TForm): TPoint;
 
+ // remove dates from copyright string
+function GetAuthorName(ACopyrightStr: String): String;
+
 implementation
 
 
@@ -623,5 +626,17 @@ function GetFormOffset(AForm: TForm): TPoint;
       end;
   end;
 
+function GetAuthorName(ACopyrightStr: String): String;
+  var
+    i: Integer;
+  begin
+    for i := 1 to ACopyrightStr.Length do
+      if not (ACopyrightStr[i] in ['0'..'9']) then
+        Result += ACopyrightStr[i];
+
+    for i := ACopyrightStr.Length downto 1 do
+      if LowerCase(ACopyrightStr[i]) in ['a'..'z'] then
+        Exit(Result.Remove(i));
+  end;
 
 end.

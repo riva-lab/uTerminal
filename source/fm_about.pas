@@ -5,70 +5,36 @@ unit fm_about;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, LCLType, LCLIntf, BCSVGViewer,
-  fr_about, u_utilities, OnlineUpdater, ouVersion;
-
-resourcestring
-  ABOUT_VERSION     = 'версия %d.%d.%d';
-  ABOUT_BIT         = '%s-битная';
-  ABOUT_BUILD       = 'сборка #%d, %s';
-  ABOUT_SITE        = 'сайт';
-  ABOUT_LICENSE     = 'лицензия';
-  ABOUT_INFO        = 'информация';
+  Classes, SysUtils, Forms, Controls, StdCtrls, LCLType, LCLIntf, ExtCtrls, Math,
+  BCSVGViewer, u_utilities, appAbout;
 
 const
-  FILE_LICENSE      = 'license.md';
-  FILE_LICENSE_HTML = 'license.html';
-  FILE_README       = 'readme.md';
-  FILE_README_HTML  = 'readme.html';
-  ABOUT_RIGHTS      = 'Modified FreeBSD License';
-  ABOUT_OPENSRC     = 'Open Source Freeware';
-
-  // адрес сайта, пример https://example.site/home,
-  // пустая строка адреса отключает видимость ссылки
-  APP_SITE_ADDRESS  = 'https://riva-lab.gitlab.io/html/apps/uterminal.html';
-
-  // отображаемое имя сайта
-  APP_SITE          = 'riva-lab.gitlab.io';
-
-  APP_REPO_ADDRESS  = 'https://gitlab.com/riva-lab/uTerminal';
+  COLOR_SVG_BOTTOM = $00153103; // background color of the SVG bottom
 
 type
 
   { TfmAbout }
 
   TfmAbout = class(TForm)
-    frALinks:  TfrAboutLinks;
-    lbInfo:    TLabel;
-    BCSVGLogo: TBCSVGViewer;
+    BCSVGLogo:    TBCSVGViewer;
+    lbCopyRights: TLabel;
+    lbHomepage:   TLabel;
+    lbInfo:       TLabel;
+    lbLicense:    TLabel;
+    lbRepo:       TLabel;
+    pLinks:       TPanel;
+    pLinksX:      TPanel;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDeactivate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
-    procedure linkClick(Sender: TObject);
 
-  private
-    FAppArc:       String;
-    FAppAuthor:    String;
-    FAppBuild:     String;
-    FAppCopyright: String;
-    FAppDescr:     String;
-    FAppIntName:   String;
-    FAppVersion:   String;
+    procedure OnLinkClick(Sender: TObject);
 
   public
     procedure ShowSplash(IsShow: Boolean = True);
-    procedure VisitSite;
-    procedure UpdateInfo;
 
-    property AppIntName: String read FAppIntName;
-    property AppVersion: String read FAppVersion;
-    property AppBuild: String read FAppBuild;
-    property AppArc: String read FAppArc;
-    property AppAuthor: String read FAppAuthor;
-    property AppCopyright: String read FAppCopyright;
-    property AppDescription: String read FAppDescr;
   end;
 
 var
@@ -82,9 +48,7 @@ implementation
 
 procedure TfmAbout.FormCreate(Sender: TObject);
   begin
-    UpdateInfo;
-    BCSVGLogo.Height := Scale96ToScreen(240);
-    BCSVGLogo.Width  := Scale96ToScreen(360);
+    BCSVGLogo.SVGString := GetResourceAsString('LOGO');
   end;
 
 procedure TfmAbout.FormDeactivate(Sender: TObject);
@@ -93,57 +57,47 @@ procedure TfmAbout.FormDeactivate(Sender: TObject);
   end;
 
 procedure TfmAbout.FormShow(Sender: TObject);
+
+  procedure CreateLinks(ALabel: array of TLabel; AURL: array of String);
+    var
+      i: Integer;
+    begin
+      if Length(ALabel) <> Length(AURL) then Exit;
+      if Length(ALabel) = 0 then Exit;
+      for i := 0 to High(ALabel) do
+        begin
+        ALabel[i].Hint    := AURL[i];
+        ALabel[i].OnClick := @OnLinkClick;
+        end;
+    end;
+
   begin
-    UpdateInfo;
-    BCSVGLogo.SVGString := GetResourceAsString('LOGO');
+    lbInfo.Caption := appAbout.UpdateAboutAppInfo;
+
+    CreateLinks(
+      [lbLicense, lbCopyRights, lbHomepage, lbRepo],
+      [FILE_LICENSE, FILE_README, APP_URL_HOME, APP_URL_REPO]);
+
+    with BCSVGLogo.Constraints do
+      begin
+      MinWidth  := Max(Scale96ToScreen(360), pLinks.Width);
+      MinHeight := Max(MinWidth * 2 div 3, lbInfo.Height);
+      MinWidth  := MinHeight * 3 div 2;
+      end;
+
+    Color    := COLOR_SVG_BOTTOM;
+    Position := poScreenCenter;
+    Position := poMainFormCenter;
   end;
 
 procedure TfmAbout.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
   begin
-    case UTF8Key of
-      chr(13), chr(27), chr(32):
-        Close;
-      end;
+    if Ord(UTF8Key[1]) in [13, 27, 32] then Close;
   end;
 
-
-procedure TfmAbout.linkClick(Sender: TObject);
-
-  function TryOpenFile(AFilename: String): Boolean;
-    begin
-      Result := False;
-      if OpenDocument(AFilename) then Exit(True);
-      if OpenDocument('..' + DirectorySeparator + AFilename) then Exit(True);
-    end;
-
-  procedure GetFromResources(ARes: String; AFilename: String);
-    begin
-      with TResourceStream.Create(HINSTANCE, ARes, RT_RCDATA) do
-          try
-          SaveToFile(AFilename);
-          finally
-          Free;
-          OpenDocument(AFilename); // open file
-          Sleep(2000);             // wait for 2s while file is opening
-          DeleteFile(AFilename);   // delete file
-          end;
-    end;
-
+procedure TfmAbout.OnLinkClick(Sender: TObject);
   begin
-    case TComponent(Sender).Name of
-      'lbCopyRights':
-        if not TryOpenFile(FILE_README_HTML) then
-          if not TryOpenFile(FILE_README) then
-            GetFromResources('README', FILE_README);
-
-      'lbLicense':
-        if not TryOpenFile(FILE_LICENSE_HTML) then
-          if not TryOpenFile(FILE_LICENSE) then
-            GetFromResources('LICENSE', FILE_LICENSE);
-
-      'lbSite':
-        VisitSite;
-      end;
+    appAbout.linkClick(Sender);
   end;
 
 procedure TfmAbout.ShowSplash(IsShow: Boolean = True);
@@ -177,74 +131,5 @@ procedure TfmAbout.ShowSplash(IsShow: Boolean = True);
     OnUTF8KeyPress := @FormUTF8KeyPress;
   end;
 
-
-procedure TfmAbout.VisitSite;
-  begin
-    OpenURL(APP_SITE_ADDRESS);
-  end;
-
-procedure TfmAbout.UpdateInfo;
-  var
-    BuildDateTime: TDateTime;
-    _build:        Integer = 0;
-  begin
-    FAppArc := '';
-
-    {$IfDef WINDOWS}
-      {$IfDef WIN64}
-      FAppArc := Format(ABOUT_BIT, ['64']);
-      {$EndIf}
-      {$IfDef WIN32}
-      FAppArc := Format(ABOUT_BIT, ['32']);
-      {$EndIf}
-    {$EndIf}
-
-    with TFileVersionInfoSimple.Create do
-        try
-        if Assigned(ReadVersionInfo) then
-          begin
-          FAppIntName   := InternalName;
-          FAppAuthor    := CompanyName;
-          FAppDescr     := FileDescription;
-          FAppCopyright := '© ' + LegalCopyright;
-          with  ParseVersion(FileVersion) do
-            begin
-            FAppVersion := Format(ABOUT_VERSION, [Major, Minor, Revision]);
-            _build      := Build;
-            end;
-
-          end;
-        finally
-        Free;
-        end;
-
-    TryStrToDate({$INCLUDE %DATE%}, BuildDateTime, 'YYYY/MM/DD', '/');
-    FAppBuild := Format(ABOUT_BUILD, [_build, FormatDateTime('yyyy.mm.dd', BuildDateTime)]);
-
-    with TStringList.Create do
-        try
-        Add(FAppIntName);
-        Add(FAppVersion + (FAppArc <> '').Select(', ' + FAppArc, ''));
-        Add(FAppBuild);
-        Add('');
-        Add(FAppDescr);
-        Add('');
-        Add(FAppCopyright);
-        Add(FAppAuthor);
-        Add(ABOUT_RIGHTS);
-        Add(ABOUT_OPENSRC);
-        lbInfo.Caption := Text;
-        finally
-        Free;
-        end;
-
-    frALinks.lbSite.Caption       := APP_SITE;
-    frALinks.lbSite.Hint          := APP_SITE_ADDRESS;
-    frALinks.lbSite.Visible       := APP_SITE_ADDRESS <> '';
-    frALinks.lbLicense.Hint       := FILE_LICENSE;
-    frALinks.lbCopyRights.Hint    := FILE_README_HTML;
-    frALinks.lbLicense.Caption    := ABOUT_LICENSE;
-    frALinks.lbCopyRights.Caption := ABOUT_INFO;
-  end;
 
 end.

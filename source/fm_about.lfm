@@ -15,26 +15,27 @@ object fmAbout: TfmAbout
   OnShow = FormShow
   OnUTF8KeyPress = FormUTF8KeyPress
   PopupMode = pmAuto
-  Position = poMainFormCenter
   ShowHint = True
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.0.0.3'
   object BCSVGLogo: TBCSVGViewer
-    Left = 40
-    Height = 328
-    Top = 32
-    Width = 504
+    Left = 0
+    Height = 375
+    Top = 0
+    Width = 586
+    Align = alClient
     SVGString = '<?xml version="1.0" encoding="utf-8"?>'#13#10'<svg width="100%" xmlns="http://www.w3.org/2000/svg" height="100%"/>'#13#10
     Color = clWhite
     ColorOpacity = 0
+    OnClick = FormDeactivate
     Caption = 'BCSVGLogo'
   end
   object lbInfo: TLabel
     AnchorSideTop.Control = BCSVGLogo
     AnchorSideRight.Control = BCSVGLogo
     AnchorSideRight.Side = asrCenter
-    Left = 272
+    Left = 273
     Height = 20
-    Top = 44
+    Top = 12
     Width = 39
     Alignment = taCenter
     Anchors = [akTop, akRight]
@@ -45,29 +46,88 @@ object fmAbout: TfmAbout
     ParentColor = False
     ParentFont = False
     WordWrap = True
+    OnClick = FormDeactivate
   end
-  inline frALinks: TfrAboutLinks
-    AnchorSideLeft.Control = BCSVGLogo
-    AnchorSideLeft.Side = asrCenter
-    AnchorSideBottom.Control = BCSVGLogo
-    AnchorSideBottom.Side = asrBottom
-    Left = 182
-    Height = 22
-    Top = 338
-    Width = 221
-    Anchors = [akLeft, akBottom]
-    ClientHeight = 22
-    ClientWidth = 221
-    DesignLeft = 485
-    DesignTop = 576
-    inherited lbLicense: TLabel
-      OnClick = linkClick
-    end
-    inherited lbCopyRights: TLabel
-      OnClick = linkClick
-    end
-    inherited lbSite: TLabel
-      OnClick = linkClick
+  object pLinksX: TPanel
+    AnchorSideTop.Control = BCSVGLogo
+    AnchorSideTop.Side = asrBottom
+    Left = 0
+    Height = 25
+    Top = 375
+    Width = 586
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ClientHeight = 25
+    ClientWidth = 586
+    ParentBackground = False
+    TabOrder = 0
+    object pLinks: TPanel
+      Left = 56
+      Height = 25
+      Top = 0
+      Width = 473
+      AutoSize = True
+      BorderSpacing.CellAlignHorizontal = ccaCenter
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 16
+      ChildSizing.HorizontalSpacing = 16
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.Layout = cclTopToBottomThenLeftToRight
+      ClientHeight = 25
+      ClientWidth = 473
+      Constraints.MinHeight = 25
+      ParentBackground = False
+      TabOrder = 0
+      object lbLicense: TLabel
+        Cursor = crHandPoint
+        Left = 16
+        Height = 20
+        Top = 0
+        Width = 67
+        Caption = 'лицензия'
+        Font.Color = 10544795
+        Font.Style = [fsUnderline]
+        ParentFont = False
+      end
+      object lbCopyRights: TLabel
+        Cursor = crHandPoint
+        Left = 99
+        Height = 20
+        Top = 0
+        Width = 91
+        Caption = 'информация'
+        Font.Color = 10544795
+        Font.Style = [fsUnderline]
+        ParentColor = False
+        ParentFont = False
+      end
+      object lbHomepage: TLabel
+        Cursor = crHandPoint
+        Left = 206
+        Height = 20
+        Top = 0
+        Width = 142
+        Caption = 'домашняя страница'
+        Font.Color = 10544795
+        Font.Style = [fsUnderline]
+        ParentColor = False
+        ParentFont = False
+      end
+      object lbRepo: TLabel
+        Cursor = crHandPoint
+        Left = 364
+        Height = 20
+        Top = 0
+        Width = 93
+        Caption = 'репозиторий'
+        Font.Color = 10544795
+        Font.Style = [fsUnderline]
+        ParentColor = False
+        ParentFont = False
+      end
     end
   end
 end

@@ -30,38 +30,38 @@ uses
   u_plotter, u_plotter_types, u_plotter_charts,
 
   // additional
-  base64, csvdocument;
+  base64, csvdocument, appAbout;
 
 resourcestring
-  TX_CAPTION        = 'Передача [Tx]';
-  RX_CAPTION        = 'Прием [Rx]';
-  PLOTTER_CAPTION   = 'Плоттер';
-  ERROR             = 'Ошибка';
-  CONNECTED_TO      = 'Подключен к';
-  CONNECT           = 'Подключить';
-  CONNECT_HINT      = 'Подключиться к выбранному порту';
-  DISCONNECT_HINT   = 'Отключиться от текущего порта';
-  DISCONNECTED_FROM = 'Отключен от';
-  DISCONNECT        = 'Отключить';
-  SPEED             = 'бод/с';
-  PORTS_FINDED      = 'Найдено портов: %d';
-  TEXT_TYPE_TEXT    = 'Текст';
-  TXT_ENCODING      = 'кодировка %s';
-  TXT_DLG_TEXT      = 'Текстовый файл';
-  TXT_DLG_CSV       = 'Файл CSV';
-  TXT_DLG_PNG       = 'PNG - изображение Portable Network Graphics';
-  TXT_DLG_ALL       = 'Файл';
+  TX_CAPTION         = 'Передача [Tx]';
+  RX_CAPTION         = 'Прием [Rx]';
+  PLOTTER_CAPTION    = 'Плоттер';
+  ERROR              = 'Ошибка';
+  CONNECTED_TO       = 'Подключен к';
+  CONNECT            = 'Подключить';
+  CONNECT_HINT       = 'Подключиться к выбранному порту';
+  DISCONNECT_HINT    = 'Отключиться от текущего порта';
+  DISCONNECTED_FROM  = 'Отключен от';
+  DISCONNECT         = 'Отключить';
+  SPEED              = 'бод/с';
+  PORTS_FINDED       = 'Найдено портов: %d';
+  TEXT_TYPE_TEXT     = 'Текст';
+  TXT_ENCODING       = 'кодировка %s';
+  TXT_DLG_TEXT       = 'Текстовый файл';
+  TXT_DLG_CSV        = 'Файл CSV';
+  TXT_DLG_PNG        = 'PNG - изображение Portable Network Graphics';
+  TXT_DLG_ALL        = 'Файл';
 
   TXT_REDEF_VIEWPORT = 'Окно';
-  TXT_REDEF_GRID    = 'Сетка';
-  TXT_REDEF_XGRID   = 'Сетка X';
-  TXT_REDEF_YGRID   = 'Сетка Y';
-  TXT_REDEF_BGCOLOR = 'Фон';
-  TXT_REDEF_WIDTH   = 'Толщина';
-  TXT_REDEF_POINTS  = 'Точки';
-  TXT_PLOT_LINE_ST  = 'Стиль линии - %s';
-  TXT_PLOT_LINE_WD  = 'Толщина линии - %d пикс.';
-  TXT_PLOT_LINE_PS  = 'Радиус точек - %d пикс.';
+  TXT_REDEF_GRID     = 'Сетка';
+  TXT_REDEF_XGRID    = 'Сетка X';
+  TXT_REDEF_YGRID    = 'Сетка Y';
+  TXT_REDEF_BGCOLOR  = 'Фон';
+  TXT_REDEF_WIDTH    = 'Толщина';
+  TXT_REDEF_POINTS   = 'Точки';
+  TXT_PLOT_LINE_ST   = 'Стиль линии - %s';
+  TXT_PLOT_LINE_WD   = 'Толщина линии - %d пикс.';
+  TXT_PLOT_LINE_PS   = 'Радиус точек - %d пикс.';
 
 
 const
@@ -1374,11 +1374,11 @@ procedure TfmMain.actionCommon(Sender: TObject);
 
       // вызов справки онлайн
       'acHelpNet':
-        OpenURL(APP_REPO_ADDRESS + '/' + HELP_DIR_ONLINE + '/' + HELP_FILE + '.md');
+        OpenURL(APP_URL_HELP);
 
       // link to online homepage
       'acWebsite':
-        OpenURL(APP_SITE_ADDRESS);
+        OpenURL(APP_URL_HOME);
 
       // окно информации о приложении
       'acInfo':
@@ -1981,13 +1981,13 @@ procedure TfmMain.PlotterParserOnParseDone(ACharts: TPlotterChartsList);
       i, _ch: Integer;
     begin
       for _ch := _minCh to _maxCh do
-          try
-          for i := 0 to ACharts[_ch].Count - 1 do
-            with ACharts[_ch].Points[i] do
-              FLineSerie[_ch].AddXY(X, Y);
-          except
-          actionPlotter(acPlotterClear);
-          end;
+        try
+        for i := 0 to ACharts[_ch].Count - 1 do
+          with ACharts[_ch].Points[i] do
+            FLineSerie[_ch].AddXY(X, Y);
+        except
+        actionPlotter(acPlotterClear);
+        end;
     end;
 
   procedure PlotViewStandard;
@@ -2273,10 +2273,10 @@ procedure TfmMain.PlotterExportCSV;
 
         AddTitle;
         for p := 0 to _max do
-            try
-            AddLine(p);
-            except
-            end;
+          try
+          AddLine(p);
+          except
+          end;
 
         csv.SaveToFile(dlgRxSave.FileName);
 
@@ -2640,7 +2640,7 @@ procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
     BeginFormUpdate;
 
     if Assigned(fmAbout) then
-      atitle := fmAbout.AppIntName;
+      atitle := appAbout.GetAppName;
 
     port             := '';
     updateFlag       := connected xor serial.Connected;
@@ -2979,7 +2979,7 @@ procedure TfmMain.AdjustComponentSizes;
           begin
           TToolBar(item).ButtonHeight := ASizeH;
           TToolBar(item).ButtonWidth  := (ASizeW > 0).Select(ASizeW, ASizeH);
-          Exit;
+          Continue;
           end;
 
         //if item.ToString = 'TToolBar' then
@@ -3136,7 +3136,7 @@ procedure TfmMain.AdjustThemeDependentValues;
       MetaDarkFormChanged(self);
       end
     else
-      {$ENDIF}
+    {$ENDIF}
       begin                        // light theme, default
 
       // iconspack for light theme is loaded in component already
