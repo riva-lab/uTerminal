@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, StdCtrls, LCLType, LCLIntf, LazFileUtils, Registry,
-  OnlineUpdater, ouVersion,
+  OnlineUpdater, ouVersion, AppLocalizer,
   u_utilities;
 
 
@@ -93,11 +93,11 @@ procedure linkClick(Sender: TObject);
     if url.StartsWith('https://') then
       OpenURL(url)
     else
-    //if not TryOpenFile(id + '.' + appLocalizerEx.CurrentLangCode + '.html') then
-    //if not TryOpenFile(id + '.' + appLocalizerEx.CurrentLangCode + '.md') then
-    if not TryOpenFile(id + '.html') then
-      if not TryOpenFile(id + '.md') then
-        GetFromResources(id, url);
+    if not TryOpenFile(id + '.' + appLocalizerEx.CurrentLangCode + '.html') then
+      if not TryOpenFile(id + '.' + appLocalizerEx.CurrentLangCode + '.md') then
+        if not TryOpenFile(id + '.html') then
+          if not TryOpenFile(id + '.md') then
+            GetFromResources(id, url);
   end;
 
 function UpdateAboutAppShort: String;
