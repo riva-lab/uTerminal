@@ -401,7 +401,7 @@ procedure TSerialPortThread.ReceiveData(ATickMs: LongWord);
         if FEnableRxTimestamp then
           begin
           if TickDelta(timeLast, ATickMs) > FRxPacketTime then
-            FDataRx := LineEnding + FTimestampStrBefore + DateTimeToStr(Now)
+            FDataRx := LineEnding + FTimestampStrBefore + DateTimeToStr(Now) + ' '
               + FDataRx.Length.ToString + ' bytes'
               + FTimestampStrAfter + LineEnding + FDataRx;
 
