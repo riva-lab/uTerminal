@@ -6,8 +6,8 @@ unit u_utilities;
 interface
 
 uses
-  Classes, Windows, SysUtils, LazFileUtils, LazUTF8, ShellApi, FPImage,
-  StrUtils, Graphics, Forms, StdCtrls, LResources, LCLType, Controls;
+  Classes, Controls, LCLType, LazFileUtils, LazUTF8, LResources,
+  SysUtils, StrUtils, FPImage, Graphics;
 
 
 type
@@ -52,36 +52,8 @@ type
   end;
 
 
- // удаление указанного файла, по умолчанию - в корзину
-function FileRemove(AFileName: String; toTrash: Boolean = True): Boolean;
-
- // открытие указанного пути в проводнике
-procedure RootOpenInExplorer(ARoot: String);
-
- // вывод массива байт в строку в HEX виде
-function BytesToHex(AData: TBytes; ABefore: String = '0x'; AAfter: String = ' ';
-  ABytesPerString: Byte = 8): String;
-
 function HexStringPosition(ACursor: Integer; ALineBytes: Integer = 8;
   ABlockBytes: Integer = 4): Integer;
-
-// проверяет значение переменной на вхождение в диапазон
-function InRange(AValue, AMin, AMax: Variant): Boolean;
-
-// проверка расширения файла, регистронезависимая
-function FileExtCheck(AFilename, AExtList: String): Boolean;
-
-// получение максимальной ширины строк списка в пикселях
-function GetListStringsMaxWidth(AForm: TForm; AItems: TStrings): Integer;
-
- // заполнение выпадающего списка строками из массива
-procedure ComboBoxUpdateList(AComboBox: TComboBox; AStrings: array of String);
-
- // извлечение названия языка из языковой строки
-function GetLangCaption(ALangStr: String; ADelimiter: Char = ','): String;
-
- // извлечение кода языка (ex: en_en) из языковой строки
-function GetLangCode(ALangStr: String; ADelimiter: Char = ','): String;
 
  // get name for file based on current date and time
 function GetDateTimeFilename: String;
@@ -97,18 +69,6 @@ function RGBHexToColor(AString: String): TColor;
 
  // get the specified resource RCDATA as a string
 function GetResourceAsString(AResName: String): String;
-
- // set translucent for control by its handle
-procedure SetTranslucent(AHandle: HWND; AColor: TColor; Alpha: Byte);
-
- // get form metrics to Trect
-function GetFormRect(AForm: TForm): TRect;
-
- // set form metrics from Trect
-procedure SetFormRect(AForm: TForm; ARect: TRect);
-
- // get form top/left coordinates offset
-function GetFormOffset(AForm: TForm): TPoint;
 
  // remove dates from copyright string
 function GetAuthorName(ACopyrightStr: String): String;
@@ -134,43 +94,6 @@ function TBooleanHelperCustom.Select(ValueIfTrue, ValueIfFalse: Pointer): Pointe
       Result := ValueIfFalse;
   end;
 
-function FileRemove(AFileName: String; toTrash: Boolean): Boolean;
-  var
-    FileOp: TSHFileOpStruct;
-  begin
-    Result := False;
-    if not FileExistsUTF8(AFileName) then Exit;
-    if not toTrash then Exit(DeleteFileUTF8(AFileName));
-
-    if AFileName <> '' then
-      begin
-      FillChar(FileOp, SizeOf(FileOp), 0);
-      FileOp.Wnd    := 0;
-      FileOp.wFunc  := FO_DELETE;
-      FileOp.pFrom  := PChar(UTF8ToWinCP(AFileName) + #0#0);
-      FileOp.pTo    := nil;
-      FileOp.fFlags := FOF_ALLOWUNDO or FOF_NOERRORUI or FOF_SILENT; // or FOF_NOCONFIRMATION;
-      Result        := (SHFileOperation(FileOp) = 0) and (not
-        FileOp.fAnyOperationsAborted);
-      end;
-  end;
-
-procedure RootOpenInExplorer(ARoot: String);
-  begin
-    if ARoot = '' then
-      ARoot := ParamStrUTF8(0);
-
-    if not DirectoryExistsUTF8(ARoot) then
-      ARoot := ExtractFileDir(ARoot);
-
-    if DirectoryExistsUTF8(ARoot) then
-    {$IfDef WINDOWS}
-      ExecuteProcess('explorer.exe', UTF8ToWinCP(ARoot + DirectorySeparator), []);
-    {$Else}
-    ;
-    {$EndIf}
-  end;
-
 
 { TStringHelperCustom }
 
@@ -185,21 +108,21 @@ function TStringHelperCustom.ToHex(ALineBytes: Integer; ABlockBytes: Integer): S
     len    := Length;
     if len > 0 then
       for i := 1 to len do
-          try
-          Result += Ord(Self[i]).ToHexString(2);
-          finally
-          m      := i mod ALineBytes;
+        try
+        Result += Ord(Self[i]).ToHexString(2);
+        finally
+        m      := i mod ALineBytes;
 
-          if m = 0 then
-            Result += LineEnding
-          else
-          if i < len then
-            begin
-            Result   += ' ';
-            if m mod ABlockBytes = 0 then
-              Result += ' ';
-            end;
+        if m = 0 then
+          Result += LineEnding
+        else
+        if i < len then
+          begin
+          Result   += ' ';
+          if m mod ABlockBytes = 0 then
+            Result += ' ';
           end;
+        end;
   end;
 
 function TStringHelperCustom.ToCodes(ASysOut: Integer; ALineChars: Integer): String;
@@ -213,49 +136,49 @@ function TStringHelperCustom.ToCodes(ASysOut: Integer; ALineChars: Integer): Str
     if l > 0 then
       begin
       for i := 1 to l do
-          try
+        try
 
-          case ASysOut of
-            0:
+        case ASysOut of
+          0:
+            begin
+            Result += Self[i];
+            cnt    += 1;
+            end;
+          2:
+            begin
+            Result += IntToBin(Ord(Self[i]), 8);
+            cnt    += 9;
+            end;
+          10:
+            begin
+            tmp    := Ord(Self[i]);
+            Result += tmp.ToString;
+            cnt    += 1;
+            while tmp > 0 do
               begin
-              Result += Self[i];
-              cnt    += 1;
-              end;
-            2:
-              begin
-              Result += IntToBin(Ord(Self[i]), 8);
-              cnt    += 9;
-              end;
-            10:
-              begin
-              tmp    := Ord(Self[i]);
-              Result += tmp.ToString;
-              cnt    += 1;
-              while tmp > 0 do
-                begin
-                cnt += 1;
-                tmp := tmp div 10;
-                end;
-              end;
-            16:
-              begin
-              Result += Ord(Self[i]).ToHexString(2);
-              cnt    += 3;
+              cnt += 1;
+              tmp := tmp div 10;
               end;
             end;
-
-          finally
-
-          //if (ASysOut > 0) and (ALineChars > 0) then
-          if cnt >= ALineChars - 1 then
+          16:
             begin
-            cnt    := 0;
-            Result += LineEnding;
-            end
-          else
-            Result += ' ';
-
+            Result += Ord(Self[i]).ToHexString(2);
+            cnt    += 3;
+            end;
           end;
+
+        finally
+
+        //if (ASysOut > 0) and (ALineChars > 0) then
+        if cnt >= ALineChars - 1 then
+          begin
+          cnt    := 0;
+          Result += LineEnding;
+          end
+        else
+          Result += ' ';
+
+        end;
 
       if (Result.Length > 0) and (ASysOut > 0) then
         while Result[Result.Length] = ' ' do
@@ -306,18 +229,18 @@ function TStringHelperCustom.FromToCodes(ASysIn: Integer; ASysOut: Integer): Str
           tmp += ch;
 
         if ((ch in delimiters) or (i = l)) and (tmp <> '') then
-            try
-            ch_out       := (prefix + tmp).ToInteger;
-            case ASysOut of
-              2: Result  += IntToBin(ch_out, 8) + ' ';
-              10: Result += ch_out.ToString + ' ';
-              16: Result += ch_out.ToHexString(2) + ' ';
-              else
-                Result   += chr(ch_out);
-              end;
-            finally
-            tmp := '';
+          try
+          ch_out       := (prefix + tmp).ToInteger;
+          case ASysOut of
+            2: Result  += IntToBin(ch_out, 8) + ' ';
+            10: Result += ch_out.ToString + ' ';
+            16: Result += ch_out.ToHexString(2) + ' ';
+            else
+              Result   += chr(ch_out);
             end;
+          finally
+          tmp := '';
+          end;
         end;
 
       if (Result.Length > 0) and (ASysOut > 0) then
@@ -425,23 +348,6 @@ function TInt64HelperCustom.SizeInBytes(AByte, AKilo, AMega, AGiga: String;
       end;
   end;
 
-
-function BytesToHex(AData: TBytes; ABefore: String; AAfter: String; ABytesPerString: Byte): String;
-  var
-    i: Integer;
-  begin
-    Result := '';
-
-    if Length(AData) > 0 then
-      for i := 0 to High(AData) do
-        begin
-        Result += ABefore + IntToHex(AData[i], 2) + AAfter;
-
-        if (ABytesPerString > 0) and (i mod ABytesPerString = ABytesPerString - 1) then
-          Result += #13#10;
-        end;
-  end;
-
 function HexStringPosition(ACursor: Integer; ALineBytes: Integer = 8;
   ABlockBytes: Integer = 4): Integer;
   var
@@ -455,71 +361,6 @@ function HexStringPosition(ACursor: Integer; ALineBytes: Integer = 8;
     s      += ACursor - 1;
     s      -= s div (ABlockBytes * 3 + 1);
     Result += s div 3;
-  end;
-
-function InRange(AValue, AMin, AMax: Variant): Boolean;
-  begin
-    Result := (AValue >= AMin) and (AValue <= AMax);
-  end;
-
-function FileExtCheck(AFilename, AExtList: String): Boolean;
-  var
-    i: Integer;
-    s: String = '';
-  begin
-    AExtList += ' ';
-
-    for i := 1 to Length(AExtList) do
-      if AExtList[i] in [' ', ';', ','] then
-        begin
-        if CompareFileExt(AFileName, s, False) = 0 then Exit(True);
-        s := '';
-        end
-      else
-        s += AExtList[i];
-
-    Result := False;
-  end;
-
-function GetListStringsMaxWidth(AForm: TForm; AItems: TStrings): Integer;
-  var
-    i, w: Integer;
-  begin
-    Result := 0;
-    for i  := 0 to AItems.Count - 1 do
-      begin
-      w    := AForm.Canvas.GetTextWidth(AItems.Strings[i] + '  ');
-      if Result < w then Result := w;
-      end;
-
-    Result += AForm.VertScrollBar.Size;
-  end;
-
-procedure ComboBoxUpdateList(AComboBox: TComboBox; AStrings: array of String);
-  var
-    i, tmp: Integer;
-  begin
-    with AComboBox do
-      begin
-      tmp := ItemIndex;
-
-      Items.Clear;
-      for i := Low(AStrings) to High(AStrings) do
-        Items.Add(AStrings[i]);
-
-      // восставнавливаем выделенный пункт списка
-      ItemIndex := (tmp < 0).Select(0, tmp);
-      end;
-  end;
-
-function GetLangCaption(ALangStr: String; ADelimiter: Char): String;
-  begin
-    Result := ALangStr.Remove(0, ALangStr.IndexOf(ADelimiter) + 1).Trim;
-  end;
-
-function GetLangCode(ALangStr: String; ADelimiter: Char): String;
-  begin
-    Result := ALangStr.Remove(ALangStr.IndexOf(ADelimiter)).ToLower;
   end;
 
 function GetDateTimeFilename: String;
@@ -566,63 +407,16 @@ function GetResourceAsString(AResName: String): String;
 
       try
       with TStringStream.Create do
-          try
-          LoadFromStream(resStream);
-          Result := DataString;
-          Free;
-          except
-          Result := '';
-          end;
+        try
+        LoadFromStream(resStream);
+        Result := DataString;
+        Free;
+        except
+        Result := '';
+        end;
 
       finally
       resStream.Free; // destroy the resource stream
-      end;
-  end;
-
-procedure SetTranslucent(AHandle: HWND; AColor: TColor; Alpha: Byte);
-  var
-    attrib: longint;
-  begin
-    {$IFDEF WINDOWS}
-    // http://lazplanet.blogspot.com/2013/04/make-your-forms-transparent.html
-    // SetWindowLong and SetLayeredWindowAttributes are Windwos API functions,
-    // see MSDN for details
-
-    attrib := GetWindowLongA(AHandle, GWL_EXSTYLE);
-    SetWindowLongA(AHandle, GWL_EXSTYLE, attrib or WS_EX_LAYERED);
-
-    // anything with color value color will completely disappear
-    // if flag = 1 or flag = 3
-    SetLayeredWindowAttributes(AHandle, AColor, Alpha, 1);
-    {$ENDIF}
-  end;
-
-function GetFormRect(AForm: TForm): TRect;
-  begin
-    with AForm do
-      Result.Create(Left, Top, Left + Width, Top + Height);
-  end;
-
-procedure SetFormRect(AForm: TForm; ARect: TRect);
-  begin
-    with AForm do
-      begin
-      Left   := ARect.Left;
-      Top    := ARect.Top;
-      Width  := ARect.Width;
-      Height := ARect.Height;
-      end;
-  end;
-
-function GetFormOffset(AForm: TForm): TPoint;
-  var
-    winRect: TRect;
-  begin
-    with AForm do
-      begin
-      GetWindowRect(Handle, winRect);
-      Result.X := (winRect.Width - Width) div 2;
-      Result.Y := (winRect.Height - Height) - Result.X;
       end;
   end;
 
