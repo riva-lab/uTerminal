@@ -1239,6 +1239,8 @@ object fmSettings: TfmSettings
         Top = 10
         Width = 564
         Caption = 'Восстанавливать содержимое буфера при запуске приложения'
+        Checked = True
+        State = cbChecked
         TabOrder = 0
       end
       object cbFileDataAdd: TCheckBox
@@ -1373,6 +1375,8 @@ object fmSettings: TfmSettings
         Top = 10
         Width = 564
         Caption = 'Восстанавливать содержимое буфера при запуске приложения'
+        Checked = True
+        State = cbChecked
         TabOrder = 0
       end
       object pSpacer13: TPanel
