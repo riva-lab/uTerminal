@@ -1056,6 +1056,9 @@ procedure TfmMain.actionViewGeneral(Sender: TObject);
     UpdateControls(True);
     EndFormUpdate;
     sgTxSequencesChangeBounds(nil);
+
+    sbxPlotSettings.AutoScroll := False;
+    sbxPlotSettings.AutoScroll := True;  // force hide scrollbars when needed
   end;
 
 procedure TfmMain.actionViewForm(Sender: TObject);
