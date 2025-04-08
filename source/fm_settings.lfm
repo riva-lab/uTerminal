@@ -15,7 +15,7 @@ object fmSettings: TfmSettings
   OnShow = FormShow
   Position = poMainFormCenter
   ShowHint = True
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.0.0.3'
   object pTabsTree: TPanel
     Left = 1
     Height = 590
@@ -31,6 +31,7 @@ object fmSettings: TfmSettings
     ClientWidth = 153
     Color = cl3DLight
     Constraints.MinHeight = 8
+    ParentBackground = False
     ParentColor = False
     TabOrder = 0
     object tvTabs: TTreeView
@@ -81,11 +82,11 @@ object fmSettings: TfmSettings
     Height = 593
     Top = 0
     Width = 592
-    ActivePage = tsPlotLegend
+    ActivePage = tsGeneral
     Align = alClient
     AutoSize = True
     MultiLine = True
-    TabIndex = 11
+    TabIndex = 0
     TabOrder = 1
     Options = [nboMultiLine]
     object tsGeneral: TTabSheet
@@ -110,6 +111,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         object lbLanguage: TLabel
@@ -130,9 +132,9 @@ object fmSettings: TfmSettings
         Top = 42
         Width = 564
         ItemHeight = 20
-        OnChange = cbLanguageChange
         Style = csDropDownList
         TabOrder = 1
+        OnChange = cbLanguageChange
       end
       object pSpacer4: TPanel
         Left = 10
@@ -155,6 +157,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 3
         object lbAppUpdate: TLabel
@@ -260,6 +263,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 6
         object lbAppOther: TLabel
@@ -292,26 +296,26 @@ object fmSettings: TfmSettings
           Left = 0
           Height = 24
           Top = 0
-          Width = 172
+          Width = 169
           Caption = 'Заставка при запуске'
           Checked = True
           State = cbChecked
           TabOrder = 0
         end
         object cbMinimizeToTray: TCheckBox
-          Left = 182
+          Left = 179
           Height = 24
           Top = 0
-          Width = 162
+          Width = 159
           Caption = 'Сворачивать в трей'
           TabOrder = 1
         end
         object cbGluedWindow: TCheckBox
-          Left = 354
+          Left = 348
           Height = 24
           Hint = 'Если флажок установлено, то окно будет "прилипать" к краям рабочего стола'
           Top = 0
-          Width = 126
+          Width = 123
           Caption = '"Липкое" окно'
           TabOrder = 2
         end
@@ -339,6 +343,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         object lbAppInterface: TLabel
@@ -371,17 +376,17 @@ object fmSettings: TfmSettings
           Left = 0
           Height = 24
           Top = 0
-          Width = 157
+          Width = 154
           Caption = 'Стандартное меню'
           Checked = True
           State = cbChecked
           TabOrder = 0
         end
         object cbShowStatusBar: TCheckBox
-          Left = 167
+          Left = 164
           Height = 24
           Top = 0
-          Width = 142
+          Width = 139
           Caption = 'Статусная строка'
           Checked = True
           State = cbChecked
@@ -464,18 +469,8 @@ object fmSettings: TfmSettings
             Width = 158
             Align = alClient
             ItemHeight = 20
-            ItemIndex = 0
-            Items.Strings = (
-              'system'
-              'light'
-              'dark'
-              ''
-              ''
-              ''
-            )
             Style = csDropDownList
             TabOrder = 0
-            Text = 'system'
             Visible = False
           end
           object lbAppRestart: TLabel
@@ -535,7 +530,6 @@ object fmSettings: TfmSettings
           Increment = 10
           MaxValue = 300
           MinValue = 30
-          OnChange = seFontSizeChange
           TabOrder = 3
           Value = 100
         end
@@ -696,6 +690,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         Visible = False
@@ -861,6 +856,7 @@ object fmSettings: TfmSettings
           ClientHeight = 24
           ClientWidth = 564
           Color = cl3DLight
+          ParentBackground = False
           ParentColor = False
           TabOrder = 0
           object lbFontDark: TLabel
@@ -1133,6 +1129,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         object lbPanelsLayout1: TLabel
@@ -1165,18 +1162,18 @@ object fmSettings: TfmSettings
           Left = 0
           Height = 24
           Top = 0
-          Width = 235
+          Width = 232
           Caption = 'Количество данных в буферах'
           Checked = True
           State = cbChecked
           TabOrder = 0
         end
         object cbSizesInBytes: TCheckBox
-          Left = 245
+          Left = 242
           Height = 24
           Hint = 'если не установлен - в Б/КБ/МБ...'
           Top = 0
-          Width = 83
+          Width = 80
           Caption = 'в байтах'
           TabOrder = 1
         end
@@ -1220,6 +1217,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 5
         object lbPanelsLayout2: TLabel
@@ -1322,6 +1320,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 4
         object lbTxTimings: TLabel
@@ -1484,6 +1483,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 4
         object lbRxTimestamp: TLabel
@@ -1658,6 +1658,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 5
         object lbPlotView: TLabel
@@ -1719,6 +1720,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 10
         object lbPlotClear: TLabel
@@ -1778,6 +1780,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         object lbPlotCtrlAxisX: TLabel
@@ -1827,7 +1830,7 @@ object fmSettings: TfmSettings
           Left = 135
           Height = 28
           Top = 0
-          Width = 241
+          Width = 238
           Caption = 'Способ масштабирования'
           Layout = tlCenter
           ParentColor = False
@@ -1848,7 +1851,7 @@ object fmSettings: TfmSettings
           Left = 135
           Height = 28
           Top = 33
-          Width = 241
+          Width = 238
           Caption = 'Коэффициент масштабирования'
           Layout = tlCenter
           ParentColor = False
@@ -1865,7 +1868,7 @@ object fmSettings: TfmSettings
           Left = 135
           Height = 24
           Top = 66
-          Width = 241
+          Width = 238
           Caption = 'Отображать полосу навигации'
           TabOrder = 2
         end
@@ -1891,6 +1894,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 3
         object lbPlotCtrlAxisY: TLabel
@@ -1993,13 +1997,14 @@ object fmSettings: TfmSettings
         Left = 10
         Height = 24
         Top = 10
-        Width = 592
+        Width = 580
         AutoSize = True
         BorderSpacing.Bottom = 8
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 592
+        ClientWidth = 580
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         object lbPlotCtrlAxisX2: TLabel
@@ -2018,7 +2023,7 @@ object fmSettings: TfmSettings
         Left = 10
         Height = 90
         Top = 42
-        Width = 592
+        Width = 580
         AutoSize = True
         BevelOuter = bvNone
         ChildSizing.HorizontalSpacing = 10
@@ -2026,7 +2031,7 @@ object fmSettings: TfmSettings
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 2
         ClientHeight = 90
-        ClientWidth = 592
+        ClientWidth = 580
         TabOrder = 1
         object sePlotSamples: TSpinEdit
           AnchorSideTop.Side = asrBottom
@@ -2046,7 +2051,7 @@ object fmSettings: TfmSettings
           Left = 110
           Height = 28
           Top = 0
-          Width = 482
+          Width = 470
           Caption = 'Максимальное число семплов'
           Layout = tlCenter
           ParentColor = False
@@ -2067,7 +2072,7 @@ object fmSettings: TfmSettings
           Left = 110
           Height = 28
           Top = 33
-          Width = 482
+          Width = 470
           Caption = 'Ширина "пробела" в режиме развертки, %'
           Layout = tlCenter
           ParentColor = False
@@ -2086,7 +2091,7 @@ object fmSettings: TfmSettings
           Left = 110
           Height = 24
           Top = 66
-          Width = 482
+          Width = 470
           AutoSize = True
           BevelOuter = bvNone
           ChildSizing.HorizontalSpacing = 10
@@ -2094,43 +2099,43 @@ object fmSettings: TfmSettings
           ChildSizing.Layout = cclTopToBottomThenLeftToRight
           ChildSizing.ControlsPerLine = 1
           ClientHeight = 24
-          ClientWidth = 482
+          ClientWidth = 470
           TabOrder = 3
           object cbPlotGridX: TCheckBox
             Left = 0
             Height = 24
             Top = 0
-            Width = 62
+            Width = 59
             Caption = 'Сетка'
             Checked = True
             State = cbChecked
             TabOrder = 0
           end
           object cbPlotMarksX: TCheckBox
-            Left = 72
+            Left = 69
             Height = 24
             Top = 0
-            Width = 67
+            Width = 64
             Caption = 'Метки'
             Checked = True
             State = cbChecked
             TabOrder = 1
           end
           object cbPlotLabelX: TCheckBox
-            Left = 149
+            Left = 143
             Height = 24
             Top = 0
-            Width = 180
+            Width = 177
             Caption = 'Подпись в режиме 2D'
             Checked = True
             State = cbChecked
             TabOrder = 2
           end
           object cbPlotSampleCount: TCheckBox
-            Left = 339
+            Left = 330
             Height = 24
             Top = 0
-            Width = 143
+            Width = 140
             Caption = 'Счетчик семплов'
             Checked = True
             State = cbChecked
@@ -2142,7 +2147,7 @@ object fmSettings: TfmSettings
         Left = 10
         Height = 8
         Top = 137
-        Width = 592
+        Width = 580
         AutoSize = True
         BevelOuter = bvNone
         Constraints.MinHeight = 8
@@ -2152,13 +2157,14 @@ object fmSettings: TfmSettings
         Left = 10
         Height = 24
         Top = 150
-        Width = 592
+        Width = 580
         AutoSize = True
         BorderSpacing.Bottom = 8
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 592
+        ClientWidth = 580
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 3
         object lbPlotCtrlAxisY1: TLabel
@@ -2177,7 +2183,7 @@ object fmSettings: TfmSettings
         Left = 10
         Height = 90
         Top = 182
-        Width = 592
+        Width = 580
         AutoSize = True
         BevelOuter = bvNone
         ChildSizing.HorizontalSpacing = 10
@@ -2185,7 +2191,7 @@ object fmSettings: TfmSettings
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 2
         ClientHeight = 90
-        ClientWidth = 592
+        ClientWidth = 580
         TabOrder = 4
         object sePlotOffsetYTop: TSpinEdit
           AnchorSideTop.Side = asrBottom
@@ -2257,17 +2263,17 @@ object fmSettings: TfmSettings
             Left = 0
             Height = 24
             Top = 0
-            Width = 62
+            Width = 59
             Caption = 'Сетка'
             Checked = True
             State = cbChecked
             TabOrder = 0
           end
           object cbPlotMarksY: TCheckBox
-            Left = 72
+            Left = 69
             Height = 24
             Top = 0
-            Width = 67
+            Width = 64
             Caption = 'Метки'
             Checked = True
             State = cbChecked
@@ -2305,17 +2311,17 @@ object fmSettings: TfmSettings
           Left = 0
           Height = 24
           Top = 0
-          Width = 167
+          Width = 164
           Caption = 'Отображать легенду'
           Checked = True
           State = cbChecked
           TabOrder = 0
         end
         object cbPlotShowUntitled: TCheckBox
-          Left = 177
+          Left = 174
           Height = 24
           Top = 0
-          Width = 314
+          Width = 311
           Caption = 'для линий без метки (в виде индекса @n)'
           Checked = True
           State = cbChecked
@@ -2343,6 +2349,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 651
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 2
         object lbPlotLegendLabel: TLabel
@@ -2375,18 +2382,18 @@ object fmSettings: TfmSettings
           Left = 0
           Height = 24
           Top = 0
-          Width = 155
+          Width = 152
           Caption = 'Отображать рамку'
           Checked = True
           State = cbChecked
           TabOrder = 0
         end
         object cbPlotLegendColoredB: TCheckBox
-          Left = 165
+          Left = 162
           Height = 24
           Hint = 'Если стилизировать, то цвет и стиль рамки'#13#10'будет соответствовать цвету и стилю линии'
           Top = 0
-          Width = 160
+          Width = 157
           Caption = 'и стилизировать ее'
           Checked = True
           State = cbChecked
@@ -2419,7 +2426,7 @@ object fmSettings: TfmSettings
           Left = 0
           Height = 24
           Top = 0
-          Width = 221
+          Width = 218
           Caption = 'Разрешить интерактивность'
           Checked = True
           Enabled = False
@@ -2428,7 +2435,7 @@ object fmSettings: TfmSettings
         end
         object lbPlotLegendHintBtn: TLabel
           Cursor = crHandPoint
-          Left = 231
+          Left = 228
           Height = 24
           Top = 0
           Width = 56
@@ -2462,6 +2469,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 651
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 6
         object lbPlotLegendText: TLabel
@@ -2495,16 +2503,16 @@ object fmSettings: TfmSettings
           Height = 24
           Hint = 'Если флажок установлен, то цвет метки соответствует цвету линии'
           Top = 0
-          Width = 119
+          Width = 116
           Caption = 'Расцвечивать'
           TabOrder = 0
         end
         object cbPlotLegendIndex: TCheckBox
-          Left = 129
+          Left = 126
           Height = 24
           Hint = 'Первая линия имеет индекс 1, и т.д.'
           Top = 0
-          Width = 198
+          Width = 195
           Caption = 'Добавлять индекс линии'
           TabOrder = 1
         end
@@ -2543,6 +2551,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         object lbPlotColorBasic: TLabel
@@ -2800,6 +2809,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 3
         object lbPlotColorLines: TLabel
@@ -2978,6 +2988,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         object lbImageSize: TLabel
@@ -3085,6 +3096,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 4
         object lbImageFont: TLabel
@@ -3130,7 +3142,7 @@ object fmSettings: TfmSettings
           Left = 110
           Height = 28
           Top = 0
-          Width = 423
+          Width = 420
           Caption = 'Размер шрифта пропорционален размеру изображения'
           TabOrder = 1
         end
@@ -3248,10 +3260,10 @@ object fmSettings: TfmSettings
             AutoComplete = True
             AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
             ItemHeight = 20
-            OnChange = cbRegExpListChange
-            OnEditingDone = cbRegExpListChange
             Style = csDropDownList
             TabOrder = 0
+            OnChange = cbRegExpListChange
+            OnEditingDone = cbRegExpListChange
           end
           object sbRegExpDel: TSpeedButton
             Left = 248
@@ -3287,9 +3299,9 @@ object fmSettings: TfmSettings
             Top = 0
             Width = 261
             Align = alClient
-            OnChange = edRegExpNameChange
             TabOrder = 0
             TextHint = 'уникальное название предустановки'
+            OnChange = edRegExpNameChange
           end
           object sbRegExpAdd: TSpeedButton
             Left = 266
@@ -3326,6 +3338,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 2
         object lbRegExpPreset: TLabel
@@ -3743,6 +3756,7 @@ object fmSettings: TfmSettings
           ClientWidth = 560
           Color = 9803263
           Constraints.MinHeight = 10
+          ParentBackground = False
           ParentColor = False
           TabOrder = 0
           Visible = False
@@ -3848,6 +3862,7 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         Color = cl3DLight
+        ParentBackground = False
         ParentColor = False
         TabOrder = 7
         object lbRegExpMore: TLabel

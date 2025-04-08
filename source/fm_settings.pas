@@ -6,22 +6,20 @@ interface
 
 uses
   Classes, SysUtils, Math, Forms, Graphics, Dialogs, ComCtrls, Spin, StdCtrls,
-  ExtCtrls, ActnList, Controls, IniPropStorage, LCLTranslator, Buttons,
-  LazFileUtils, LazUTF8, SynEdit,
+  ExtCtrls, ActnList, Controls, Buttons, LazFileUtils, LazUTF8, SynEdit,
+  AppTuner, AppSettings, AppLocalizer,
   fm_confirm,
-  u_encodings, u_utilities, u_common, u_settings, u_settings_record,
+  u_common, u_settings_record,
   u_plotter_types, u_plotter_regexplist, u_plotter;
 
 resourcestring
-  TXT_COLOR_HINT   = 'Цвет %d-й линии плоттера';
-  TXT_WIN_THEME    = 'Только Windows 10 1809+';
+  TXT_COLOR_HINT = 'Цвет %d-й линии плоттера';
+  TXT_WIN_THEME  = 'Только Windows 10 1809+';
 
 const
-  LANGUAGE_DEFAULT = 'RU, Russian - Русский';
-  LANGUAGES_DIR    = DirectorySeparator + 'lang';
-  LANGUAGES_FILE   = LANGUAGES_DIR + DirectorySeparator + 'languages.ini';
-  LANGUAGE_FILE    = LANGUAGES_DIR + DirectorySeparator + 'uTerminal';
-  SETTINGS_FILE    = DirectorySeparator + 'settings.ini';
+  LANGUAGES_DIR  = 'lang';
+  LANGUAGES_FILE = 'languages.ini';
+  LANGUAGE_FILE  = 'uTerminal';
 
   // цвета графиков по умолчанию
   DEFAULT_SERIE_COLOR: array[0..MAX_SERIES - 1] of TColor =
@@ -43,7 +41,6 @@ type
     procedure cbLanguageChange(Sender: TObject);
     procedure tmrUpdateTimer(Sender: TObject);
     procedure tvTabsSelectionChanged(Sender: TObject);
-    procedure seFontSizeChange(Sender: TObject);
     procedure actionExecute(Sender: TObject);
     procedure edRegExpNameChange(Sender: TObject);
     procedure seRegExpStrChange(Sender: TObject);
@@ -52,48 +49,30 @@ type
     procedure FormDestroy(Sender: TObject);
 
   private
-    FLangList: TStringList;
-    FLang:     String;
-    FREList:   TPlotterRegExpList;
-    FREItem:   TPlotterRegExpItem;
+    FREItem: TPlotterRegExpItem;
 
-    procedure IniStorageLangLoad;
     procedure AddStandardSettings;
-    procedure LoadComponentsFromFields;
-    procedure LoadFieldsFromComponents;
+    procedure UpdateConfigSpecial;
 
-  public
-    function LanguageChangeImmediately: Boolean;
+    procedure OnLanguageChange(Sender: TObject);
 
   end;
 
-// public variables, available in other units
+  // public variables, available in other units
 var
-  fmSettings:  TfmSettings;
-  cfg:         TAppConfiguration; // all settings of app
-  useStorages: Boolean = True;
-  appThemeAvailable: Boolean = False;
-
-function GetAppIniFileName: String;
+  fmSettings: TfmSettings;
 
 
 implementation
 
 var
-  Settings:     TSettings;
   cbSerieColor: array[0..MAX_SERIES - 1] of TColorButton;
   lbSerieColor: array[0..MAX_SERIES - 1] of TLabel;
-  defaultFont:  Integer;
 
 
-function GetAppIniFileName: String;
-  begin
-    Result := ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE;
-  end;
+  {$R *.lfm}
 
-{$R *.lfm}
-
- { TfmSettings }
+  { TfmSettings }
 
 procedure TfmSettings.FormCreate(Sender: TObject);
   begin
@@ -102,32 +81,57 @@ procedure TfmSettings.FormCreate(Sender: TObject);
     {$ENDIF}
 
     ColorButtonsInit;
-    IniStorageLangLoad;
     AddStandardSettings;
 
-    // font default settings
-    cbFontTxName.Items  := screen.Fonts;
-    cbFontRxName.Items  := screen.Fonts;
-    cbFontTxNameD.Items := screen.Fonts;
-    cbFontRxNameD.Items := screen.Fonts;
-    defaultFont         := Max(0, Screen.Fonts.IndexOf('Consolas'));
+    appLocalizerEx.AddOnLanguageChangeHandler(@OnLanguageChange);
+    appLocalizerEx.Load(
+      Format('%0:s%1:s%0:s%2:s', [DirectorySeparator, LANGUAGES_DIR, LANGUAGES_FILE]),
+      Format('%0:s%1:s%0:s%2:s', [DirectorySeparator, LANGUAGES_DIR, LANGUAGE_FILE]));
+
+    cbLanguage.Items.SetStrings(appLocalizerEx.Languages);
+    cbLanguage.ItemIndex := 0;
+
+    // theme selector
+    cbAppTheme.Items.AddStrings(CAppTheme);
+    cbAppTheme.ItemIndex := Integer(appTunerEx.Theme);
+    cbAppTheme.Enabled   := appTunerEx.IsDarkThemeAvailable;
 
     pcPageCtrl.ActivePageIndex := 0;
     pcPageCtrl.ShowTabs        := not tvTabs.Visible;
     seRegExpStr.Gutter.Visible := True;
     lbRegExpPos.Caption        := '0';
 
-    FREItem := TPlotterRegExpItem.Create;
-    FREList := TPlotterRegExpList.Create(GetAppIniFileName);
+    // load app settings
+    Settings.IniFile := appTunerEx.IniFile;
+    Settings.SyncValues;     // load default values to fields of 'cfg' record
+    Settings.Load;           // load settings from ini file to 'cfg' record
+
+    // font default settings
+    if cfg.tx.font.index < 0 then
+      begin
+      cfg.tx.font.index     := Max(0, Screen.Fonts.IndexOf('Consolas'));
+      cfg.rx.font.index     := cfg.tx.font.index;
+      cfg.tx.fontdark.index := cfg.tx.font.index;
+      cfg.rx.fontdark.index := cfg.tx.font.index;
+      end;
+
+    // load font lists
+    cbFontTxName.Items  := screen.Fonts;
+    cbFontRxName.Items  := screen.Fonts;
+    cbFontTxNameD.Items := screen.Fonts;
+    cbFontRxNameD.Items := screen.Fonts;
 
     // load list of RegExp presets
-    if useStorages then FREList.LoadFromIni;
-    cbRegExpList.Items.CommaText := FREList.CommaText;
+    FREItem         := TPlotterRegExpItem.Create;
+    cfg.regexp.list := TPlotterRegExpList.Create;
+    cfg.regexp.list.Load(cfg.regexp.listData);
+
+    cbRegExpList.Items.CommaText := cfg.regexp.list.CommaText;
     cbRegExpList.ItemIndex       := 0;
 
-    // load app settings
-    if useStorages then Settings.LoadFromIniStorage;
-    LoadFieldsFromComponents;
+    UpdateConfigSpecial;
+
+    Settings.SyncComponents; // load controls from fields of 'cfg' record
   end;
 
 procedure TfmSettings.FormShow(Sender: TObject);
@@ -156,9 +160,7 @@ procedure TfmSettings.FormShow(Sender: TObject);
     var
       i: Integer;
       w: Integer = 0;
-    begin  Settings.UpdateComboboxList;
-      Settings.AdjustComboItemWidth;
-
+    begin
       // get tree view min width
       for i := 0 to tvTabs.Items.Count - 1 do
         w := Max(w, Canvas.GetTextWidth(tvTabs.Items.Item[i].Text));
@@ -176,7 +178,7 @@ procedure TfmSettings.FormShow(Sender: TObject);
 
   procedure DarkThemeSupport;
     begin
-      if appThemeAvailable then
+      if appTunerEx.IsDarkThemeAvailable then
         begin
         pDarkTheme.BorderStyle := bsNone;
         cbAppTheme.Visible     := True;
@@ -188,10 +190,20 @@ procedure TfmSettings.FormShow(Sender: TObject);
     end;
 
   begin
+    Settings.SyncComponents; // load controls from fields of 'cfg' record
+
+    // execute this block only once
+    if Tag = 0 then
+      begin
+      Tag := 1;
+
+      Settings.SyncComponents;
+      cbLanguageChange(Sender);
+      end;
+
     BeginFormUpdate;
     AdjustComponentsSizes;
     DarkThemeSupport;
-    if Assigned(Sender) then LoadComponentsFromFields;
     EndFormUpdate;
 
     pcPageCtrl.Tag := pcPageCtrl.ActivePageIndex;
@@ -203,6 +215,9 @@ procedure TfmSettings.FormShow(Sender: TObject);
     EndFormUpdate;
 
     tmrUpdate.Enabled := True;
+
+    // load current RegExp preset data to fields
+    cbRegExpListChange(nil);
   end;
 
 procedure TfmSettings.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -213,12 +228,6 @@ procedure TfmSettings.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 
 procedure TfmSettings.FormDestroy(Sender: TObject);
   begin
-    if not useStorages then Exit;
-
-    // save settings to storage
-    LoadComponentsFromFields;
-    FREList.SaveToIni;
-    Settings.SaveToIniStorage;
   end;
 
 
@@ -226,146 +235,16 @@ procedure TfmSettings.AddStandardSettings;
   var
     i: Integer;
   begin
-    if Settings = nil then
-      Settings := TSettings.Create(Self, ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE);
+    for i := 0 to MAX_SERIES - 1 do
+      Settings.Add(cbSerieColor[i], @cfg.plt.color.line[i]);
 
-    with cfg do
-      begin
-      Settings.Add(cbLanguage, @com.langIndex);
-      Settings.Add(seIconsRes, @com.iconsRes);
-      Settings.Add(seFontSize, @com.fontSize);
-      Settings.Add(cbShowSplash, @com.splash);
-      Settings.Add(cbGluedWindow, @com.glued);
-      Settings.Add(cbShowIndicators, @com.leds);
-      Settings.Add(cbMinimizeToTray, @com.tray);
-      Settings.Add(cbShowMenu, @com.menu);
-      Settings.Add(cbShowEncoding, @com.encoding);
-      Settings.Add(cbShowRS232Captions, @com.RS232);
-      Settings.Add(cbShowStatusBar, @com.status);
-
-      Settings.Add(seTabSize, @editor.tab);
-      Settings.Add(cbFontQuality, @editor.quality);
-      Settings.Add(cbShowRightEdge, @editor.right.enable);
-      Settings.Add(seRightEdge, @editor.right.pos);
-      Settings.Add(cbShowSizes, @editor.view.size);
-      Settings.Add(cbSizesInBytes, @editor.view.inBytes);
-      Settings.Add(cbShowPosAndSel, @editor.view.pos);
-      Settings.Add(seHEXBlockBytes, @editor.hex.block);
-      Settings.Add(seHEXLineBytes, @editor.hex.line);
-
-      Settings.Add(cbAutoconnect, @connect.auto);
-      Settings.Add(cbCheckPort, @connect.check);
-      Settings.Add(cbHardflow, @connect.hardflow);
-
-      Settings.Add(cbTxRestore, @tx.restore);
-      Settings.Add(cbFileLoadWarning, @tx.loadWarn);
-      Settings.Add(cbFileDataAdd, @tx.addition);
-      Settings.Add(seTxBreakTime, @tx.breakTime);
-      Settings.Add(seTxDeadlockTO, @tx.timeout);
-      Settings.Add(cbFontTxName, @tx.font.index);
-      Settings.Add(seFontTxSize, @tx.font.size);
-      Settings.Add(colbFontTx, @tx.font.color);
-      Settings.Add(cbFontTxNameD, @tx.fontdark.index);
-      Settings.Add(seFontTxSizeD, @tx.fontdark.size);
-      Settings.Add(colbFontTxD, @tx.fontdark.color);
-
-      Settings.Add(cbRxRestore, @rx.restore);
-      Settings.Add(seRxSizeLimit, @rx.limit, 1024);
-      Settings.Add(cbRxTimestamp, @rx.timestamp.enable);
-      Settings.Add(edRxTSBefore, @rx.timestamp.before);
-      Settings.Add(edRxTSAfter, @rx.timestamp.after);
-      Settings.Add(seRxTimeout, @rx.timestamp.timeout);
-      Settings.Add(cbFontRxName, @rx.font.index);
-      Settings.Add(seFontRxSize, @rx.font.size);
-      Settings.Add(colbFontRx, @rx.font.color);
-      Settings.Add(cbFontRxNameD, @rx.fontdark.index);
-      Settings.Add(seFontRxSizeD, @rx.fontdark.size);
-      Settings.Add(colbFontRxD, @rx.fontdark.color);
-
-      Settings.Add(seImageWidth, @png.w);
-      Settings.Add(seImageHeight, @png.h);
-      Settings.Add(cbImageDialogOne, @png.silent);
-      Settings.Add(cbImageCustomSize, @png.custom);
-      Settings.Add(cbImageFontProp, @png.font.prop);
-      Settings.Add(seImageFontSize, @png.font.size);
-
-      Settings.Add(cbPlotLineRecolor, @plt.recolor);
-      Settings.Add(cbPlotLineReactivate, @plt.reactivate);
-      Settings.Add(cbPlotCopyRx, @plt.copyRx);
-      Settings.Add(cbPlotClearRx, @plt.clearRx);
-      Settings.Add(cbPlotAllowCommands, @plt.commands);
-      Settings.Add(cbPlotSmooth, @plt.smooth);
-      Settings.Add(cbPlotSize, @plt.size);
-      Settings.Add(cbPlotMinimap, @plt.view.minimap);
-      Settings.Add(cbPlotPanelOnMain, @plt.view.panelOnMain);
-      Settings.Add(colbPlotterBG, @plt.color.bg);
-      Settings.Add(colbPlotterBGW, @plt.color.bgwork);
-      Settings.Add(colbPlotterText, @plt.color.txt);
-      Settings.Add(colbPlotterBGd, @plt.dark.bg);
-      Settings.Add(colbPlotterBGWd, @plt.dark.bgwork);
-      Settings.Add(colbPlotterTextd, @plt.dark.txt);
-
-      Settings.Add(cbPlotGridX, @ax.grid);
-      Settings.Add(cbPlotMarksX, @ax.marks);
-      Settings.Add(cbPlotLabelX, @ax.labels);
-      Settings.Add(cbPlotSampleCount, @ax.counter);
-      Settings.Add(sePlotSamples, @ax.samples);
-      Settings.Add(sePlotWinClear, @ax.space);
-      Settings.Add(colbPlotterGX, @ax.color);
-      Settings.Add(colbPlotterGXd, @ax.dark);
-      Settings.Add(fsePlotCtrlFactorX, @ax.ctrl.factor);
-      Settings.Add(cbPlotXBar, @ax.ctrl.bar);
-
-      Settings.Add(cbPlotGridY, @ay.grid);
-      Settings.Add(cbPlotMarksY, @ay.marks);
-      Settings.Add(colbPlotterGY, @ay.color);
-      Settings.Add(colbPlotterGYd, @ay.dark);
-      Settings.Add(fsePlotCtrlFactorY, @ay.ctrl.factor);
-      Settings.Add(sePlotOffsetYTop, @ay.offset.t);
-      Settings.Add(sePlotOffsetYBot, @ay.offset.b);
-
-      Settings.Add(cbPlotLegendShow, @legend.enable);
-      Settings.Add(cbPlotShowUntitled, @legend.untitled);
-      Settings.Add(cbPlotLegendColored, @legend.colored);
-      Settings.Add(cbPlotLegendColoredB, @legend.coloredframe);
-      Settings.Add(cbPlotLegendActive, @legend.interactive);
-      Settings.Add(cbPlotLegendFrame, @legend.frame);
-      Settings.Add(cbPlotLegendIndex, @legend.index);
-      Settings.Add(cbPlotLegendStyle, @legend.style);
-
-      Settings.Add(cbRegExpCaseCare, @re.casecare);
-      Settings.Add(cbRegExpList, nil);
-
-      for i := 0 to MAX_SERIES - 1 do
-        Settings.Add(cbSerieColor[i], @plt.color.line[i]);
-
-      // для перевода строк в TComboBox задаем массив строк
-      Settings.Add(cbPanelsLayout, @com.layoutIndex, TXT_PANELS_LAYOUT);
-      Settings.Add(cbAppTheme, @com.theme, TXT_THEMES);
-      Settings.Add(cbAppUpdateWay, @com.update.wayIndex, TXT_UPDATE_WAY);
-      Settings.Add(cbAppUpdateFreq, @com.update.freqIndex, TXT_UPDATE_FREQ);
-      Settings.Add(cbLineBreakStyle, @editor.linebreakIndex, TXT_LINEBREAK);
-      Settings.Add(cbCSVDelimiter, @csv.delimiterIndex, TXT_PLOTTER_CSV_DELIM);
-      Settings.Add(cbCSVDecDelimiter, @csv.decimalIndex, TXT_PLOTTER_CSV_DECDELIM);
-      Settings.Add(cbCSVQuotes, @csv.quotesIndex, TXT_PLOTTER_CSV_QUOTES);
-      Settings.Add(cbCSVLineBreak, @csv.linebreakIndex, TXT_LINEBREAK);
-      Settings.Add(cbPlotCtrlX, @ax.ctrl.methodIndex, TXT_CTRL_METHOD);
-      Settings.Add(cbPlotCtrlY, @ay.ctrl.methodIndex, TXT_CTRL_METHOD);
-      end;
+    // add settings related to fm_settings
+    {$Define inc_fm_settings}
+    {$Include i_config.inc}
   end;
 
-procedure TfmSettings.LoadComponentsFromFields;
+procedure TfmSettings.UpdateConfigSpecial;
   begin
-    Settings.LoadCompValues;
-
-    // load current RegExp preset data to fields
-    cbRegExpListChange(nil);
-  end;
-
-procedure TfmSettings.LoadFieldsFromComponents;
-  begin
-    Settings.LoadFields;
-
     // create default regexp if regexp list is empty
     if cbRegExpList.ItemIndex < 0 then
       with TPlotterParser.Create(1) do
@@ -381,7 +260,6 @@ procedure TfmSettings.LoadFieldsFromComponents;
     // set values to non-standard settings
     with cfg do
       begin
-      com.lang         := FLang;
       com.layout       := TPanelsLayout(com.layoutIndex);
       com.update.way   := TAppUpdateWay(com.update.wayIndex);
       com.update.freq  := TAppUpdateFreq(com.update.freqIndex);
@@ -392,56 +270,34 @@ procedure TfmSettings.LoadFieldsFromComponents;
       csv.linebreak    := TTextLineBreakStyle(csv.linebreakIndex);
       ax.ctrl.method   := TPlotterCtrl(ax.ctrl.methodIndex);
       ay.ctrl.method   := TPlotterCtrl(ay.ctrl.methodIndex);
-      re.list          := FREList;
-
-      if tx.font.index < 0 then tx.font.index := defaultFont;
-      if rx.font.index < 0 then rx.font.index := defaultFont;
-
-      if tx.fontdark.index < 0 then tx.fontdark.index := defaultFont;
-      if rx.fontdark.index < 0 then rx.fontdark.index := defaultFont;
       end;
   end;
 
-
-procedure TfmSettings.IniStorageLangLoad;
+procedure TfmSettings.OnLanguageChange(Sender: TObject);
   var
-    i, cnt:    Integer;
-    lng, flng: String;
+    i: Integer;
   begin
-    if FLangList = nil then
-      FLangList := TStringList.Create;
+    BeginFormUpdate;
 
-    LazGetLanguageIDs(lng, flng);
-    cbLanguage.Clear;
-    FLangList.Append('');
-    cbLanguage.Items.Append('System or native: ' + flng + ' (' + lng.ToLower + ')');
+    appLocalizerEx.Localize(cbAppTheme, TXT_THEMES);
+    appLocalizerEx.Localize(cbPanelsLayout, TXT_PANELS_LAYOUT);
+    appLocalizerEx.Localize(cbAppUpdateWay, TXT_UPDATE_WAY);
+    appLocalizerEx.Localize(cbAppUpdateFreq, TXT_UPDATE_FREQ);
+    appLocalizerEx.Localize(cbLineBreakStyle, TXT_LINEBREAK);
+    appLocalizerEx.Localize(cbCSVDelimiter, TXT_PLOTTER_CSV_DELIM);
+    appLocalizerEx.Localize(cbCSVDecDelimiter, TXT_PLOTTER_CSV_DECDELIM);
+    appLocalizerEx.Localize(cbCSVQuotes, TXT_PLOTTER_CSV_QUOTES);
+    appLocalizerEx.Localize(cbCSVLineBreak, TXT_LINEBREAK);
+    appLocalizerEx.Localize(cbPlotCtrlX, TXT_CTRL_METHOD);
+    appLocalizerEx.Localize(cbPlotCtrlY, TXT_CTRL_METHOD);
 
-    with TIniPropStorage.Create(nil) do
-      begin
-      IniFileName := ExtractFileDir(ParamStrUTF8(0)) + LANGUAGES_FILE;
-      Active      := True;
-      IniSection  := 'Languages List';
+    // translate tree view tabs
+    for i := 0 to pcPageCtrl.PageCount - 1 do
+      if i < tvTabs.Items.Count then
+        tvTabs.Items.Item[i].Text := pcPageCtrl.Pages[i].Caption;
 
-      // если приложение не нашло файл со списком локализаций - создаем его
-      if not FileExistsUTF8(IniFileName) then
-        begin
-        WriteInteger('Count', 1);
-        WriteString('L-1', LANGUAGE_DEFAULT);
-        end;
-
-      // считываем список локализаций
-      cnt := ReadInteger('Count', 1);
-      cbLanguage.ItemIndex := 0;
-
-      if cnt > 0 then
-        for i := 1 to cnt do
-          begin
-          FLangList.Append(GetLangCode(ReadString('L-' + i.ToString, '')));
-          cbLanguage.Items.Append(GetLangCaption(ReadString('L-' + i.ToString, '')));
-          end;
-
-      Free;
-      end;
+    ColorButtonsTranslate;
+    EndFormUpdate;
   end;
 
 
@@ -451,32 +307,34 @@ procedure TfmSettings.actionExecute(Sender: TObject);
 
       'acOK':
         begin
-        LoadFieldsFromComponents;
-        ModalResult := mrOk;
+        Settings.SyncValues;
+        UpdateConfigSpecial;
+        appTunerEx.Theme := TAppTheme(cbAppTheme.ItemIndex);
+        ModalResult      := mrOk;
         end;
 
       'acCancel':
         begin
-        LoadComponentsFromFields;
+        Settings.SyncComponents;
         ModalResult := mrCancel;
         end;
 
       'acRegExpAdd':
         begin
         if FREItem.Error then Exit;
-        if FREList.Add(edRegExpName.Text, seRegExpStr.Text,
+        if cfg.regexp.list.Add(edRegExpName.Text, seRegExpStr.Text,
           edRegExpLabel.Text, edRegExpValue.Text) < 0 then Exit;
 
-        cbRegExpList.Items.CommaText := FREList.CommaText;
+        cbRegExpList.Items.CommaText := cfg.regexp.list.CommaText;
         cbRegExpList.Text            := edRegExpName.Text;
         end;
 
       'acRegExpDel':
         begin
         cbRegExpList.Tag := cbRegExpList.ItemIndex;
-        if FREList.Delete(cbRegExpList.Text) < 0 then Exit;
+        if cfg.regexp.list.Delete(cbRegExpList.Text) < 0 then Exit;
 
-        cbRegExpList.Items.CommaText := FREList.CommaText;
+        cbRegExpList.Items.CommaText := cfg.regexp.list.CommaText;
         cbRegExpList.ItemIndex       := Max(cbRegExpList.Tag - 1, 0);
         end;
 
@@ -545,7 +403,7 @@ procedure TfmSettings.ColorButtonsInit;
       lbSerieColor[i].Alignment := taCenter;
       end;
 
-    if appThemeAvailable then
+    if appTunerEx.IsDarkThemeAvailable then
       begin
       for item in [lbPlotColorLight, lbPlotColorTheme, lbPlotColorDark,
           colbPlotterBGd, colbPlotterBGWd, colbPlotterTextd,
@@ -586,32 +444,10 @@ procedure TfmSettings.tvTabsSelectionChanged(Sender: TObject);
 
 procedure TfmSettings.cbLanguageChange(Sender: TObject);
   begin
-    // сохраняем позиции списков перед переводом
-    Settings.ItemIndexBackup;
+    appLocalizerEx.CurrentLanguage := cbLanguage.ItemIndex;
 
-    if not LanguageChangeImmediately then Exit;
-
-    // перерисовываем форму, чтобы более длинные метки полностью помещались
-    FormShow(nil);
-
-    // восстанавливаем позиции списков
-    Settings.ItemIndexRestore;
-  end;
-
-procedure TfmSettings.seFontSizeChange(Sender: TObject);
-  var
-    i: Integer;
-  begin
-    BeginFormUpdate;
-    Font.Height := 0;
-    Font.Height := Round(Canvas.Font.GetTextHeight('0') * seFontSize.Value / 100);
-
-    // for labels with custom font
-    for i := 0 to ComponentCount - 1 do
-      if Components[i].ClassName = TLabel.ClassName then
-        TControl(Components[i]).Font.Height := Font.Height;
-
-    EndFormUpdate;
+    appTunerEx.TuneComboboxes := False;
+    appTunerEx.TuneComboboxes := True;  // force tuning
   end;
 
 
@@ -633,10 +469,10 @@ procedure TfmSettings.cbRegExpListChange(Sender: TObject);
   var
     i: Integer;
   begin
-    i := FREList.IndexOf(cbRegExpList.Text);
+    i := cfg.regexp.list.IndexOf(cbRegExpList.Text);
     if i < 0 then Exit;
 
-    with FREList.Items[i] do
+    with cfg.regexp.list.Items[i] do
       begin
       edRegExpName.Text  := Name;
       edRegExpLabel.Text := RELabel;
@@ -648,32 +484,6 @@ procedure TfmSettings.cbRegExpListChange(Sender: TObject);
 procedure TfmSettings.seRegExpStrKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   begin
     seRegExpStrChange(Sender);
-  end;
-
-
-function TfmSettings.LanguageChangeImmediately: Boolean;
-  var
-    i:         Integer;
-    lng, flng: String;
-  begin
-    LazGetLanguageIDs(lng, flng);
-
-    // применяем язык интерфейса не выходя из настроек
-    FLang := SetDefaultLang(FLangList[cbLanguage.ItemIndex], '', LANGUAGE_FILE);
-
-    if FLang.Length = 2 then
-      Result := FLang <> flng
-    else
-      Result := FLang <> lng;
-
-    AddStandardSettings;
-    Settings.UpdateComboboxList;
-    ColorButtonsTranslate;
-
-    // translate tree view tabs
-    for i := 0 to pcPageCtrl.PageCount - 1 do
-      if i < tvTabs.Items.Count then
-        tvTabs.Items.Item[i].Text := pcPageCtrl.Pages[i].Caption;
   end;
 
 

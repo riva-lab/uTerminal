@@ -6,9 +6,10 @@ interface
 
 uses
   ActnList, Buttons, Classes, Clipbrd, ComCtrls, Controls, Dialogs, ExtCtrls,
-  Forms, Graphics, IniPropStorage, LazFileUtils, LazUTF8, LCLType, Menus,
+  Forms, Graphics, LazFileUtils, LazUTF8, LCLType, Menus,
   PairSplitter, Spin, StdCtrls, LCLIntf, Grids, ImageSVGList, StrUtils,
   SysUtils, Types, SynEdit, SynEditTypes, Math, DateUtils,
+  AppTuner, AppLocalizer, AppSettings,
 
   // chart units
   TAGraph, TASeries, TAChartLiveView, TATools, TATypes, TANavigation,
@@ -17,16 +18,11 @@ uses
   // BGRA
   BGRABitmap, BGRABitmapTypes,
 
-  // for dark theme support 
-  {$IFDEF ALLOW_DARK_THEME}
-  uMetaDarkStyle, uDarkStyleParams, 
-  {$ENDIF}
-
   // other forms
   fm_about, fm_commands, fm_confirm, fm_insertchar, fm_settings, fm_update,
 
   // project units
-  u_encodings, u_serial, u_common, u_utilities, u_txsequences,
+  u_encodings, u_serial, u_common, u_utilities, u_txsequences, u_settings_record,
   u_plotter, u_plotter_types, u_plotter_charts,
 
   // additional
@@ -65,14 +61,10 @@ resourcestring
 
 
 const
-  HELP_DIR        = 'help';
-  HELP_DIR_ONLINE = '-/blob/master/help';
-  HELP_FILE       = 'uTerminal-help';
-
-  TT_ASC          = 0; // отображение данных в ASCII
-  TT_HEX          = 1; // отображение данных в HEX
-  TT_BIN          = 2; // отображение данных в BIN
-  TT_DEC          = 3; // отображение данных в DEC
+  TT_ASC = 0; // отображение данных в ASCII
+  TT_HEX = 1; // отображение данных в HEX
+  TT_BIN = 2; // отображение данных в BIN
+  TT_DEC = 3; // отображение данных в DEC
 
   indicatorColor: array[Boolean] of TColor = ($4040FF, $00D000); // 0 RED; 1 GREEN
   indicatorText: array[Boolean] of String  = ('0', '1');         // 0; 1
@@ -96,12 +88,6 @@ type
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FormMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-
-    { ***  Работа с хранилищем настроек  *** }
-
-    procedure SettingsSaveToIni;
-    procedure SettingsLoadFromIni;
-    procedure acResetExecute(Sender: TObject);
 
     procedure pTranceiverMsgResize(Sender: TObject);
     procedure pSplitterTxRxResize(Sender: TObject);
@@ -143,6 +129,7 @@ type
     { ***  Управление видом  *** }
 
     procedure actionViewGeneral(Sender: TObject);
+    procedure actionViewForm(Sender: TObject);
 
     { ***  Поиск текста  *** }
 
@@ -205,16 +192,18 @@ type
     procedure AdjustComponentSizes;
     procedure AdjustThemeDependentValues;
 
+    { ***  Settings and language  *** }
+
+    procedure BeforeSaveConfig;
+    procedure AfterLoadConfig;
+    procedure acResetExecute(Sender: TObject);
     procedure SettingsApply(Sender: TObject = nil);
-    procedure LanguageChange;
+    procedure LanguageChange(Sender: TObject);
 
   private
     FWSPrevious:    TWindowState;
     FLastMaxCh:     Integer;       // initial lines padding in window view of plotter
-    FPosOffset:     TPoint;        // offset beetwen window coords and form coords
     FMouseDownPos:  TPoint;        // mouse coords when left button clicks
-    FMouseDown:     Boolean;       // flag to show mouse down state
-    FFormMetrics:   TRect;         // coords and sizes of form
     FInactiveColor: Integer;       // RS-232 inactive led color
     FRedrawBoxes:   Boolean;       // flag to start redraw i/o boxes
 
@@ -224,17 +213,15 @@ type
   end;
 
 var
-  fmMain:        TfmMain;
-  portList:      TStringList;         // список доступных портов без метки "занят"
-  serial:        TSerialPortThread;   // класс-поток для работы с портом
-  txSeqList:     TSequencesList;      // класс-хранитель списка сохраненных сообщений для передачи
-  plotter:       TPlotterParser;      // класс-парсер для плоттера
-  tx, rx:        String;              // буферы ввода и вывода
-  txSequence:    Boolean = False;     // флаг запуска передачи выбранного сбщ из списка сохраненных
-  splitPercent:  Double = 0.5;        // положение разделителя полей в/в (от 0 до 1)
-  portWasOpened: Boolean = False;     // был ли открыт порт при завершении предыдущей сессии
-  lineSelected:  Integer = -1;        // выбранная курсором линия плоттера
-  lineParam:     TLineParam = lpNone; // параметр линии для изменения жестом
+  fmMain:       TfmMain;
+  portList:     TStringList;         // список доступных портов без метки "занят"
+  serial:       TSerialPortThread;   // класс-поток для работы с портом
+  txSeqList:    TSequencesList;      // класс-хранитель списка сохраненных сообщений для передачи
+  plotter:      TPlotterParser;      // класс-парсер для плоттера
+  tx, rx:       String;              // буферы ввода и вывода
+  txSequence:   Boolean = False;     // флаг запуска передачи выбранного сбщ из списка сохраненных
+  lineSelected: Integer = -1;        // выбранная курсором линия плоттера
+  lineParam:    TLineParam = lpNone; // параметр линии для изменения жестом
 
 implementation
 
@@ -271,27 +258,31 @@ procedure TfmMain.FormCreate(Sender: TObject);
     end;
 
   begin
-    ipsMain.IniFileName := ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE;
-
-    Menu := nil;
-
     serial.Start;
-
     serial.OnRxStart := @OnCommRxStart;
     serial.OnRxEnd   := @OnCommRxEnd;
     serial.OnTxStart := @OnCommTxStart;
     serial.OnTxEnd   := @OnCommTxEnd;
 
-    FMouseDown := False;
-
     PlotterParserInit;
     AddPortSettingsSubMenu;
+    EncodingsTxRxSet;
+
+    // default form size
+    Width  := Scale96ToScreen(700);
+    Height := Scale96ToScreen(450);
+
+    appLocalizerEx.AddOnLanguageChangeHandler(@LanguageChange);
+
+    // add settings related to fm_main
+    {$Define inc_fm_main}
+    {$Include i_config.inc}
   end;
 
 // появление формы главного окна на экране
 procedure TfmMain.FormShow(Sender: TObject);
   var
-    _comp: TComponent;
+    _comp: TObject;
   begin
     tiTrayIcon.Visible    := True;
     tiTrayIcon.Icon       := Application.Icon;
@@ -300,10 +291,23 @@ procedure TfmMain.FormShow(Sender: TObject);
     lbRxPosAndSel.Caption := '';
     OnShow                := nil;       // выкл. обработчик, нужен только при запуске
     Position              := poDefault; // чтобы не менялась позиция окна при разворачивании из трея
-    FPosOffset            := GetFormOffset(Self);
 
-    EncodingsTxRxSet;
-    SettingsLoadFromIni;
+    appLocalizerEx.EnumerateComponents;
+
+    with appTunerEx do
+      begin
+      AddAllForms;
+      Form[Self].SaveProps := True; // save/restore props only for main form 
+      Hide;
+      LoadProperties;
+      Form[Self].AllowDrag := True;
+
+      // load property values to controls
+      acShowOnTop.Checked  := Form[Self].StayOnTop;
+      acShowBorder.Checked := not Form[Self].Borderless;
+      end;
+
+    AfterLoadConfig;
     SettingsApply;
 
     // заставка (если включена)
@@ -312,18 +316,21 @@ procedure TfmMain.FormShow(Sender: TObject);
     // предустановка состояний элементов
     actionPortGeneral(acRxEnable);
 
-    for _comp in [acShowLineCounts, acShowHEX, acShowOnTop, acShowSignals,
-        acShowTBMain, acShowTBPort, acShowTBTx, acShowTBRx, acShowBorder] do
+    for _comp in [acPlotterShow, acPlotterSettings, acPlotterQLiveMode,
+        acPlotterQTracker, Sender] do
+      actionPlotter(_comp);
+
+    for _comp in [acShowLineCounts, acShowHEX, acShowSignals,
+        acShowTBMain, acShowTBPort, acShowTBTx, acShowTBRx] do
       actionViewGeneral(_comp);
 
     for _comp in [acSearch, rbSearchTx] do
       actionSearchGeneral(_comp);
 
-    for _comp in [acPlotterShow, acPlotterSettings, Sender] do
-      actionPlotter(_comp);
+    actionViewForm(Sender);
 
     // автоподключение к порту
-    if cfg.connect.auto and portWasOpened then acConnect.Execute;
+    if cfg.connect.auto and cfg.connect.opened then acConnect.Execute;
 
     // начальная инициализация
     acScan.Execute;
@@ -331,45 +338,18 @@ procedure TfmMain.FormShow(Sender: TObject);
     seAutoSendTime.Hide;
 
     FormChangeBounds(nil);
-    pSplitterTxRxResize(nil);
+    Show;
   end;
 
 // изменение состояния главного окна (свернуто, нормально, развернуто)
 procedure TfmMain.FormChangeBounds(Sender: TObject);
-
-  procedure GluedBorder;
-    var
-      currShift:    TPoint;
-      magneticArea: Integer;
-    begin
-      with Screen.WorkAreaRect do
-        begin
-        currShift    := GetFormOffset(Self);
-        magneticArea := Scale96ToForm(24);
-
-        if magneticArea > Abs(FFormMetrics.Left + currShift.X) then
-          Self.Left := -currShift.X;
-        if magneticArea > Abs(Width - FFormMetrics.Right - currShift.X) then
-          Self.Left := Width - Self.Width - currShift.X;
-        if magneticArea > Abs(FFormMetrics.Top + 0) then
-          Self.Top  := 0;
-        if magneticArea > Abs(Height - FFormMetrics.Bottom - currShift.Y) then
-          Self.Top  := Height - Self.Height - currShift.Y;
-        end;
-    end;
-
   begin
     if OnShow <> nil then Exit;
 
     if WindowState <> wsMinimized then
       FWSPrevious := WindowState;
 
-    if WindowState = wsNormal then
-      begin
-      FFormMetrics := GetFormRect(Self);
-      if cfg.com.glued then GluedBorder;
-      end;
-
+    // option: minimize to tray
     if cfg.com.tray and (WindowState = wsMinimized) then
       tiTrayIconClick(Sender);
 
@@ -389,7 +369,15 @@ procedure TfmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
       CanClose := fmConfirm.Show(TXT_WARNING, WARN_UPDATE, mbYesNo, Self) = mrYes;
 
     if CanClose then
-      SettingsSaveToIni;
+      begin
+      Settings.SyncValues;
+      BeforeSaveConfig;
+      Settings.Save;
+      Hide; // to prevent form flickering
+      appTunerEx.Form[Self].MenuShow := False;
+      appTunerEx.Form[Self].MenuTune := False;
+      appTunerEx.SaveProperties;
+      end;
   end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -400,131 +388,17 @@ procedure TfmMain.FormDropFiles(Sender: TObject; const FileNames: array of Strin
 
 procedure TfmMain.FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   begin
-    FMouseDown := True;
-    with Mouse.CursorPos do
-      FMouseDownPos.Create(Left - X, Top - Y);
+    appTunerEx.Form[Self].ProcessMouseDown(X, Y);
   end;
 
 procedure TfmMain.FormMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   begin
-    FMouseDown := False;
+    appTunerEx.Form[Self].ProcessMouseUp(X, Y);
   end;
 
 procedure TfmMain.FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
   begin
-    if FMouseDown and (Shift = [ssLeft]) and (WindowState = wsNormal) then
-      begin
-      Left := FMouseDownPos.X + Mouse.CursorPos.X;
-      Top  := FMouseDownPos.Y + Mouse.CursorPos.Y;
-      end;
-  end;
-
-
- { ***  Работа с хранилищем настроек  *** }
-
- // сохранение настроек в файл INI
-procedure TfmMain.SettingsSaveToIni;
-  var
-    offsetSign: Integer;
-  begin
-    with ipsMain do
-      begin
-      if not Active then Exit;
-
-      // параметры состояния формы и компонентов
-      IniSection := 'Last Parameters';
-      EraseSections;
-
-      offsetSign := (BorderStyle = bsNone).Select(-1, 1);
-      WriteInteger('WindowMainTop', fmMain.RestoredTop + FPosOffset.Y * offsetSign);
-      WriteInteger('WindowMainLeft', fmMain.RestoredLeft + FPosOffset.X * offsetSign);
-      WriteInteger('WindowMainWidth', fmMain.RestoredWidth);
-      WriteInteger('WindowMainHeight', fmMain.RestoredHeight);
-      WriteInteger('WindowMainState', Ord(fmMain.WindowState));
-      WriteBoolean('OnTop', acShowOnTop.Checked);
-      WriteInteger('Splitter', round(splitPercent * 1e9));
-      WriteInteger('EncodingTx', cbTxEncoding.ItemIndex);
-      WriteInteger('EncodingRx', cbRxEncoding.ItemIndex);
-      WriteInteger('TypeTx', cbTxType.ItemIndex);
-      WriteInteger('TypeRx', cbRxType.ItemIndex);
-      WriteBoolean('PortOpened', serial.Connected);
-      WriteString('LastPort', serial.Port);
-      WriteInteger('LastUpdateCheck', DateTimeToUnix(fmUpdate.DateLast));
-
-      IniSection := 'Buffers Data';
-      EraseSections;
-
-      WriteString('TxBufferData',
-        cfg.tx.restore.Select(EncodeStringBase64(seTx.Text), ''));
-
-      WriteString('RxBufferData',
-        cfg.rx.restore.Select(EncodeStringBase64(rx), ''));
-
-      IniSection := ''; // выход из текущей секции
-      end;
-
-    txSeqList.SaveToIni(ipsMain);
-  end;
-
-// загрузка настроек из файла INI
-procedure TfmMain.SettingsLoadFromIni;
-  begin
-    with ipsMain do
-      begin
-      if not Active then Exit;
-
-      // параметры состояния формы и компонентов
-      IniSection    := 'Last Parameters';
-      fmMain.Width  := ReadInteger('WindowMainWidth', Scale96ToScreen(600));
-      fmMain.Height := ReadInteger('WindowMainHeight', Scale96ToScreen(420));
-      fmMain.Top    := ReadInteger('WindowMainTop', (Screen.Height - Height) div 2);
-      fmMain.Left   := ReadInteger('WindowMainLeft', (Screen.Width - Width) div 2);
-
-      fmMain.WindowState     := TWindowState(ReadInteger('WindowMainState', 0));
-      acShowOnTop.Checked    := ReadBoolean('OnTop', False);
-      splitPercent           := ReadInteger('Splitter', round(0.5 * 1e9)) / 1e9;
-      cbTxEncoding.ItemIndex := ReadInteger('EncodingTx', 0);
-      cbRxEncoding.ItemIndex := ReadInteger('EncodingRx', 0);
-      cbTxType.ItemIndex     := ReadInteger('TypeTx', 0);
-      cbRxType.ItemIndex     := ReadInteger('TypeRx', 0);
-      portWasOpened          := ReadBoolean('PortOpened', False);
-      fmUpdate.DateLast      := UnixToDateTime(ReadInteger('LastUpdateCheck', 0));
-
-      serial.PortSettings(ReadString('LastPort', '---'), 0, 0, 'N', 0);
-
-      IniSection := 'Buffers Data';
-
-        try
-        seTx.Text := DecodeStringBase64(ReadString('TxBufferData', ''));
-        rx        := DecodeStringBase64(ReadString('RxBufferData', ''));
-        seRxChange(nil);
-        except
-        end;
-
-      IniSection := ''; // выход из текущей секции
-      end;
-
-    txSeqList.LoadFromIni(ipsMain);
-    sgTxSequencesUpdate;
-
-    // на случай, если некорректные параметры положения формы
-    if abs(Top) > Screen.Height - Height then Top := (Screen.Height - Height) div 2;
-    if abs(Left) > Screen.Width - Width then Left := (Screen.Width - Width) div 2;
-  end;
-
-// сброс настроек
-procedure TfmMain.acResetExecute(Sender: TObject);
-  begin
-    if fmConfirm.Show(TXT_RESET, WARN_RESET, [mbYes, mbNo], Self) <> mrYes then Exit;
-
-    // при сбросе настроек отключаем хранилища
-    fm_settings.useStorages := False;
-    ipsMain.Active          := False;
-    fmCommands.IniStorageCmd.Active := False;
-
-    // восстанавливаем настройки - удаляем файл настроек
-    if FileExistsUTF8(ipsMain.IniFileName) then
-      DeleteFileUTF8(ipsMain.IniFileName);
+    appTunerEx.Form[Self].ProcessMouseMove(X, Y);
   end;
 
 
@@ -539,8 +413,8 @@ procedure TfmMain.pTranceiverMsgResize(Sender: TObject);
 procedure TfmMain.pSplitterTxRxResize(Sender: TObject);
   begin
     with psSplitterTxRx do
-      if Visible then
-        splitPercent := Position /
+      if Showing then
+        cfg.com.splitter := Position /
           (cfg.com.layout in [plTxTop, plTxDown]).Select(Height, Width);
 
     psSplitterTxRx.OnChangeBounds := @psSplitterTxRxChangeBounds;
@@ -552,11 +426,11 @@ procedure TfmMain.psSplitterTxRxChangeBounds(Sender: TObject);
   begin
     with psSplitterTxRx do
       begin
-      if (splitPercent < 0) or (splitPercent > 1) then
-        splitPercent := 0.5;
+      if (cfg.com.splitter < 0) or (cfg.com.splitter > 1) then
+        cfg.com.splitter := 0.5;
 
       _size    := (cfg.com.layout in [plTxTop, plTxDown]).Select(Height, Width);
-      Position := round(_size * splitPercent);
+      Position := round(_size * cfg.com.splitter);
       end;
   end;
 
@@ -817,20 +691,16 @@ procedure TfmMain.seTxRxMouseWheel(Sender: TObject; Shift: TShiftState;
       case TSynEdit(Sender).Name of
 
         'seTx':
-          {$IFDEF ALLOW_DARK_THEME}
-          if IsDarkModeEnabled then
+          if appTunerEx.IsDarkTheme then
             cfg.tx.fontdark.size := seTx.Font.Size
-          else                                    
-          {$ENDIF}
-          cfg.tx.font.size := seTx.Font.Size;
+          else
+            cfg.tx.font.size     := seTx.Font.Size;
 
         'seRx':
-          {$IFDEF ALLOW_DARK_THEME}
-          if IsDarkModeEnabled then
+          if appTunerEx.IsDarkTheme then
             cfg.rx.fontdark.size := seRx.Font.Size
           else
-          {$ENDIF}
-          cfg.rx.font.size := seRx.Font.Size;
+            cfg.rx.font.size     := seRx.Font.Size;
         end;
 
       sgTxSequencesChangeBounds(Sender);
@@ -855,7 +725,7 @@ procedure TfmMain.SetPortSettingsControls(Sender: TObject);
       end
     else
       begin
-      baudrateValue            := String(cbBaudrate.Text).ToInteger;
+      baudrateValue            := StrToIntDef(cbBaudrate.Text, 9600);
       seBaudRateCustom.Visible := False;
       end;
 
@@ -901,9 +771,10 @@ procedure TfmMain.actionPortGeneral(Sender: TObject);
         portList.CommaText          := serial.GetExistingPorts;
         serial.CheckPort            := cfg.connect.check;
         cbPortsList.Items.CommaText := serial.GetExistingPorts;
-        cbPortsList.ItemWidth       := GetListStringsMaxWidth(Self, cbPortsList.Items);
         cbPortsList.ItemIndex       := serial.GetPortIndexInList;
         if cbPortsList.ItemIndex < 0 then cbPortsList.ItemIndex := 0;
+
+        appTunerEx.Form[Self].TuneComboboxes;
 
         stStatusBar.Panels.Items[1].Text :=
           Format(PORTS_FINDED, [cbPortsList.Items.Count]);
@@ -1149,22 +1020,11 @@ procedure TfmMain.acRxExportExecute(Sender: TObject);
 { ***  Управление видом  *** }
 procedure TfmMain.actionViewGeneral(Sender: TObject);
   var
-    _offsetSign:  Integer;
     _viewNothing: Boolean;
   begin
     FMouseDownPos.Create(Left, Top);
     BeginFormUpdate;
     case TAction(Sender).Name of
-
-      // опция главной формы 'поверх всех окон'
-      'acShowOnTop':
-        begin
-        FormStyle := acShowOnTop.Checked.Select(fsSystemStayOnTop, fsNormal);
-        EndFormUpdate;
-        Self.Left := FMouseDownPos.X;
-        Self.Top  := FMouseDownPos.Y;
-        BeginFormUpdate;
-        end;
 
       // вкл/выкл панель сигналов порта
       'acShowSignals':
@@ -1227,42 +1087,6 @@ procedure TfmMain.actionViewGeneral(Sender: TObject);
       // управление видимостью панели инструментов приемника
       'acShowTBRx':
         pRxToolbar.Visible := acShowTBRx.Checked;
-
-      // control visibility of form border
-      'acShowBorder':
-        begin
-        acExitEx.Visible := not acShowBorder.Checked;
-        _offsetSign      := acShowBorder.Checked.Select(-1, 1);
-        FMouseDownPos.X  += FPosOffset.X * _offsetSign;
-        FMouseDownPos.Y  += FPosOffset.Y * _offsetSign;
-
-        case WindowState of
-
-          wsNormal:
-            begin
-            BorderStyle := acShowBorder.Checked.Select(bsSizeable, bsNone);
-            EndFormUpdate;
-            Self.Left   := FMouseDownPos.X;
-            Self.Top    := FMouseDownPos.Y;
-            BeginFormUpdate;
-            end;
-
-          wsMaximized:
-            if acShowBorder.Checked then
-              begin
-              SetFormRect(Self, FFormMetrics);
-              Self.BorderStyle    := bsSizeable;
-              Self.FormStyle      := fsNormal;
-              acShowOnTop.Enabled := True;
-              end
-            else
-              begin
-              Self.BorderStyle    := bsNone;
-              Self.FormStyle      := fsStayOnTop;
-              acShowOnTop.Enabled := False;
-              end;
-          end;
-        end;
       end;
 
     acTxSeqAdd.Enabled    := acShowTxBox.Checked;
@@ -1272,11 +1096,25 @@ procedure TfmMain.actionViewGeneral(Sender: TObject);
     UpdateControls(True);
     EndFormUpdate;
     sgTxSequencesChangeBounds(nil);
+  end;
 
-    {$IFDEF ALLOW_DARK_THEME}
-    if IsDarkModeEnabled then
-      MetaDarkFormChanged(Self);
-    {$ENDIF}
+procedure TfmMain.actionViewForm(Sender: TObject);
+  begin
+    case TComponent(Sender).Name of
+
+      // control visibility of form border
+      'acShowBorder':
+        begin
+        appTunerEx.Form[Self].Borderless := not acShowBorder.Checked;
+        end;
+
+      // form show on top of other windows
+      'acShowOnTop':
+        appTunerEx.Form[Self].StayOnTop := acShowOnTop.Checked;
+      end;
+
+    acExitEx.Visible    := not acShowBorder.Checked;
+    acShowOnTop.Enabled := acShowBorder.Checked or (WindowState <> wsMaximized);
   end;
 
 
@@ -1343,11 +1181,7 @@ procedure TfmMain.actionSearchGeneral(Sender: TObject);
 
 { ***  Команды общие  *** }
 procedure TfmMain.actionCommon(Sender: TObject);
-  var
-    helpFileBase: String;
   begin
-    helpFileBase := '..' + DirectorySeparator + HELP_DIR + DirectorySeparator + HELP_FILE;
-
     case TAction(Sender).Name of
 
       // завершение работы приложения
@@ -1364,13 +1198,11 @@ procedure TfmMain.actionCommon(Sender: TObject);
 
       // вызов справки html
       'acHelp':
-        if not OpenDocument(helpFileBase + '.' + cfg.com.lang + '.html') then
-          OpenDocument(helpFileBase + '.html');
+        OpenURL('..' + DirectorySeparator + FILE_HELP.Replace('.md', '.html'));
 
       // вызов справки markdown
       'acHelpMD':
-        if not OpenDocument(helpFileBase + '.' + cfg.com.lang + '.md') then
-          OpenDocument(helpFileBase + '.md');
+        OpenURL('..' + DirectorySeparator + FILE_HELP);
 
       // вызов справки онлайн
       'acHelpNet':
@@ -1921,16 +1753,16 @@ procedure TfmMain.PlotterParserReInit;
 
     // settings for regexp format
     if cbPlotterRegExp.ItemIndex < 0 then cbPlotterRegExp.ItemIndex := 0;
-    plotter.RegExpString   := cfg.re.list.Items[cbPlotterRegExp.ItemIndex].RegExp;
-    plotter.RegExpLabel    := cfg.re.list.Items[cbPlotterRegExp.ItemIndex].RELabel;
-    plotter.RegExpValue    := cfg.re.list.Items[cbPlotterRegExp.ItemIndex].REValue;
-    plotter.RegExpCaseCare := cfg.re.casecare;
+    plotter.RegExpString   := cfg.regexp.list.Items[cbPlotterRegExp.ItemIndex].RegExp;
+    plotter.RegExpLabel    := cfg.regexp.list.Items[cbPlotterRegExp.ItemIndex].RELabel;
+    plotter.RegExpValue    := cfg.regexp.list.Items[cbPlotterRegExp.ItemIndex].REValue;
+    plotter.RegExpCaseCare := cfg.regexp.casecare;
 
     chPlotter.ZoomFull(True);
     chPlotter.Foot.Visible     := cfg.ax.labels and (plotter.View = pv2D);
     sbxPlotSettings.Visible    := acPlotterSettings.Checked;
     acPlotterQLiveMode.Enabled := plotter.View <> pvSweep;
-    sePlotterViewport.Visible  := acPlotterQLiveMode.Checked or (plotter.View = pvSweep);
+    sePlotterViewport.Enabled  := acPlotterQLiveMode.Checked or (plotter.View = pvSweep);
     chLiveView.ExtentY         := lveAuto;
     chLiveView.Active          := acPlotterQLiveMode.Checked and acPlotterQLiveMode.Enabled;
     chLiveView.ViewportSize    := sePlotterViewport.Value;
@@ -2861,7 +2693,6 @@ procedure TfmMain.EncodingsTxRxSet;
         Tag       := ItemIndex;
         EncodingsListAssign(Items);
         ItemIndex := (Tag < 0).Select(0, Tag);
-        ItemWidth := GetListStringsMaxWidth(Self, Items);
         end;
     end;
 
@@ -2957,9 +2788,6 @@ procedure TfmMain.AdjustComponentSizes;
 
         case item.ToString of
 
-          'TComboBox':
-            TComboBox(item).ItemWidth := GetListStringsMaxWidth(Self, TComboBox(item).Items);
-
           'TLabel':
             TLabel(item).Constraints.MaxWidth := 0;
 
@@ -2982,17 +2810,15 @@ procedure TfmMain.AdjustComponentSizes;
           Continue;
           end;
 
-        //if item.ToString = 'TToolBar' then
-          begin
-          item.Constraints.MinHeight := ASizeH;
-          item.Constraints.MinWidth  := (ASizeW > 0).Select(ASizeW, ASizeH);
-          end;
+        item.Constraints.MinHeight := ASizeH;
+        item.Constraints.MinWidth  := (ASizeW > 0).Select(ASizeW, ASizeH);
         end;
     end;
 
   procedure SetToolbarButtonSize(AToolbars: array of TToolBar; W: Integer; H: Integer = -1);
     var
       item: TToolBar;
+      b:    Integer;
     begin
       if Length(AToolbars) = 0 then Exit;
 
@@ -3001,6 +2827,25 @@ procedure TfmMain.AdjustComponentSizes;
         item.ButtonHeight   := (H < 0).Select(W, H);
         item.ButtonWidth    := W;
         item.DisabledImages := imImageListD;
+
+        // fix incorrect divider height in vertical toolbars
+        for b := 0 to item.ButtonCount - 1 do
+          with item.Buttons[b] do
+            if Style = tbsDivider then
+              begin
+              Style := tbsButton;
+              Style := tbsDivider;
+              end;
+
+        // set sizes of panels-spacers
+        for b := 0 to item.ControlCount - 1 do
+          if item.Controls[b].ClassName = 'TPanel' then
+            with TPanel(item.Controls[b]) do
+              begin
+              if Tag > 0 then Continue; // skip with tag>0
+              Constraints.MinHeight := item.ButtonHeight;
+              Constraints.MinWidth  := item.ButtonWidth;
+              end;
         end;
     end;
 
@@ -3012,12 +2857,12 @@ procedure TfmMain.AdjustComponentSizes;
     // on 96dpi's screen at 100% resolution muat be 16px
     imSVGList.RenderSize := Round(Scale96ToScreen(16) * cfg.com.iconsRes / 100);
 
-    Font.Height := 0; // set default size as reference
-    Font.Height := Round(Canvas.GetTextHeight('0') * cfg.com.fontSize / 100);
+    // scale font for all forms
+    appTunerEx.Scale := cfg.com.fontSize;
 
-    // adjust font height for all forms
-    for i := 0 to Screen.FormCount - 1 do
-      Screen.Forms[i].Font.Height := Font.Height;
+    // custom menu drawing setup
+    appTunerEx.Form[Self].MenuAddHeight := Scale96ToScreen(2);
+    appTunerEx.Form[Self].MenuTune      := True;
 
     Screen.HintFont.Height := Font.Height;
     Screen.MenuFont.Height := Font.Height;
@@ -3027,11 +2872,6 @@ procedure TfmMain.AdjustComponentSizes;
 
     chPlotter.BottomAxis.Marks.LabelFont.Height := Font.Height;
     chPlotter.LeftAxis.Marks.LabelFont.Height   := Font.Height;
-
-    // adjust font for labels with custom font
-    for i := 0 to ComponentCount - 1 do
-      if Components[i].ClassName = TLabel.ClassName then
-        TControl(Components[i]).Font.Height := Font.Height;
 
     // allow adjusting components with autosize option
     EndFormUpdate;
@@ -3048,8 +2888,7 @@ procedure TfmMain.AdjustComponentSizes;
     SetControlWidth([cbPortsList], Canvas.GetTextWidth('COM00') + VertScrollBar.Size + 8);
     SetControlWidth([seAutoSendTime], Canvas.GetTextWidth('000000') + VertScrollBar.Size + 8);
     SetControlWidth([seBaudRateCustom], cbBaudrate.Width + 8);
-    SetControlWidth([cbBaudrate], GetListStringsMaxWidth(Self, cbBaudrate.Items) + 8);
-    SetControlWidth([cbTxType, cbRxType], GetListStringsMaxWidth(Self, cbRxType.Items) + 8);
+    SetControlWidth([cbTxType, cbRxType], cbRxType.ItemWidth + 8);
 
     w := Canvas.GetTextWidth('macintosh1') + VertScrollBar.Size + 8;
     SetControlWidth([cbTxEncoding, cbRxEncoding], w);
@@ -3090,22 +2929,22 @@ procedure TfmMain.AdjustThemeDependentValues;
 
   procedure SetFont(AFont: TFont; AIndex, ASize: Integer; AColor: TColor);
     begin
+      if AIndex < 0 then Exit;
       AFont.Name  := Screen.Fonts[AIndex];
       AFont.Size  := ASize;
       AFont.Color := AColor;
     end;
   begin
-    {$IFDEF ALLOW_DARK_THEME}
-    if IsDarkModeEnabled then
+    if appTunerEx.IsDarkTheme then
       begin                        // dark theme, if available
 
       // iconspack for dark theme located in resources
       imSVGList.LoadRes       := 'ICONSPACK-DARK';
       imSVGList.DisabledLevel := 96;
 
-      apAppProperties.HintColor      := $497634;
+      apAppProperties.HintColor    := $497634;
       Screen.HintFont.Color        := clWindowText;
-      FInactiveColor                := Color + $444444;
+      FInactiveColor               := Color + $444444;
       sgTxSequences.AlternateColor := $2E4921;
       sgTxSequences.Color          := $263D1B;
       chPlotter.Color              := cfg.plt.dark.bg;
@@ -3121,8 +2960,8 @@ procedure TfmMain.AdjustThemeDependentValues;
 
       for synEd in [seTx, seTxHex, seRx, seRxHex] do
         begin
-          synEd.LineHighlightColor.Background := Color + $060606;
-          synEd.RightEdgeColor                := Color + $222222;
+        synEd.LineHighlightColor.Background := Color + $060606;
+        synEd.RightEdgeColor                := Color + $222222;
         end;
 
       for fnt in [seTx.Font, seTxHex.Font, fmASCIIChar.sgChar.Font] do
@@ -3132,11 +2971,8 @@ procedure TfmMain.AdjustThemeDependentValues;
       for fnt in [seRx.Font, seRxHex.Font] do
         with cfg.rx.fontdark do
           SetFont(fnt, index, size, color);
-
-      MetaDarkFormChanged(self);
       end
     else
-    {$ENDIF}
       begin                        // light theme, default
 
       // iconspack for light theme is loaded in component already
@@ -3184,19 +3020,70 @@ procedure TfmMain.AdjustThemeDependentValues;
   end;
 
 
+ { ***  Settings and language  *** }
+
+ // save some specific non-component settings
+procedure TfmMain.BeforeSaveConfig;
+  begin
+    cfg.connect.opened := serial.Connected;
+    cfg.connect.port   := serial.Port;
+
+    cfg.tx.buffer := cfg.tx.restore.Select(EncodeStringBase64(seTx.Text), '');
+    cfg.rx.buffer := cfg.rx.restore.Select(EncodeStringBase64(rx), '');
+
+    cfg.rx.answer.input  := EncodeStringBase64(fmCommands.SequenceList.CommaText);
+    cfg.rx.answer.output := EncodeStringBase64(fmCommands.AnswerList.CommaText);
+
+    cfg.tx.sequences    := txSeqList.Save;
+    cfg.regexp.listData := cfg.regexp.list.Save;
+  end;
+
+// load some specific non-component settings
+procedure TfmMain.AfterLoadConfig;
+  begin
+    serial.PortSettings(cfg.connect.port, 0, 0, 'N', 0);
+
+    seTx.Text := DecodeStringBase64(cfg.tx.buffer);
+    rx        := DecodeStringBase64(cfg.rx.buffer);
+    seRxChange(nil);
+
+    fmCommands.SequenceList.CommaText := DecodeStringBase64(cfg.rx.answer.input);
+    fmCommands.AnswerList.CommaText   := DecodeStringBase64(cfg.rx.answer.output);
+
+    txSeqList.Load(cfg.tx.sequences);
+    sgTxSequencesUpdate;
+
+    // на случай, если некорректные параметры положения формы
+    if abs(Top) > Screen.Height - Height then Top := (Screen.Height - Height) div 2;
+    if abs(Left) > Screen.Width - Width then Left := (Screen.Width - Width) div 2;
+  end;
+
+// сброс настроек
+procedure TfmMain.acResetExecute(Sender: TObject);
+  begin
+    if fmConfirm.Show(TXT_RESET, WARN_RESET, [mbYes, mbNo], Self) <> mrYes then Exit;
+
+    Settings.Clear;
+    appTunerEx.ClearProperties;
+    Close;
+  end;
+
 // действие: применение настроек
 procedure TfmMain.SettingsApply(Sender: TObject);
   var
     tmpSE: TCustomSynEdit;
     i:     Integer;
   begin
-    LanguageChange;       // set new interface language
+    // set new interface language
+    appLocalizerEx.CurrentLanguage := cfg.com.langIndex;
+
+    EncodingsTxRxSet;     // update encodings lists and view mode lists
     AdjustComponentSizes; // adjust sizes of components
     BeginFormUpdate;
 
       try
+      appTunerEx.Form[Self].MenuShow := cfg.com.menu;
 
-      fmMain.Menu           := TMainMenu(cfg.com.menu.Select(mmMainMenu, nil));
       lbTxPosAndSel.Visible := cfg.editor.view.pos;
       stStatusBar.Visible   := cfg.com.status;
       pLEDTx.Visible        := cfg.com.leds;
@@ -3206,6 +3093,10 @@ procedure TfmMain.SettingsApply(Sender: TObject);
       seRx.RightEdge        := cfg.editor.right.pos;
       seTx.TabWidth         := cfg.editor.tab;
       seRx.TabWidth         := cfg.editor.tab;
+
+      // snapping to screen edges
+      SnapBuffer                := 24;
+      SnapOptions.SnapToMonitor := cfg.com.glued;
 
       // height of RS-232 indicators
       pSignalBreak.Constraints.MinHeight := cfg.com.RS232.Select(
@@ -3243,7 +3134,7 @@ procedure TfmMain.SettingsApply(Sender: TObject);
       chPlotter.LeftAxis.Marks.Visible   := cfg.ay.marks;
 
       cbPlotterRegExp.Tag             := cbPlotterRegExp.ItemIndex;
-      cbPlotterRegExp.Items.CommaText := cfg.re.list.CommaText;
+      cbPlotterRegExp.Items.CommaText := cfg.regexp.list.CommaText;
       cbPlotterRegExp.ItemIndex       := cbPlotterRegExp.Tag;
 
       // change colors only if settings applied
@@ -3265,10 +3156,6 @@ procedure TfmMain.SettingsApply(Sender: TObject);
         seRx.Options := seRx.Options + [eoHideRightMargin];
         end;
 
-      //if fmSettings <> nil then
-      //  begin
-      //  FormWindowStateChange(self);
-      //  end;
       except
       if fmConfirm.Show(TXT_ERROR, WARN_SETTINGS, mbYesNo, Self) = mrYes then
         Close;
@@ -3283,14 +3170,10 @@ procedure TfmMain.SettingsApply(Sender: TObject);
     EndFormUpdate;
   end;
 
-// перевод интерфейса
-procedure TfmMain.LanguageChange;
+// localize some specific items
+procedure TfmMain.LanguageChange(Sender: TObject);
   begin
     BeginFormUpdate;
-    fmSettings.LanguageChangeImmediately;
-
-    // обновляем список кодировок
-    EncodingsTxRxSet;
 
     // обновляем подсказки
     acToggleRTS.Hint        := 'Request to Send' + LineEnding + HINT_RTS;
@@ -3310,16 +3193,16 @@ procedure TfmMain.LanguageChange;
     acAutoSend.Hint         := HINT_AUTOSEND;
     acAutoAnswerEnable.Hint := HINT_AUTOANSWER;
 
-    // обновляем выпадающие списки
-    ComboBoxUpdateList(cbBaudrate, TXT_BAUDRATE);
-    ComboBoxUpdateList(cbPlotterProtocol, TXT_PLOTTER_PROTOCOL);
-    ComboBoxUpdateList(cbPlotterView, TXT_PLOTTER_VIEW);
-    ComboBoxUpdateList(cbPlotterPenStyle, TXT_PLOTTER_PEN_STYLE);
+    // update dropdown lists
+    appLocalizerEx.Localize(cbBaudrate, TXT_BAUDRATE);
+    appLocalizerEx.Localize(cbPlotterProtocol, TXT_PLOTTER_PROTOCOL);
+    appLocalizerEx.Localize(cbPlotterView, TXT_PLOTTER_VIEW);
+    appLocalizerEx.Localize(cbPlotterPenStyle, TXT_PLOTTER_PEN_STYLE);
 
     sgTxSequences.Columns.Items[1].Title.Caption := TXT_DATA;
-
-    UpdateControls(True);
     EndFormUpdate;
+
+    appTunerEx.TuneComboboxes := True;
   end;
 
 

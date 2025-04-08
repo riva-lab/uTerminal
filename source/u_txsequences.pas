@@ -5,9 +5,8 @@ unit u_txsequences;
 interface
 
 uses
-  Classes, SysUtils, base64, IniPropStorage, LazUTF8,
-  fm_settings,
-  u_encodings, u_utilities, u_common;
+  Classes, SysUtils, base64, LazUTF8,
+  u_encodings, u_utilities, u_common, u_settings_record;
 
 type
 
@@ -34,8 +33,8 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure LoadFromIni(ARes: TIniPropStorage);
-    procedure SaveToIni(ARes: TIniPropStorage);
+    function Load(AText: String): Boolean;
+    function Save: String;
 
     function Add(const AStr: String): Integer;
     function AddData(const AData: String): Integer;
@@ -117,49 +116,39 @@ destructor TSequencesList.Destroy;
     inherited Destroy;
   end;
 
-procedure TSequencesList.LoadFromIni(ARes: TIniPropStorage);
+function TSequencesList.Load(AText: String): Boolean;
   begin
-    if ARes = nil then Exit;
-
-    with ARes do
+    Result := False;
+    with TStringList.Create do
       begin
-      IniSection := 'TX Sequences List';
-
-      if ReadInteger('TXSCount', 0) = 0 then Exit;
-
+      LineBreak := ' ';
+      Text      := AText;
+      Result    := Count <> 0;
+      if Result then
         try
-        FData.CommaText    := DecodeStringBase64(ReadString('TXSData', ''));
-        FCaption.CommaText := DecodeStringBase64(ReadString('TXSName', ''));
+        FData.CommaText    := DecodeStringBase64(Strings[0]);
+        FCaption.CommaText := DecodeStringBase64(Strings[1]);
         except
         FData.Clear;
         FCaption.Clear;
         end;
-
-      IniSection := ''; // выход из текущей секции
+      Free;
       end;
 
     FCount := FData.Count;
   end;
 
-procedure TSequencesList.SaveToIni(ARes: TIniPropStorage);
-  var
-    _data, _name: String;
+function TSequencesList.Save: String;
   begin
-    if ARes = nil then Exit;
-
-    _data := (FCount = 0).Select('', EncodeStringBase64(FData.CommaText));
-    _name := (FCount = 0).Select('', EncodeStringBase64(FCaption.CommaText));
-
-    with ARes do
+    Result := '';
+    if FCount = 0 then Exit;
+    with TStringList.Create do
       begin
-      IniSection := 'TX Sequences List';
-      EraseSections;
-
-      WriteInteger('TXSCount', FCount);
-      WriteString('TXSData', _data);
-      WriteString('TXSName', _name);
-
-      IniSection := ''; // выход из текущей секции
+      LineBreak := ' ';
+      Add(EncodeStringBase64(FData.CommaText));
+      Add(EncodeStringBase64(FCaption.CommaText));
+      Result    := Text;
+      Free;
       end;
   end;
 

@@ -6,7 +6,7 @@ object fmMain: TfmMain
   HorzScrollBar.Tracking = True
   VertScrollBar.Tracking = True
   AllowDropFiles = True
-  ClientHeight = 794
+  ClientHeight = 819
   ClientWidth = 890
   Constraints.MinHeight = 125
   Constraints.MinWidth = 200
@@ -21,9 +21,9 @@ object fmMain: TfmMain
   OnMouseUp = FormMouseUp
   OnShow = FormShow
   OnWindowStateChange = FormChangeBounds
-  SessionProperties = 'acAutoAnswerEnable.Checked;acMinimizeToTray.Checked;acPlotterLiveMode.Checked;acPlotterSettings.Checked;acPlotterShow.Checked;acPlotterTracker.Checked;acPortDB5.Checked;acPortDB6.Checked;acPortDB7.Checked;acPortDB8.Checked;acPortPBE.Checked;acPortPBM.Checked;acPortPBN.Checked;acPortPBO.Checked;acPortPBS.Checked;acPortSB1.Checked;acPortSB1h.Checked;acPortSB2.Checked;acRxEnable.Checked;acRxScrollToEnd.Checked;acSearch.Checked;acShowHEX.Checked;acShowLineCounts.Checked;acShowRxBox.Checked;acShowSettings.Checked;acShowSignals.Checked;acShowTBMain.Checked;acShowTBPort.Checked;acShowTBRx.Checked;acShowTBTx.Checked;acShowTxBox.Checked;acTxCommandMode.Checked;acTxSequences.Checked;cbBaudrate.ItemIndex;cbPlotterPenStyle.ItemIndex;cbPlotterProtocol.ItemIndex;cbPlotterRegExp.Items;cbPlotterRegExp.Text;cbPlotterView.ItemIndex;cbPortsList.Text;cbSearchCaseSens.Checked;cbSearchRegex.Checked;cbSearchReplace.Checked;cbSearchReplaceAll.Checked;rbTx.Checked;seAutoSendTime.Value;seBaudRateCustom.Value;sePlotterPenSize.Value;sePlotterPoints.Value;sePlotterViewport.Value;acShowBorder.Checked'
+  Position = poScreenCenter
   ShowHint = True
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.0.0.3'
   object pMainToolbar: TPanel
     Left = 6
     Height = 28
@@ -298,9 +298,9 @@ object fmMain: TfmMain
         Constraints.MaxWidth = 80
         DropDownCount = 16
         ItemHeight = 20
-        OnChange = SetPortSettingsControls
         Style = csDropDownList
         TabOrder = 1
+        OnChange = SetPortSettingsControls
       end
       object pBaudrate: TPanel
         Left = 237
@@ -371,9 +371,9 @@ object fmMain: TfmMain
             ''
             ''
           )
-          OnChange = SetPortSettingsControls
           Style = csDropDownList
           TabOrder = 0
+          OnChange = SetPortSettingsControls
         end
         object seBaudRateCustom: TSpinEdit
           Left = 83
@@ -465,6 +465,7 @@ object fmMain: TfmMain
     ClientWidth = 878
     ParentColor = False
     TabOrder = 1
+    Visible = False
     OnMouseDown = FormMouseDown
     OnMouseMove = FormMouseMove
     OnMouseUp = FormMouseUp
@@ -536,6 +537,7 @@ object fmMain: TfmMain
         BevelOuter = bvNone
         Color = clActiveCaption
         Constraints.MinWidth = 40
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
       end
@@ -557,6 +559,7 @@ object fmMain: TfmMain
         BevelOuter = bvNone
         Color = clActiveCaption
         Constraints.MinWidth = 40
+        ParentBackground = False
         ParentColor = False
         TabOrder = 1
       end
@@ -578,6 +581,7 @@ object fmMain: TfmMain
         BevelOuter = bvNone
         Color = clActiveCaption
         Constraints.MinWidth = 40
+        ParentBackground = False
         ParentColor = False
         TabOrder = 2
       end
@@ -599,6 +603,7 @@ object fmMain: TfmMain
         BevelOuter = bvNone
         Color = clActiveCaption
         Constraints.MinWidth = 40
+        ParentBackground = False
         ParentColor = False
         TabOrder = 3
       end
@@ -619,6 +624,7 @@ object fmMain: TfmMain
         BevelOuter = bvNone
         Color = clActiveCaption
         Constraints.MinWidth = 40
+        ParentBackground = False
         ParentColor = False
         TabOrder = 4
       end
@@ -639,6 +645,7 @@ object fmMain: TfmMain
         BevelOuter = bvNone
         Color = clActiveCaption
         Constraints.MinWidth = 40
+        ParentBackground = False
         ParentColor = False
         TabOrder = 5
       end
@@ -660,6 +667,7 @@ object fmMain: TfmMain
         Color = clActiveCaption
         Constraints.MinHeight = 10
         Constraints.MinWidth = 40
+        ParentBackground = False
         ParentColor = False
         TabOrder = 6
       end
@@ -690,7 +698,7 @@ object fmMain: TfmMain
       Left = 8
       Height = 51
       Top = 6
-      Width = 313
+      Width = 301
       Align = alLeft
       AutoSize = True
       BorderSpacing.Around = 6
@@ -701,7 +709,7 @@ object fmMain: TfmMain
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 5
       ClientHeight = 51
-      ClientWidth = 313
+      ClientWidth = 301
       TabOrder = 0
       OnMouseDown = FormMouseDown
       OnMouseMove = FormMouseMove
@@ -723,38 +731,38 @@ object fmMain: TfmMain
         Left = 77
         Height = 24
         Top = 0
-        Width = 39
+        Width = 36
         Caption = 'Tx'
         Checked = True
-        OnChange = actionSearchGeneral
         TabOrder = 0
         TabStop = True
+        OnChange = actionSearchGeneral
       end
       object rbSearchRx: TRadioButton
-        Left = 122
+        Left = 119
         Height = 24
         Top = 0
-        Width = 40
+        Width = 37
         Caption = 'Rx'
-        OnChange = actionSearchGeneral
         TabOrder = 1
         TabStop = True
+        OnChange = actionSearchGeneral
       end
       object cbSearchCaseSens: TCheckBox
-        Left = 168
+        Left = 162
         Height = 24
         Hint = 'Если отмечено, регистр букв учитывается'
         Top = 0
-        Width = 78
+        Width = 75
         Caption = 'регистр'
         TabOrder = 2
       end
       object cbSearchRegex: TCheckBox
-        Left = 252
+        Left = 243
         Height = 24
         Hint = 'Использовать регулярные выражения'
         Top = 0
-        Width = 61
+        Width = 58
         Caption = 'regex'
         TabOrder = 3
       end
@@ -766,6 +774,7 @@ object fmMain: TfmMain
         Caption = 'Заменить'
         Layout = tlCenter
         ParentColor = False
+        ParentFont = False
         OnMouseDown = FormMouseDown
         OnMouseMove = FormMouseMove
         OnMouseUp = FormMouseUp
@@ -774,39 +783,39 @@ object fmMain: TfmMain
         Left = 77
         Height = 24
         Top = 27
-        Width = 39
+        Width = 36
         TabOrder = 4
       end
       object lbSearchSpace1: TLabel
-        Left = 122
+        Left = 119
         Height = 24
         Top = 27
-        Width = 40
+        Width = 37
         Layout = tlCenter
         ParentColor = False
       end
       object cbSearchReplaceAll: TCheckBox
-        Left = 168
+        Left = 162
         Height = 24
         Top = 27
-        Width = 78
+        Width = 75
         Caption = 'все'
         TabOrder = 5
       end
       object lbSearchSpace2: TLabel
-        Left = 252
+        Left = 243
         Height = 24
         Top = 27
-        Width = 61
+        Width = 58
         Layout = tlCenter
         ParentColor = False
       end
     end
     object pSearchP2: TPanel
-      Left = 327
+      Left = 315
       Height = 51
       Top = 6
-      Width = 451
+      Width = 463
       Align = alClient
       AutoSize = True
       BorderSpacing.Around = 6
@@ -818,7 +827,7 @@ object fmMain: TfmMain
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 1
       ClientHeight = 51
-      ClientWidth = 451
+      ClientWidth = 463
       TabOrder = 1
       OnMouseDown = FormMouseDown
       OnMouseMove = FormMouseMove
@@ -827,7 +836,7 @@ object fmMain: TfmMain
         Left = 0
         Height = 20
         Top = 2
-        Width = 451
+        Width = 463
         BorderSpacing.CellAlignVertical = ccaCenter
         BorderStyle = bsNone
         Constraints.MinWidth = 250
@@ -839,7 +848,7 @@ object fmMain: TfmMain
         Left = 0
         Height = 20
         Top = 29
-        Width = 451
+        Width = 463
         BorderSpacing.CellAlignVertical = ccaCenter
         BorderStyle = bsNone
         TabOrder = 1
@@ -879,7 +888,7 @@ object fmMain: TfmMain
   end
   object pTranceiverMsg: TPanel
     Left = 0
-    Height = 560
+    Height = 585
     Top = 205
     Width = 889
     Align = alClient
@@ -891,7 +900,7 @@ object fmMain: TfmMain
     ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
     ChildSizing.ShrinkVertical = crsHomogenousChildResize
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 560
+    ClientHeight = 585
     ClientWidth = 889
     PopupMenu = pmMain
     TabOrder = 4
@@ -901,7 +910,7 @@ object fmMain: TfmMain
     OnResize = pTranceiverMsgResize
     object lbHelpHint: TLabel
       Left = 0
-      Height = 560
+      Height = 585
       Top = 0
       Width = 889
       Align = alClient
@@ -916,7 +925,7 @@ object fmMain: TfmMain
   end
   object pTranceiver: TPanel
     Left = 6
-    Height = 554
+    Height = 579
     Top = 205
     Width = 877
     Align = alClient
@@ -929,13 +938,13 @@ object fmMain: TfmMain
     ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
     ChildSizing.ShrinkVertical = crsHomogenousChildResize
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 554
+    ClientHeight = 579
     ClientWidth = 877
     TabOrder = 3
     object psSplitterTxRx: TPairSplitter
       Cursor = crDefault
       Left = 0
-      Height = 554
+      Height = 579
       Top = 0
       Width = 877
       Align = alClient
@@ -1048,6 +1057,7 @@ object fmMain: TfmMain
                 Color = clBtnShadow
                 Constraints.MinHeight = 10
                 Constraints.MinWidth = 40
+                ParentBackground = False
                 ParentColor = False
                 TabOrder = 0
                 OnMouseDown = FormMouseDown
@@ -1862,9 +1872,9 @@ object fmMain: TfmMain
                   BorderSpacing.CellAlignVertical = ccaCenter
                   DropDownCount = 12
                   ItemHeight = 20
-                  OnChange = cbTxTypeChange
                   Style = csDropDownList
                   TabOrder = 0
+                  OnChange = cbTxTypeChange
                 end
                 object cbTxType: TComboBox
                   Left = 129
@@ -1883,9 +1893,9 @@ object fmMain: TfmMain
                     ''
                     ''
                   )
-                  OnChange = cbTxTypeChange
                   Style = csDropDownList
                   TabOrder = 1
+                  OnChange = cbTxTypeChange
                 end
               end
               object ToolButton20: TToolButton
@@ -1917,6 +1927,7 @@ object fmMain: TfmMain
                 Style = tbsCheck
               end
               object pToolbarTxTime: TPanel
+                Tag = 1
                 Left = 423
                 Height = 28
                 Top = 2
@@ -1977,26 +1988,26 @@ object fmMain: TfmMain
       object psSide2: TPairSplitterSide
         Cursor = crArrow
         Left = 0
-        Height = 349
+        Height = 374
         Top = 205
         Width = 877
         ClientWidth = 877
-        ClientHeight = 349
+        ClientHeight = 374
         Constraints.MinWidth = 100
         object pRxBox: TPanel
           Left = 0
-          Height = 349
+          Height = 374
           Top = 0
           Width = 877
           Align = alClient
           AutoSize = True
           BevelOuter = bvNone
-          ClientHeight = 349
+          ClientHeight = 374
           ClientWidth = 877
           TabOrder = 0
           object nbReceiver: TNotebook
             Left = 0
-            Height = 329
+            Height = 354
             Top = 20
             Width = 877
             PageIndex = 0
@@ -2005,11 +2016,11 @@ object fmMain: TfmMain
             object pgRxPlotter: TPage
               object sbxPlotSettings: TScrollBox
                 Left = 0
-                Height = 329
+                Height = 354
                 Top = 0
                 Width = 135
-                HorzScrollBar.Page = 135
-                HorzScrollBar.Tracking = True
+                HorzScrollBar.Page = 1
+                HorzScrollBar.Visible = False
                 VertScrollBar.Page = 317
                 VertScrollBar.Tracking = True
                 Align = alLeft
@@ -2021,7 +2032,7 @@ object fmMain: TfmMain
                 ChildSizing.VerticalSpacing = 4
                 ChildSizing.Layout = cclLeftToRightThenTopToBottom
                 ChildSizing.ControlsPerLine = 1
-                ClientHeight = 329
+                ClientHeight = 354
                 ClientWidth = 135
                 TabOrder = 0
                 OnMouseDown = FormMouseDown
@@ -2132,9 +2143,9 @@ object fmMain: TfmMain
                     ''
                     ''
                   )
-                  OnChange = actionPlotter
                   Style = csDropDownList
                   TabOrder = 2
+                  OnChange = actionPlotter
                 end
                 object cbPlotterProtocol: TComboBox
                   Left = 0
@@ -2164,9 +2175,9 @@ object fmMain: TfmMain
                     ''
                     ''
                   )
-                  OnChange = actionPlotter
                   Style = csDropDownList
                   TabOrder = 3
+                  OnChange = actionPlotter
                 end
                 object cbPlotterRegExp: TComboBox
                   Tag = -2
@@ -2197,9 +2208,9 @@ object fmMain: TfmMain
                     ''
                     ''
                   )
-                  OnChange = actionPlotter
                   Style = csDropDownList
                   TabOrder = 4
+                  OnChange = actionPlotter
                 end
                 object cbPlotterPenStyle: TComboBox
                   Left = 0
@@ -2228,10 +2239,10 @@ object fmMain: TfmMain
                     ''
                     ''
                   )
-                  OnChange = actionPlotter
-                  OnDrawItem = cbPlotterPenStyleDrawItem
                   Style = csOwnerDrawFixed
                   TabOrder = 5
+                  OnChange = actionPlotter
+                  OnDrawItem = cbPlotterPenStyleDrawItem
                 end
                 object pPlotterPanel1: TPanel
                   Left = 0
@@ -2316,18 +2327,18 @@ object fmMain: TfmMain
               end
               object pPlotter: TPanel
                 Left = 139
-                Height = 329
+                Height = 354
                 Top = 0
                 Width = 738
                 Align = alClient
                 BevelOuter = bvNone
-                ClientHeight = 329
+                ClientHeight = 354
                 ClientWidth = 738
                 TabOrder = 1
                 object chNavScrollBar: TChartNavScrollBar
                   Left = 0
                   Height = 22
-                  Top = 307
+                  Top = 332
                   Width = 738
                   Chart = chPlotter
                   Align = alBottom
@@ -2336,7 +2347,7 @@ object fmMain: TfmMain
                 end
                 object chPlotter: TChart
                   Left = 0
-                  Height = 307
+                  Height = 332
                   Top = 0
                   Width = 738
                   AntialiasingMode = amOn
@@ -3109,9 +3120,9 @@ object fmMain: TfmMain
                       BorderSpacing.CellAlignVertical = ccaCenter
                       DropDownCount = 12
                       ItemHeight = 20
-                      OnChange = cbRxTypeChange
                       Style = csDropDownList
                       TabOrder = 0
+                      OnChange = cbRxTypeChange
                     end
                     object cbRxType: TComboBox
                       Left = 129
@@ -3123,9 +3134,9 @@ object fmMain: TfmMain
                       BorderSpacing.Right = 4
                       BorderSpacing.CellAlignVertical = ccaCenter
                       ItemHeight = 20
-                      OnChange = cbRxTypeChange
                       Style = csDropDownList
                       TabOrder = 1
+                      OnChange = cbRxTypeChange
                     end
                   end
                   object ToolButton26: TToolButton
@@ -3297,6 +3308,7 @@ object fmMain: TfmMain
                 Color = clBtnShadow
                 Constraints.MinHeight = 10
                 Constraints.MinWidth = 40
+                ParentBackground = False
                 ParentColor = False
                 TabOrder = 0
                 OnMouseDown = FormMouseDown
@@ -3312,7 +3324,7 @@ object fmMain: TfmMain
   object stStatusBar: TStatusBar
     Left = 0
     Height = 29
-    Top = 765
+    Top = 790
     Width = 890
     AutoHint = True
     AutoSize = False
@@ -3546,7 +3558,7 @@ object fmMain: TfmMain
       Caption = 'Поверх всех окон'
       Hint = 'Показывать окно терминала поверх остальных окон'
       ImageIndex = 30
-      OnExecute = actionViewGeneral
+      OnExecute = actionViewForm
       ShortCut = 123
     end
     object acReset: TAction
@@ -3884,7 +3896,7 @@ object fmMain: TfmMain
       AutoCheck = True
       Caption = 'Граница окна'
       Checked = True
-      OnExecute = actionViewGeneral
+      OnExecute = actionViewForm
       ShortCut = 121
     end
     object acPlotterHeader: TAction
@@ -4243,11 +4255,6 @@ object fmMain: TfmMain
       Action = acExitEx
       RightJustify = True
     end
-  end
-  object ipsMain: TIniPropStorage
-    StoredValues = <>
-    Left = 576
-    Top = 296
   end
   object imImageList: TImageList
     Left = 56

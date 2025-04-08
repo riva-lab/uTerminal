@@ -5,14 +5,14 @@ unit u_settings_record;
 interface
 
 uses
-  Classes, SysUtils, Graphics,
+  Classes, SysUtils, Graphics, AppSettings,
   u_common, u_plotter_types, u_plotter_regexplist;
 
 type
 
-  { TAppConfiguration - Application settings structure }
+  { TAppConfig - Application settings structure }
 
-  TAppConfiguration = record
+  TAppConfig = record
 
     // настройки редактора
     editor: record
@@ -20,6 +20,7 @@ type
       linebreakIndex: Integer;
       tab:            Integer;
       quality:        Boolean;
+      lineCounts:     Boolean;
 
       view: record
         size:    Boolean;
@@ -33,8 +34,9 @@ type
         end;
 
       hex: record
-        block: Integer;
-        line:  Integer;
+        enable: Boolean;
+        block:  Integer;
+        line:   Integer;
         end;
       end;
 
@@ -43,15 +45,48 @@ type
       auto:     Boolean;
       check:    Boolean;
       hardflow: Boolean;
+      opened:   Boolean;
+      signals:  Boolean;
+      port:     String;
+      baudId:   Integer;
+      baudrate: Integer;
+
+      dataBits: record
+        db5: Boolean;
+        db6: Boolean;
+        db7: Boolean;
+        db8: Boolean;
+        end;
+
+      parityBits: record
+        e: Boolean;
+        m: Boolean;
+        n: Boolean;
+        o: Boolean;
+        s: Boolean;
+        end;
+
+      stopBits: record
+        sb1:  Boolean;
+        sb1h: Boolean;
+        sb2:  Boolean;
+        end;
       end;
 
     // настройки передатчика
     tx: record
       breakTime: Integer;
       timeout:   Integer;
+      encoding:  Integer;
+      view:      Integer;
+      showBox:   Boolean;
+      cmdEnable: Boolean;
+      seqEnable: Boolean;
       restore:   Boolean;
       loadWarn:  Boolean;
       addition:  Boolean;
+      sequences: String;
+      buffer:    String;
 
       font: record
         index: Integer;
@@ -68,8 +103,14 @@ type
 
     // настройки приемника
     rx: record
-      limit:   Integer;
-      restore: Boolean;
+      limit:     Integer;
+      encoding:  Integer;
+      view:      Integer;
+      showBox:   Boolean;
+      enable:    Boolean;
+      restore:   Boolean;
+      scrollEnd: Boolean;
+      buffer:    String;
 
       font: record
         index: Integer;
@@ -89,17 +130,23 @@ type
         after:   String;
         before:  String;
         end;
+
+      answer: record
+        enable: Boolean;
+        input:  String;
+        output: String;
+        end;
       end;
 
     // общие настройки приложения
     com: record
-      lang:        String;
       langIndex:   Integer;
       layout:      TPanelsLayout;
       layoutIndex: Integer;
       iconsRes:    Integer;
       fontSize:    Integer;
       theme:       Integer;
+      splitter:    Double;
       splash:      Boolean;
       glued:       Boolean;
       menu:        Boolean;
@@ -107,15 +154,33 @@ type
       tray:        Boolean;
       leds:        Boolean;
       encoding:    Boolean;
+      border:      Boolean;
       RS232:       Boolean;
 
-      update:
-        record
+      update: record
         way:       TAppUpdateWay;
         wayIndex:  Integer;
         freq:      TAppUpdateFreq;
         freqIndex: Integer;
+        lastTime:  Int64;
         end;
+      end;
+
+    // toolbars visibility
+    toolbar: record
+      main: Boolean;
+      port: Boolean;
+      rx:   Boolean;
+      tx:   Boolean;
+      end;
+
+    // search settings
+    search: record
+      enable:     Boolean;
+      caseSense:  Boolean;
+      regex:      Boolean;
+      replace:    Boolean;
+      replaceAll: Boolean;
       end;
 
     // настройки плоттера общие
@@ -127,6 +192,19 @@ type
       commands:   Boolean;
       smooth:     Boolean;
       size:       Boolean;
+      live:       Boolean;
+      tracker:    Boolean;
+      settings:   Boolean;
+      enable:     Boolean;
+      viewport:   Integer;
+      viewmode:   Integer;
+      protocol:   Integer;
+
+      pen: record
+        thickness: Integer;
+        style:     Integer;
+        pointSize: Integer;
+        end;
 
       view: record
         minimap:     Boolean;
@@ -223,13 +301,28 @@ type
       end;
 
     // настройки формата плоттера RegExp
-    re: record
+    regexp: record
+      selected: Integer;
       casecare: Boolean;
+      listData: String;
       list:     TPlotterRegExpList;
       end;
   end;
 
 
+const
+  SETTINGS_FILE = 'settings.ini';
+
+
+var
+  Settings: TAppSettings; // class for work with settings
+  cfg:      TAppConfig;   // configuration record with project settings
+
+
 implementation
+
+
+initialization
+  Settings := TAppSettings.Create;
 
 end.

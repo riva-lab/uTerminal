@@ -131,7 +131,6 @@ edSearch:     TEdit;
 imImageList:  TImageList;
 imImageListD: TImageList;
 imSVGList:    TImageSVGList;
-ipsMain:      TIniPropStorage;
 
 lbAppUpdate:      TLabel;
 lbHelpHint:       TLabel;

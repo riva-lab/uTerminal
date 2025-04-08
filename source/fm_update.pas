@@ -5,9 +5,9 @@ unit fm_update;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, ComCtrls, StdCtrls, ExtCtrls,
+  SysUtils, Forms, Controls, ComCtrls, StdCtrls, ExtCtrls,
   DateUtils, OnlineUpdater,
-  fm_settings, u_common, u_utilities;
+  u_settings_record, u_common, u_utilities;
 
 const
   PROJECT_GITLAB_ID = '36181732';
@@ -62,14 +62,11 @@ type
     FAvailable:   Boolean;
     FDownloading: Boolean;
     FLater:       Boolean;
-    FDateLast:    TDate;
 
   public
     function IsDownloading: Boolean;
     function IsNotify: Boolean;
     procedure Later;
-
-    property DateLast: TDate read FDateLast write FDateLast;
   end;
 
 var
@@ -127,7 +124,8 @@ procedure TfmUpdate.FormCreate(Sender: TObject);
     FAvailable   := False;
     FDownloading := False;
     FLater       := False;
-    FDateLast    := IncYear(Now, -1);
+
+    cfg.com.update.lastTime := DateTimeToUnix(IncYear(Now, -1));
 
     lbSize.Constraints.MinWidth := lbSize.Width;
   end;
@@ -157,7 +155,8 @@ procedure TfmUpdate.tmrWorkTimer(Sender: TObject);
       tmrWork.Enabled := False
     else
     if not FChecked then
-      if DaysBetween(Now, FDateLast) >= CAppUpdateDays[cfg.com.update.freq] then
+      if DaysBetween(Now, UnixToDateTime(cfg.com.update.lastTime)) >=
+        CAppUpdateDays[cfg.com.update.freq] then
         btnCheck.Click;
   end;
 
@@ -182,7 +181,8 @@ procedure TfmUpdate.Progress(AStyle: TProgressBarStyle; APos, AMax: Integer);
 
 procedure TfmUpdate.btnCheckClick(Sender: TObject);
   begin
-    FDateLast        := Now;
+    cfg.com.update.lastTime := DateTimeToUnix(Now);
+
     FChecked         := True;
     tmrWork.Enabled  := False;
     btnCheck.Enabled := False;

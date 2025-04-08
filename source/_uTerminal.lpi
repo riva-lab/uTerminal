@@ -107,8 +107,8 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="2"/>
-      <RevisionNr Value="1"/>
-      <BuildNr Value="91"/>
+      <MinorVersionNr Value="1"/>
+      <BuildNr Value="92"/>
       <Language Value="0419"/>
       <StringTable Comments="Serial port terminal and plotter" CompanyName="Riva Lab :: riva-lab.gitlab.io" FileDescription="Serial port terminal and plotter" InternalName="uTerminal" LegalCopyright="Riva, 2017-2025" OriginalFilename="uTerminal" ProductName="uTerminal"/>
     </VersionInfo>
@@ -127,13 +127,13 @@
     </RunParams>
     <RequiredPackages Count="8">
       <Item1>
-        <PackageName Value="OnlineUpdaterPkg"/>
+        <PackageName Value="AppFeaturesPkg"/>
       </Item1>
       <Item2>
-        <PackageName Value="ImageSVGListDsgn"/>
+        <PackageName Value="OnlineUpdaterPkg"/>
       </Item2>
       <Item3>
-        <PackageName Value="MetaDarkStyle"/>
+        <PackageName Value="ImageSVGListDsgn"/>
       </Item3>
       <Item4>
         <PackageName Value="bgracontrols"/>
@@ -235,36 +235,36 @@
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="u_settings.pas"/>
+        <Filename Value="plotter\u_plotter_regexplist.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit16>
       <Unit17>
-        <Filename Value="plotter\u_plotter_regexplist.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit17>
-      <Unit18>
         <Filename Value="fm_update.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmUpdate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="fm_main_controls.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="fm_main_controls.inc"/>
+        <Filename Value="fm_settings_controls.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="fm_settings_controls.inc"/>
+        <Filename Value="u_settings_record.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit20>
       <Unit21>
-        <Filename Value="u_settings_record.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit21>
-      <Unit22>
         <Filename Value="misc\appabout.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="appAbout"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="i_config.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit22>
     </Units>
   </ProjectOptions>
@@ -311,8 +311,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-dDEBUG
--dALLOW_DARK_THEME"/>
+      <CustomOptions Value="-dDEBUG"/>
       <OtherDefines Count="2">
         <Define0 Value="DEBUG"/>
         <Define1 Value="ALLOW_DARK_THEME"/>

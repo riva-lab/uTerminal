@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, Grids, Buttons,
-  ActnList, IniPropStorage, fm_settings, LazUTF8;
+  ActnList, LazUTF8;
 
 type
 
@@ -18,7 +18,7 @@ type
     acOK:          TAction;
     acCancel:      TAction;
     acUpdate:      TAction;
-    ActionList1:   TActionList;
+    alActionList1: TActionList;
     BitBtn1:       TBitBtn;
     BitBtn2:       TBitBtn;
     BitBtn3:       TBitBtn;
@@ -26,7 +26,6 @@ type
     BitBtn5:       TBitBtn;
     edSequence:    TEdit;
     edAnswer:      TEdit;
-    IniStorageCmd: TIniPropStorage;
     lbInput:       TLabel;
     lbResponce:    TLabel;
     Panel2:        TPanel;
@@ -41,8 +40,6 @@ type
     procedure acUpdateExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure IniStorageCmdRestoreProperties(Sender: TObject);
-    procedure IniStorageCmdSaveProperties(Sender: TObject);
     procedure sgSequencesSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
 
@@ -70,8 +67,6 @@ implementation
 
 procedure TfmCommands.FormCreate(Sender: TObject);
   begin
-    IniStorageCmd.IniFileName := ExtractFileDir(ParamStrUTF8(0)) + SETTINGS_FILE;
-
     FSequenceListA := TStringList.Create;
     FAnswerListA   := TStringList.Create;
     FSequenceList  := TStringList.Create;
@@ -89,34 +84,6 @@ procedure TfmCommands.FormShow(Sender: TObject);
     UpdateTable;
   end;
 
-procedure TfmCommands.IniStorageCmdRestoreProperties(Sender: TObject);
-  begin
-    with IniStorageCmd do
-      begin
-      IniSection := 'AutoAnswer';
-
-      ReadStrings('SeqList', FSequenceListA, FSequenceListA);
-      ReadStrings('AnsList', FAnswerListA, FAnswerListA);
-      ReadStrings('SeqList', FSequenceList, FSequenceList);
-      ReadStrings('AnsList', FAnswerList, FAnswerList);
-
-      IniSection := ''; // выход из текущей секции
-      end;
-  end;
-
-procedure TfmCommands.IniStorageCmdSaveProperties(Sender: TObject);
-  begin
-    with IniStorageCmd do
-      begin
-      IniSection := 'AutoAnswer';
-      EraseSections;
-
-      WriteStrings('SeqList', FSequenceList);
-      WriteStrings('AnsList', FAnswerList);
-
-      IniSection := ''; // выход из текущей секции
-      end;
-  end;
 
 procedure TfmCommands.sgSequencesSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);

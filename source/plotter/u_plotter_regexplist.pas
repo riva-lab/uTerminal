@@ -5,7 +5,7 @@ unit u_plotter_regexplist;
 interface
 
 uses
-  Classes, SysUtils, IniPropStorage, LazFileUtils, uregexpr, base64,
+  Classes, SysUtils, LazFileUtils, uregexpr, base64,
   u_utilities;
 
 type
@@ -45,27 +45,25 @@ type
 
   TPlotterRegExpList = class(TFPList)
   private
-    FIniStorage:  TIniPropStorage;
-    FIniFileName: String;
-    FID:          String;
-    FErrorMsg:    String;
+    FID:       String;
+    FErrorMsg: String;
 
   private
     function GetItems(Index: Integer): TPlotterRegExpItem;
 
   public
-    constructor Create(AIniFileName: String = ''; ID: String = '1');
+    constructor Create(ID: String = '1');
     destructor Destroy; override;
 
-    procedure LoadFromIni;
-    procedure SaveToIni;
+    function Load(AText: String): Boolean;
+    function Save: String;
 
+    procedure Clear;
     function Add(AName, AREStr, ARELabel, AREValue: String): Integer;
     function Delete(AName: String): Integer;
     function IndexOf(AName: String): Integer;
     function CommaText: String;
 
-    property IniFileName: String read FIniFileName write FIniFileName;
     property Items[Index: Integer]: TPlotterRegExpItem read GetItems;
     property ErrorMsg: String read FErrorMsg;
   end;
@@ -84,14 +82,14 @@ procedure TPlotterRegExpItem.SetRegExp(AValue: String);
 
     // verify regexp
     with FRE do
-        try
-        Expression := FRegExp.Replace(#10, '').Replace(#13, '');
-        Compile;
-        except
-        FError     := True;
-        FErrorMsg  := Format('%d: %s', [
-          Integer((CompilerErrorPos > 1000).Select(0, CompilerErrorPos)), ErrorMsg(LastError)]);
-        end;
+      try
+      Expression := FRegExp.Replace(#10, '').Replace(#13, '');
+      Compile;
+      except
+      FError     := True;
+      FErrorMsg  := Format('%d: %s', [
+        Integer((CompilerErrorPos > 1000).Select(0, CompilerErrorPos)), ErrorMsg(LastError)]);
+      end;
   end;
 
 constructor TPlotterRegExpItem.Create(AName: String);
@@ -135,13 +133,13 @@ function TPlotterRegExpItem.Load(AText: String): Boolean;
       Text      := AText;
       Result    := Count <> 0;
       if Result then
-          try
-          FName    := DecodeStringBase64(Strings[0]);
-          FRegExp  := DecodeStringBase64(Strings[1]);
-          FRELabel := DecodeStringBase64(Strings[2]);
-          FREValue := DecodeStringBase64(Strings[3]);
-          except
-          end;
+        try
+        FName    := DecodeStringBase64(Strings[0]);
+        FRegExp  := DecodeStringBase64(Strings[1]);
+        FRELabel := DecodeStringBase64(Strings[2]);
+        FREValue := DecodeStringBase64(Strings[3]);
+        except
+        end;
       Free;
       end;
   end;
@@ -157,12 +155,10 @@ function TPlotterRegExpList.GetItems(Index: Integer): TPlotterRegExpItem;
       Result := nil;
   end;
 
-constructor TPlotterRegExpList.Create(AIniFileName: String; ID: String);
+constructor TPlotterRegExpList.Create(ID: String);
   begin
-    FIniStorage  := TIniPropStorage.Create(nil);
-    FIniFileName := AIniFileName;
-    FID          := ID;
-    FErrorMsg    := '';
+    FID       := ID;
+    FErrorMsg := '';
   end;
 
 destructor TPlotterRegExpList.Destroy;
@@ -171,53 +167,58 @@ destructor TPlotterRegExpList.Destroy;
   begin
     i := 0;
     while i < Count do Items[i.PostInc].Free;
-    FIniStorage.Free;
     inherited Destroy;
   end;
 
-procedure TPlotterRegExpList.LoadFromIni;
-  var
-    cnt, i: Integer;
-  begin
-    if FileExistsUTF8(FIniFileName) then
-      with FIniStorage do
-        begin
-        IniFileName := FIniFileName;
-        Active      := True;
-        IniSection  := Self.ClassName + '_' + FID;
-
-        Clear;
-        cnt := ReadInteger('Count', 0);
-        if cnt > 0 then
-          for i := 0 to cnt - 1 do
-            with TPlotterRegExpItem.Create do
-              begin
-              if Load(ReadString('item-' + i.ToString, '')) then
-                Add(Name, RegExp, RELabel, REValue);
-              Free;
-              end;
-        end;
-  end;
-
-procedure TPlotterRegExpList.SaveToIni;
+function TPlotterRegExpList.Load(AText: String): Boolean;
   var
     i: Integer;
   begin
-    if FileExistsUTF8(FIniFileName) then
-      with FIniStorage do
+    Result := False;
+    with TStringList.Create do
+      begin
+      LineBreak := '|';
+      Text      := AText;
+      i         := Count;
+      Result    := Count <> 0;
+
+      if Result then
         begin
-        IniFileName := FIniFileName;
-        Active      := True;
-        IniSection  := Self.ClassName + '_' + FID;
-        EraseSections;
-
-        WriteInteger('Count', Count);
-        if Count > 0 then
-          for i := 0 to Count - 1 do
-            WriteString('item-' + i.ToString, Items[i].Save);
-
-        Active := False;
+        Self.Clear;
+        for i := 0 to Count - 1 do
+          with TPlotterRegExpItem.Create do
+            begin
+            if Load(Strings[i]) then
+              Self.Add(Name, RegExp, RELabel, REValue);
+            Free;
+            end;
         end;
+      Free;
+      end;
+  end;
+
+function TPlotterRegExpList.Save: String;
+  var
+    i: Integer;
+  begin
+    Result := '';
+    if Count = 0 then Exit;
+
+    with TStringList.Create do
+      begin
+      LineBreak := '|';
+
+      for i := 0 to Self.Count - 1 do
+        Add(Items[i].Save);
+
+      Result := Text;
+      Free;
+      end;
+  end;
+
+procedure TPlotterRegExpList.Clear;
+  begin
+    while Count > 0 do Delete(Items[Count - 1].Name);
   end;
 
 function TPlotterRegExpList.Add(AName, AREStr, ARELabel, AREValue: String): Integer;
