@@ -361,6 +361,8 @@ procedure TfmSettings.tmrUpdateTimer(Sender: TObject);
     cbPlotLegendColored.Enabled  := f;
     cbPlotLegendColoredB.Enabled := f and cbPlotLegendFrame.Checked;
     lbPlotLegendHint.Enabled     := f and cbPlotLegendActive.Checked;
+
+    cbAppUpdateFreq.Enabled := TAppUpdateWay(cbAppUpdateWay.ItemIndex) <> uwManual;
   end;
 
 procedure TfmSettings.ColorButtonsInit;
