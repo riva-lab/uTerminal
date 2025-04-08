@@ -310,9 +310,6 @@ procedure TfmMain.FormShow(Sender: TObject);
     AfterLoadConfig;
     SettingsApply;
 
-    // заставка (если включена)
-    fmAbout.ShowSplash(cfg.com.splash);
-
     // предустановка состояний элементов
     actionPortGeneral(acRxEnable);
 

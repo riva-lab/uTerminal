@@ -147,7 +147,6 @@ type
       fontSize:    Integer;
       theme:       Integer;
       splitter:    Double;
-      splash:      Boolean;
       glued:       Boolean;
       menu:        Boolean;
       status:      Boolean;

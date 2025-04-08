@@ -76,10 +76,6 @@ var
 
 procedure TfmSettings.FormCreate(Sender: TObject);
   begin
-    {$IFDEF DEBUG}
-    cbShowSplash.Checked := False;
-    {$ENDIF}
-
     ColorButtonsInit;
     AddStandardSettings;
 

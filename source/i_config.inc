@@ -86,7 +86,6 @@ Settings.Add(cbLanguage,                   @cfg.com.langIndex);
 Settings.Add(cbPanelsLayout,               @cfg.com.layoutIndex);
 Settings.Add(seIconsRes,                   @cfg.com.iconsRes);
 Settings.Add(seFontSize,                   @cfg.com.fontSize);
-Settings.Add(cbShowSplash,                 @cfg.com.splash);
 Settings.Add(cbGluedWindow,                @cfg.com.glued);
 Settings.Add(cbShowIndicators,             @cfg.com.leds);
 Settings.Add(cbMinimizeToTray,             @cfg.com.tray);

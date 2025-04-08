@@ -71,7 +71,6 @@ cbShowRightEdge:      TCheckBox;
 cbShowRightEdge1:     TCheckBox;
 cbShowRS232Captions:  TCheckBox;
 cbShowSizes:          TCheckBox;
-cbShowSplash:         TCheckBox;
 cbShowStatusBar:      TCheckBox;
 cbSizesInBytes:       TCheckBox;
 cbTxRestore:          TCheckBox;

@@ -292,32 +292,22 @@ object fmSettings: TfmSettings
         ClientHeight = 24
         ClientWidth = 564
         TabOrder = 7
-        object cbShowSplash: TCheckBox
-          Left = 0
-          Height = 24
-          Top = 0
-          Width = 169
-          Caption = 'Заставка при запуске'
-          Checked = True
-          State = cbChecked
-          TabOrder = 0
-        end
         object cbMinimizeToTray: TCheckBox
-          Left = 179
+          Left = 0
           Height = 24
           Top = 0
           Width = 159
           Caption = 'Сворачивать в трей'
-          TabOrder = 1
+          TabOrder = 0
         end
         object cbGluedWindow: TCheckBox
-          Left = 348
+          Left = 169
           Height = 24
           Hint = 'Если флажок установлено, то окно будет "прилипать" к краям рабочего стола'
           Top = 0
           Width = 123
           Caption = '"Липкое" окно'
-          TabOrder = 2
+          TabOrder = 1
         end
       end
     end
