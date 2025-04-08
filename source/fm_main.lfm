@@ -3716,7 +3716,7 @@ object fmMain: TfmMain
     end
     object acSettings: TAction
       Category = 'Файл'
-      Caption = 'Настройки'
+      Caption = 'Настройки ...'
       Hint = 'Настройки приложения'
       ImageIndex = 10
       OnExecute = actionCommon

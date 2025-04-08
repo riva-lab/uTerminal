@@ -61,22 +61,18 @@ resourcestring
 
 
 const
-  TT_ASC = 0; // отображение данных в ASCII
-  TT_HEX = 1; // отображение данных в HEX
-  TT_BIN = 2; // отображение данных в BIN
-  TT_DEC = 3; // отображение данных в DEC
-
   indicatorColor: array[Boolean] of TColor = ($4040FF, $00D000); // 0 RED; 1 GREEN
   indicatorText: array[Boolean] of String  = ('0', '1');         // 0; 1
 
 type
 
+  TDataView  = (dvTxt, dvHex, dvBin, dvDec);
   TLineParam = (lpNone, lpWidth, lpStyle, lpPoint);
 
   { TfmMain }
 
   TfmMain = class(TForm)
-    {$INCLUDE fm_main_controls.inc}
+    {$INCLUDE i_main_controls.inc}
 
     { ***  Обработка событий главной формы  *** }
 
@@ -198,7 +194,7 @@ type
     procedure AfterLoadConfig;
     procedure acResetExecute(Sender: TObject);
     procedure SettingsApply(Sender: TObject = nil);
-    procedure LanguageChange(Sender: TObject);
+    procedure OnLanguageChange(Sender: TObject);
 
   private
     FWSPrevious:    TWindowState;
@@ -272,7 +268,7 @@ procedure TfmMain.FormCreate(Sender: TObject);
     Width  := Scale96ToScreen(700);
     Height := Scale96ToScreen(450);
 
-    appLocalizerEx.AddOnLanguageChangeHandler(@LanguageChange);
+    appLocalizerEx.AddOnLanguageChangeHandler(@OnLanguageChange);
 
     // add settings related to fm_main
     {$Define inc_fm_main}
@@ -547,15 +543,15 @@ procedure TfmMain.seTxChange(Sender: TObject);
     x: Integer;
   begin
     with seTx do
-      case cbTxType.ItemIndex of
-        TT_ASC:
+      case TDataView(cbTxType.ItemIndex) of
+        dvTxt:
           begin
-          x        := (Lines.TextLineBreakStyle = tlbsCRLF).ToInteger + 1;
-          tx       := UTF8ToEncodingByIndex(Text.Remove(Text.Length - x, x), cbTxEncoding.ItemIndex);
+          x       := (Lines.TextLineBreakStyle = tlbsCRLF).ToInteger + 1;
+          tx      := UTF8ToEncodingByIndex(Text.Remove(Text.Length - x, x), cbTxEncoding.ItemIndex);
           end;
-        TT_HEX: tx := Text.FromToCodes(16);
-        TT_BIN: tx := Text.FromToCodes(2);
-        TT_DEC: tx := Text.FromToCodes(10);
+        dvHex: tx := Text.FromToCodes(16);
+        dvBin: tx := Text.FromToCodes(2);
+        dvDec: tx := Text.FromToCodes(10);
         end;
 
     if seTxHex.Visible then
@@ -628,11 +624,11 @@ procedure TfmMain.seRxChange(Sender: TObject);
   begin
     if not Visible then Exit; // если форма скрыта, то обновлять незачем
 
-    case cbRxType.ItemIndex of
-      TT_ASC: rxUTF := EncodingToUTF8ByIndex(rx, cbRxEncoding.ItemIndex);
-      TT_HEX: rxUTF := rx.ToCodes(16, seRx.CharsInWindow);
-      TT_BIN: rxUTF := rx.ToCodes(2, seRx.CharsInWindow);
-      TT_DEC: rxUTF := rx.ToCodes(10, seRx.CharsInWindow);
+    case TDataView(cbRxType.ItemIndex) of
+      dvTxt: rxUTF := EncodingToUTF8ByIndex(rx, cbRxEncoding.ItemIndex);
+      dvHex: rxUTF := rx.ToCodes(16, seRx.CharsInWindow);
+      dvBin: rxUTF := rx.ToCodes(2, seRx.CharsInWindow);
+      dvDec: rxUTF := rx.ToCodes(10, seRx.CharsInWindow);
       end;
 
     if acShowRxBox.Checked then
@@ -657,12 +653,12 @@ procedure TfmMain.cbTxTypeChange(Sender: TObject);
     txSeqList.Encoding := GetEncodingByIndex(cbTxEncoding.ItemIndex);
 
     seTx.BeginUpdate;
-    case cbTxType.ItemIndex of
-      TT_ASC: seTx.Text := EncodingToUTF8ByIndex(tx, cbTxEncoding.ItemIndex) +
+    case TDataView(cbTxType.ItemIndex) of
+      dvTxt: seTx.Text := EncodingToUTF8ByIndex(tx, cbTxEncoding.ItemIndex) +
           (tx.Length > 0).Select(LineEnding, '');
-      TT_HEX: seTx.Text := tx.ToCodes(16, seTx.CharsInWindow);
-      TT_BIN: seTx.Text := tx.ToCodes(2, seTx.CharsInWindow);
-      TT_DEC: seTx.Text := tx.ToCodes(10, seTx.CharsInWindow);
+      dvHex: seTx.Text := tx.ToCodes(16, seTx.CharsInWindow);
+      dvBin: seTx.Text := tx.ToCodes(2, seTx.CharsInWindow);
+      dvDec: seTx.Text := tx.ToCodes(10, seTx.CharsInWindow);
       end;
     seTx.EndUpdate;
 
@@ -913,19 +909,19 @@ procedure TfmMain.acInsertCharExecute(Sender: TObject);
     with fmASCIIChar do
       if ShowModal = mrOk then
         begin
-        case cbTxType.ItemIndex of
-          TT_ASC: inserted_char :=
+        case TDataView(cbTxType.ItemIndex) of
+          dvTxt: inserted_char :=
               EncodingToUTF8ByIndex(chr(SelectedChar), cbTxEncoding.ItemIndex);
-          TT_HEX: inserted_char := SelectedChar.ToHexString(2);
-          TT_BIN: inserted_char := intToBin(SelectedChar, 8);
-          TT_DEC: inserted_char := SelectedChar.ToString;
+          dvHex: inserted_char := SelectedChar.ToHexString(2);
+          dvBin: inserted_char := intToBin(SelectedChar, 8);
+          dvDec: inserted_char := SelectedChar.ToString;
           end;
 
         select_start := seTx.SelStart - 1;
         tmp          := seTx.Text;
         txt_length   := tmp.Length;
 
-        if cbTxType.ItemIndex <> TT_ASC then
+        if TDataView(cbTxType.ItemIndex) <> dvTxt then
           begin
           if (select_start <> 0) and (select_start <= txt_length) and
             (tmp[select_start] <> ' ') then
@@ -3168,7 +3164,7 @@ procedure TfmMain.SettingsApply(Sender: TObject);
   end;
 
 // localize some specific items
-procedure TfmMain.LanguageChange(Sender: TObject);
+procedure TfmMain.OnLanguageChange(Sender: TObject);
   begin
     BeginFormUpdate;
 

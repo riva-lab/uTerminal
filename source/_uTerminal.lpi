@@ -246,11 +246,11 @@
         <ResourceBaseClass Value="Form"/>
       </Unit17>
       <Unit18>
-        <Filename Value="fm_main_controls.inc"/>
+        <Filename Value="i_main_controls.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="fm_settings_controls.inc"/>
+        <Filename Value="i_settings_controls.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit19>
       <Unit20>

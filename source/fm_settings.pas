@@ -31,7 +31,7 @@ type
   { TfmSettings }
 
   TfmSettings = class(TForm)
-    {$Include fm_settings_controls.inc}
+    {$Include i_settings_controls.inc}
 
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
