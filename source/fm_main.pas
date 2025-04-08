@@ -28,38 +28,6 @@ uses
   // additional
   base64, csvdocument, appAbout;
 
-resourcestring
-  TX_CAPTION         = 'Передача [Tx]';
-  RX_CAPTION         = 'Прием [Rx]';
-  PLOTTER_CAPTION    = 'Плоттер';
-  ERROR              = 'Ошибка';
-  CONNECTED_TO       = 'Подключен к';
-  CONNECT            = 'Подключить';
-  CONNECT_HINT       = 'Подключиться к выбранному порту';
-  DISCONNECT_HINT    = 'Отключиться от текущего порта';
-  DISCONNECTED_FROM  = 'Отключен от';
-  DISCONNECT         = 'Отключить';
-  SPEED              = 'бод/с';
-  PORTS_FINDED       = 'Найдено портов: %d';
-  TEXT_TYPE_TEXT     = 'Текст';
-  TXT_ENCODING       = 'кодировка %s';
-  TXT_DLG_TEXT       = 'Текстовый файл';
-  TXT_DLG_CSV        = 'Файл CSV';
-  TXT_DLG_PNG        = 'PNG - изображение Portable Network Graphics';
-  TXT_DLG_ALL        = 'Файл';
-
-  TXT_REDEF_VIEWPORT = 'Окно';
-  TXT_REDEF_GRID     = 'Сетка';
-  TXT_REDEF_XGRID    = 'Сетка X';
-  TXT_REDEF_YGRID    = 'Сетка Y';
-  TXT_REDEF_BGCOLOR  = 'Фон';
-  TXT_REDEF_WIDTH    = 'Толщина';
-  TXT_REDEF_POINTS   = 'Точки';
-  TXT_PLOT_LINE_ST   = 'Стиль линии - %s';
-  TXT_PLOT_LINE_WD   = 'Толщина линии - %d пикс.';
-  TXT_PLOT_LINE_PS   = 'Радиус точек - %d пикс.';
-
-
 const
   indicatorColor: array[Boolean] of TColor = ($4040FF, $00D000); // 0 RED; 1 GREEN
   indicatorText: array[Boolean] of String  = ('0', '1');         // 0; 1
@@ -347,7 +315,7 @@ procedure TfmMain.FormChangeBounds(Sender: TObject);
       tiTrayIconClick(Sender);
 
     stStatusBar.Panels.Items[0].Width := Width - stStatusBar.Height -
-      Canvas.GetTextWidth(' COM00, 0-N-0, 000000 ' + SPEED);
+      Canvas.GetTextWidth(' COM00, 0-N-0, 000000 ' + TXT_SPEED);
 
     // контроль стилизации линий плоттера для уменьшения лага прорисовки
     if acPlotterShow.Checked then PlotterLineStyleVerify;
@@ -770,7 +738,7 @@ procedure TfmMain.actionPortGeneral(Sender: TObject);
         appTunerEx.Form[Self].TuneComboboxes;
 
         stStatusBar.Panels.Items[1].Text :=
-          Format(PORTS_FINDED, [cbPortsList.Items.Count]);
+          Format(TXT_PORTS_FINDED, [cbPortsList.Items.Count]);
         end;
 
       // подключение к порту / отключение от порта
@@ -2513,16 +2481,16 @@ procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
       begin
       if connected then
         begin
-        port   := serial.ConfigString + ' ' + SPEED;
-        status := serial.ConfigShort + ' ' + SPEED;
+        port   := serial.ConfigString + ' ' + TXT_SPEED;
+        status := serial.ConfigShort + ' ' + TXT_SPEED;
         atitSh := atitle + ' – ' + status + ' – Tx';
         atitSh += serial.RxEnable.Select('/Rx', '');
         atitle += ' – ' + port + ' – Tx';
         atitle += serial.RxEnable.Select('/Rx', '');
 
 
-        acConnect.Caption    := DISCONNECT;
-        acConnect.Hint       := DISCONNECT_HINT;
+        acConnect.Caption    := TXT_DISCONNECT;
+        acConnect.Hint       := TXT_DISCONNECT_HINT;
         acConnect.ImageIndex := 26;
         end
       else
@@ -2531,8 +2499,8 @@ procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
           status := '' else
           status := serial.ErrorString + ' ' + serial.Port;
 
-        acConnect.Caption    := CONNECT;
-        acConnect.Hint       := CONNECT_HINT;
+        acConnect.Caption    := TXT_CONNECT;
+        acConnect.Hint       := TXT_CONNECT_HINT;
         acConnect.ImageIndex := 2;
         end;
 
@@ -2555,16 +2523,16 @@ procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
       acShowHEX.Enabled        := _textBoxesVisible;
       acShowLineCounts.Enabled := _textBoxesVisible;
 
-      lbTx.Caption := TX_CAPTION +
+      lbTx.Caption := TXT_TX_CAPTION +
         (cfg.com.encoding and (cbTxType.ItemIndex = 0)).Select(
         ' — ' + Format(TXT_ENCODING, [cbTxEncoding.Text]), '');
 
       if acPlotterShow.Checked then
-        lbRx.Caption := PLOTTER_CAPTION + Format(' — %s, %s', [
+        lbRx.Caption := TXT_PLOTTER_CAPTION + Format(' — %s, %s', [
           String(cbPlotterProtocol.Text).Replace('  ', ' ').Replace('  ', ' '),
           String(cbPlotterView.Text).FirstLowCase])
       else
-        lbRx.Caption := RX_CAPTION +
+        lbRx.Caption := TXT_RX_CAPTION +
           (cfg.com.encoding and (cbRxType.ItemIndex = 0)).Select(
           ' — ' + Format(TXT_ENCODING, [cbRxEncoding.Text]), '');
       end;
@@ -2695,7 +2663,7 @@ procedure TfmMain.EncodingsTxRxSet;
         begin
         Tag := ItemIndex;
         Items.Clear;
-        Items.Add(TEXT_TYPE_TEXT);
+        Items.Add(TXT_TYPE_TEXT);
         Items.Add('HEX');
         Items.Add('BIN');
         Items.Add('DEC');

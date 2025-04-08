@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uterminal\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-04-08 18:32+0300\n"
+"PO-Revision-Date: 2025-04-08 21:25+0300\n"
 "Last-Translator: \n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -36,141 +36,15 @@ msgstr "версія %s"
 
 #: fm_insertchar.txt_insert_char
 #, object-pascal-format
+msgctxt "fm_insertchar.txt_insert_char"
 msgid "%s, символ <%s>"
 msgstr "%s, символ <%s>"
 
-#: fm_main.connect
-msgid "Подключить"
-msgstr "Підключити"
-
-#: fm_main.connected_to
-msgid "Подключен к"
-msgstr "Підключений до"
-
-#: fm_main.connect_hint
-msgid "Подключиться к выбранному порту"
-msgstr "Підключитися до обраного порту"
-
-#: fm_main.disconnect
-msgid "Отключить"
-msgstr "Відключити"
-
-#: fm_main.disconnected_from
-msgid "Отключен от"
-msgstr "Відключений від"
-
-#: fm_main.disconnect_hint
-msgid "Отключиться от текущего порта"
-msgstr "Відключитися від поточного порту"
-
-#: fm_main.error
-msgctxt "fm_main.error"
-msgid "Ошибка"
-msgstr "Помилка"
-
-#: fm_main.plotter_caption
-msgctxt "fm_main.plotter_caption"
-msgid "Плоттер"
-msgstr "Плоттер"
-
-#: fm_main.ports_finded
-#, object-pascal-format
-msgid "Найдено портов: %d"
-msgstr "Знайдено портів: %d"
-
-#: fm_main.rx_caption
-msgid "Прием [Rx]"
-msgstr "Прийом [Rx]"
-
-#: fm_main.speed
-msgid "бод/с"
-msgstr "бод/с"
-
-#: fm_main.text_type_text
-msgctxt "fm_main.text_type_text"
-msgid "Текст"
-msgstr "Текст"
-
-#: fm_main.txt_dlg_all
-msgctxt "fm_main.txt_dlg_all"
-msgid "Файл"
-msgstr "Файл"
-
-#: fm_main.txt_dlg_csv
-msgid "Файл CSV"
-msgstr "Файл CSV"
-
-#: fm_main.txt_dlg_png
-msgid "PNG - изображение Portable Network Graphics"
-msgstr "PNG - зображення Portable Network Graphics"
-
-#: fm_main.txt_dlg_text
-msgid "Текстовый файл"
-msgstr "Текстовий файл"
-
-#: fm_main.txt_encoding
-#, object-pascal-format
-msgid "кодировка %s"
-msgstr "кодування %s"
-
-#: fm_main.txt_plot_line_ps
-#, object-pascal-format
-msgid "Радиус точек - %d пикс."
-msgstr "Радіус точок - %d пікс."
-
-#: fm_main.txt_plot_line_st
-#, object-pascal-format
-msgid "Стиль линии - %s"
-msgstr "Стиль лінії - %s"
-
-#: fm_main.txt_plot_line_wd
-#, object-pascal-format
-msgid "Толщина линии - %d пикс."
-msgstr "Товщина лінії - %d пікс."
-
-#: fm_main.txt_redef_bgcolor
-msgctxt "fm_main.txt_redef_bgcolor"
-msgid "Фон"
-msgstr "Фон"
-
-#: fm_main.txt_redef_grid
-msgctxt "fm_main.txt_redef_grid"
-msgid "Сетка"
-msgstr "Сітка"
-
-#: fm_main.txt_redef_points
-msgctxt "fm_main.txt_redef_points"
-msgid "Точки"
-msgstr "Точки"
-
-#: fm_main.txt_redef_viewport
-msgid "Окно"
-msgstr "Вікно"
-
-#: fm_main.txt_redef_width
-msgid "Толщина"
-msgstr "Товщина"
-
-#: fm_main.txt_redef_xgrid
-msgid "Сетка X"
-msgstr "Сітка X"
-
-#: fm_main.txt_redef_ygrid
-msgid "Сетка Y"
-msgstr "Сітка Y"
-
-#: fm_main.tx_caption
-msgid "Передача [Tx]"
-msgstr "Передача [Tx]"
-
 #: fm_settings.txt_color_hint
 #, object-pascal-format
+msgctxt "fm_settings.txt_color_hint"
 msgid "Цвет %d-й линии плоттера"
 msgstr "Колір %d-ї лінії плоттера"
-
-#: fm_settings.txt_win_theme
-msgid "Только Windows 10 1809+"
-msgstr "Тільки Windows 10 1809+"
 
 #: tfmabout.lbcopyrights.caption
 msgctxt "tfmabout.lbcopyrights.caption"
@@ -605,8 +479,8 @@ msgstr "Знайти попередній збіг"
 
 #: tfmmain.acsettings.caption
 msgctxt "tfmmain.acsettings.caption"
-msgid "Настройки"
-msgstr "Налаштування"
+msgid "Настройки ..."
+msgstr "Налаштування ..."
 
 #: tfmmain.acsettings.hint
 msgid "Настройки приложения"
@@ -1261,10 +1135,6 @@ msgstr "Значення на індикаторах сигналів RS-232"
 msgid "Количество данных в буферах"
 msgstr "Кількість даних у буферах"
 
-#: tfmsettings.cbshowsplash.caption
-msgid "Заставка при запуске"
-msgstr "Заставка при запуску"
-
 #: tfmsettings.cbshowstatusbar.caption
 msgid "Статусная строка"
 msgstr "Статусний рядок"
@@ -1356,13 +1226,13 @@ msgstr "Елементи"
 msgid "Прочее"
 msgstr "Інше"
 
-#: tfmsettings.lbapprestart.caption
-msgid "Необходим перезапуск!"
-msgstr "Потрібен перезапуск!"
-
 #: tfmsettings.lbapptheme.caption
 msgid "Цветовая тема (после перезапуска)"
 msgstr "Колірна тема (після перезапуску)"
+
+#: tfmsettings.lbapptheme.hint
+msgid "Поддержка тем доступна только на Windows 10 1809+"
+msgstr "Теми підтримуються тільки на Windows 10 1809+"
 
 #: tfmsettings.lbappupdate.caption
 msgctxt "tfmsettings.lbappupdate.caption"
@@ -1881,9 +1751,25 @@ msgstr "Б"
 msgid "Размер: %s"
 msgstr "Розмір: %s"
 
+#: u_common.txt_color_hint
+#, object-pascal-format
+msgctxt "u_common.txt_color_hint"
+msgid "Цвет %d-й линии плоттера"
+msgstr "Колір %d-ї лінії плоттера"
+
 #: u_common.txt_confirm
 msgid "Подтверждение"
 msgstr "Підтвердження"
+
+#: u_common.txt_connect
+msgctxt "u_common.txt_connect"
+msgid "Подключить"
+msgstr "Підключити"
+
+#: u_common.txt_connect_hint
+msgctxt "u_common.txt_connect_hint"
+msgid "Подключиться к выбранному порту"
+msgstr "Підключитися до обраного порту"
 
 #: u_common.txt_ctrl_ctrlw
 msgid "Ctrl + колесо"
@@ -1904,6 +1790,42 @@ msgstr "Колесо"
 #: u_common.txt_data
 msgid "Данные"
 msgstr "Дані"
+
+#: u_common.txt_disconnect
+msgctxt "u_common.txt_disconnect"
+msgid "Отключить"
+msgstr "Відключити"
+
+#: u_common.txt_disconnect_hint
+msgctxt "u_common.txt_disconnect_hint"
+msgid "Отключиться от текущего порта"
+msgstr "Відключитися від поточного порту"
+
+#: u_common.txt_dlg_all
+msgctxt "u_common.txt_dlg_all"
+msgid "Файл"
+msgstr "Файл"
+
+#: u_common.txt_dlg_csv
+msgctxt "u_common.txt_dlg_csv"
+msgid "Файл CSV"
+msgstr "Файл CSV"
+
+#: u_common.txt_dlg_png
+msgctxt "u_common.txt_dlg_png"
+msgid "PNG - изображение Portable Network Graphics"
+msgstr "PNG - зображення Portable Network Graphics"
+
+#: u_common.txt_dlg_text
+msgctxt "u_common.txt_dlg_text"
+msgid "Текстовый файл"
+msgstr "Текстовий файл"
+
+#: u_common.txt_encoding
+#, object-pascal-format
+msgctxt "u_common.txt_encoding"
+msgid "кодировка %s"
+msgstr "кодування %s"
 
 #: u_common.txt_error
 msgctxt "u_common.txt_error"
@@ -1936,6 +1858,12 @@ msgstr ""
 "7. Плоттер дасть можливість візуалізувати прийняті значення.\n"
 "8. Майже всі елементи інтерфейсу мають підказку - просто наведіть курсор."
 
+#: u_common.txt_insert_char
+#, object-pascal-format
+msgctxt "u_common.txt_insert_char"
+msgid "%s, символ <%s>"
+msgstr "%s, символ <%s>"
+
 #: u_common.txt_list_enter_mac
 msgid "CR     (0xD,         стиль MacOS)"
 msgstr "CR     (0xD,         стиль MacOS)"
@@ -1964,18 +1892,92 @@ msgstr "Tx - зліва, Rx - справа"
 msgid "Tx - справа, Rx - слева"
 msgstr "Tx - справа, Rx - зліва"
 
+#: u_common.txt_plotter_caption
+msgctxt "u_common.txt_plotter_caption"
+msgid "Плоттер"
+msgstr "Плоттер"
+
+#: u_common.txt_plot_line_ps
+#, object-pascal-format
+msgctxt "u_common.txt_plot_line_ps"
+msgid "Радиус точек - %d пикс."
+msgstr "Радіус точок - %d пікс."
+
+#: u_common.txt_plot_line_st
+#, object-pascal-format
+msgctxt "u_common.txt_plot_line_st"
+msgid "Стиль линии - %s"
+msgstr "Стиль лінії - %s"
+
+#: u_common.txt_plot_line_wd
+#, object-pascal-format
+msgctxt "u_common.txt_plot_line_wd"
+msgid "Толщина линии - %d пикс."
+msgstr "Товщина лінії - %d пікс."
+
+#: u_common.txt_ports_finded
+#, object-pascal-format
+msgctxt "u_common.txt_ports_finded"
+msgid "Найдено портов: %d"
+msgstr "Знайдено портів: %d"
+
 #: u_common.txt_position
 msgid "Поз"
 msgstr "Поз"
+
+#: u_common.txt_redef_bgcolor
+msgctxt "u_common.txt_redef_bgcolor"
+msgid "Фон"
+msgstr "Фон"
+
+#: u_common.txt_redef_grid
+msgctxt "u_common.txt_redef_grid"
+msgid "Сетка"
+msgstr "Сітка"
+
+#: u_common.txt_redef_points
+msgctxt "u_common.txt_redef_points"
+msgid "Точки"
+msgstr "Точки"
+
+#: u_common.txt_redef_viewport
+msgctxt "u_common.txt_redef_viewport"
+msgid "Окно"
+msgstr "Вікно"
+
+#: u_common.txt_redef_width
+msgctxt "u_common.txt_redef_width"
+msgid "Толщина"
+msgstr "Товщина"
+
+#: u_common.txt_redef_xgrid
+msgctxt "u_common.txt_redef_xgrid"
+msgid "Сетка X"
+msgstr "Сітка X"
+
+#: u_common.txt_redef_ygrid
+msgctxt "u_common.txt_redef_ygrid"
+msgid "Сетка Y"
+msgstr "Сітка Y"
 
 #: u_common.txt_reset
 msgctxt "u_common.txt_reset"
 msgid "Сброс"
 msgstr "Скидання"
 
+#: u_common.txt_rx_caption
+msgctxt "u_common.txt_rx_caption"
+msgid "Прием [Rx]"
+msgstr "Прийом [Rx]"
+
 #: u_common.txt_selection
 msgid "Выд"
 msgstr "Вид"
+
+#: u_common.txt_speed
+msgctxt "u_common.txt_speed"
+msgid "бод/с"
+msgstr "бод/с"
 
 #: u_common.txt_theme_dark
 msgctxt "u_common.txt_theme_dark"
@@ -1990,6 +1992,16 @@ msgstr "Світла"
 #: u_common.txt_theme_sys
 msgid "Системная"
 msgstr "Системна"
+
+#: u_common.txt_tx_caption
+msgctxt "u_common.txt_tx_caption"
+msgid "Передача [Tx]"
+msgstr "Передача [Tx]"
+
+#: u_common.txt_type_text
+msgctxt "u_common.txt_type_text"
+msgid "Текст"
+msgstr "Текст"
 
 #: u_common.txt_upd_atstartup
 msgid "При запуске"

@@ -12,10 +12,6 @@ uses
   u_common, u_settings_record,
   u_plotter_types, u_plotter_regexplist, u_plotter;
 
-resourcestring
-  TXT_COLOR_HINT = 'Цвет %d-й линии плоттера';
-  TXT_WIN_THEME  = 'Только Windows 10 1809+';
-
 const
   LANGUAGES_DIR  = 'lang';
   LANGUAGES_FILE = 'languages.ini';
@@ -168,21 +164,16 @@ procedure TfmSettings.FormShow(Sender: TObject);
       // adjust speedbuttons to show as square buttons
       sbRegExpAdd.Constraints.MinWidth := sbRegExpAdd.Height;
       sbRegExpDel.Constraints.MinWidth := sbRegExpDel.Height;
-
-      lbAppRestart.Constraints.MinHeight := cbAppTheme.Height;
     end;
 
   procedure DarkThemeSupport;
     begin
       if appTunerEx.IsDarkThemeAvailable then
         begin
-        pDarkTheme.BorderStyle := bsNone;
-        cbAppTheme.Visible     := True;
+        cbAppTheme.Enabled     := True;
         pTitleLT1.Visible      := True;
         pFontDarkBlock.Visible := True;
-        end
-      else
-        lbAppRestart.Caption   := ' ' + TXT_WIN_THEME + ' ';
+        end;
     end;
 
   begin

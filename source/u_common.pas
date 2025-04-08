@@ -34,6 +34,36 @@ resourcestring
     'Сейчас скачивается обновление.' + LineEnding +
     'Прервать и закрыть приложение?';
 
+  TXT_TX_CAPTION      = 'Передача [Tx]';
+  TXT_RX_CAPTION      = 'Прием [Rx]';
+  TXT_PLOTTER_CAPTION = 'Плоттер';
+  TXT_CONNECT         = 'Подключить';
+  TXT_CONNECT_HINT    = 'Подключиться к выбранному порту';
+  TXT_DISCONNECT_HINT = 'Отключиться от текущего порта';
+  TXT_DISCONNECT      = 'Отключить';
+  TXT_SPEED           = 'бод/с';
+  TXT_PORTS_FINDED    = 'Найдено портов: %d';
+  TXT_TYPE_TEXT       = 'Текст';
+  TXT_ENCODING        = 'кодировка %s';
+  TXT_DLG_TEXT        = 'Текстовый файл';
+  TXT_DLG_CSV         = 'Файл CSV';
+  TXT_DLG_PNG         = 'PNG - изображение Portable Network Graphics';
+  TXT_DLG_ALL         = 'Файл';
+
+  TXT_REDEF_VIEWPORT  = 'Окно';
+  TXT_REDEF_GRID      = 'Сетка';
+  TXT_REDEF_XGRID     = 'Сетка X';
+  TXT_REDEF_YGRID     = 'Сетка Y';
+  TXT_REDEF_BGCOLOR   = 'Фон';
+  TXT_REDEF_WIDTH     = 'Толщина';
+  TXT_REDEF_POINTS    = 'Точки';
+  TXT_PLOT_LINE_ST    = 'Стиль линии - %s';
+  TXT_PLOT_LINE_WD    = 'Толщина линии - %d пикс.';
+  TXT_PLOT_LINE_PS    = 'Радиус точек - %d пикс.';
+  TXT_COLOR_HINT      = 'Цвет %d-й линии плоттера';
+
+  TXT_INSERT_CHAR     = '%s, символ <%s>';
+
   TXT_BYTE_SIZE       = 'Размер: %s';
   TXT_BYTE_SHORT      = 'Б';
   TXT_BYTE_KB         = 'КБ';

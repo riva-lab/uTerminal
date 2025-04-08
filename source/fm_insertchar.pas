@@ -6,10 +6,8 @@ interface
 
 uses
   Classes, SysUtils, StrUtils, Forms, Controls, Graphics,
-  Grids, ExtCtrls, Buttons, ActnList, LCLType, ComCtrls, u_encodings, Types;
-
-resourcestring
-  TXT_INSERT_CHAR = '%s, символ <%s>';
+  Grids, ExtCtrls, Buttons, ActnList, LCLType, ComCtrls, u_encodings, Types,
+  u_common;
 
 type
 
