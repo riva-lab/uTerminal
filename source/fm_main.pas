@@ -1261,9 +1261,11 @@ procedure TfmMain.actionPlotter(Sender: TObject);
           end
         else
           begin
+          lbRxSize.Visible    := True;
           tbPlotter.Visible   := False;
           tbPlotterEx.Visible := False;
           pgRxText.Show;
+          seRxChange(nil);
           end;
 
       // закрыть плоттер
