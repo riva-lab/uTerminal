@@ -133,6 +133,7 @@ resourcestring
 
 
 type
+  TDataView      = (dvTxt, dvHex, dvBin, dvDec);
   TPanelsLayout  = (plTxTop, plTxDown, plTxLeft, plTxRight);
   TAppUpdateWay  = (uwAuto, uwCheck, uwManual);
   TAppUpdateFreq = (ufAtStartup, ufDaily, ufWeekly, ufMonthly, ufQuarterly);
@@ -154,6 +155,9 @@ const
 
   DATA_LINEBREAK: array[TTextLineBreakStyle] of String = (
     ''#10, ''#13#10, ''#13);
+
+  TXT_DATA_VIEW: array[TDataView] of String = (
+    TXT_TYPE_TEXT, 'HEX', 'BIN', 'DEC');
 
   TXT_PANELS_LAYOUT: array[TPanelsLayout] of String = (
     TXT_LIST_LAYOUT_1, TXT_LIST_LAYOUT_2, TXT_LIST_LAYOUT_3, TXT_LIST_LAYOUT_4);

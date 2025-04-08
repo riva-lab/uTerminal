@@ -34,7 +34,6 @@ const
 
 type
 
-  TDataView  = (dvTxt, dvHex, dvBin, dvDec);
   TLineParam = (lpNone, lpWidth, lpStyle, lpPoint);
 
   { TfmMain }
@@ -2657,26 +2656,10 @@ procedure TfmMain.EncodingsTxRxSet;
         end;
     end;
 
-  procedure UpdateComboBoxType(AComboBox: TComboBox);
-    begin
-      with AComboBox do
-        begin
-        Tag := ItemIndex;
-        Items.Clear;
-        Items.Add(TXT_TYPE_TEXT);
-        Items.Add('HEX');
-        Items.Add('BIN');
-        Items.Add('DEC');
-        ItemIndex := (Tag < 0).Select(0, Tag);
-        end;
-    end;
-
   begin
     EncodingsListUpdate;
     UpdateComboBoxEncoding(cbTxEncoding);
     UpdateComboBoxEncoding(cbRxEncoding);
-    UpdateComboBoxType(cbTxType);
-    UpdateComboBoxType(cbRxType);
   end;
 
 // получение позиции курсора в поле в/в (смещение в байтах)
@@ -3155,6 +3138,8 @@ procedure TfmMain.OnLanguageChange(Sender: TObject);
     acAutoAnswerEnable.Hint := HINT_AUTOANSWER;
 
     // update dropdown lists
+    appLocalizerEx.Localize(cbTxType, TXT_DATA_VIEW);
+    appLocalizerEx.Localize(cbRxType, TXT_DATA_VIEW);
     appLocalizerEx.Localize(cbBaudrate, TXT_BAUDRATE);
     appLocalizerEx.Localize(cbPlotterProtocol, TXT_PLOTTER_PROTOCOL);
     appLocalizerEx.Localize(cbPlotterView, TXT_PLOTTER_VIEW);
