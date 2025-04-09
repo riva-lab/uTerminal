@@ -172,7 +172,7 @@ procedure TfmSettings.FormShow(Sender: TObject);
     end;
 
   begin
-    Settings.SyncComponents; // load controls from fields of 'cfg' record
+    Settings.SyncValues;     // load default values to fields of 'cfg' record
 
     // execute this block only once
     if Tag = 0 then
