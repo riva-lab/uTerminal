@@ -28,15 +28,15 @@ object fmCommands: TfmCommands
     Columns = <    
       item
         MinSize = 12
-        MaxSize = 250
+        MaxSize = 0
         Title.Caption = 'Входная последовательность'
-        Width = 250
+        Width = 368
       end    
       item
         MinSize = 12
-        MaxSize = 250
+        MaxSize = 0
         Title.Caption = 'Ответная последовательность'
-        Width = 250
+        Width = 368
       end>
     FixedCols = 0
     GridLineWidth = 0
@@ -45,8 +45,8 @@ object fmCommands: TfmCommands
     TabOrder = 0
     OnSelectCell = sgSequencesSelectCell
     ColWidths = (
-      250
-      250
+      368
+      368
     )
   end
   object Panel2: TPanel
