@@ -4966,7 +4966,6 @@ object fmMain: TfmMain
     }
   end
   object imSVGList: TImageSVGList
-    Rendering = True
     DisabledLevel = 180
     ImagesActive = imImageList
     ImagesDisabled = imImageListD

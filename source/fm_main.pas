@@ -2803,8 +2803,10 @@ procedure TfmMain.AdjustComponentSizes;
   begin
     BeginFormUpdate;
 
-    // on 96dpi's screen at 100% resolution muat be 16px
+    // on 96dpi's screen at 100% resolution must be 16px
     imSVGList.RenderSize := Round(Scale96ToScreen(16) * cfg.com.iconsRes / 100);
+    imSVGList.Rendering  := True;
+    imSVGList.Rendering  := False;
 
     // scale font for all forms
     appTunerEx.Scale := cfg.com.fontSize;
@@ -2887,9 +2889,10 @@ procedure TfmMain.AdjustThemeDependentValues;
     if appTunerEx.IsDarkTheme then
       begin                        // dark theme, if available
 
-      // iconspack for dark theme located in resources
-      imSVGList.LoadRes       := 'ICONSPACK-DARK';
       imSVGList.DisabledLevel := 96;
+      imSVGList.List.Text     := imSVGList.List.Text
+        .Replace('#000', '#49d095')
+        .Replace('stroke-width="1.7"', 'stroke-width="1.0"');
 
       apAppProperties.HintColor    := $497634;
       Screen.HintFont.Color        := clWindowText;
@@ -3027,8 +3030,9 @@ procedure TfmMain.SettingsApply(Sender: TObject);
     appLocalizerEx.CurrentLanguage := cfg.com.langIndex;
 
     EncodingsTxRxSet;     // update encodings lists and view mode lists
-    AdjustComponentSizes; // adjust sizes of components
     BeginFormUpdate;
+    AdjustThemeDependentValues;
+    AdjustComponentSizes; // adjust sizes of components
 
       try
       appTunerEx.Form[Self].MenuShow := cfg.com.menu;
@@ -3115,7 +3119,6 @@ procedure TfmMain.SettingsApply(Sender: TObject);
     seTxChange(Sender);
     seRxChange(Sender);
     PlotterParserReInit;
-    AdjustThemeDependentValues;
     EndFormUpdate;
   end;
 
