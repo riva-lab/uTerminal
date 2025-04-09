@@ -568,12 +568,13 @@ object fmSettings: TfmSettings
           ItemHeight = 20
           ItemIndex = 1
           Items.Strings = (
-            ''
-            ''
-            ''
+            'LF'
+            'CRLF'
+            'CR'
           )
           Style = csDropDownList
           TabOrder = 0
+          Text = 'CRLF'
         end
         object lbLineBreakStyle: TLabel
           Left = 135
@@ -2912,13 +2913,13 @@ object fmSettings: TfmSettings
           ItemHeight = 20
           ItemIndex = 1
           Items.Strings = (
-            ''
-            ''
-            ''
-            ''
+            'LF'
+            'CRLF'
+            'CR'
           )
           Style = csDropDownList
           TabOrder = 3
+          Text = 'CRLF'
         end
         object lbCSVLineBreak: TLabel
           Left = 212

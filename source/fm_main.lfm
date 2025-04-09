@@ -1888,13 +1888,14 @@ object fmMain: TfmMain
                   ItemHeight = 20
                   ItemIndex = 0
                   Items.Strings = (
-                    ''
-                    ''
-                    ''
-                    ''
+                    'txt'
+                    'hex'
+                    'bin'
+                    'dec'
                   )
                   Style = csDropDownList
                   TabOrder = 1
+                  Text = 'txt'
                   OnChange = cbTxTypeChange
                 end
               end
@@ -3134,8 +3135,16 @@ object fmMain: TfmMain
                       BorderSpacing.Right = 4
                       BorderSpacing.CellAlignVertical = ccaCenter
                       ItemHeight = 20
+                      ItemIndex = 0
+                      Items.Strings = (
+                        'txt'
+                        'hex'
+                        'bin'
+                        'dec'
+                      )
                       Style = csDropDownList
                       TabOrder = 1
+                      Text = 'txt'
                       OnChange = cbRxTypeChange
                     end
                   end
