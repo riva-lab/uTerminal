@@ -10,6 +10,44 @@ uses
 
 type
 
+  TThemeConfigFont = record
+    index: Integer;
+    size:  Integer;
+    color: TColor;
+  end;
+
+  TThemeConfig = record
+    ledInactive: TColor;
+
+    editor: record
+      lineSel:   TColor;
+      rightEdge: TColor;
+      end;
+
+    txSeq: record
+      acolor: TColor;
+      bcolor: TColor;
+      end;
+
+    hint: record
+      bg:  TColor;
+      txt: TColor;
+      end;
+
+    font: record
+      tx: TThemeConfigFont;
+      rx: TThemeConfigFont;
+      end;
+
+    plotter: record
+      ax:     TColor;
+      ay:     TColor;
+      bg:     TColor;
+      bgwork: TColor;
+      txt:    TColor;
+      end;
+  end;
+
   { TAppConfig - Application settings structure }
 
   TAppConfig = record
@@ -87,18 +125,6 @@ type
       addition:  Boolean;
       sequences: String;
       buffer:    String;
-
-      font: record
-        index: Integer;
-        size:  Integer;
-        color: TColor;
-        end;
-
-      fontdark: record
-        index: Integer;
-        size:  Integer;
-        color: TColor;
-        end;
       end;
 
     // настройки приемника
@@ -111,18 +137,6 @@ type
       restore:   Boolean;
       scrollEnd: Boolean;
       buffer:    String;
-
-      font: record
-        index: Integer;
-        size:  Integer;
-        color: TColor;
-        end;
-
-      fontdark: record
-        index: Integer;
-        size:  Integer;
-        color: TColor;
-        end;
 
       timestamp: record
         enable:  Boolean;
@@ -211,16 +225,7 @@ type
         end;
 
       color: record
-        bg:     TColor;
-        bgwork: TColor;
-        txt:    TColor;
-        line:   array[0..MAX_SERIES - 1] of TColor;
-        end;
-
-      dark: record
-        bg:     TColor;
-        bgwork: TColor;
-        txt:    TColor;
+        line: array[0..MAX_SERIES - 1] of TColor;
         end;
       end;
 
@@ -232,8 +237,6 @@ type
       counter: Boolean;
       samples: Integer;
       space:   Integer;
-      color:   TColor;
-      dark:    TColor;
 
       ctrl: record
         method:      TPlotterCtrl;
@@ -247,8 +250,6 @@ type
     ay: record
       grid:  Boolean;
       marks: Boolean;
-      color: TColor;
-      dark:  TColor;
 
       ctrl: record
         method:      TPlotterCtrl;
@@ -306,6 +307,13 @@ type
       listData: String;
       list:     TPlotterRegExpList;
       end;
+
+    // theme settings: colors & fonts
+    theme: record
+      this:  TThemeConfig; // current
+      light: TThemeConfig;
+      dark:  TThemeConfig;
+      end;
   end;
 
 
@@ -318,7 +326,40 @@ var
   cfg:      TAppConfig;   // configuration record with project settings
 
 
+procedure ConfigInitDefaults;
+
+
 implementation
+
+
+procedure ConfigInitDefaults;
+  const
+    // default colors for plotter series
+    DEFAULT_SERIE_COLOR: array[0..MAX_SERIES - 1] of TColor =
+      ($FF8000, $00D000, clRed, $C00000, clFuchsia, $0080FF, clGreen, $00E0E0,
+      $FF8000, $00D000, clRed, $C00000, clFuchsia, $0080FF, clGreen, $00E0E0);
+  begin
+    with cfg.theme do
+      begin
+      light.hint.bg          := $DCF3D1;
+      light.hint.txt         := clWindowText;
+      light.ledInactive      := TColor(clDefault - $444444);
+      light.txSeq.acolor     := $CFE8C6;
+      light.txSeq.bcolor     := $E7F2E1;
+      light.editor.lineSel   := TColor(clWindow - $060606);
+      light.editor.rightEdge := TColor(clWindow - $222222);
+
+      dark.hint.bg          := $497634;
+      dark.hint.txt         := clWindowText;
+      dark.ledInactive      := TColor(clDefault + $444444);
+      dark.txSeq.acolor     := $2E4921;
+      dark.txSeq.bcolor     := $263D1B;
+      dark.editor.lineSel   := TColor(clWindow + $060606);
+      dark.editor.rightEdge := TColor(clWindow + $222222);
+      end;
+
+    cfg.plt.color.line := DEFAULT_SERIE_COLOR;
+  end;
 
 
 initialization

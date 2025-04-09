@@ -17,11 +17,6 @@ const
   LANGUAGES_FILE = 'languages.ini';
   LANGUAGE_FILE  = 'uTerminal';
 
-  // цвета графиков по умолчанию
-  DEFAULT_SERIE_COLOR: array[0..MAX_SERIES - 1] of TColor =
-    ($FF8000, $00D000, clRed, $C00000, clFuchsia, $0080FF, clGreen, $00E0E0,
-    $FF8000, $00D000, clRed, $C00000, clFuchsia, $0080FF, clGreen, $00E0E0);
-
 type
 
   { TfmSettings }
@@ -99,12 +94,12 @@ procedure TfmSettings.FormCreate(Sender: TObject);
     Settings.Load;           // load settings from ini file to 'cfg' record
 
     // font default settings
-    if cfg.tx.font.index < 0 then
+    if cfg.theme.light.font.tx.index < 0 then
       begin
-      cfg.tx.font.index     := Max(0, Screen.Fonts.IndexOf('Consolas'));
-      cfg.rx.font.index     := cfg.tx.font.index;
-      cfg.tx.fontdark.index := cfg.tx.font.index;
-      cfg.rx.fontdark.index := cfg.tx.font.index;
+      cfg.theme.light.font.tx.index := Max(0, Screen.Fonts.IndexOf('Consolas'));
+      cfg.theme.light.font.rx.index := cfg.theme.light.font.tx.index;
+      cfg.theme.dark.font.tx.index  := cfg.theme.light.font.tx.index;
+      cfg.theme.dark.font.rx.index  := cfg.theme.light.font.tx.index;
       end;
 
     // load font lists
@@ -377,7 +372,7 @@ procedure TfmSettings.ColorButtonsInit;
       // color button
       cbSerieColor[i]             := TColorButton.Create(fmSettings);
       cbSerieColor[i].Parent      := pSeriesColor;
-      cbSerieColor[i].ButtonColor := DEFAULT_SERIE_COLOR[i];
+      cbSerieColor[i].ButtonColor := cfg.plt.color.line[i];
       cbSerieColor[i].Flat        := True;
       cbSerieColor[i].BorderWidth := 0;
       cbSerieColor[i].Name        := Format('cbSerieColor%d', [i + 1]);

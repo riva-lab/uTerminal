@@ -230,6 +230,7 @@ procedure TfmMain.FormCreate(Sender: TObject);
     PlotterParserInit;
     AddPortSettingsSubMenu;
     EncodingsTxRxSet;
+    ConfigInitDefaults;
 
     // default form size
     Width  := Scale96ToScreen(700);
@@ -645,6 +646,7 @@ procedure TfmMain.seTxRxMouseWheel(Sender: TObject; Shift: TShiftState;
   begin
     if Shift = [ssCtrl] then
       begin
+      Settings.SyncValues;
       TSynEdit(Sender).Font.Size := TSynEdit(Sender).Font.Size
         + WheelDelta div abs(WheelDelta);
 
@@ -652,17 +654,18 @@ procedure TfmMain.seTxRxMouseWheel(Sender: TObject; Shift: TShiftState;
 
         'seTx':
           if appTunerEx.IsDarkTheme then
-            cfg.tx.fontdark.size := seTx.Font.Size
+            cfg.theme.dark.font.tx.size  := seTx.Font.Size
           else
-            cfg.tx.font.size     := seTx.Font.Size;
+            cfg.theme.light.font.tx.size := seTx.Font.Size;
 
         'seRx':
           if appTunerEx.IsDarkTheme then
-            cfg.rx.fontdark.size := seRx.Font.Size
+            cfg.theme.dark.font.rx.size  := seRx.Font.Size
           else
-            cfg.rx.font.size     := seRx.Font.Size;
+            cfg.theme.light.font.rx.size := seRx.Font.Size;
         end;
 
+      Settings.SyncComponents;
       sgTxSequencesChangeBounds(Sender);
       Handled := True;
       end;
@@ -2885,78 +2888,55 @@ procedure TfmMain.AdjustThemeDependentValues;
       AFont.Size  := ASize;
       AFont.Color := AColor;
     end;
+
   begin
     if appTunerEx.IsDarkTheme then
       begin                        // dark theme, if available
+      cfg.theme.this := cfg.theme.dark;
 
       imSVGList.DisabledLevel := 96;
       imSVGList.List.Text     := imSVGList.List.Text
         .Replace('#000', '#49d095')
         .Replace('stroke-width="1.7"', 'stroke-width="1.0"');
-
-      apAppProperties.HintColor    := $497634;
-      Screen.HintFont.Color        := clWindowText;
-      FInactiveColor               := Color + $444444;
-      sgTxSequences.AlternateColor := $2E4921;
-      sgTxSequences.Color          := $263D1B;
-      chPlotter.Color              := cfg.plt.dark.bg;
-      chPlotter.BackColor          := cfg.plt.dark.bgwork;
-      chPlotter.Legend.Font.Color  := cfg.plt.dark.txt;
-      chPlotter.Foot.Font.Color    := cfg.plt.dark.txt;
-      pPlotterToolbar.Color        := cfg.plt.dark.bgwork;
-
-      chPlotter.BottomAxis.Grid.Color            := cfg.ax.dark;
-      chPlotter.BottomAxis.Marks.LabelFont.Color := cfg.plt.dark.txt;
-      chPlotter.LeftAxis.Grid.Color              := cfg.ay.dark;
-      chPlotter.LeftAxis.Marks.LabelFont.Color   := cfg.plt.dark.txt;
-
-      for synEd in [seTx, seTxHex, seRx, seRxHex] do
-        begin
-        synEd.LineHighlightColor.Background := Color + $060606;
-        synEd.RightEdgeColor                := Color + $222222;
-        end;
-
-      for fnt in [seTx.Font, seTxHex.Font, fmASCIIChar.sgChar.Font] do
-        with cfg.tx.fontdark do
-          SetFont(fnt, index, size, color);
-
-      for fnt in [seRx.Font, seRxHex.Font] do
-        with cfg.rx.fontdark do
-          SetFont(fnt, index, size, color);
       end
     else
       begin                        // light theme, default
+      cfg.theme.this := cfg.theme.light;
+      end;
 
-      // iconspack for light theme is loaded in component already
+    with cfg.theme.this do
+      begin
+      apAppProperties.HintColor    := hint.bg;
+      Screen.HintFont.Color        := hint.txt;
+      FInactiveColor               := ledInactive;
+      sgTxSequences.AlternateColor := txSeq.acolor;
+      sgTxSequences.Color          := txSeq.bcolor;
 
-      FInactiveColor               := Color - $444444;
-      sgTxSequences.AlternateColor := $CFE8C6;
-      sgTxSequences.Color          := $E7F2E1;
-      chPlotter.Color              := cfg.plt.color.bg;
-      chPlotter.BackColor          := cfg.plt.color.bgwork;
-      chPlotter.Legend.Font.Color  := cfg.plt.color.txt;
-      chPlotter.Foot.Font.Color    := cfg.plt.color.txt;
-      pPlotterToolbar.Color        := cfg.plt.color.bgwork;
+      chPlotter.Color             := plotter.bg;
+      chPlotter.BackColor         := plotter.bgwork;
+      chPlotter.Legend.Font.Color := plotter.txt;
+      chPlotter.Foot.Font.Color   := plotter.txt;
+      pPlotterToolbar.Color       := plotter.bgwork;
 
-      chPlotter.BottomAxis.Grid.Color            := cfg.ax.color;
-      chPlotter.BottomAxis.Marks.LabelFont.Color := cfg.plt.color.txt;
-      chPlotter.LeftAxis.Grid.Color              := cfg.ay.color;
-      chPlotter.LeftAxis.Marks.LabelFont.Color   := cfg.plt.color.txt;
+      chPlotter.BottomAxis.Grid.Color            := plotter.ax;
+      chPlotter.BottomAxis.Marks.LabelFont.Color := plotter.txt;
+      chPlotter.LeftAxis.Grid.Color              := plotter.ay;
+      chPlotter.LeftAxis.Marks.LabelFont.Color   := plotter.txt;
 
       for synEd in [seTx, seTxHex, seRx, seRxHex] do
         begin
-        synEd.LineHighlightColor.Background := Color - $060606;
-        synEd.RightEdgeColor                := Color - $222222;
+        synEd.LineHighlightColor.Background := editor.lineSel;
+        synEd.RightEdgeColor                := editor.rightEdge;
         end;
-
-      for fnt in [seTx.Font, seTxHex.Font, fmASCIIChar.sgChar.Font] do
-        with cfg.tx.font do
-          SetFont(fnt, index, size, color);
-
-      for fnt in [seRx.Font, seRxHex.Font] do
-        with cfg.rx.font do
-          SetFont(fnt, index, size, color);
       end;
+
+    for fnt in [seTx.Font, seTxHex.Font, fmASCIIChar.sgChar.Font] do
+      with cfg.theme.this.font.tx do
+        SetFont(fnt, index, size, color);
+
+    for fnt in [seRx.Font, seRxHex.Font] do
+      with cfg.theme.this.font.rx do
+        SetFont(fnt, index, size, color);
 
     chToolPointTracker.CrosshairPen.Color := chPlotter.Legend.Font.Color;
     sgTxSequences.Font.Color              := clWindowText;
