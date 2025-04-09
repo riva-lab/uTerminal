@@ -34,18 +34,6 @@ msgstr "build #%d, %s"
 msgid "версия %s"
 msgstr "version %s"
 
-#: fm_insertchar.txt_insert_char
-#, object-pascal-format
-msgctxt "fm_insertchar.txt_insert_char"
-msgid "%s, символ <%s>"
-msgstr "%s, char <%s>"
-
-#: fm_settings.txt_color_hint
-#, object-pascal-format
-msgctxt "fm_settings.txt_color_hint"
-msgid "Цвет %d-й линии плоттера"
-msgstr "Plotter line %d color"
-
 #: tfmabout.lbcopyrights.caption
 msgctxt "tfmabout.lbcopyrights.caption"
 msgid "информация"
@@ -2314,3 +2302,4 @@ msgstr "Transmitting..."
 #: u_serial.txt_port_busy
 msgid "занят"
 msgstr "busy"
+

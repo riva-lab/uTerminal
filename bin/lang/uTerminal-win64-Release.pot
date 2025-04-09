@@ -18,18 +18,6 @@ msgstr ""
 msgid "версия %s"
 msgstr ""
 
-#: fm_insertchar.txt_insert_char
-#, object-pascal-format
-msgctxt "fm_insertchar.txt_insert_char"
-msgid "%s, символ <%s>"
-msgstr ""
-
-#: fm_settings.txt_color_hint
-#, object-pascal-format
-msgctxt "fm_settings.txt_color_hint"
-msgid "Цвет %d-й линии плоттера"
-msgstr ""
-
 #: tfmabout.lbcopyrights.caption
 msgctxt "tfmabout.lbcopyrights.caption"
 msgid "информация"
