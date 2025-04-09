@@ -3,6 +3,7 @@ bin/*.ini
 bin/*.exe
 bin/lang/uTerminal.*
 bin/lang/uTerminal-*32-*
+bin/lang/*Debug*
 help/uTerminal-help.html
 help/dark/screenshots/*.svg
 help/*.bat
