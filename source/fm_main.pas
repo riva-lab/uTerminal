@@ -1050,9 +1050,6 @@ procedure TfmMain.actionViewGeneral(Sender: TObject);
     UpdateControls(True);
     EndFormUpdate;
     sgTxSequencesChangeBounds(nil);
-
-    sbxPlotSettings.AutoScroll := False;
-    sbxPlotSettings.AutoScroll := True;  // force hide scrollbars when needed
   end;
 
 procedure TfmMain.actionViewForm(Sender: TObject);
@@ -2533,6 +2530,9 @@ procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
 
     pTranceiver.Visible := acShowTxBox.Checked or acShowRxBox.Checked;
     EndFormUpdate;
+
+    sbxPlotSettings.AutoScroll := False;
+    sbxPlotSettings.AutoScroll := True;  // force hide scrollbars when needed
   end;
 
 // обновление состояния индикаторов сигналов порта
