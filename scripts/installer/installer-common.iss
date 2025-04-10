@@ -8,7 +8,7 @@
 #define appName         "uTerminal"
 #define appCopyright    "Copyright (c) 2017-2018, 2021-2023 Riva"
 #define appPublisher    "Riva Lab"
-#define appURL          "https://riva-lab.gitlab.io/html/apps/uterminal.html"
+#define appURL          "https://riva-lab.gitlab.io/apps/uTerminal/"
 #define appUpdatesURL   "https://gitlab.com/riva-lab/uterminal/-/releases"
 #define appExeName      "uTerminal-win" + appArch + "-Release.exe"
 
