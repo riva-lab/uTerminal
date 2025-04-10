@@ -1,4 +1,4 @@
-﻿uTerminal application. Copyright 2017-2018, 2021-2023 Riva
+﻿uTerminal application. Copyright 2017-2025 Riva
 
 ## FreeBSD License, modified (see modification at the end)
 

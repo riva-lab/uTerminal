@@ -6,7 +6,7 @@
 ; Project data
 #define appPath         "..\.."
 #define appName         "uTerminal"
-#define appCopyright    "Copyright (c) 2017-2018, 2021-2023 Riva"
+#define appCopyright    "Copyright (c) 2017-2025 Riva"
 #define appPublisher    "Riva Lab"
 #define appURL          "https://riva-lab.gitlab.io/apps/uTerminal/"
 #define appUpdatesURL   "https://gitlab.com/riva-lab/uterminal/-/releases"
@@ -85,7 +85,7 @@ Name: "russian";                MessagesFile: "compiler:Languages\Russian.isl"
 ; Name: "slovenian";              MessagesFile: "compiler:Languages\Slovenian.isl"
 ; Name: "spanish";                MessagesFile: "compiler:Languages\Spanish.isl"
 ; Name: "turkish";                MessagesFile: "compiler:Languages\Turkish.isl"
-; Name: "ukrainian";              MessagesFile: "compiler:Languages\Ukrainian.isl"
+Name: "ukrainian";              MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 
 [Components]
@@ -94,6 +94,7 @@ Name: "Help";                   Description: "Help";            Types: full
 Name: "Translations";           Description: "Localizations";   Types: full
 Name: "Translations\English";   Description: "English";         Types: full compact custom; Flags: fixed
 Name: "Translations\Russian";   Description: "Russian";         Types: full compact custom; Flags: fixed
+Name: "Translations\Ukrainian"; Description: "Ukrainian";       Types: full compact custom; Flags: fixed
 
 
 [Tasks]
@@ -115,10 +116,11 @@ Source: "{#appPath}\bin\libcrypto-1_1{#opensslArch}.dll"; DestDir: "{app}\bin"; 
 Source: "{#appPath}\bin\libssl-1_1{#opensslArch}.dll";    DestDir: "{app}\bin"; Flags: ignoreversion
 
 ; Localization files
-Source: "{#appPath}\bin\lang\*.ini";            DestDir: "{app}\bin\lang"; Flags: ignoreversion
-Source: "{#appPath}\bin\lang\{#appName}.pot";   DestDir: "{app}\bin\lang"; Flags: ignoreversion
-Source: "{#appPath}\bin\lang\{#appName}.ru.po"; DestDir: "{app}\bin\lang"; Flags: ignoreversion
-Source: "{#appPath}\bin\lang\{#appName}.en.po"; DestDir: "{app}\bin\lang"; Flags: ignoreversion
+Source: "{#appPath}\bin\lang\*.ini";                DestDir: "{app}\bin\lang"; Flags: ignoreversion
+Source: "{#appPath}\bin\lang\{#appName}.pot";       DestDir: "{app}\bin\lang"; Flags: ignoreversion
+Source: "{#appPath}\bin\lang\{#appName}.ru.po";     DestDir: "{app}\bin\lang"; Flags: ignoreversion
+Source: "{#appPath}\bin\lang\{#appName}.en.po";     DestDir: "{app}\bin\lang"; Flags: ignoreversion
+Source: "{#appPath}\bin\lang\{#appName}.uk_UA.po";  DestDir: "{app}\bin\lang"; Flags: ignoreversion
 
 ; Help files
 Source: "{#appPath}\help\*";        DestDir: "{app}\help"; Flags: ignoreversion recursesubdirs; Components: Help
@@ -150,4 +152,6 @@ Type: files;        Name: "{app}\bin\lang\*.pot"
 Type: files;        Name: "{app}\bin\lang\*.ini"
 Type: dirifempty;   Name: "{app}\bin\lang"
 Type: files;        Name: "{app}\bin\settings.ini"
+Type: files;        Name: "{app}\bin\*.exe"
+Type: dirifempty;   Name: "{app}\bin"
 Type: dirifempty;   Name: "{app}"
