@@ -276,18 +276,9 @@ procedure TfmMain.FormShow(Sender: TObject);
 
     // предустановка состояний элементов
     actionPortGeneral(acRxEnable);
-
-    for _comp in [acPlotterShow, acPlotterSettings, acPlotterQLiveMode,
-        acPlotterQTracker, Sender] do
-      actionPlotter(_comp);
-
-    for _comp in [acShowLineCounts, acShowHEX, acShowSignals,
-        acShowTBMain, acShowTBPort, acShowTBTx, acShowTBRx] do
-      actionViewGeneral(_comp);
-
-    for _comp in [acSearch, rbSearchTx] do
-      actionSearchGeneral(_comp);
-
+    actionPlotter(Sender);
+    actionViewGeneral(Sender);
+    actionSearchGeneral(Sender);
     actionViewForm(Sender);
 
     // автоподключение к порту
@@ -984,73 +975,73 @@ procedure TfmMain.acRxExportExecute(Sender: TObject);
 procedure TfmMain.actionViewGeneral(Sender: TObject);
   var
     _viewNothing: Boolean;
+    s:            String;
   begin
+    s := TComponent(Sender).Name;
     FMouseDownPos.Create(Left, Top);
     BeginFormUpdate;
-    case TAction(Sender).Name of
 
-      // вкл/выкл панель сигналов порта
-      'acShowSignals':
-        pSignals.Visible := acShowSignals.Checked;
+    // вкл/выкл панель сигналов порта
+    if 0 = s.IndexOfAny(['fmMain', 'acShowSignals']) then
+      pSignals.Visible := acShowSignals.Checked;
 
-      // вкл/выкл номера строк
-      'acShowLineCounts':
-        begin
-        seRx.Gutter.Visible    := acShowLineCounts.Checked;
-        seRxHex.Gutter.Visible := acShowLineCounts.Checked;
-        seTx.Gutter.Visible    := acShowLineCounts.Checked;
-        seTxHex.Gutter.Visible := acShowLineCounts.Checked;
-        end;
-
-      // вкл/выкл доп. поле с данными в HEX-виде или панель сохраненных сообщений
-      'acShowHEX', 'acTxSequences':
-        begin
-        seRxHex.Visible      := acShowHEX.Checked;
-        spSplitterRx.Visible := acShowHEX.Checked;
-        nbTxRight.Visible    := acShowHEX.Checked or acTxSequences.Checked;
-        spSplitterTx.Visible := nbTxRight.Visible;
-        nbTxRight.PageIndex  := acTxSequences.Checked.ToInteger;
-
-        seRxChange(Sender);
-        seTxChange(Sender);
-        end;
-
-      // вкл/выкл видимость полей в/в
-      'acShowTxBox', 'acShowRxBox':
-        begin
-        pRxBox.Visible         := acShowRxBox.Checked;
-        pTxBox.Visible         := acShowTxBox.Checked;
-        _viewNothing           := not (pRxBox.Visible or pTxBox.Visible);
-        psSplitterTxRx.Visible := pRxBox.Visible and pTxBox.Visible;
-        lbHelpHint.Visible     := _viewNothing;
-
-        if _viewNothing and acSearch.Checked then acSearch.Execute;
-
-        UpdatePanelsLayout;
-        end;
-
-      // управление видимостью главной панели инструментов
-      'acShowTBMain':
-        begin
-        pToolbar.Visible     := acShowTBMain.Checked;
-        pMainToolbar.Visible := acShowTBMain.Checked or pPortSettings.Visible;
-        end;
-
-      // управление видимостью панели инструментов порта
-      'acShowTBPort':
-        begin
-        pPortSettings.Visible := acShowTBPort.Checked;
-        pMainToolbar.Visible  := acShowTBPort.Checked or pToolbar.Visible;
-        end;
-
-      // управление видимостью панели инструментов передатчика
-      'acShowTBTx':
-        pTxToolbar.Visible := acShowTBTx.Checked;
-
-      // управление видимостью панели инструментов приемника
-      'acShowTBRx':
-        pRxToolbar.Visible := acShowTBRx.Checked;
+    // вкл/выкл номера строк
+    if 0 = s.IndexOfAny(['fmMain', 'acShowLineCounts']) then
+      begin
+      seRx.Gutter.Visible    := acShowLineCounts.Checked;
+      seRxHex.Gutter.Visible := acShowLineCounts.Checked;
+      seTx.Gutter.Visible    := acShowLineCounts.Checked;
+      seTxHex.Gutter.Visible := acShowLineCounts.Checked;
       end;
+
+    // вкл/выкл доп. поле с данными в HEX-виде или панель сохраненных сообщений
+    if 0 = s.IndexOfAny(['fmMain', 'acShowHEX', 'acTxSequences']) then
+      begin
+      seRxHex.Visible      := acShowHEX.Checked;
+      spSplitterRx.Visible := acShowHEX.Checked;
+      nbTxRight.Visible    := acShowHEX.Checked or acTxSequences.Checked;
+      spSplitterTx.Visible := nbTxRight.Visible;
+      nbTxRight.PageIndex  := acTxSequences.Checked.ToInteger;
+
+      seRxChange(Sender);
+      seTxChange(Sender);
+      end;
+
+    // вкл/выкл видимость полей в/в
+    if 0 = s.IndexOfAny(['fmMain', 'acShowTxBox', 'acShowRxBox']) then
+      begin
+      pRxBox.Visible         := acShowRxBox.Checked;
+      pTxBox.Visible         := acShowTxBox.Checked;
+      _viewNothing           := not (pRxBox.Visible or pTxBox.Visible);
+      psSplitterTxRx.Visible := pRxBox.Visible and pTxBox.Visible;
+      lbHelpHint.Visible     := _viewNothing;
+
+      if _viewNothing and acSearch.Checked then acSearch.Execute;
+
+      UpdatePanelsLayout;
+      end;
+
+    // управление видимостью главной панели инструментов
+    if 0 = s.IndexOfAny(['fmMain', 'acShowTBMain']) then
+      begin
+      pToolbar.Visible     := acShowTBMain.Checked;
+      pMainToolbar.Visible := acShowTBMain.Checked or pPortSettings.Visible;
+      end;
+
+    // управление видимостью панели инструментов порта
+    if 0 = s.IndexOfAny(['fmMain', 'acShowTBPort']) then
+      begin
+      pPortSettings.Visible := acShowTBPort.Checked;
+      pMainToolbar.Visible  := acShowTBPort.Checked or pToolbar.Visible;
+      end;
+
+    // управление видимостью панели инструментов передатчика
+    if 0 = s.IndexOfAny(['fmMain', 'acShowTBTx']) then
+      pTxToolbar.Visible := acShowTBTx.Checked;
+
+    // управление видимостью панели инструментов приемника
+    if 0 = s.IndexOfAny(['fmMain', 'acShowTBRx']) then
+      pRxToolbar.Visible := acShowTBRx.Checked;
 
     acTxSeqAdd.Enabled    := acShowTxBox.Checked;
     acTxSequences.Enabled := acShowTxBox.Checked;
@@ -1087,60 +1078,56 @@ procedure TfmMain.actionViewForm(Sender: TObject);
 { ***  Поиск текста  *** }
 procedure TfmMain.actionSearchGeneral(Sender: TObject);
   var
-    se:         TSynEdit;
-    option:     TSynSearchOptions = [];
-    senderName: String;
+    se:     TSynEdit;
+    option: TSynSearchOptions = [];
+    s:      String;
 
   begin
-    senderName := TComponent(Sender).Name;
+    s := TComponent(Sender).Name;
 
-    case senderName of
+    // вкл/выкл панель поиска
+    if 0 = s.IndexOfAny(['fmMain', 'acSearch']) then
+      pSearch.Visible := acSearch.Checked;
 
-      // вкл/выкл панель поиска
-      'acSearch':
-        pSearch.Visible := acSearch.Checked;
+    // выбор поля, по которому искать
+    if 0 = s.IndexOfAny(['fmMain', 'rbSearchTx', 'rbSearchRx']) then
+      begin
+      BeginFormUpdate;
+      lbSearch.Constraints.MinWidth  := Max(lbSearch.Width, lbReplace.Width);
+      lbReplace.Constraints.MinWidth := Max(lbSearch.Width, lbReplace.Width);
 
-      // выбор поля, по которому искать
-      'rbSearchTx', 'rbSearchRx':
-        begin
-        BeginFormUpdate;
-        lbSearch.Constraints.MinWidth  := Max(lbSearch.Width, lbReplace.Width);
-        lbReplace.Constraints.MinWidth := Max(lbSearch.Width, lbReplace.Width);
+      cbSearchReplace.Visible    := rbSearchTx.Checked;
+      cbSearchReplaceAll.Visible := rbSearchTx.Checked;
+      edReplace.Visible          := rbSearchTx.Checked;
+      lbReplace.Visible          := rbSearchTx.Checked;
+      lbSearchSpace1.Visible     := rbSearchTx.Checked;
+      lbSearchSpace2.Visible     := rbSearchTx.Checked;
+      rbSearchRx.Checked         := not rbSearchTx.Checked;
+      EndFormUpdate;
+      end;
 
-        cbSearchReplace.Visible    := rbSearchTx.Checked;
-        cbSearchReplaceAll.Visible := rbSearchTx.Checked;
-        edReplace.Visible          := rbSearchTx.Checked;
-        lbReplace.Visible          := rbSearchTx.Checked;
-        lbSearchSpace1.Visible     := rbSearchTx.Checked;
-        lbSearchSpace2.Visible     := rbSearchTx.Checked;
-        rbSearchRx.Checked         := not rbSearchTx.Checked;
-        EndFormUpdate;
-        end;
+    // команда запуска поиска/замены
+    if 0 = s.IndexOfAny(['acSearchNext', 'acSearchPrev']) then
+      begin
+      se := TSynEdit(rbSearchTx.Checked.Select(seTx, seRx));
+      if not se.CanFocus then Exit;
+      if cbSearchCaseSens.Checked then option += [ssoMatchCase];
+      if s = 'acSearchPrev' then option       += [ssoBackwards];
+      if cbSearchRegex.Checked then option    += [ssoRegExpr];
 
-      // команда запуска поиска/замены
-      'acSearchNext', 'acSearchPrev':
-        begin
-        se := TSynEdit(rbSearchTx.Checked.Select(seTx, seRx));
-        if not se.CanFocus then Exit;
-        if cbSearchCaseSens.Checked then option    += [ssoMatchCase];
-        if senderName = 'acSearchPrev' then option += [ssoBackwards];
-        if cbSearchRegex.Checked then option       += [ssoRegExpr];
+      se.SetFocus;
+      se.SelStart := (s = 'acSearchPrev').Select(se.SelStart, se.SelEnd);
 
-        se.SetFocus;
-        se.SelStart := (senderName = 'acSearchPrev').Select(se.SelStart, se.SelEnd);
+      if rbSearchTx.Checked and cbSearchReplace.Checked then
+        if cbSearchReplaceAll.Checked then
+          begin
+          option      += [ssoReplaceAll];
+          se.SelStart := 1;
+          end
+        else
+          option      += [ssoReplace];
 
-        if rbSearchTx.Checked and cbSearchReplace.Checked then
-          if cbSearchReplaceAll.Checked then
-            begin
-            option      += [ssoReplaceAll];
-            se.SelStart := 1;
-            end
-          else
-            option      += [ssoReplace];
-
-        se.SearchReplace(edSearch.Text, edReplace.Text, option);
-        end;
-
+      se.SearchReplace(edSearch.Text, edReplace.Text, option);
       end;
   end;
 
@@ -1202,106 +1189,106 @@ procedure TfmMain.actionCommon(Sender: TObject);
 procedure TfmMain.actionPlotter(Sender: TObject);
   var
     i: Integer;
+    s: String;
   begin
+    s := TComponent(Sender).Name;
     BeginFormUpdate;
 
-    case TComponent(Sender).Name of
+    // clear / reset plotter
+    // s='fmMain' is used to reset plotter state in FormShow() on app init
+    if 0 = s.IndexOfAny(['fmMain', 'acPlotterClear']) then
+      begin
+      if s.Equals('acPlotterClear') and cfg.plt.clearRx then acRxClear.Execute;
+      plotter.OnParseDone := nil;
 
-      // reset plotter state (used on start-up in FormShow() )
-      'fmMain':
+      PlotterParserReInit;
+      plotter.Reset;
+
+      cbPlotterRegExp.Visible := plotter.Protocol = ppRegExp;
+
+      // clear and hide labels for redefined values
+      pPlotterRedef.Hide;
+      for i := Low(FPlotterRedefLb) to High(FPlotterRedefLb) do
+        FPlotterRedefLb[i].Caption := '';
+
+      for i := Low(FLineSerie) to High(FLineSerie) do
         begin
-        plotter.OnParseDone := nil;
+        FLineSerie[i].Clear;
+        FLineSerie[i].Active := FLineSerie[i].Active or cfg.plt.reactivate;
+        FLineLZone[i]        := Rect(-1, -1, -1, -1);
 
+        if cfg.plt.recolor then
+          begin
+          FLineSerie[i].SeriesColor         := cfg.plt.color.line[i];
+          FLineSerie[i].Pointer.Brush.Color := cfg.plt.color.line[i];
+          end;
+        end;
+
+      // here we restore some settings that
+      // may have been changed by the commands ...
+      chPlotter.BottomAxis.Grid.Visible := cfg.ax.grid;
+      chPlotter.LeftAxis.Grid.Visible   := cfg.ax.grid;
+
+      // ... and restore colors
+      AdjustThemeDependentValues;
+
+      actionPlotter(sePlotterPenSize);
+      actionPlotter(sePlotterPoints);
+      actionPlotter(cbPlotterPenStyle);
+      plotter.OnParseDone := @PlotterParserOnParseDone;
+      end;
+
+    // show / hide plotter
+    if 0 = s.IndexOfAny(['fmMain', 'acPlotterShow']) then
+      if acPlotterShow.Checked then
+        begin
+        if not acShowRxBox.Checked then acShowRxBox.Execute;
+        if Sender <> Self then actionPlotter(acPlotterSettings);
+        pgRxPlotter.Show;
+        seRxChange(nil);
+        end
+      else
+        begin
+        lbRxSize.Visible    := True;
+        tbPlotter.Visible   := False;
+        tbPlotterEx.Visible := False;
+        pgRxText.Show;
+        seRxChange(nil);
+        end;
+
+    // show / hide plotter settings panel
+    if 0 = s.IndexOfAny(['fmMain', 'acPlotterSettings']) then
+      PlotterParserReInit;
+
+    // enable tracker tool
+    if 0 = s.IndexOfAny(['fmMain', 'acPlotterQTracker']) then
+      begin
+      acPlotterTracker.Checked   := acPlotterQTracker.Checked;
+      chToolPointTracker.Enabled := acPlotterQTracker.Checked;
+      chToolPointHint.Enabled    := acPlotterQTracker.Checked;
+      end;
+
+    // manage plotter view mode
+    if 0 = s.IndexOfAny(['fmMain', 'sePlotterViewport', 'acPlotterQLiveMode']) then
+      begin
+      acPlotterLiveMode.Checked := acPlotterQLiveMode.Checked;
+      if plotter.View = pvSweep then
+        actionPlotter(acPlotterClear)
+      else
         PlotterParserReInit;
-        plotter.Reset;
+      end;
 
-        cbPlotterRegExp.Visible := plotter.Protocol = ppRegExp;
-
-        // clear and hide labels for redefined values
-        pPlotterRedef.Hide;
-        for i := Low(FPlotterRedefLb) to High(FPlotterRedefLb) do
-          FPlotterRedefLb[i].Caption := '';
-
-        for i := Low(FLineSerie) to High(FLineSerie) do
-          begin
-          FLineSerie[i].Clear;
-          FLineSerie[i].Active := FLineSerie[i].Active or cfg.plt.reactivate;
-          FLineLZone[i]        := Rect(-1, -1, -1, -1);
-
-          if cfg.plt.recolor then
-            begin
-            FLineSerie[i].SeriesColor         := cfg.plt.color.line[i];
-            FLineSerie[i].Pointer.Brush.Color := cfg.plt.color.line[i];
-            end;
-          end;
-
-        // here we restore some settings that
-        // may have been changed by the commands ...
-        chPlotter.BottomAxis.Grid.Visible := cfg.ax.grid;
-        chPlotter.LeftAxis.Grid.Visible   := cfg.ax.grid;
-
-        // ... and restore colors
-        AdjustThemeDependentValues;
-
-        actionPlotter(sePlotterPenSize);
-        actionPlotter(sePlotterPoints);
-        actionPlotter(cbPlotterPenStyle);
-        plotter.OnParseDone := @PlotterParserOnParseDone;
-        end;
-
-      'acPlotterClear':
-        begin
-        if cfg.plt.clearRx then
-          acRxClear.Execute;
-        actionPlotter(fmMain);
-        end;
-
-      // показать/закрыть плоттер
-      'acPlotterShow':
-        if acPlotterShow.Checked then
-          begin
-          if not acShowRxBox.Checked then acShowRxBox.Execute;
-          actionPlotter(acPlotterSettings);
-          pgRxPlotter.Show;
-          seRxChange(nil);
-          end
-        else
-          begin
-          lbRxSize.Visible    := True;
-          tbPlotter.Visible   := False;
-          tbPlotterEx.Visible := False;
-          pgRxText.Show;
-          seRxChange(nil);
-          end;
+    case s of
 
       // закрыть плоттер
       'acPlotterClose':
         acPlotterShow.Execute;
 
-      'acPlotterSettings':
-        PlotterParserReInit;
-
       'acPlotterTracker':
         acPlotterQTracker.Execute;
 
-      'acPlotterQTracker':
-        begin
-        acPlotterTracker.Checked   := acPlotterQTracker.Checked;
-        chToolPointTracker.Enabled := acPlotterQTracker.Checked;
-        chToolPointHint.Enabled    := acPlotterQTracker.Checked;
-        end;
-
       'acPlotterLiveMode':
         acPlotterQLiveMode.Execute;
-
-      'sePlotterViewport', 'acPlotterQLiveMode':
-        begin
-        acPlotterLiveMode.Checked := acPlotterQLiveMode.Checked;
-        if plotter.View = pvSweep then
-          actionPlotter(acPlotterClear)
-        else
-          PlotterParserReInit;
-        end;
 
       'cbPlotterPenStyle':
         PlotterSetLinesStyle(TPlotterPenStyle(cbPlotterPenStyle.ItemIndex));
