@@ -9,7 +9,7 @@ uses
   Forms, Graphics, LazFileUtils, LazUTF8, LCLType, Menus,
   PairSplitter, Spin, StdCtrls, LCLIntf, Grids, ImageSVGList, StrUtils,
   SysUtils, Types, SynEdit, SynEditTypes, Math, DateUtils,
-  AppTuner, AppLocalizer, AppSettings,
+  AppTuner, AppLocalizer, AppSettings, LConvEncoding,
 
   // chart units
   TAGraph, TASeries, TAChartLiveView, TATools, TATypes, TANavigation,
@@ -2671,7 +2671,9 @@ function TfmMain.GetEditorCursorPosition(ASynEdit: TSynEdit; AEncoding: String;
           with cfg.editor.hex do
             lastRes := HexStringPosition(SelStart, line, block)
         else
-          lastRes   := UTF8ToEncoding(Text.Substring(0, SelStart), AEncoding).Length - 1;
+          lastRes   := Length(UTF8ToEncoding(
+            LeftStr(Text, SelStart - (Text.Length > 1).Select(1, 0)),
+            AEncoding));
 
         if lastRes < 0 then lastRes := 0;
 
@@ -2698,7 +2700,8 @@ function TfmMain.GetEditorSelectionSize(ASynEdit: TSynEdit;
               HexStringPosition(SelStart, line, block)
         else
           lastRes   := UTF8ToEncoding(
-            Text.Substring(SelStart - 1, SelEnd - SelStart), AEncoding).Length;
+            Text.Substring(SelStart - 1, SelEnd - SelStart), AEncoding).Length
+            - (AEncoding = EncodingUTF8BOM).Select(3, 0);
 
         lastLen := SelEnd - SelStart;
         end;

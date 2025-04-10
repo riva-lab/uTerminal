@@ -113,8 +113,8 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="2"/>
       <MinorVersionNr Value="1"/>
-      <RevisionNr Value="2"/>
-      <BuildNr Value="94"/>
+      <RevisionNr Value="3"/>
+      <BuildNr Value="95"/>
       <Language Value="0419"/>
       <StringTable Comments="Serial port terminal and plotter" CompanyName="Riva Lab :: riva-lab.gitlab.io" FileDescription="Serial port terminal and plotter" InternalName="uTerminal" LegalCopyright="Riva, 2017-2025" OriginalFilename="uTerminal" ProductName="uTerminal"/>
     </VersionInfo>
