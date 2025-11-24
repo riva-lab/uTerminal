@@ -48,48 +48,48 @@ type
     TIME_TX_DEADLOCK_DEFAULT = 1000;        // [мс] период автопередачи
 
   private
-    FSerialTest:       TBlockSerial;
-    FSerial:           TBlockSerial;
-    FPortsList:        TStringList;
-    FPortIndexInList:  Integer;
-    FPort:             String;
-    FPortName:         String;
-    FPortPrevious:     String;
-    FTimestampStrAfter: String;
+    FSerialTest:         TBlockSerial;
+    FSerial:             TBlockSerial;
+    FPortsList:          TStringList;
+    FPortIndexInList:    Integer;
+    FPort:               String;
+    FPortName:           String;
+    FPortPrevious:       String;
+    FTimestampStrAfter:  String;
     FTimestampStrBefore: String;
-    FTimestampZeroMs:  Int64;
-    FPortBaud:         Integer;
-    FPortDataBits:     Integer;
-    FPortBPS:          Integer;
-    FTxPacketOffset:   Integer;
-    FTxPackets:        Integer;
-    FTxPacketSize:     Integer;
-    FAutoSendInterval: LongWord;
-    FPortParity:       Char;
-    FPortStopBits:     Integer;
-    FDeadlockTimeout:  Integer;
-    FBreakDuration:    Integer;
-    FRxPacketTime:     Integer;
-    FStarted:          Boolean;
-    FHardflow:         Boolean;
-    FRxEnable:         Boolean;
-    FRunning:          Boolean;
-    FConnected:        Boolean;
-    FTxStart:          Boolean;
-    FIsRxing:          Boolean;
-    FIsTxing:          Boolean;
-    FCheckPort:        Boolean;
-    FEnableRxTimestamp: Boolean;
-    FAutoSend:         Boolean;
-    FError:            TCommError;
-    FOnRxEnd:          TNewDataProc;
-    FOnRxStart:        TNewDataProc;
-    FOnTxEnd:          TNewDataProc;
-    FOnTxStart:        TNewDataProc;
-    FDataRx:           Ansistring;
-    FDataTx:           Ansistring;
-    FDataTxAns:        Ansistring;
-    FSignals:          array [TSerialSignal] of Boolean;
+    FTimestampZeroMs:    Int64;
+    FPortBaud:           Integer;
+    FPortDataBits:       Integer;
+    FPortBPS:            Integer;
+    FTxPacketOffset:     Integer;
+    FTxPackets:          Integer;
+    FTxPacketSize:       Integer;
+    FAutoSendInterval:   LongWord;
+    FPortParity:         Char;
+    FPortStopBits:       Integer;
+    FDeadlockTimeout:    Integer;
+    FBreakDuration:      Integer;
+    FRxPacketTime:       Integer;
+    FStarted:            Boolean;
+    FHardflow:           Boolean;
+    FRxEnable:           Boolean;
+    FRunning:            Boolean;
+    FConnected:          Boolean;
+    FTxStart:            Boolean;
+    FIsRxing:            Boolean;
+    FIsTxing:            Boolean;
+    FCheckPort:          Boolean;
+    FEnableRxTimestamp:  Boolean;
+    FAutoSend:           Boolean;
+    FError:              TCommError;
+    FOnRxEnd:            TNewDataProc;
+    FOnRxStart:          TNewDataProc;
+    FOnTxEnd:            TNewDataProc;
+    FOnTxStart:          TNewDataProc;
+    FDataRx:             Ansistring;
+    FDataTx:             Ansistring;
+    FDataTxAns:          Ansistring;
+    FSignals:            array [TSerialSignal] of Boolean;
 
   private
     function GetTimeNowWithMs: String;
@@ -228,17 +228,17 @@ function TSerialPortThread.GetSignal(Index: TSerialSignal): Boolean;
 procedure TSerialPortThread.SetSignal(Index: TSerialSignal; AValue: Boolean);
   begin
     if PortOpened then
-        try
-        if not FHardflow then
-          case Index of
-            ssRTS: FSerial.RTS := AValue;
-            ssDTR: FSerial.DTR := AValue;
-            end;
+      try
+      if not FHardflow then
+        case Index of
+          ssRTS: FSerial.RTS := AValue;
+          ssDTR: FSerial.DTR := AValue;
+          end;
 
-        if Index >= ssRTS then
-          FSignals[Index] := AValue;
-        finally
-        end;
+      if Index >= ssRTS then
+        FSignals[Index] := AValue;
+      finally
+      end;
   end;
 
 procedure TSerialPortThread.SetBreakDuration(AValue: Integer);
@@ -257,26 +257,26 @@ procedure TSerialPortThread.ClosePort;
   begin
     if PortOpened then
       with FSerial do
-          try
-          Flush;
-          Purge;
-          CloseSocket;
-          finally
-          //FPort := '-';
-          end;
+        try
+        Flush;
+        Purge;
+        CloseSocket;
+        finally
+        //FPort := '-';
+        end;
   end;
 
 function TSerialPortThread.OpenPort: Boolean;
   begin
     with FSerial do
-        try
-        Connect(FPort);
-        Config(FPortBaud, FPortDataBits, FPortParity, FPortStopBits, False, FHardflow);
-        Result := PortOpened;
-        except
-        ClosePort;
-        Result := False;
-        end;
+      try
+      Connect(FPort);
+      Config(FPortBaud, FPortDataBits, FPortParity, FPortStopBits, False, FHardflow);
+      Result := PortOpened;
+      except
+      ClosePort;
+      Result := False;
+      end;
 
     FStarted     := FStarted and Result;
     if not Result then
@@ -366,20 +366,20 @@ function TSerialPortThread.IsPortFree(APort: String): Boolean;
   begin
     Result := False;
     with FSerialTest do
+      try
+
         try
-
-          try
-          Connect(APort);
-          Result := Handle <> System.THandle(-1);
-          except
-          Result := False;
-          end;
-
-        finally
-        Flush;
-        Purge;
-        CloseSocket;
+        Connect(APort);
+        Result := Handle <> System.THandle(-1);
+        except
+        Result := False;
         end;
+
+      finally
+      Flush;
+      Purge;
+      CloseSocket;
+      end;
   end;
 
 procedure TSerialPortThread.ResetError;
@@ -484,19 +484,19 @@ procedure TSerialPortThread.TransmitData;
         end;
       end
     else
-        try
-        flagEnd := FSerial.SendingData = 0;
-        finally
-        if flagEnd then
-          begin
-          FTxStart := False;
-          FIsTxing := False;
+      try
+      flagEnd := FSerial.SendingData = 0;
+      finally
+      if flagEnd then
+        begin
+        FTxStart := False;
+        FIsTxing := False;
 
-          if FDataTxAns = '' then
-            Synchronize(FOnTxEnd) else
-            FDataTxAns := '';
-          end;
+        if FDataTxAns = '' then
+          Synchronize(FOnTxEnd) else
+          FDataTxAns := '';
         end;
+      end;
   end;
 
 function TSerialPortThread.BreakControl(ATickMs: LongWord): Boolean;
