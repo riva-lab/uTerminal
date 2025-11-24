@@ -9,7 +9,13 @@ uses
   Forms, Graphics, LazFileUtils, LazUTF8, LCLType, Menus,
   PairSplitter, Spin, StdCtrls, LCLIntf, Grids, ImageSVGList, StrUtils,
   SysUtils, Types, SynEdit, SynEditTypes, Math, DateUtils,
-  AppTuner, AppLocalizer, AppSettings, LConvEncoding,
+  LConvEncoding,
+
+  // app internationalization
+  AppLocalizer,
+
+  // app settings
+  AppSettings, u_settings_record,
 
   // chart units
   TAGraph, TASeries, TAChartLiveView, TATools, TATypes, TANavigation,
@@ -22,11 +28,11 @@ uses
   fm_about, fm_commands, fm_confirm, fm_insertchar, fm_settings, fm_update,
 
   // project units
-  u_encodings, u_serial, u_common, u_utilities, u_txsequences, u_settings_record,
+  u_encodings, u_serial, u_common, u_utilities, u_txsequences,
   u_plotter, u_plotter_types, u_plotter_charts,
 
   // additional
-  base64, csvdocument, appAbout;
+  SerialPortUtils, AppTuner, base64, csvdocument, appAbout;
 
 const
   indicatorColor: array[Boolean] of TColor = ($4040FF, $00D000); // 0 RED; 1 GREEN
@@ -77,6 +83,7 @@ type
 
     procedure SetPortSettingsControls(Sender: TObject);
     procedure actionPortGeneral(Sender: TObject);
+    procedure cbPortsListDrawItem(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
 
     { ***  Управление передатчиком  *** }
 
@@ -143,6 +150,7 @@ type
 
     { ***  Сервисные методы  *** }
 
+    procedure UpdatePortsList(Sender: TObject);
     procedure UpdateControls(AForceUpdate: Boolean = False);
     procedure UpdateIndicators;
     procedure UpdatePanelsLayout;
@@ -177,7 +185,6 @@ type
 
 var
   fmMain:       TfmMain;
-  portList:     TStringList;         // список доступных портов без метки "занят"
   serial:       TSerialPortThread;   // класс-поток для работы с портом
   txSeqList:    TSequencesList;      // класс-хранитель списка сохраненных сообщений для передачи
   plotter:      TPlotterParser;      // класс-парсер для плоттера
@@ -281,13 +288,13 @@ procedure TfmMain.FormShow(Sender: TObject);
     actionSearchGeneral(Sender);
     actionViewForm(Sender);
 
+    // начальная инициализация
+    SerialEnumerator.OnUpdate := @UpdatePortsList;
+    acScan.Execute;
+    seAutoSendTime.Hide;
+
     // автоподключение к порту
     if cfg.connect.auto and cfg.connect.opened then acConnect.Execute;
-
-    // начальная инициализация
-    acScan.Execute;
-    SetPortSettingsControls(Sender);
-    seAutoSendTime.Hide;
 
     FormChangeBounds(nil);
     Show;
@@ -707,8 +714,8 @@ procedure TfmMain.SetPortSettingsControls(Sender: TObject);
       acPortSB1.Checked                 := True; // if unchecked all set default
 
     // set new settings of port
-    if (Sender <> nil) and (cbPortsList.ItemIndex in [0..portList.Count]) then
-      serial.PortSettings(portList[cbPortsList.ItemIndex],
+    if (Sender <> nil) then
+      serial.PortSettings(String(cbPortsList.Text).Trim,
         baudrateValue, dataBits, parityBit, stopBits);
 
     UpdateControls(True);
@@ -721,13 +728,8 @@ procedure TfmMain.actionPortGeneral(Sender: TObject);
       // получение списка доступных портов
       'acScan':
         begin
-        serial.CheckPort            := False;
-        portList.CommaText          := serial.GetExistingPorts;
-        serial.CheckPort            := cfg.connect.check;
-        cbPortsList.Items.CommaText := serial.GetExistingPorts;
-        cbPortsList.ItemIndex       := serial.GetPortIndexInList;
-        if cbPortsList.ItemIndex < 0 then cbPortsList.ItemIndex := 0;
-
+        SerialEnumerator.CheckForBusy := cfg.connect.check;
+        SerialEnumerator.UpdateNow;
         appTunerEx.Form[Self].TuneComboboxes;
 
         stStatusBar.Panels.Items[1].Text :=
@@ -768,6 +770,42 @@ procedure TfmMain.actionPortGeneral(Sender: TObject);
       end;
   end;
 
+procedure TfmMain.cbPortsListDrawItem(Control: TWinControl; Index: Integer;
+  ARect: TRect; State: TOwnerDrawState);
+  var
+    x, y, w: Integer;
+    b:       String;
+  begin
+    with cbPortsList.Canvas do
+      begin
+      Pen.Color := Brush.Color;
+      Rectangle(ARect);
+
+      x := ARect.Left;
+      y := ARect.CenterPoint.Y - TextHeight('1') div 2;
+      b := '■ ';
+      x += TextWidth(b);
+      w := TextWidth('COM000 ');
+
+      if Pen.Color <> clHighlight then
+        begin
+        Pen.Color := clGrayText;
+        Line(x + w, ARect.Top, x + w, ARect.Bottom);
+        end;
+
+      w += 8;
+
+      // draw 'busy' mark
+      TextRect(ARect, ARect.Left + 2, y, SerialEnumerator.Busy[Index].Select(b, ''));
+
+      // draw port number
+      if Index < SerialEnumerator.Count then
+        TextRect(ARect, x, y, SerialEnumerator[Index]);
+
+      // draw port friendly name
+      TextRect(ARect, x + w, y, SerialEnumerator.Description[Index]);
+      end;
+  end;
 
 { ***  Управление передатчиком  *** }
 
@@ -2411,6 +2449,51 @@ procedure TfmMain.sgTxSequencesSetEditText(Sender: TObject; ACol,
 
  { ***  Сервисные методы  *** }
 
+// update ports list
+procedure TfmMain.UpdatePortsList(Sender: TObject);
+
+  procedure UpdateStrings;
+    var
+      i:   Integer;
+      tmp: TStringList;
+    begin
+      tmp := TStringList.Create;
+
+      for i := 0 to SerialEnumerator.Count - 1 do
+        tmp.Add(SerialEnumerator[i] + ', '
+          + SerialEnumerator.Description[i] + '       ');
+
+      if cbPortsList.Items.CommaText <> tmp.CommaText then
+        cbPortsList.Items.Assign(tmp);
+
+      tmp.Free;
+    end;
+
+  function SelectedPortIndex: Integer;
+    var
+      i: Integer;
+    begin
+      Result := 0;
+      with cbPortsList do
+        if Items.Count > 0 then
+          for i := 0 to Items.Count - 1 do
+            if Items[i].StartsWith(serial.Port + ',') then
+              Exit(i);
+    end;
+
+  begin
+    BeginFormUpdate;
+
+      try
+      UpdateStrings;
+      cbPortsList.Repaint;
+      cbPortsList.ItemIndex := SelectedPortIndex;
+      except
+      end;
+
+    EndFormUpdate;
+  end;
+
  // обновление изменяемых элементов интерфейса
 procedure TfmMain.UpdateControls(AForceUpdate: Boolean);
   const
@@ -2824,12 +2907,14 @@ procedure TfmMain.AdjustComponentSizes;
 
     h := Canvas.GetTextHeight('0');
     stStatusBar.Height := h + 2;
+    cbPortsList.ItemHeight := h;
+    cbBaudrate.ItemHeight := h;
     SetControlWidth([pLEDTx, pLEDRx], 2 * h);
 
     w := Canvas.GetTextWidth('0 234 567 ' + TXT_BYTE_KB);
     SetControlWidth([lbTxSize, lbRxSize, lbPlotterSize], w);
 
-    SetControlWidth([cbPortsList], Canvas.GetTextWidth('COM00') + VertScrollBar.Size + 8);
+    SetControlWidth([cbPortsList], Canvas.GetTextWidth('■ COM00') + VertScrollBar.Size + 8);
     SetControlWidth([seAutoSendTime], Canvas.GetTextWidth('000000') + VertScrollBar.Size + 8);
     SetControlWidth([seBaudRateCustom], cbBaudrate.Width + 8);
     SetControlWidth([cbTxType, cbRxType], cbRxType.ItemWidth + 8);
@@ -3137,14 +3222,12 @@ procedure TfmMain.OnLanguageChange(Sender: TObject);
 
 
 initialization
-  portList  := TStringList.Create;
   serial    := TSerialPortThread.Create;
   txSeqList := TSequencesList.Create;
   plotter   := TPlotterParser.Create(MAX_SERIES);
 
 
 finalization
-  portList.Free;
   serial.Terminate;
   txSeqList.Free;
   plotter.Free;

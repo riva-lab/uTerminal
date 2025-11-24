@@ -60,8 +60,6 @@ type
   private
     FSerialTest:       TBlockSerial;
     FSerial:           TBlockSerial;
-    FPortsList:        TStringList;
-    FPortIndexInList:  Integer;
     FPort:             String;
     FPortName:         String;
     FPortPrevious:     String;
@@ -86,7 +84,6 @@ type
     FTxStart:          Boolean;
     FIsRxing:          Boolean;
     FIsTxing:          Boolean;
-    FCheckPort:        Boolean;
     FAutoSend:         Boolean;
     FError:            TCommError;
     FOnRxEnd:          TNewDataProc;
@@ -133,9 +130,6 @@ type
     procedure Transmit;
     procedure TransmitAnswer(AAnswer: String);
 
-    function GetExistingPorts: String;
-    function GetPortIndexInList: Integer;
-
   public
     property OnRxEnd: TNewDataProc read FOnRxEnd write FOnRxEnd;
     property OnRxStart: TNewDataProc read FOnRxStart write FOnRxStart;
@@ -146,7 +140,6 @@ type
     property RxEnable: Boolean read FRxEnable write FRxEnable;
     property AutoSend: Boolean read FAutoSend write FAutoSend;
     property AutoSendInterval: LongWord read FAutoSendInterval write FAutoSendInterval;
-    property CheckPort: Boolean read FCheckPort write FCheckPort;
     property Hardflow: Boolean read FHardflow write FHardflow;
     property Signal[Index: TSerialSignal]: Boolean read GetSignal write SetSignal;
     property DeadlockTimeout: Integer read FDeadlockTimeout write FDeadlockTimeout;
@@ -604,12 +597,10 @@ constructor TSerialPortThread.Create;
   begin
     FreeOnTerminate := False;
 
-    FPortsList            := TStringList.Create;
     FSerialTest           := TBlockSerial.Create;
     FSerial               := TBlockSerial.Create;
     FSerial.OnStatus      := @OnStatus;
     FRxEnable             := True;
-    FCheckPort            := True;
     FStarted              := False;
     FHardflow             := False;
     FRunning              := False;
@@ -617,7 +608,6 @@ constructor TSerialPortThread.Create;
     FConnected            := False;
     FAutoSend             := False;
     FError                := ceNone;
-    FPortIndexInList      := -1;
     FAutoSendInterval     := TIME_TX_DEFAULT;
     FDeadlockTimeout      := TIME_TX_DEADLOCK_DEFAULT;
     FBreakDuration        := TIME_BREAK_DEFAULT;
@@ -646,115 +636,10 @@ destructor TSerialPortThread.Destroy;
     while FRunning do
       sleep(1);
 
-    FreeAndNil(FPortsList);
     FreeAndNil(FSerial);
     FreeAndNil(FSerialTest);
 
     inherited Destroy;
-  end;
-
-{$IFDEF WINDOWS}
-// получение списка доступных портов
-//http://patotech.blogspot.com/2012/04/enumerate-com-ports-in-windows-with.html
-function TSerialPortThread.GetExistingPorts: String;
-  var
-    reg:       TRegistry;
-    l, v:      TStringList;
-    n:         Integer;
-    pn, fn, p: String;
-
-  function findFriendlyName(key: String; port: String): String;
-    var
-      r:  TRegistry;
-      k:  TStringList;
-      i:  Integer;
-      ck: String;
-      rs: String;
-    begin
-      r := TRegistry.Create;
-      k := TStringList.Create;
-
-      r.RootKey := HKEY_LOCAL_MACHINE;
-      r.OpenKeyReadOnly(key);
-      r.GetKeyNames(k);
-      r.CloseKey;
-
-        try
-        for i := 0 to k.Count - 1 do
-          begin
-          ck := key + k[i] + '\'; // current key
-          // looking for "PortName" stringvalue in "Device Parameters" subkey
-          if r.OpenKeyReadOnly(ck + 'Device Parameters') then
-            begin
-            if r.ReadString('PortName') = port then
-              begin
-              //Memo1.Lines.Add('--> ' + ck);
-              r.CloseKey;
-              r.OpenKeyReadOnly(ck);
-              rs := r.ReadString('FriendlyName');
-              Break;
-              end; // if r.ReadString('PortName') = port ...
-            end    // if r.OpenKeyReadOnly(ck + 'Device Parameters') ...
-                   // keep looking on subkeys for "PortName"
-          else // if not r.OpenKeyReadOnly(ck + 'Device Parameters') ...
-            begin
-            if r.OpenKeyReadOnly(ck) and r.HasSubKeys then
-              begin
-              rs := findFriendlyName(ck, port);
-              if rs <> '' then Break;
-              end; // if not (r.OpenKeyReadOnly(ck) and r.HasSubKeys) ...
-            end;   // if not r.OpenKeyReadOnly(ck + 'Device Parameters') ...
-          end; // for i := 0 to k.Count - 1 ...
-        rs     := rs.Remove(rs.IndexOf('(') - 1);
-        Result := rs;
-        finally
-        r.Free;
-        k.Free;
-        end; // try ...
-    end;     // function findFriendlyName ...
-
-  begin
-    v      := TStringList.Create;
-    l      := TStringList.Create;
-    reg    := TRegistry.Create;
-    p      := '';
-    Result := '';
-
-      try
-      reg.RootKey := HKEY_LOCAL_MACHINE;
-      if reg.OpenKeyReadOnly('HARDWARE\DEVICEMAP\SERIALCOMM') then
-        begin
-        reg.GetValueNames(l);
-
-        for n := 0 to l.Count - 1 do
-          begin
-          pn := reg.ReadString(l[n]);
-          fn := '   [' + SysToUTF8(findFriendlyName('\System\CurrentControlSet\Enum\', pn)) + ']';
-          if FCheckPort and not IsPortFree(pn) then fn += ' <' + TXT_PORT_BUSY + '>';
-          if pn = FPort then p := pn + fn;
-          v.Add(pn + fn);
-          end; // for n := 0 to l.Count - 1 ...
-
-        v.Sort;
-        FPortIndexInList := v.IndexOf(p);
-        Result           := v.CommaText;
-        end; // if reg.OpenKeyReadOnly('HARDWARE\DEVICEMAP\SERIALCOMM') ...
-      finally
-      reg.Free;
-      v.Free;
-      l.Free;
-      end; // try ...
-
-    // только имена портов, без FriendlyName
-    //FPortsList.CommaText := GetSerialPortNames;
-    //FPortsList.Sort;
-    //Result := FPortsList.CommaText;
-  end;
-{$ENDIF}
-
-function TSerialPortThread.GetPortIndexInList: Integer;
-  begin
-    Result := FPortIndexInList;
   end;
 
 

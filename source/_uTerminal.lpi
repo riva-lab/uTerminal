@@ -156,7 +156,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="23">
+    <Units Count="25">
       <Unit0>
         <Filename Value="_uTerminal.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -190,87 +190,96 @@
         <ResourceBaseClass Value="Form"/>
       </Unit4>
       <Unit5>
-        <Filename Value="u_serial.pas"/>
+        <Filename Value="u_common.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="u_common.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit6>
-      <Unit7>
         <Filename Value="fm_settings.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit7>
-      <Unit8>
+      </Unit6>
+      <Unit7>
         <Filename Value="u_encodings.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
+      </Unit7>
+      <Unit8>
         <Filename Value="fm_confirm.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConfirm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="u_utilities.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit9>
       <Unit10>
-        <Filename Value="u_utilities.pas"/>
+        <Filename Value="u_txsequences.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="u_txsequences.pas"/>
+        <Filename Value="plotter\u_plotter.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit11>
       <Unit12>
-        <Filename Value="plotter\u_plotter.pas"/>
+        <Filename Value="plotter\u_plotter_types.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="plotter\u_plotter_types.pas"/>
+        <Filename Value="plotter\u_plotter_points.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="plotter\u_plotter_points.pas"/>
+        <Filename Value="plotter\u_plotter_charts.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="plotter\u_plotter_charts.pas"/>
+        <Filename Value="plotter\u_plotter_regexplist.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="plotter\u_plotter_regexplist.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit16>
-      <Unit17>
         <Filename Value="fm_update.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmUpdate"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="i_main_controls.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit17>
       <Unit18>
-        <Filename Value="i_main_controls.inc"/>
+        <Filename Value="i_settings_controls.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="i_settings_controls.inc"/>
+        <Filename Value="u_settings_record.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="u_settings_record.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit20>
-      <Unit21>
         <Filename Value="misc\appabout.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="appAbout"/>
-      </Unit21>
-      <Unit22>
+      </Unit20>
+      <Unit21>
         <Filename Value="i_config.inc"/>
         <IsPartOfProject Value="True"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="comm\serialportutils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SerialPortUtils"/>
       </Unit22>
+      <Unit23>
+        <Filename Value="comm\controlwindevice.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="comm\u_serial.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit24>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -281,7 +290,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\libraries\AraratSynapse;plotter;misc"/>
+      <OtherUnitFiles Value="..\libraries\AraratSynapse;plotter;misc;comm"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

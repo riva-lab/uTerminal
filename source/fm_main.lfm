@@ -298,9 +298,10 @@ object fmMain: TfmMain
         Constraints.MaxWidth = 80
         DropDownCount = 16
         ItemHeight = 20
-        Style = csDropDownList
+        Style = csOwnerDrawFixed
         TabOrder = 1
         OnChange = SetPortSettingsControls
+        OnDrawItem = cbPortsListDrawItem
       end
       object pBaudrate: TPanel
         Left = 237
@@ -319,11 +320,10 @@ object fmMain: TfmMain
         TabOrder = 2
         object cbBaudrate: TComboBox
           Left = 0
-          Height = 28
+          Height = 26
           Hint = 'Скорость обмена, бод/с'
-          Top = 0
+          Top = 1
           Width = 80
-          AutoSize = False
           BorderSpacing.CellAlignVertical = ccaCenter
           Constraints.MaxWidth = 80
           DropDownCount = 16
@@ -371,7 +371,7 @@ object fmMain: TfmMain
             ''
             ''
           )
-          Style = csDropDownList
+          Style = csOwnerDrawFixed
           TabOrder = 0
           OnChange = SetPortSettingsControls
         end
