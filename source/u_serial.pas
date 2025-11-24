@@ -57,6 +57,7 @@ type
     FPortPrevious:     String;
     FTimestampStrAfter: String;
     FTimestampStrBefore: String;
+    FTimestampZeroMs:  Int64;
     FPortBaud:         Integer;
     FPortDataBits:     Integer;
     FPortBPS:          Integer;
@@ -91,6 +92,7 @@ type
     FSignals:          array [TSerialSignal] of Boolean;
 
   private
+    function GetTimeNowWithMs: String;
     function GetConfigStr(AShort: Boolean): String;
     function GetConfigShort: String;
     function GetConfigString: String;
@@ -179,6 +181,15 @@ function TSerialPortThread.GetErrorString: String;
       ceTxError: Result  := TXT_CE_TXERROR;
       ceTxCancel: Result := TXT_CE_TXCANCEL;
       end;
+  end;
+
+function TSerialPortThread.GetTimeNowWithMs: String;
+  var
+    msNow: Int64;
+  begin
+    msNow  := FTimestampZeroMs + GetTick;
+    Result := DateTimeToStr(msNow / (24 * 3600 * 1000))
+      + '.' + Format('%.3d', [Round(msNow) mod 1000]);
   end;
 
 function TSerialPortThread.GetConfigStr(AShort: Boolean): String;
@@ -401,7 +412,7 @@ procedure TSerialPortThread.ReceiveData(ATickMs: LongWord);
         if FEnableRxTimestamp then
           begin
           if TickDelta(timeLast, ATickMs) > FRxPacketTime then
-            FDataRx := LineEnding + FTimestampStrBefore + DateTimeToStr(Now) + ' '
+            FDataRx := LineEnding + FTimestampStrBefore + GetTimeNowWithMs + ' '
               + FDataRx.Length.ToString + ' bytes'
               + FTimestampStrAfter + LineEnding + FDataRx;
 
@@ -593,6 +604,7 @@ constructor TSerialPortThread.Create;
     FRxPacketTime       := TIME_RX_DEFAULT;
     FTimestampStrBefore := '[';
     FTimestampStrAfter  := '] >>>';
+    FTimestampZeroMs    := Round(Now * 24 * 3600 * 1000 - GetTick);
     FDataRx             := '';
     FDataTx             := '';
     FDataTxAns          := '';
