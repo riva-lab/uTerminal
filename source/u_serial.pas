@@ -26,6 +26,16 @@ type
   TCommError    = (ceNone, cePortBusy, ceRxError, ceTxError, ceTxCancel);
   TSerialSignal = (ssCTS, ssDSR, ssRing, ssRLSD, ssRTS, ssDTR, ssBreak);
 
+  TTimestampConfig = record
+    Enable:     Boolean;
+    Date:       Boolean;
+    Time:       Boolean;
+    Size:       Boolean;
+    Before:     String;
+    After:      String;
+    PacketTime: Integer;
+  end;
+
   //ESerialReadTimeOut = class(Exception);
 
 
@@ -48,48 +58,45 @@ type
     TIME_TX_DEADLOCK_DEFAULT = 1000;        // [мс] период автопередачи
 
   private
-    FSerialTest:         TBlockSerial;
-    FSerial:             TBlockSerial;
-    FPortsList:          TStringList;
-    FPortIndexInList:    Integer;
-    FPort:               String;
-    FPortName:           String;
-    FPortPrevious:       String;
-    FTimestampStrAfter:  String;
-    FTimestampStrBefore: String;
-    FTimestampZeroMs:    Int64;
-    FPortBaud:           Integer;
-    FPortDataBits:       Integer;
-    FPortBPS:            Integer;
-    FTxPacketOffset:     Integer;
-    FTxPackets:          Integer;
-    FTxPacketSize:       Integer;
-    FAutoSendInterval:   LongWord;
-    FPortParity:         Char;
-    FPortStopBits:       Integer;
-    FDeadlockTimeout:    Integer;
-    FBreakDuration:      Integer;
-    FRxPacketTime:       Integer;
-    FStarted:            Boolean;
-    FHardflow:           Boolean;
-    FRxEnable:           Boolean;
-    FRunning:            Boolean;
-    FConnected:          Boolean;
-    FTxStart:            Boolean;
-    FIsRxing:            Boolean;
-    FIsTxing:            Boolean;
-    FCheckPort:          Boolean;
-    FEnableRxTimestamp:  Boolean;
-    FAutoSend:           Boolean;
-    FError:              TCommError;
-    FOnRxEnd:            TNewDataProc;
-    FOnRxStart:          TNewDataProc;
-    FOnTxEnd:            TNewDataProc;
-    FOnTxStart:          TNewDataProc;
-    FDataRx:             Ansistring;
-    FDataTx:             Ansistring;
-    FDataTxAns:          Ansistring;
-    FSignals:            array [TSerialSignal] of Boolean;
+    FSerialTest:       TBlockSerial;
+    FSerial:           TBlockSerial;
+    FPortsList:        TStringList;
+    FPortIndexInList:  Integer;
+    FPort:             String;
+    FPortName:         String;
+    FPortPrevious:     String;
+    FTimestamp:        TTimestampConfig;
+    FTimestampZeroMs:  Int64;
+    FPortBaud:         Integer;
+    FPortDataBits:     Integer;
+    FPortBPS:          Integer;
+    FTxPacketOffset:   Integer;
+    FTxPackets:        Integer;
+    FTxPacketSize:     Integer;
+    FAutoSendInterval: LongWord;
+    FPortParity:       Char;
+    FPortStopBits:     Integer;
+    FDeadlockTimeout:  Integer;
+    FBreakDuration:    Integer;
+    FStarted:          Boolean;
+    FHardflow:         Boolean;
+    FRxEnable:         Boolean;
+    FRunning:          Boolean;
+    FConnected:        Boolean;
+    FTxStart:          Boolean;
+    FIsRxing:          Boolean;
+    FIsTxing:          Boolean;
+    FCheckPort:        Boolean;
+    FAutoSend:         Boolean;
+    FError:            TCommError;
+    FOnRxEnd:          TNewDataProc;
+    FOnRxStart:        TNewDataProc;
+    FOnTxEnd:          TNewDataProc;
+    FOnTxStart:        TNewDataProc;
+    FDataRx:           Ansistring;
+    FDataTx:           Ansistring;
+    FDataTxAns:        Ansistring;
+    FSignals:          array [TSerialSignal] of Boolean;
 
   private
     function GetTimeNowWithMs: String;
@@ -144,10 +151,7 @@ type
     property Signal[Index: TSerialSignal]: Boolean read GetSignal write SetSignal;
     property DeadlockTimeout: Integer read FDeadlockTimeout write FDeadlockTimeout;
     property BreakDuration: Integer read FBreakDuration write SetBreakDuration;
-    property EnableRxTimestamp: Boolean read FEnableRxTimestamp write FEnableRxTimestamp;
-    property RxPacketTime: Integer read FRxPacketTime write FRxPacketTime;
-    property TimestampStrBefore: String read FTimestampStrBefore write FTimestampStrBefore;
-    property TimestampStrAfter: String read FTimestampStrAfter write FTimestampStrAfter;
+    property Timestamp: TTimestampConfig read FTimestamp write FTimestamp;
 
     property Port: String read FPort;
     property Connected: Boolean read FConnected;
@@ -186,10 +190,20 @@ function TSerialPortThread.GetErrorString: String;
 function TSerialPortThread.GetTimeNowWithMs: String;
   var
     msNow: Int64;
+    time:  TDateTime;
   begin
     msNow  := FTimestampZeroMs + GetTick;
-    Result := DateTimeToStr(msNow / (24 * 3600 * 1000))
-      + '.' + Format('%.3d', [Round(msNow) mod 1000]);
+    time   := msNow / (24 * 3600 * 1000);
+    Result := '';
+
+    if FTimestamp.Date then
+      Result += DateToStr(time);
+
+    if FTimestamp.Time then
+      begin
+      if FTimestamp.Date then Result += ' ';
+      Result += TimeToStr(time) + '.' + Format('%.3d', [Round(msNow) mod 1000]);
+      end;
   end;
 
 function TSerialPortThread.GetConfigStr(AShort: Boolean): String;
@@ -393,6 +407,8 @@ procedure TSerialPortThread.ResetError;
 procedure TSerialPortThread.ReceiveData(ATickMs: LongWord);
   const
     timeLast: LongWord = 0;
+  var
+    ts: String = '';
   begin
       try
       FIsRxing := FSerial.WaitingData <> 0;
@@ -409,12 +425,17 @@ procedure TSerialPortThread.ReceiveData(ATickMs: LongWord);
         FDataRx := FSerial.RecvPacket(0);
 
         // добавление временной метки
-        if FEnableRxTimestamp then
+        if FTimestamp.Enable then
           begin
-          if TickDelta(timeLast, ATickMs) > FRxPacketTime then
-            FDataRx := LineEnding + FTimestampStrBefore + GetTimeNowWithMs + ' '
-              + FDataRx.Length.ToString + ' bytes'
-              + FTimestampStrAfter + LineEnding + FDataRx;
+          if TickDelta(timeLast, ATickMs) > FTimestamp.PacketTime then
+            begin
+            ts := LineEnding + FTimestamp.Before;
+            ts += GetTimeNowWithMs;
+            if FTimestamp.Size then ts += ' ' + FDataRx.Length.ToString + ' bytes';
+            ts += FTimestamp.After;
+
+            FDataRx := ts + FDataRx;
+            end;
 
           timeLast := ATickMs;
           end;
@@ -583,31 +604,34 @@ constructor TSerialPortThread.Create;
   begin
     FreeOnTerminate := False;
 
-    FPortsList          := TStringList.Create;
-    FSerialTest         := TBlockSerial.Create;
-    FSerial             := TBlockSerial.Create;
-    FSerial.OnStatus    := @OnStatus;
-    FRxEnable           := True;
-    FCheckPort          := True;
-    FStarted            := False;
-    FHardflow           := False;
-    FRunning            := False;
-    FTxStart            := False;
-    FConnected          := False;
-    FEnableRxTimestamp  := False;
-    FAutoSend           := False;
-    FError              := ceNone;
-    FPortIndexInList    := -1;
-    FAutoSendInterval   := TIME_TX_DEFAULT;
-    FDeadlockTimeout    := TIME_TX_DEADLOCK_DEFAULT;
-    FBreakDuration      := TIME_BREAK_DEFAULT;
-    FRxPacketTime       := TIME_RX_DEFAULT;
-    FTimestampStrBefore := '[';
-    FTimestampStrAfter  := '] >>>';
-    FTimestampZeroMs    := Round(Now * 24 * 3600 * 1000 - GetTick);
-    FDataRx             := '';
-    FDataTx             := '';
-    FDataTxAns          := '';
+    FPortsList            := TStringList.Create;
+    FSerialTest           := TBlockSerial.Create;
+    FSerial               := TBlockSerial.Create;
+    FSerial.OnStatus      := @OnStatus;
+    FRxEnable             := True;
+    FCheckPort            := True;
+    FStarted              := False;
+    FHardflow             := False;
+    FRunning              := False;
+    FTxStart              := False;
+    FConnected            := False;
+    FAutoSend             := False;
+    FError                := ceNone;
+    FPortIndexInList      := -1;
+    FAutoSendInterval     := TIME_TX_DEFAULT;
+    FDeadlockTimeout      := TIME_TX_DEADLOCK_DEFAULT;
+    FBreakDuration        := TIME_BREAK_DEFAULT;
+    FTimestamp.Enable     := False;
+    FTimestamp.Date       := True;
+    FTimestamp.Time       := True;
+    FTimestamp.Size       := True;
+    FTimestamp.Before     := '[';
+    FTimestamp.After      := '] >>>';
+    FTimestamp.PacketTime := TIME_RX_DEFAULT;
+    FTimestampZeroMs      := Round(Now * 24 * 3600 * 1000 - GetTick);
+    FDataRx               := '';
+    FDataTx               := '';
+    FDataTxAns            := '';
 
     PortSettings('COM1', 9600, 8, 'N', SB1);
 

@@ -140,6 +140,9 @@ type
 
       timestamp: record
         enable:  Boolean;
+        date:    Boolean;
+        time:    Boolean;
+        size:    Boolean;
         timeout: Integer;
         after:   String;
         before:  String;

@@ -82,11 +82,11 @@ object fmSettings: TfmSettings
     Height = 593
     Top = 0
     Width = 592
-    ActivePage = tsGeneral
+    ActivePage = tsColors
     Align = alClient
     AutoSize = True
     MultiLine = True
-    TabIndex = 0
+    TabIndex = 12
     TabOrder = 1
     Options = [nboMultiLine]
     object tsGeneral: TTabSheet
@@ -1466,7 +1466,7 @@ object fmSettings: TfmSettings
       end
       object pValues1: TPanel
         Left = 10
-        Height = 123
+        Height = 217
         Top = 130
         Width = 564
         AutoSize = True
@@ -1475,7 +1475,7 @@ object fmSettings: TfmSettings
         ChildSizing.VerticalSpacing = 5
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 2
-        ClientHeight = 123
+        ClientHeight = 217
         ClientWidth = 564
         TabOrder = 5
         object lbSpacer4: TLabel
@@ -1490,25 +1490,79 @@ object fmSettings: TfmSettings
           Left = 110
           Height = 24
           Top = 0
-          Width = 263
-          Caption = 'Добавлять (в начале пакета)'
+          Width = 356
+          Caption = 'Добавлять (в начале пакета):'
           TabOrder = 0
+        end
+        object lbSpacer6: TLabel
+          Left = 0
+          Height = 24
+          Top = 29
+          Width = 100
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object pValues33: TPanel
+          Left = 110
+          Height = 24
+          Top = 29
+          Width = 356
+          AutoSize = True
+          BevelOuter = bvNone
+          ChildSizing.LeftRightSpacing = 20
+          ChildSizing.HorizontalSpacing = 10
+          ChildSizing.VerticalSpacing = 5
+          ChildSizing.Layout = cclTopToBottomThenLeftToRight
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 24
+          ClientWidth = 356
+          TabOrder = 1
+          object cbRxTSDate: TCheckBox
+            Left = 20
+            Height = 24
+            Top = 0
+            Width = 50
+            Caption = 'дату'
+            Checked = True
+            State = cbChecked
+            TabOrder = 0
+          end
+          object cbRxTSTime: TCheckBox
+            Left = 80
+            Height = 24
+            Top = 0
+            Width = 65
+            Caption = 'время'
+            Checked = True
+            State = cbChecked
+            TabOrder = 1
+          end
+          object cbRxTSSize: TCheckBox
+            Left = 155
+            Height = 24
+            Top = 0
+            Width = 123
+            Caption = 'размер пакета'
+            Checked = True
+            State = cbChecked
+            TabOrder = 2
+          end
         end
         object edRxTSBefore: TEdit
           Left = 0
           Height = 28
-          Top = 29
+          Top = 58
           Width = 100
           Constraints.MinWidth = 100
           MaxLength = 64
-          TabOrder = 1
+          TabOrder = 2
           Text = '['
         end
         object lbRxTSBefore: TLabel
           Left = 110
           Height = 28
-          Top = 29
-          Width = 263
+          Top = 58
+          Width = 356
           Caption = 'Текст до временной метки'
           Layout = tlCenter
           ParentColor = False
@@ -1516,41 +1570,59 @@ object fmSettings: TfmSettings
         object edRxTSAfter: TEdit
           Left = 0
           Height = 28
-          Top = 62
+          Top = 91
           Width = 100
           Constraints.MinWidth = 100
           MaxLength = 64
-          TabOrder = 2
-          Text = '] >>>'
+          TabOrder = 3
+          Text = '] >>>\n'
         end
         object lbRxTSAfter: TLabel
           Left = 110
           Height = 28
-          Top = 62
-          Width = 263
+          Top = 91
+          Width = 356
           Caption = 'Текст после временной метки'
           Layout = tlCenter
           ParentColor = False
+        end
+        object lbSpacer7: TLabel
+          Left = 0
+          Height = 60
+          Top = 124
+          Width = 100
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object lbRxTSHint: TLabel
+          Left = 110
+          Height = 60
+          Top = 124
+          Width = 356
+          Caption = 'Подсказка: в тексте метки можно использовать спецсимволы \t (символ табуляции) и \n (переход на новую строку).'
+          Constraints.MaxWidth = 500
+          ParentColor = False
+          WordWrap = True
         end
         object seRxTimeout: TSpinEdit
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 0
           Height = 28
-          Top = 95
+          Top = 189
           Width = 100
           Constraints.MinWidth = 100
           Increment = 100
           MaxValue = 60000
           MinValue = 1
-          TabOrder = 3
+          TabOrder = 4
           Value = 500
         end
         object lbRxPacketTime: TLabel
           Left = 110
           Height = 28
-          Top = 95
-          Width = 263
+          Top = 189
+          Width = 356
           Caption = 'Таймаут пакета (приблизительно), мс'
           Layout = tlCenter
           ParentColor = False

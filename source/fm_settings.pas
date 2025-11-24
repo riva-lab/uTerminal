@@ -333,8 +333,12 @@ procedure TfmSettings.tmrUpdateTimer(Sender: TObject);
   begin
     f := cbRxTimestamp.Checked;
 
+    cbRxTSDate.Enabled       := f;
+    cbRxTSTime.Enabled       := f;
+    cbRxTSSize.Enabled       := f;
     lbRxTSBefore.Enabled     := f;
     lbRxTSAfter.Enabled      := f;
+    lbRxTSHint.Enabled       := f;
     lbRxPacketTime.Enabled   := f;
     edRxTSBefore.Enabled     := f;
     edRxTSAfter.Enabled      := f;

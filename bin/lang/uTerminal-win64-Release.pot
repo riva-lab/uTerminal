@@ -1065,7 +1065,19 @@ msgid "Восстанавливать содержимое буфера при �
 msgstr ""
 
 #: tfmsettings.cbrxtimestamp.caption
-msgid "Добавлять (в начале пакета)"
+msgid "Добавлять (в начале пакета):"
+msgstr ""
+
+#: tfmsettings.cbrxtsdate.caption
+msgid "дату"
+msgstr ""
+
+#: tfmsettings.cbrxtssize.caption
+msgid "размер пакета"
+msgstr ""
+
+#: tfmsettings.cbrxtstime.caption
+msgid "время"
 msgstr ""
 
 #: tfmsettings.cbshowencoding.caption
@@ -1492,6 +1504,10 @@ msgstr ""
 
 #: tfmsettings.lbrxtsbefore.caption
 msgid "Текст до временной метки"
+msgstr ""
+
+#: tfmsettings.lbrxtshint.caption
+msgid "Подсказка: в тексте метки можно использовать спецсимволы \\t (символ табуляции) и \\n (переход на новую строку)."
 msgstr ""
 
 #: tfmsettings.lbtabsize.caption

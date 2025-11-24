@@ -2994,6 +2994,7 @@ procedure TfmMain.acResetExecute(Sender: TObject);
 procedure TfmMain.SettingsApply(Sender: TObject);
   var
     tmpSE: TCustomSynEdit;
+    tsCfg: TTimestampConfig;
     i:     Integer;
   begin
     // set new interface language
@@ -3036,13 +3037,18 @@ procedure TfmMain.SettingsApply(Sender: TObject);
       seTx.ShareTextBufferFrom(tmpSE);
       FreeAndNil(tmpSE);
 
-      serial.Hardflow           := cfg.connect.hardflow;
-      serial.BreakDuration      := cfg.tx.breakTime;
-      serial.DeadlockTimeout    := cfg.tx.timeout;
-      serial.TimestampStrBefore := cfg.rx.timestamp.before;
-      serial.TimestampStrAfter  := cfg.rx.timestamp.after;
-      serial.RxPacketTime       := cfg.rx.timestamp.timeout;
-      serial.EnableRxTimestamp  := cfg.rx.timestamp.enable;
+      tsCfg.Enable     := cfg.rx.timestamp.enable;
+      tsCfg.Date       := cfg.rx.timestamp.date;
+      tsCfg.Time       := cfg.rx.timestamp.time;
+      tsCfg.Size       := cfg.rx.timestamp.size;
+      tsCfg.Before     := cfg.rx.timestamp.before.Replace('\n', LineEnding).Replace('\t', #9);
+      tsCfg.After      := cfg.rx.timestamp.after.Replace('\n', LineEnding).Replace('\t', #9);
+      tsCfg.PacketTime := cfg.rx.timestamp.timeout;
+
+      serial.Hardflow        := cfg.connect.hardflow;
+      serial.BreakDuration   := cfg.tx.breakTime;
+      serial.DeadlockTimeout := cfg.tx.timeout;
+      serial.Timestamp       := tsCfg;
 
       sbRTS.Enabled := not cfg.connect.hardflow;
       sbDTR.Enabled := not cfg.connect.hardflow;

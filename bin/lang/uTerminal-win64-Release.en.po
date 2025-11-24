@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uterminal\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-04-08 21:25+0300\n"
+"PO-Revision-Date: 2025-11-24 17:16+0200\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -1092,8 +1092,20 @@ msgid "Восстанавливать содержимое буфера при �
 msgstr "Restore buffer data on application startup"
 
 #: tfmsettings.cbrxtimestamp.caption
-msgid "Добавлять (в начале пакета)"
-msgstr "Add (at beginning of packet)"
+msgid "Добавлять (в начале пакета):"
+msgstr "Add (at beginning of packet):"
+
+#: tfmsettings.cbrxtsdate.caption
+msgid "дату"
+msgstr "date"
+
+#: tfmsettings.cbrxtssize.caption
+msgid "размер пакета"
+msgstr "packet size"
+
+#: tfmsettings.cbrxtstime.caption
+msgid "время"
+msgstr "time"
 
 #: tfmsettings.cbshowencoding.caption
 msgid "Отображать название кодировки текста в заголовке поля"
@@ -1537,6 +1549,10 @@ msgstr "Text after timestamp"
 #: tfmsettings.lbrxtsbefore.caption
 msgid "Текст до временной метки"
 msgstr "Text before timestamp"
+
+#: tfmsettings.lbrxtshint.caption
+msgid "Подсказка: в тексте метки можно использовать спецсимволы \\t (символ табуляции) и \\n (переход на новую строку)."
+msgstr "Hint: you can use placeholders \\t for tabulation char and \\n for line ending char."
 
 #: tfmsettings.lbtabsize.caption
 msgid "Ширина табуляции"
@@ -2302,4 +2318,3 @@ msgstr "Transmitting..."
 #: u_serial.txt_port_busy
 msgid "занят"
 msgstr "busy"
-
