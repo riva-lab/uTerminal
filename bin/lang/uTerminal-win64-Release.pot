@@ -202,6 +202,23 @@ msgstr ""
 msgid "Вставка произольного символа ASCII"
 msgstr ""
 
+#: tfmmain.acopenissue.caption
+msgid "Есть идея? Нашли ошибку?"
+msgstr ""
+
+#: tfmmain.acopenissue.hint
+msgid "Предложить идею или сообщить об ошибке"
+msgstr ""
+
+#: tfmmain.acopenrepo.caption
+msgid "Репозиторий проекта"
+msgstr ""
+
+#: tfmmain.acopenrepo.hint
+msgctxt "tfmmain.acopenrepo.hint"
+msgid "Открыть репозиторий приложения"
+msgstr ""
+
 #: tfmmain.acplotterclear.caption
 msgid "Очистить"
 msgstr ""
@@ -682,7 +699,8 @@ msgid "Домашняя страница"
 msgstr ""
 
 #: tfmmain.acwebsite.hint
-msgid "Открыть репозиторий приложения"
+msgctxt "tfmmain.acwebsite.hint"
+msgid "Домашняя страница приложения"
 msgstr ""
 
 #: tfmmain.cbbaudrate.hint

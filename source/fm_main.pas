@@ -1200,6 +1200,14 @@ procedure TfmMain.actionCommon(Sender: TObject);
       'acWebsite':
         OpenURL(APP_URL_HOME);
 
+      // link to project repository
+      'acOpenRepo':
+        OpenURL(APP_URL_REPO);
+
+      // link to project issue page
+      'acOpenIssue':
+        OpenURL(APP_URL_ISSUE);
+
       // окно информации о приложении
       'acInfo':
         begin
@@ -2874,15 +2882,22 @@ procedure TfmMain.AdjustComponentSizes;
         end;
     end;
 
+  procedure RenderSVGIcons(ASize: Integer; A, D: TImageList);
+    begin
+      imSVGList.Rendering      := False;
+      imSVGList.RenderSize     := ASize;
+      imSVGList.ImagesActive   := A;
+      imSVGList.ImagesDisabled := D;
+      imSVGList.Rendering      := True;
+    end;
+
   var
     w, h, i: Integer;
   begin
     BeginFormUpdate;
 
     // on 96dpi's screen at 100% resolution must be 16px
-    imSVGList.RenderSize := Round(Scale96ToScreen(16) * cfg.com.iconsRes / 100);
-    imSVGList.Rendering  := True;
-    imSVGList.Rendering  := False;
+    RenderSVGIcons(Round(Scale96ToScreen(16) * cfg.com.iconsRes / 100), imImageList, imImageListD);
 
     // scale font for all forms
     appTunerEx.Scale := cfg.com.fontSize;

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uterminal\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2025-11-24 17:17+0200\n"
+"PO-Revision-Date: 2025-11-25 15:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -217,6 +217,23 @@ msgstr "Вставити символ ..."
 #: tfmmain.acinsertchar.hint
 msgid "Вставка произольного символа ASCII"
 msgstr "Вставка довільного символа ASCII"
+
+#: tfmmain.acopenissue.caption
+msgid "Есть идея? Нашли ошибку?"
+msgstr "Маєте ідею? Знайшли помилку?"
+
+#: tfmmain.acopenissue.hint
+msgid "Предложить идею или сообщить об ошибке"
+msgstr "Запропонувати ідею або повідомити про помилку"
+
+#: tfmmain.acopenrepo.caption
+msgid "Репозиторий проекта"
+msgstr "Репозиторій проекту"
+
+#: tfmmain.acopenrepo.hint
+msgctxt "tfmmain.acopenrepo.hint"
+msgid "Открыть репозиторий приложения"
+msgstr "Відкрити репозиторій програми"
 
 #: tfmmain.acplotterclear.caption
 msgid "Очистить"
@@ -698,8 +715,9 @@ msgid "Домашняя страница"
 msgstr "Домашня сторінка"
 
 #: tfmmain.acwebsite.hint
-msgid "Открыть репозиторий приложения"
-msgstr "Відкрити репозиторій програми"
+msgctxt "tfmmain.acwebsite.hint"
+msgid "Домашняя страница приложения"
+msgstr "Домашня сторінка програми"
 
 #: tfmmain.cbbaudrate.hint
 msgid "Скорость обмена, бод/с"
