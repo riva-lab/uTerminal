@@ -2884,11 +2884,11 @@ procedure TfmMain.AdjustComponentSizes;
 
   procedure RenderSVGIcons(ASize: Integer; A, D: TImageList);
     begin
-      imSVGList.Rendering      := False;
       imSVGList.RenderSize     := ASize;
       imSVGList.ImagesActive   := A;
       imSVGList.ImagesDisabled := D;
       imSVGList.Rendering      := True;
+      imSVGList.Rendering      := False;
     end;
 
   var
