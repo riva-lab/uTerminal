@@ -63,6 +63,7 @@ type
     FPort:             String;
     FPortName:         String;
     FPortPrevious:     String;
+    FTimestampString:  String;
     FTimestamp:        TTimestampConfig;
     FTimestampZeroMs:  Int64;
     FPortBaud:         Integer;
@@ -155,6 +156,7 @@ type
     property DataRx: Ansistring read FDataRx;
     property DataTx: Ansistring write FDataTx;
 
+    property TimestampString: String read FTimestampString;
     property ErrorString: String read GetErrorString;
     property ConfigString: String read GetConfigString;
     property ConfigShort: String read GetConfigShort;
@@ -400,8 +402,6 @@ procedure TSerialPortThread.ResetError;
 procedure TSerialPortThread.ReceiveData(ATickMs: LongWord);
   const
     timeLast: LongWord = 0;
-  var
-    ts: String = '';
   begin
       try
       FIsRxing := FSerial.WaitingData <> 0;
@@ -417,17 +417,18 @@ procedure TSerialPortThread.ReceiveData(ATickMs: LongWord);
         try
         FDataRx := FSerial.RecvPacket(0);
 
+        FTimestampString := '';
+
         // добавление временной метки
         if FTimestamp.Enable then
           begin
           if TickDelta(timeLast, ATickMs) > FTimestamp.PacketTime then
             begin
-            ts := LineEnding + FTimestamp.Before;
-            ts += GetTimeNowWithMs;
-            if FTimestamp.Size then ts += ' ' + FDataRx.Length.ToString + ' bytes';
-            ts += FTimestamp.After;
-
-            FDataRx := ts + FDataRx;
+            FTimestampString += LineEnding + FTimestamp.Before;
+            FTimestampString += GetTimeNowWithMs;
+            if FTimestamp.Size then
+              FTimestampString += ' ' + FDataRx.Length.ToString + ' bytes';
+            FTimestampString += FTimestamp.After;
             end;
 
           timeLast := ATickMs;

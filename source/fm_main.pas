@@ -472,7 +472,7 @@ procedure TfmMain.OnCommRxEnd;
       // add received data to buffer
       if not acPlotterShow.Checked or cfg.plt.copyRx then
         begin
-        rx += serial.DataRx;
+        rx += serial.TimestampString + serial.DataRx;
 
         // ограничение объема данных в буфере приема
         if (cfg.rx.limit > 0) and (rx.Length > cfg.rx.limit) then
