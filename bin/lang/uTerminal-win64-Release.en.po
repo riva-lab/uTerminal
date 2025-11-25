@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: uterminal\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2025-04-12 11:23\n"
+"PO-Revision-Date: 2025-11-25 12:29\n"
 
 #: appabout.about_bit
 #, object-pascal-format
@@ -1077,8 +1077,20 @@ msgid "Восстанавливать содержимое буфера при �
 msgstr "Restore buffer data on application startup"
 
 #: tfmsettings.cbrxtimestamp.caption
-msgid "Добавлять (в начале пакета)"
-msgstr "Add (at beginning of packet)"
+msgid "Добавлять (в начале пакета):"
+msgstr ""
+
+#: tfmsettings.cbrxtsdate.caption
+msgid "дату"
+msgstr ""
+
+#: tfmsettings.cbrxtssize.caption
+msgid "размер пакета"
+msgstr ""
+
+#: tfmsettings.cbrxtstime.caption
+msgid "время"
+msgstr ""
 
 #: tfmsettings.cbshowencoding.caption
 msgid "Отображать название кодировки текста в заголовке поля"
@@ -1512,6 +1524,10 @@ msgstr "Text after timestamp"
 #: tfmsettings.lbrxtsbefore.caption
 msgid "Текст до временной метки"
 msgstr "Text before timestamp"
+
+#: tfmsettings.lbrxtshint.caption
+msgid "Подсказка: в тексте метки можно использовать спецсимволы \\t (символ табуляции) и \\n (переход на новую строку)."
+msgstr ""
 
 #: tfmsettings.lbtabsize.caption
 msgid "Ширина табуляции"
