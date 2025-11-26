@@ -366,6 +366,6 @@ procedure ConfigInitDefaults;
 
 
 initialization
-  Settings := TAppSettings.Create;
+  Settings := TAppSettings.Create(True);
 
 end.
