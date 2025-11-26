@@ -424,10 +424,9 @@ procedure TSerialPortThread.ReceiveData(ATickMs: LongWord);
           begin
           if TickDelta(timeLast, ATickMs) > FTimestamp.PacketTime then
             begin
-            FTimestampString += LineEnding + FTimestamp.Before;
-            FTimestampString += GetTimeNowWithMs;
+            FTimestampString   += FTimestamp.Before + GetTimeNowWithMs;
             if FTimestamp.Size then
-              FTimestampString += ' ' + FDataRx.Length.ToString + ' bytes';
+              FTimestampString += ' ' + FDataRx.Length.ToString + ' B';
             FTimestampString += FTimestamp.After;
             end;
 
