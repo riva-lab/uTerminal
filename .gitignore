@@ -11,7 +11,7 @@ install/
 snapshots/
 source/backup/
 source/lib/
-readme.html
+readme*.html
 
 
 # Lazarus compiler-generated binaries (safe to delete)
