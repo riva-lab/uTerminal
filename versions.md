@@ -628,6 +628,15 @@
 
 ---
 
+### `v2.2.2.98` `2025.11.26`
+
+1. Fixed: timestamp extra linebreak at the beginning.
+2. Updated: AppFeaturesPkg - fixed strings saving in TAppSettings.
+3. Fixed: typo in help.
+4. Updated: scripts for getting hashes of release files.
+
+---
+
 # Идеи и планы
 
 Идеи для расширения функционала. Намеченные планы.

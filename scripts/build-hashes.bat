@@ -3,10 +3,10 @@ echo off
 
 set PROJNAME=uTerminal
 
-rem Get current executable version to variable EXEVER
+:: Get current executable version to variable EXEVER
 FOR /F "delims=" %%i IN ('get-version.bat "%cd%\..\bin\%PROJNAME%-win64-Release.exe"') DO set EXEVER=%%i
 
-rem Go to executables location
+:: Go to executables location
 cd ..\install\v%EXEVER%
 
 echo Project '%PROJNAME%' MD5 and SHA hashes for v%EXEVER% executables> hashes.txt
@@ -18,8 +18,16 @@ echo:>> hashes.txt
 echo:>> hashes.txt
 echo:>> hashes.txt
 
-rem Calc hashes for all project executables
+:: Place tags for Gitlab release note
+echo ^<details^>^<summary^>Files and checksums:^<^/summary^>>> hashes.txt
+
+:: Calc hashes for all project executables
 forfiles /m %PROJNAME%* /c "cmd /c ..\..\scripts\get-file-hashes.bat @file"
 
-rem Open hashes file
+echo:>> hashes.txt
+
+:: Place tags for Gitlab release note
+echo ^<^/details^>>> hashes.txt
+
+:: Open hashes file
 hashes.txt
