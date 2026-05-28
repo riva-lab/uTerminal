@@ -1,6 +1,12 @@
 ﻿uTerminal
 =========
 
+MD/REPO: [English](readme.md) | [**Русский**](readme.ru.md)
+
+HTML: [English](readme.html) | [**Русский**](readme.ru.html)
+
+---
+
 ![](help/light/screenshots/main.png)
 
 ![](help/light/screenshots/plotter.png)
