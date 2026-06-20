@@ -7,10 +7,10 @@ object fmASCIIChar: TfmASCIIChar
   ClientHeight = 472
   ClientWidth = 665
   DesignTimePPI = 120
+  Position = poMainFormCenter
+  LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poMainFormCenter
-  LCLVersion = '2.2.6.0'
   object sgChar: TStringGrid
     Left = 0
     Height = 377
@@ -109,8 +109,8 @@ object fmASCIIChar: TfmASCIIChar
         'Dec (10)'
         'Нет'
       )
-      OnClick = rgCodeTypeClick
       TabOrder = 0
+      OnClick = rgCodeTypeClick
     end
   end
   object sbStatus: TStatusBar
@@ -143,6 +143,7 @@ object fmASCIIChar: TfmASCIIChar
     Color = 4227072
     Constraints.MaxHeight = 5
     Constraints.MinHeight = 5
+    ParentBackground = False
     ParentColor = False
     TabOrder = 1
   end
@@ -152,14 +153,14 @@ object fmASCIIChar: TfmASCIIChar
     object acOK: TAction
       Caption = 'Вставить символ'
       ImageIndex = 14
-      OnExecute = acOKExecute
       ShortCut = 13
+      OnExecute = acOKExecute
     end
     object acCancel: TAction
       Caption = 'Отмена'
       ImageIndex = 15
-      OnExecute = acCancelExecute
       ShortCut = 27
+      OnExecute = acCancelExecute
     end
   end
 end

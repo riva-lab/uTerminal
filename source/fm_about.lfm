@@ -10,13 +10,13 @@ object fmAbout: TfmAbout
   ClientWidth = 586
   Color = clGray
   DesignTimePPI = 120
+  PopupMode = pmAuto
+  ShowHint = True
+  LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
   OnDeactivate = FormDeactivate
   OnShow = FormShow
   OnUTF8KeyPress = FormUTF8KeyPress
-  PopupMode = pmAuto
-  ShowHint = True
-  LCLVersion = '3.0.0.3'
   object BCSVGLogo: TBCSVGViewer
     Left = 0
     Height = 375

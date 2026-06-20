@@ -9,13 +9,13 @@ object fmSettings: TfmSettings
   ClientHeight = 653
   ClientWidth = 749
   DesignTimePPI = 120
+  Position = poMainFormCenter
+  ShowHint = True
+  LCLVersion = '4.4.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poMainFormCenter
-  ShowHint = True
-  LCLVersion = '3.0.0.3'
   object pTabsTree: TPanel
     Left = 1
     Height = 590
@@ -49,7 +49,6 @@ object fmSettings: TfmSettings
       ScrollBars = ssAutoVertical
       ShowRoot = False
       TabOrder = 0
-      OnSelectionChanged = tvTabsSelectionChanged
       Options = [tvoAutoExpand, tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
       Items.Data = {
         F9FFFFFF020005000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
@@ -75,6 +74,7 @@ object fmSettings: TfmSettings
         8220504E47FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000600
         0000526567457870
       }
+      OnSelectionChanged = tvTabsSelectionChanged
     end
   end
   object pcPageCtrl: TPageControl
@@ -86,9 +86,9 @@ object fmSettings: TfmSettings
     Align = alClient
     AutoSize = True
     MultiLine = True
+    Options = [nboMultiLine]
     TabIndex = 12
     TabOrder = 1
-    Options = [nboMultiLine]
     object tsGeneral: TTabSheet
       Caption = 'Общие'
       ChildSizing.LeftRightSpacing = 10
@@ -670,7 +670,7 @@ object fmSettings: TfmSettings
       end
       object pValues31: TPanel
         Left = 10
-        Height = 62
+        Height = 66
         Top = 42
         Width = 564
         AutoSize = True
@@ -680,13 +680,13 @@ object fmSettings: TfmSettings
         ChildSizing.EnlargeHorizontal = crsScaleChilds
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 4
-        ClientHeight = 62
+        ClientHeight = 66
         ClientWidth = 564
         TabOrder = 1
         object cbFontTxName: TComboBox
           Left = 0
           Height = 28
-          Top = 0
+          Top = 1
           Width = 196
           AutoComplete = True
           AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
@@ -699,7 +699,7 @@ object fmSettings: TfmSettings
           Left = 202
           Height = 28
           Hint = 'Размер шрифта'
-          Top = 0
+          Top = 1
           Width = 99
           Alignment = taCenter
           BorderSpacing.CellAlignVertical = ccaCenter
@@ -711,10 +711,10 @@ object fmSettings: TfmSettings
         object colbFontTx: TColorButton
           Cursor = crHandPoint
           Left = 307
-          Height = 28
+          Height = 30
           Hint = 'Цвет шрифта'
           Top = 0
-          Width = 101
+          Width = 100
           BorderWidth = 0
           ButtonColorSize = 20
           ButtonColor = clBlack
@@ -722,10 +722,10 @@ object fmSettings: TfmSettings
           Flat = True
         end
         object lbFontTx: TLabel
-          Left = 414
+          Left = 413
           Height = 20
-          Top = 4
-          Width = 150
+          Top = 5
+          Width = 151
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Передача (Tx)'
           Layout = tlCenter
@@ -734,7 +734,7 @@ object fmSettings: TfmSettings
         object cbFontRxName: TComboBox
           Left = 0
           Height = 28
-          Top = 34
+          Top = 37
           Width = 196
           AutoComplete = True
           AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
@@ -747,7 +747,7 @@ object fmSettings: TfmSettings
           Left = 202
           Height = 28
           Hint = 'Размер шрифта'
-          Top = 34
+          Top = 37
           Width = 99
           Alignment = taCenter
           BorderSpacing.CellAlignVertical = ccaCenter
@@ -759,10 +759,10 @@ object fmSettings: TfmSettings
         object colbFontRx: TColorButton
           Cursor = crHandPoint
           Left = 307
-          Height = 28
+          Height = 30
           Hint = 'Цвет шрифта'
-          Top = 34
-          Width = 101
+          Top = 36
+          Width = 100
           BorderWidth = 0
           ButtonColorSize = 20
           ButtonColor = clBlack
@@ -770,10 +770,10 @@ object fmSettings: TfmSettings
           Flat = True
         end
         object lbFontRx: TLabel
-          Left = 414
+          Left = 413
           Height = 20
-          Top = 38
-          Width = 150
+          Top = 41
+          Width = 151
           BorderSpacing.CellAlignVertical = ccaCenter
           Caption = 'Прием (Rx)'
           Layout = tlCenter
@@ -783,7 +783,7 @@ object fmSettings: TfmSettings
       object pSpacer21: TPanel
         Left = 10
         Height = 8
-        Top = 109
+        Top = 113
         Width = 564
         AutoSize = True
         BevelOuter = bvNone
@@ -792,8 +792,8 @@ object fmSettings: TfmSettings
       end
       object pFontDarkBlock: TPanel
         Left = 10
-        Height = 94
-        Top = 122
+        Height = 98
+        Top = 126
         Width = 564
         AutoSize = True
         BevelOuter = bvNone
@@ -802,7 +802,7 @@ object fmSettings: TfmSettings
         ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 1
-        ClientHeight = 94
+        ClientHeight = 98
         ClientWidth = 564
         TabOrder = 3
         Visible = False
@@ -835,7 +835,7 @@ object fmSettings: TfmSettings
         end
         object pValues32: TPanel
           Left = 0
-          Height = 62
+          Height = 66
           Top = 32
           Width = 564
           AutoSize = True
@@ -845,13 +845,13 @@ object fmSettings: TfmSettings
           ChildSizing.EnlargeHorizontal = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 4
-          ClientHeight = 62
+          ClientHeight = 66
           ClientWidth = 564
           TabOrder = 1
           object cbFontTxNameD: TComboBox
             Left = 0
             Height = 28
-            Top = 0
+            Top = 1
             Width = 196
             AutoComplete = True
             AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
@@ -864,7 +864,7 @@ object fmSettings: TfmSettings
             Left = 202
             Height = 28
             Hint = 'Размер шрифта'
-            Top = 0
+            Top = 1
             Width = 99
             Alignment = taCenter
             BorderSpacing.CellAlignVertical = ccaCenter
@@ -876,10 +876,10 @@ object fmSettings: TfmSettings
           object colbFontTxD: TColorButton
             Cursor = crHandPoint
             Left = 307
-            Height = 28
+            Height = 30
             Hint = 'Цвет шрифта'
             Top = 0
-            Width = 101
+            Width = 100
             BorderWidth = 0
             ButtonColorSize = 20
             ButtonColor = clSilver
@@ -887,10 +887,10 @@ object fmSettings: TfmSettings
             Flat = True
           end
           object lbFontTxD: TLabel
-            Left = 414
+            Left = 413
             Height = 20
-            Top = 4
-            Width = 150
+            Top = 5
+            Width = 151
             BorderSpacing.CellAlignVertical = ccaCenter
             Caption = 'Передача (Tx)'
             Layout = tlCenter
@@ -899,7 +899,7 @@ object fmSettings: TfmSettings
           object cbFontRxNameD: TComboBox
             Left = 0
             Height = 28
-            Top = 34
+            Top = 37
             Width = 196
             AutoComplete = True
             AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
@@ -912,7 +912,7 @@ object fmSettings: TfmSettings
             Left = 202
             Height = 28
             Hint = 'Размер шрифта'
-            Top = 34
+            Top = 37
             Width = 99
             Alignment = taCenter
             BorderSpacing.CellAlignVertical = ccaCenter
@@ -924,10 +924,10 @@ object fmSettings: TfmSettings
           object colbFontRxD: TColorButton
             Cursor = crHandPoint
             Left = 307
-            Height = 28
+            Height = 30
             Hint = 'Цвет шрифта'
-            Top = 34
-            Width = 101
+            Top = 36
+            Width = 100
             BorderWidth = 0
             ButtonColorSize = 20
             ButtonColor = clSilver
@@ -935,10 +935,10 @@ object fmSettings: TfmSettings
             Flat = True
           end
           object lbFontRxD: TLabel
-            Left = 414
+            Left = 413
             Height = 20
-            Top = 38
-            Width = 150
+            Top = 41
+            Width = 151
             BorderSpacing.CellAlignVertical = ccaCenter
             Caption = 'Прием (Rx)'
             Layout = tlCenter
@@ -949,7 +949,7 @@ object fmSettings: TfmSettings
       object pSpacer22: TPanel
         Left = 10
         Height = 8
-        Top = 221
+        Top = 229
         Width = 564
         AutoSize = True
         BevelOuter = bvNone
@@ -959,7 +959,7 @@ object fmSettings: TfmSettings
       object cbFontQuality: TCheckBox
         Left = 10
         Height = 24
-        Top = 234
+        Top = 242
         Width = 564
         Caption = 'Сглаживание текста Cleartype'
         Checked = True
@@ -969,7 +969,7 @@ object fmSettings: TfmSettings
       object pSpacer24: TPanel
         Left = 10
         Height = 8
-        Top = 263
+        Top = 271
         Width = 564
         AutoSize = True
         BevelOuter = bvNone
@@ -979,7 +979,7 @@ object fmSettings: TfmSettings
       object pSpacer23: TPanel
         Left = 10
         Height = 40
-        Top = 276
+        Top = 284
         Width = 564
         AutoSize = True
         BevelOuter = bvNone
@@ -2606,7 +2606,7 @@ object fmSettings: TfmSettings
       end
       object pPlotColors: TPanel
         Left = 10
-        Height = 165
+        Height = 195
         Top = 42
         Width = 564
         AutoSize = True
@@ -2616,7 +2616,7 @@ object fmSettings: TfmSettings
         ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
         ChildSizing.Layout = cclTopToBottomThenLeftToRight
         ChildSizing.ControlsPerLine = 6
-        ClientHeight = 165
+        ClientHeight = 195
         ClientWidth = 564
         TabOrder = 1
         object lbPlotColorLight: TLabel
@@ -2635,7 +2635,7 @@ object fmSettings: TfmSettings
         object colbPlotterBG: TColorButton
           Cursor = crHandPoint
           Left = 0
-          Height = 24
+          Height = 30
           Top = 25
           Width = 147
           BorderWidth = 0
@@ -2647,8 +2647,8 @@ object fmSettings: TfmSettings
         object colbPlotterBGW: TColorButton
           Cursor = crHandPoint
           Left = 0
-          Height = 24
-          Top = 54
+          Height = 30
+          Top = 60
           Width = 147
           BorderWidth = 0
           ButtonColorSize = 20
@@ -2658,8 +2658,8 @@ object fmSettings: TfmSettings
         object colbPlotterText: TColorButton
           Cursor = crHandPoint
           Left = 0
-          Height = 24
-          Top = 83
+          Height = 30
+          Top = 95
           Width = 147
           BorderWidth = 0
           ButtonColorSize = 20
@@ -2669,8 +2669,8 @@ object fmSettings: TfmSettings
         object colbPlotterGX: TColorButton
           Cursor = crHandPoint
           Left = 0
-          Height = 24
-          Top = 112
+          Height = 30
+          Top = 130
           Width = 147
           BorderWidth = 0
           ButtonColorSize = 20
@@ -2680,8 +2680,8 @@ object fmSettings: TfmSettings
         object colbPlotterGY: TColorButton
           Cursor = crHandPoint
           Left = 0
-          Height = 24
-          Top = 141
+          Height = 30
+          Top = 165
           Width = 147
           BorderWidth = 0
           ButtonColorSize = 20
@@ -2703,7 +2703,7 @@ object fmSettings: TfmSettings
         end
         object lbPlotColorBG: TLabel
           Left = 157
-          Height = 24
+          Height = 30
           Top = 25
           Width = 250
           Alignment = taCenter
@@ -2713,8 +2713,8 @@ object fmSettings: TfmSettings
         end
         object lbPlotColorBGW: TLabel
           Left = 157
-          Height = 24
-          Top = 54
+          Height = 30
+          Top = 60
           Width = 250
           Alignment = taCenter
           Caption = 'Фон рабочей области'
@@ -2723,8 +2723,8 @@ object fmSettings: TfmSettings
         end
         object lbPlotColorText: TLabel
           Left = 157
-          Height = 24
-          Top = 83
+          Height = 30
+          Top = 95
           Width = 250
           Alignment = taCenter
           Caption = 'Текст'
@@ -2733,8 +2733,8 @@ object fmSettings: TfmSettings
         end
         object lbPlotColorGX: TLabel
           Left = 157
-          Height = 24
-          Top = 112
+          Height = 30
+          Top = 130
           Width = 250
           Alignment = taCenter
           Caption = 'Сетка по оси X'
@@ -2743,8 +2743,8 @@ object fmSettings: TfmSettings
         end
         object lbPlotColorGY: TLabel
           Left = 157
-          Height = 24
-          Top = 141
+          Height = 30
+          Top = 165
           Width = 250
           Alignment = taCenter
           Caption = 'Сетка по оси Y'
@@ -2767,7 +2767,7 @@ object fmSettings: TfmSettings
         object colbPlotterBGd: TColorButton
           Cursor = crHandPoint
           Left = 417
-          Height = 24
+          Height = 30
           Top = 25
           Width = 147
           BorderWidth = 0
@@ -2780,8 +2780,8 @@ object fmSettings: TfmSettings
         object colbPlotterBGWd: TColorButton
           Cursor = crHandPoint
           Left = 417
-          Height = 24
-          Top = 54
+          Height = 30
+          Top = 60
           Width = 147
           BorderWidth = 0
           ButtonColorSize = 20
@@ -2792,8 +2792,8 @@ object fmSettings: TfmSettings
         object colbPlotterTextd: TColorButton
           Cursor = crHandPoint
           Left = 417
-          Height = 24
-          Top = 83
+          Height = 30
+          Top = 95
           Width = 147
           BorderWidth = 0
           ButtonColorSize = 20
@@ -2804,8 +2804,8 @@ object fmSettings: TfmSettings
         object colbPlotterGXd: TColorButton
           Cursor = crHandPoint
           Left = 417
-          Height = 24
-          Top = 112
+          Height = 30
+          Top = 130
           Width = 147
           BorderWidth = 0
           ButtonColorSize = 20
@@ -2816,8 +2816,8 @@ object fmSettings: TfmSettings
         object colbPlotterGYd: TColorButton
           Cursor = crHandPoint
           Left = 417
-          Height = 24
-          Top = 141
+          Height = 30
+          Top = 165
           Width = 147
           BorderWidth = 0
           ButtonColorSize = 20
@@ -2829,7 +2829,7 @@ object fmSettings: TfmSettings
       object pSpacer3: TPanel
         Left = 10
         Height = 8
-        Top = 212
+        Top = 242
         Width = 564
         AutoSize = True
         BevelOuter = bvNone
@@ -2839,7 +2839,7 @@ object fmSettings: TfmSettings
       object pTitle4: TPanel
         Left = 10
         Height = 24
-        Top = 225
+        Top = 255
         Width = 564
         AutoSize = True
         BorderSpacing.Bottom = 8
@@ -2865,7 +2865,7 @@ object fmSettings: TfmSettings
       object pSeriesColor: TPanel
         Left = 10
         Height = 1
-        Top = 257
+        Top = 287
         Width = 564
         AutoSize = True
         BevelOuter = bvNone
@@ -3335,17 +3335,17 @@ object fmSettings: TfmSettings
             Height = 28
             Hint = 'Имя для идентификации предустановки, отображается в списке'
             Top = 0
-            Width = 261
+            Width = 255
             Align = alClient
             TabOrder = 0
             TextHint = 'уникальное название предустановки'
             OnChange = edRegExpNameChange
           end
           object sbRegExpAdd: TSpeedButton
-            Left = 266
+            Left = 260
             Height = 28
             Top = 0
-            Width = 20
+            Width = 26
             Action = acRegExpAdd
             Align = alRight
             AutoSize = True
@@ -3737,6 +3737,10 @@ object fmSettings: TfmSettings
               Width = 30
               Visible = False
               MouseActions = <>
+              MaxExtraMarksColums = 0
+              Options = [sgmoDeDuplicateMarksOnOverflow]
+              MarkupInfo.Background = clBtnFace
+              MarkupInfo.Foreground = clNone
             end
             object SynGutterLineNumber1: TSynGutterLineNumber
               Width = 23
@@ -3754,6 +3758,9 @@ object fmSettings: TfmSettings
               MouseActions = <>
               ModifiedColor = 59900
               SavedColor = clGreen
+              MarkupInfo.Background = clNone
+              MarkupInfo.Foreground = clGreen
+              MarkupInfo.FrameColor = 59900
             end
             object SynGutterSeparator1: TSynGutterSeparator
               AutoSize = False
@@ -3835,16 +3842,16 @@ object fmSettings: TfmSettings
           Left = 0
           Height = 20
           Top = 0
-          Width = 265
+          Width = 264
           Caption = 'Подстановка для получения метки:'
           Layout = tlCenter
           ParentColor = False
         end
         object lbRegExpValue: TLabel
-          Left = 275
+          Left = 274
           Height = 20
           Top = 0
-          Width = 289
+          Width = 290
           Caption = 'Подстановка для получения значения:'
           Layout = tlCenter
           ParentColor = False
@@ -3854,16 +3861,16 @@ object fmSettings: TfmSettings
           Height = 28
           Hint = 'Символ подстановки нумерованной группы: $ '#13#10'Отделение номера группы от цифры: { } '#13#10'Экранироване: \ '
           Top = 25
-          Width = 265
+          Width = 264
           TabOrder = 0
           TextHint = 'шаблон подстановки'
         end
         object edRegExpValue: TEdit
-          Left = 275
+          Left = 274
           Height = 28
           Hint = 'Целые числа могут иметь префикс:'#13#10'$ - шестнадцатеричное, % - двоичное, & - восьмеричное.'#13#10'Число без префикса интерпретируется как обычное десятичное.'
           Top = 25
-          Width = 289
+          Width = 290
           TabOrder = 1
           TextHint = 'шаблон подстановки'
         end
@@ -4025,8 +4032,8 @@ object fmSettings: TfmSettings
     object acCancel: TAction
       Caption = 'Отмена'
       ImageIndex = 15
-      OnExecute = actionExecute
       ShortCut = 27
+      OnExecute = actionExecute
     end
     object acRegExpAdd: TAction
       Hint = 'Добавить предустановку в список. '#13#10'Если предустановка с заданным именем уже есть в списке, '#13#10'она будет заменена'

@@ -12,10 +12,10 @@ object fmCommands: TfmCommands
   Constraints.MinHeight = 438
   Constraints.MinWidth = 625
   DesignTimePPI = 120
+  Position = poMainFormCenter
+  LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poMainFormCenter
-  LCLVersion = '3.0.0.3'
   object sgSequences: TStringGrid
     Left = 5
     Height = 240
@@ -28,15 +28,13 @@ object fmCommands: TfmCommands
     Columns = <    
       item
         MinSize = 12
-        MaxSize = 0
         Title.Caption = 'Входная последовательность'
-        Width = 368
+        Width = 359
       end    
       item
         MinSize = 12
-        MaxSize = 0
         Title.Caption = 'Ответная последовательность'
-        Width = 368
+        Width = 359
       end>
     FixedCols = 0
     GridLineWidth = 0
@@ -45,8 +43,8 @@ object fmCommands: TfmCommands
     TabOrder = 0
     OnSelectCell = sgSequencesSelectCell
     ColWidths = (
-      368
-      368
+      359
+      359
     )
   end
   object Panel2: TPanel
@@ -137,14 +135,14 @@ object fmCommands: TfmCommands
       object edSequence: TEdit
         Left = 6
         Height = 28
-        Top = 36
+        Top = 35
         Width = 595
         TabOrder = 0
       end
       object lbResponce: TLabel
         Left = 6
         Height = 20
-        Top = 72
+        Top = 71
         Width = 595
         Caption = 'Ответная последовательность'
         Layout = tlBottom
@@ -153,7 +151,7 @@ object fmCommands: TfmCommands
       object edAnswer: TEdit
         Left = 6
         Height = 28
-        Top = 100
+        Top = 98
         Width = 595
         TabOrder = 1
       end

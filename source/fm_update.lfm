@@ -16,11 +16,11 @@ object fmUpdate: TfmUpdate
   Constraints.MinHeight = 300
   Constraints.MinWidth = 500
   DesignTimePPI = 120
-  OnCreate = FormCreate
-  OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '4.4.0.0'
+  OnCreate = FormCreate
+  OnShow = FormShow
   object mmLog: TMemo
     Left = 10
     Height = 240
@@ -66,9 +66,9 @@ object fmUpdate: TfmUpdate
       AutoSize = True
       Caption = 'Обновить'
       Constraints.MinWidth = 96
-      OnClick = btnUpdateClick
       TabOrder = 1
       Visible = False
+      OnClick = btnUpdateClick
     end
     object lbSize: TLabel
       Left = 49
@@ -89,9 +89,9 @@ object fmUpdate: TfmUpdate
       Align = alRight
       Caption = 'Перезапуск'
       Constraints.MinWidth = 96
-      OnClick = btnRestartClick
       TabOrder = 2
       Visible = False
+      OnClick = btnRestartClick
     end
     object btnCheck: TButton
       Left = 165
@@ -102,9 +102,9 @@ object fmUpdate: TfmUpdate
       AutoSize = True
       Caption = 'Проверить'
       Constraints.MinWidth = 96
-      OnClick = btnCheckClick
       TabOrder = 3
       Visible = False
+      OnClick = btnCheckClick
     end
   end
   object tmrWork: TTimer

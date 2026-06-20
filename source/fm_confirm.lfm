@@ -10,11 +10,11 @@ object fmConfirm: TfmConfirm
   ClientWidth = 702
   Constraints.MinWidth = 600
   DesignTimePPI = 120
+  Position = poMainFormCenter
+  LCLVersion = '4.4.0.0'
   OnDeactivate = FormDeactivate
   OnShow = FormShow
   OnUTF8KeyPress = FormUTF8KeyPress
-  Position = poMainFormCenter
-  LCLVersion = '2.2.6.0'
   object pMessage: TPanel
     Left = 0
     Height = 58
@@ -26,6 +26,7 @@ object fmConfirm: TfmConfirm
     ClientHeight = 58
     ClientWidth = 702
     Color = clBtnHighlight
+    ParentBackground = False
     ParentColor = False
     TabOrder = 1
     OnClick = FormDeactivate
@@ -78,9 +79,9 @@ object fmConfirm: TfmConfirm
       ModalResult = 6
       Images = fmMain.imImageList
       ImageIndex = 42
-      OnUTF8KeyPress = FormUTF8KeyPress
       Spacing = 10
       TabOrder = 1
+      OnUTF8KeyPress = FormUTF8KeyPress
     end
     object bbNo: TBitBtn
       Left = 200
@@ -131,9 +132,9 @@ object fmConfirm: TfmConfirm
       ModalResult = 7
       Images = fmMain.imImageList
       ImageIndex = 16
-      OnUTF8KeyPress = FormUTF8KeyPress
       Spacing = 10
       TabOrder = 2
+      OnUTF8KeyPress = FormUTF8KeyPress
     end
     object bbCancel: TBitBtn
       Left = 385
@@ -185,9 +186,9 @@ object fmConfirm: TfmConfirm
       ModalResult = 2
       Images = fmMain.imImageList
       ImageIndex = 15
-      OnUTF8KeyPress = FormUTF8KeyPress
       Spacing = 10
       TabOrder = 0
+      OnUTF8KeyPress = FormUTF8KeyPress
     end
   end
 end
