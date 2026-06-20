@@ -42,7 +42,7 @@ echo Creating output directory for current app version
 
 FOR /F "delims=" %%i IN ('get-version.bat "%cd%\..\bin\uTerminal-win32-Release.exe"') DO set EXEVER=%%i
 set DEST=install\v%EXEVER%
-echo  - каталог %DEST%
+echo  - directory: %DEST%
 
 
 

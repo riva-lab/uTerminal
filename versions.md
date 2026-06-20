@@ -637,6 +637,12 @@
 
 ---
 
+### `v2.2.3.99` `2026.06.20`
+
+1. Fixed: app freezing when menu is hidden and Alt is pressed (bug in AppFeaturesPkg).
+
+---
+
 # Идеи и планы
 
 Идеи для расширения функционала. Намеченные планы.
